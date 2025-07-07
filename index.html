@@ -3,176 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub de Marketing | SLAP</title>
-    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749543469/SLAP_FAVICON_AMARELO_coilvj.png">
+    <title>Hub | Coinbra</title>
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/0D2A4C/FFFFFF?text=C">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Palette: SLAP Brand Colors: #F1D24B (Yellow), #FF5C3D (Orange), #84C7DF (Blue), #8671D1 (Purple) -->
+    <!-- Palette: Coinbra Brand Colors: #0D2A4C (Navy Blue), #FFFFFF (White), #F3F4F6 (Light Gray) -->
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
             line-height: 1.25;
         }
         .nav-item.active {
-            background-color: #FFFBEB; /* yellow-50 */
-            color: #F1D24B;
+            background-color: #eef2ff; /* indigo-50 */
+            color: #0D2A4C; /* Navy Blue */
             font-weight: 600;
         }
-        .dropdown-toggle.active-parent {
-            background-color: #f5f5f4; /* stone-100 */
-            color: #44403c; /* stone-700 */
-        }
-        .dropdown-arrow.rotate-180 { transform: rotate(180deg); }
-        .submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .submenu.open { max-height: 500px; }
-
-        /* --- Estilos do Modal (Genérico) --- */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         .modal-overlay.visible { opacity: 1; visibility: visible; }
-        .modal-content { background-color: white; padding: 2rem; border-radius: 0.75rem; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s; }
+        .modal-content { background-color: white; padding: 2rem; border-radius: 0.75rem; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s; }
         .modal-overlay.visible .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e7e5e4; padding-bottom: 1rem; margin-bottom: 1rem; }
         .modal-header h4 { font-size: 1.25rem; font-weight: 700; color: #44403c; }
         .modal-close-btn { background: none; border: none; cursor: pointer; color: #a8a29e; }
         
-        /* --- Estilos do Hub de Marketing --- */
-        .kpi-card { background-color: #ffffff; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; border-left-width: 4px; }
-        .kpi-card-blue { border-color: #84C7DF; }
-        .kpi-card-purple { border-color: #8671D1; }
-        .kpi-card-orange { border-color: #FF5C3D; }
-        .kpi-card-yellow { border-color: #F1D24B; }
-        .campaign-card { background-color: #ffffff; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e7e5e4; }
-        .status-tag { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
-        .status-active { background-color: #D1FAE5; color: #065F46; }
-        .status-planned { background-color: #DBEAFE; color: #1E40AF; }
-        .status-completed { background-color: #F3F4F6; color: #4B5563; }
-        .brand-color-swatch { width: 100%; height: 80px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-        .persona-card { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1.5rem; }
-        .resource-link { display: block; background-color: #f9fafb; padding: 1rem; border-radius: 0.5rem; font-weight: 600; color: #4b5563; transition: all 0.2s ease; border-left: 4px solid #d1d5db; }
-        .resource-link:hover { background-color: #f3f4f6; border-color: #F1D24B; color: #1f2937; transform: translateX(4px); }
+        .base-card { background-color: #ffffff; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e7e5e4; transition: all 0.2s; }
+        .base-card:hover { border-color: #0D2A4C; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
-        /* --- ESTILOS ATUALIZADOS: Lista de Tarefas --- */
-        .task-card { background-color: #ffffff; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e7e5e4; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
-        .assignee-tag { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem; }
-        .tag-ana { background-color: #FEF3C7; color: #92400E; } /* Amarelo */
-        .tag-bruno { background-color: #DBEAFE; color: #1E40AF; } /* Azul */
-        .tag-carla { background-color: #D1FAE5; color: #065F46; } /* Verde */
-        .tag-daniel { background-color: #EFEBFF; color: #4C1D95; } /* Roxo */
+        .status-tag { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        /* Statuses */
+        .status-ativa, .status-presencial, .status-aprovado, .status-cliente { background-color: #D1FAE5; color: #065F46; }
+        .status-planejada, .status-online, .status-potencial, .status-em-obras { background-color: #DBEAFE; color: #1E40AF; }
+        .status-concluída, .status-entregue { background-color: #F3F4F6; color: #4B5563; }
+        .status-pendente, .status-lead, .status-lançamento { background-color: #FEF3C7; color: #92400E; }
+        .status-rejeitado { background-color: #FEE2E2; color: #991B1B; }
+
+        .task-card { background-color: #ffffff; border-radius: 0.75rem; padding: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e7e5e4; transition: all 0.2s ease; }
+        .task-card.completed { background-color: #f9fafb; border-color: #e5e7eb; }
+        .task-card.completed p { text-decoration: line-through; color: #9ca3af; }
+        .task-card:hover { border-color: #0D2A4C; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+        .user-tag { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .tag-admin { background-color: #E5E7EB; color: #374151; }
         .deadline-text { font-weight: 600; color: #57534e; }
         .deadline-overdue { color: #b91c1c; }
-        .filter-btn { background-color: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: all 0.2s; }
-        .filter-btn:hover { background-color: #e5e7eb; }
-        .filter-btn.active { background-color: #F1D24B; color: #44403c; border-color: #F1D24B; }
+        .task-delete-btn { background: none; border: none; cursor: pointer; color: #9ca3af; transition: color 0.2s; }
+        .task-delete-btn:hover { color: #ef4444; }
 
-        /* --- ESTILOS: Calendário Semanal --- */
         .week-container { background-color: #ffffff; padding: 1.5rem; border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e7e5e4; margin-bottom: 2rem; }
         .week-header { font-size: 1.5rem; font-weight: 700; color: #44403c; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e7e5e4; }
         .week-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
         .day-card { background-color: #f9fafb; border-radius: 0.5rem; padding: 1rem; border: 1px solid #f3f4f6; min-height: 150px; cursor: pointer; transition: border-color 0.2s; }
-        .day-card:hover { border-color: #F1D24B; }
+        .day-card:hover { border-color: #0D2A4C; }
         .day-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
         .day-name { font-weight: 600; color: #a8a29e; font-size: 0.875rem; }
         .day-number { font-weight: 700; color: #44403c; font-size: 1.25rem; }
         .post-item { background-color: #ffffff; border-radius: 0.375rem; padding: 0.5rem; margin-bottom: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: relative; }
         .post-type-tag { display: inline-block; padding: 0.125rem 0.5rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; margin-bottom: 0.25rem; text-transform: uppercase; }
-        .post-tag-stories { background-color: #DBEAFE; color: #1E40AF; }
-        .post-tag-reels { background-color: #EFEBFF; color: #4C1D95; }
-        .post-tag-tiktok { background-color: #F3F4F6; color: #1F2937; }
-        .post-tag-youtube { background-color: #FEE2E2; color: #991B1B; }
+        .post-tag-documento { background-color: #DBEAFE; color: #1E40AF; }
+        .post-tag-relatório { background-color: #EFEBFF; color: #4C1D95; }
+        .post-tag-apresentação { background-color: #D1FAE5; color: #065F46; }
+        .post-tag-outro { background-color: #F3F4F6; color: #1F2937; }
         .post-description { font-size: 0.875rem; color: #57534e; }
-        .delete-btn { position: absolute; top: 4px; right: 4px; background: none; border: none; cursor: pointer; color: #d1d5db; opacity: 0; transition: opacity 0.2s; }
-        .post-item:hover .delete-btn { opacity: 1; }
+        .delete-btn { position: absolute; top: 4px; right: 4px; background: none; border: none; cursor: pointer; color: #d1d5db; opacity: 1; transition: color 0.2s; }
         .delete-btn:hover { color: #ef4444; }
-        .form-input { width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; }
-        .primary-btn { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s; }
-        .primary-btn:hover { background-color: #eab308; }
+
+        .form-input { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; }
+        .primary-btn { background-color: #0D2A4C; color: #FFFFFF; padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s; width: 100%; border: none; cursor: pointer; }
+        .primary-btn:hover { background-color: #1A3B6C; }
+        .secondary-btn { background-color: #f3f4f6; color: #4b5563; border: 1px solid #d1d5db; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: all 0.2s; }
+        .secondary-btn:hover { background-color: #e5e7eb; }
+        .danger-btn { background-color: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: background-color 0.2s; border: none; cursor: pointer; }
+        .danger-btn:hover { background-color: #dc2626; }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800">
+<body class="bg-stone-100 text-stone-800">
 
-    <div id="app-container" class="min-h-screen md:flex">
-        
-        <aside class="md:w-64 bg-white md:border-r border-b border-stone-200 p-4 md:p-6 flex flex-col">
-            <div class="mb-6 text-center">
-                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749349751/DBB440C2-684E-4DCF-9CD3-B2DDC18F1E53_3_vgocga.jpg" alt="Logo SLAP" class="w-24 h-auto mx-auto rounded-lg">
+    <!-- Tela de Login (Oculta para preview) -->
+    <div id="login-view" class="hidden items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+            <div class="text-center">
+                <img src="https://placehold.co/100x100/0D2A4C/FFFFFF?text=C" alt="Logo Coinbra" class="w-24 h-auto mx-auto rounded-lg mb-4">
+                <h2 class="text-2xl font-bold text-stone-800">Aceder ao Hub de Gestão</h2>
             </div>
-            <h1 class="text-xl font-bold text-stone-800 mb-6 text-center">Hub de Marketing</h1>
-            <nav id="main-navigation" class="space-y-1 flex-1">
-                <!-- Início (Dashboard) -->
-                <button data-target="inicio" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                    Início
-                </button>
-
-                <!-- Campanhas -->
-                <button data-target="campanhas" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2z"></polygon></svg>
-                    Campanhas
-                </button>
-
-                <!-- Lista de Tarefas -->
-                <button data-target="tarefas" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-                    Tarefas
-                </button>
-
-                <!-- Calendário de Conteúdo -->
-                <button data-target="calendario" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
-                    Calendário
-                </button>
-
-                <!-- Analytics -->
-                <button data-target="analytics" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M3 3v18h18"/><path d="M18.7 8a6 6 0 0 0-6-6"/><path d="M13 13a6 6 0 0 0 6-6"/></svg>
-                    Analytics
-                </button>
-
-                <!-- Estratégia (Dropdown) -->
-                <div class="nav-dropdown">
-                    <button class="nav-item dropdown-toggle w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center justify-between font-semibold">
-                        <span class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9.09 9.09 5.82 5.82"/><path d="m14.91 9.09-5.82 5.82"/></svg>
-                            Estratégia
-                        </span>
-                        <svg class="dropdown-arrow w-4 h-4 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </button>
-                    <div class="submenu pl-6 mt-1 space-y-1">
-                        <button data-target="manual-marca" class="nav-item submenu-item w-full text-left px-4 py-2 rounded-lg text-stone-600 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors">Manual da Marca</button>
-                        <button data-target="personas" class="nav-item submenu-item w-full text-left px-4 py-2 rounded-lg text-stone-600 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors">Personas</button>
-                    </div>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="login-email" class="text-sm font-medium text-stone-700">Email</label>
+                    <input type="email" id="login-email" name="email" required class="form-input mt-1">
                 </div>
-
-                <!-- Recursos -->
-                <button data-target="recursos" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-yellow-50 hover:text-[#F1D24B] transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                    Recursos
-                </button>
-            </nav>
-            <div class="mt-4">
-                <a href="#" id="logout-button" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    Sair
-                </a>
-            </div>
-        </aside>
-    
-        <main class="flex-1 p-4 sm:p-6 md:p-8">
-            <header id="main-header" class="mb-8">
-                <h2 id="main-title" class="text-3xl font-bold text-[#F1D24B]"></h2>
-                <p id="main-description" class="mt-2 text-stone-600"></p>
-            </header>
-            
-            <div id="content-area">
-                <!-- Conteúdo será injetado aqui dinamicamente -->
-            </div>
-        </main>
+                <div>
+                    <label for="login-password" class="text-sm font-medium text-stone-700">Palavra-passe</label>
+                    <input type="password" id="login-password" name="password" required class="form-input mt-1">
+                </div>
+                <p id="login-error" class="text-sm text-red-600"></p>
+                <div>
+                    <button type="submit" class="primary-btn">Entrar</button>
+                </div>
+            </form>
+            <p class="text-sm text-center text-stone-600">
+                Não tem uma conta? <button onclick="openSignUpModal()" class="font-medium text-[#0D2A4C] hover:underline">Registe-se</button>
+            </p>
+        </div>
     </div>
 
-    <!-- Modal Genérico -->
+    <!-- Tela de Aprovação Pendente (Oculta por padrão) -->
+    <div id="pending-view" class="hidden items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2 class="text-2xl font-bold text-stone-800">Aprovação Pendente</h2>
+            <p class="text-stone-600">O seu registo foi concluído com sucesso. Aguarde a aprovação de um administrador para aceder ao Hub.</p>
+            <button id="logout-pending-button" class="mt-4 text-sm font-medium text-stone-500 hover:text-stone-800">Sair</button>
+        </div>
+    </div>
+
+    <!-- Hub Principal (Visível para preview) -->
+    <div id="hub-view" class="">
+        <div id="app-container" class="min-h-screen md:flex bg-stone-50">
+            <aside class="md:w-64 bg-white md:border-r border-b border-stone-200 p-4 md:p-6 flex flex-col">
+                <div class="mb-4 text-center">
+                    <label for="profile-picture-upload" class="cursor-pointer group">
+                        <img id="profile-picture" src="https://placehold.co/100x100/0D2A4C/FFFFFF?text=C" alt="Foto de Perfil" class="w-24 h-24 mx-auto rounded-full object-cover border-4 border-transparent group-hover:border-indigo-200 transition-all">
+                    </label>
+                    <input type="file" id="profile-picture-upload" class="hidden" accept="image/*">
+                </div>
+                <h1 class="text-xl font-bold text-stone-800 text-center">Hub Mkt + Com</h1>
+                <p id="welcome-message" class="text-center text-sm text-stone-600 mb-6"></p>
+                <nav id="main-navigation" class="space-y-1 flex-1">
+                    <!-- Menu items are dynamically generated here -->
+                </nav>
+                <div class="mt-4">
+                    <button id="logout-button" class="nav-item w-full text-left px-4 py-2.5 rounded-lg text-stone-700 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        Sair
+                    </button>
+                </div>
+            </aside>
+        
+            <main class="flex-1 p-4 sm:p-6 md:p-8">
+                <header id="main-header" class="mb-8">
+                    <h2 id="main-title" class="text-3xl font-bold text-[#0D2A4C]"></h2>
+                    <p id="main-description" class="mt-2 text-stone-600"></p>
+                </header>
+                <div id="content-area"></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <div id="form-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -181,252 +161,369 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
-            <form id="form-modal-body" class="space-y-4"></form>
+            <div id="form-modal-content-area"></div>
         </div>
     </div>
 
     <script type="module">
-        // Importações do Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, doc, deleteDoc, serverTimestamp, query, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-storage.js";
 
-        // --- VARIÁVEIS GLOBAIS ---
+        // --- GLOBAL VARIABLES ---
         const contentArea = document.getElementById('content-area');
         const mainHeader = document.getElementById('main-header');
-        let currentChart;
+        const loginView = document.getElementById('login-view');
+        const hubView = document.getElementById('hub-view');
+        const pendingView = document.getElementById('pending-view');
+        
+        let db, auth, storage, userId, currentUserName, currentUserRole;
+        let tasks = [], campaigns = [], events = [], budgets = [], calendarEvents = {}, collaborators = [], contacts = [], empreendimentos = [], tabelas = [];
+        let currentWeekStartDate = getStartOfWeek(new Date());
+        let allUnsubscribers = [];
+        let crmChart = null;
+        let tasksChart = null;
+        const appId = 'hub-gestao-coinbra';
 
-        // Variáveis de estado para os dados do Firestore
-        let db, auth, userId;
-        let tasks = [];
-        let campaigns = [];
-        let calendarEvents = {}; // Agora um objeto para agrupar por data
-        let unsubscribeTasks, unsubscribeCampaigns, unsubscribeCalendar; // Para limpar os listeners
-
-        // --- CONFIGURAÇÃO E INICIALIZAÇÃO DO FIREBASE ---
+        // --- FIREBASE INITIALIZATION ---
         async function initializeFirebase() {
             try {
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'hub-marketing-slap';
-                const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-
-                if (!firebaseConfig.apiKey) {
-                    console.error("Configuração do Firebase não encontrada. O app funcionará com dados locais.");
-                    loadMockData(); // Carrega dados locais se o Firebase não estiver configurado
-                    renderInicioSection();
-                    setActiveNavItem(document.querySelector('[data-target="inicio"]'));
-                    return;
-                }
+                const firebaseConfig = {
+                    apiKey: "AIzaSyC_kGPDwfphWslGn7aPSSs4XLj0D6_5K7E",
+                    authDomain: "hub-coinbra.firebaseapp.com",
+                    projectId: "hub-coinbra",
+                    storageBucket: "hub-coinbra.appspot.com",
+                    messagingSenderId: "89043424615",
+                    appId: "1:89043424615:web:7fb619d96b6d234ab60bc2"
+                };
 
                 const app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
+                storage = getStorage(app);
 
-                onAuthStateChanged(auth, (user) => {
+                onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         userId = user.uid;
-                        console.log("Usuário autenticado:", userId);
-                        // Inicia os listeners para os dados do Firestore
-                        setupFirestoreListeners(appId);
+                        const userDocRef = doc(db, "users", userId);
+                        const userDoc = await getDoc(userDocRef);
+
+                        if (userDoc.exists()) {
+                            const userData = userDoc.data();
+                            currentUserName = userData.name || user.displayName;
+                            currentUserRole = userData.role;
+                            document.getElementById('profile-picture').src = userData.photoURL || 'https://placehold.co/100x100/0D2A4C/FFFFFF?text=C';
+                            
+                            if (['admin', 'comercial', 'marketing'].includes(currentUserRole)) {
+                                setupFirestoreListeners();
+                                showHubView();
+                            } else {
+                                showPendingView();
+                            }
+                        } else {
+                            currentUserRole = 'admin'; // Default to admin for preview
+                            currentUserName = 'Admin';
+                            document.getElementById('profile-picture').src = 'https://placehold.co/100x100/0D2A4C/FFFFFF?text=C';
+                            setupFirestoreListeners();
+                            showHubView();
+                        }
                     } else {
-                        // Se não houver usuário, tenta autenticação anônima
-                        signInAnonymously(auth).catch(error => console.error("Erro na autenticação anônima:", error));
+                        currentUserRole = 'admin'; // Default for preview
+                        userId = 'preview-user';
+                        currentUserName = 'Admin';
+                        document.getElementById('profile-picture').src = 'https://placehold.co/100x100/0D2A4C/FFFFFF?text=C';
+                        setupFirestoreListeners();
+                        showHubView();
                     }
+                    document.getElementById('welcome-message').textContent = `Bem-vindo, ${currentUserName || ''}`;
                 });
-                
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
             } catch (error) {
-                console.error("Erro ao inicializar o Firebase:", error);
-                loadMockData();
-                renderInicioSection();
-                setActiveNavItem(document.querySelector('[data-target="inicio"]'));
+                console.error("Error initializing Firebase:", error);
             }
-        }
-
-        function setupFirestoreListeners(appId) {
-            // Limpa listeners antigos para evitar duplicação
-            if (unsubscribeTasks) unsubscribeTasks();
-            if (unsubscribeCampaigns) unsubscribeCampaigns();
-            if (unsubscribeCalendar) unsubscribeCalendar();
-
-            // Caminhos das coleções públicas
-            const tasksCollection = collection(db, `artifacts/${appId}/public/data/tasks`);
-            const campaignsCollection = collection(db, `artifacts/${appId}/public/data/campaigns`);
-            const calendarCollection = collection(db, `artifacts/${appId}/public/data/calendarEvents`);
-
-            // Listener para Tarefas
-            const tasksQuery = query(tasksCollection, orderBy("deadline", "asc"));
-            unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
-                tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                // Re-renderiza a seção de tarefas se estiver visível
-                if (document.getElementById('task-list-container')) {
-                    renderTarefasSection();
-                }
-            });
-
-            // Listener para Campanhas
-            const campaignsQuery = query(campaignsCollection, orderBy("createdAt", "desc"));
-            unsubscribeCampaigns = onSnapshot(campaignsQuery, (snapshot) => {
-                campaigns = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                if (document.querySelector('.campaign-card')) {
-                     renderCampanhasSection();
-                }
-            });
-
-            // Listener para Calendário
-            const calendarQuery = query(calendarCollection, orderBy("createdAt", "desc"));
-            unsubscribeCalendar = onSnapshot(calendarQuery, (snapshot) => {
-                calendarEvents = {}; // Reseta para reconstruir
-                snapshot.docs.forEach(doc => {
-                    const event = { id: doc.id, ...doc.data() };
-                    if (!calendarEvents[event.date]) {
-                        calendarEvents[event.date] = [];
-                    }
-                    calendarEvents[event.date].push(event);
-                });
-                if (document.getElementById('calendar-wrapper')) {
-                    renderCalendarioSection();
-                }
-            });
         }
         
-        // --- DADOS MOCKADOS (FALLBACK) ---
-        let kpiData, personasData;
-        function loadMockData() {
-            kpiData = {
-                novosLeads: { valor: "1,280", variacao: "+15%" },
-                taxaConversao: { valor: "4.7%", variacao: "+0.5%" },
-                engajamentoSocial: { valor: "12.3K", variacao: "-2%" },
-                custoAquisicao: { valor: "R$ 25,40", variacao: "+5%" }
+        // --- FIRESTORE LISTENERS ---
+        function setupFirestoreListeners() {
+            if (!db) return;
+            allUnsubscribers.forEach(unsub => unsub && unsub());
+            allUnsubscribers = [];
+
+            const getCollectionListener = (collectionName, targetArray, renderFunc) => {
+                const collRef = collection(db, `artifacts/${appId}/public/data/${collectionName}`);
+                const unsubscribe = onSnapshot(query(collRef), (snapshot) => {
+                    targetArray.length = 0;
+                    snapshot.docs.forEach(doc => targetArray.push({ id: doc.id, ...doc.data() }));
+                    
+                    const activePageId = contentArea.firstElementChild?.id;
+                    if (activePageId && (activePageId.startsWith(collectionName) || activePageId === 'inicio-section')) {
+                         renderFunc();
+                    }
+                     if (collectionName === 'collaborators' && activePageId === 'tasks-section') {
+                        renderTarefasSection();
+                    }
+                }, (error) => console.error(`Error on ${collectionName} listener:`, error));
+                allUnsubscribers.push(unsubscribe);
             };
-            personasData = [ /* ... dados das personas ... */ ];
+            
+            const dashboardRenderer = () => renderInicioSection();
+            getCollectionListener('tasks', tasks, dashboardRenderer);
+            getCollectionListener('contacts', contacts, dashboardRenderer);
+            getCollectionListener('campaigns', campaigns, dashboardRenderer);
+            getCollectionListener('budgets', budgets, dashboardRenderer);
+            getCollectionListener('collaborators', collaborators, renderTarefasSection);
+            getCollectionListener('events', events, renderEventosSection);
+            getCollectionListener('empreendimentos', empreendimentos, renderEmpreendimentosSection);
+            getCollectionListener('tabelas', tabelas, renderTabelasSection);
+            
+            const calendarCollectionRef = collection(db, `artifacts/${appId}/public/data/calendarEvents`);
+            const unsubCalendar = onSnapshot(query(calendarCollectionRef), (snapshot) => {
+                calendarEvents = {};
+                snapshot.docs.forEach(doc => {
+                    const event = { id: doc.id, ...doc.data() };
+                    const dateKey = event.date.split('T')[0];
+                    if (!calendarEvents[dateKey]) calendarEvents[dateKey] = [];
+                    calendarEvents[dateKey].push(event);
+                });
+                if (document.getElementById('calendario-section')) renderCalendarioSection();
+            }, (error) => console.error("Error on calendar listener:", error));
+            allUnsubscribers.push(unsubCalendar);
         }
 
-
-        // --- FUNÇÕES DE RENDERIZAÇÃO (MODIFICADAS) ---
-
-        function showHeader() {
-            mainHeader.classList.remove('hidden');
+        // --- AUTH & VIEW FUNCTIONS ---
+        function showLoginView() {
+            hubView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+            loginView.classList.add('flex');
         }
-
+        function showHubView() {
+            hubView.classList.remove('hidden');
+            loginView.classList.add('hidden');
+            loginView.classList.remove('flex');
+            pendingView.classList.add('hidden');
+            pendingView.classList.remove('flex');
+            renderMenu();
+            renderInicioSection();
+            setActiveNavItem(document.querySelector('[data-target="inicio"]'));
+        }
+        function showPendingView() {
+            hubView.classList.add('hidden');
+            loginView.classList.add('hidden');
+            pendingView.classList.remove('hidden');
+            pendingView.classList.add('flex');
+        }
         function setActiveNavItem(element) {
-            document.querySelectorAll('#main-navigation .nav-item').forEach(item => {
-                item.classList.remove('active', 'active-parent');
-            });
-            if (element) {
-                element.classList.add('active');
-                const parentDropdown = element.closest('.nav-dropdown');
-                if (parentDropdown) {
-                    parentDropdown.querySelector('.dropdown-toggle').classList.add('active-parent');
-                }
+            document.querySelectorAll('#main-navigation .nav-item').forEach(item => item.classList.remove('active'));
+            if (element) element.classList.add('active');
+        }
+        
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = event.target.email.value;
+            const password = event.target.password.value;
+            const errorElement = document.getElementById('login-error');
+            errorElement.textContent = '';
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                console.error("Erro de login:", error.code);
+                errorElement.textContent = "Email ou palavra-passe inválidos.";
+            }
+        }
+        async function handleSignUp(event) {
+            event.preventDefault();
+            const form = event.target;
+            const name = form.name.value;
+            const email = form.email.value;
+            const password = form.password.value;
+            const errorElement = document.getElementById('signup-error');
+            if(errorElement) errorElement.textContent = '';
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(userCredential.user, { displayName: name });
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    name: name, email: email, role: "pending", createdAt: serverTimestamp()
+                });
+                await signOut(auth);
+                showSuccessMessage("Registo Concluído!", "A sua conta foi criada. Aguarde a aprovação de um administrador.");
+            } catch (error) {
+                 console.error("Erro de registo:", error.code);
+                 if (errorElement) {
+                     if (error.code === 'auth/email-already-in-use') {
+                        errorElement.textContent = "Este email já está em uso.";
+                     } else if (error.code === 'auth/weak-password') {
+                        errorElement.textContent = "A palavra-passe deve ter pelo menos 6 caracteres.";
+                     } else {
+                        errorElement.textContent = "Ocorreu um erro ao criar a conta.";
+                     }
+                 }
+            }
+        }
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                showLoginView();
+            } catch (error) {
+                console.error("Erro ao fazer logout:", error);
+            }
+        }
+        
+        async function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (!file || !userId) return;
+
+            const storageRef = ref(storage, `profile-pictures/${userId}`);
+            try {
+                await uploadBytes(storageRef, file);
+                const photoURL = await getDownloadURL(storageRef);
+                
+                const userDocRef = doc(db, "users", userId);
+                await updateDoc(userDocRef, { photoURL: photoURL });
+
+                document.getElementById('profile-picture').src = photoURL;
+                showSuccessMessage("Sucesso!", "A sua foto de perfil foi atualizada.");
+            } catch (error) {
+                console.error("Error uploading profile picture: ", error);
+                alert("Falha ao carregar a imagem.");
             }
         }
 
+        // --- CONTENT RENDERING ---
         function renderInicioSection() {
-            showHeader();
-            document.getElementById('main-title').textContent = 'Dashboard de Marketing';
-            document.getElementById('main-description').textContent = 'Visão geral dos principais indicadores e atividades da equipe.';
+            document.getElementById('main-title').textContent = 'Dashboard';
+            document.getElementById('main-description').textContent = 'Visão geral das suas atividades de marketing e vendas.';
             
-            contentArea.innerHTML = `
-                <section>
-                    <!-- KPIs -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="kpi-card kpi-card-blue">
-                            <h3 class="text-stone-600 font-semibold mb-2">Novos Leads (Mês)</h3>
-                            <p class="text-4xl font-bold text-stone-800">${kpiData.novosLeads.valor}</p>
-                            <p class="text-green-600 font-semibold mt-1">${kpiData.novosLeads.variacao}</p>
-                        </div>
-                        <div class="kpi-card kpi-card-purple">
-                            <h3 class="text-stone-600 font-semibold mb-2">Taxa de Conversão</h3>
-                            <p class="text-4xl font-bold text-stone-800">${kpiData.taxaConversao.valor}</p>
-                            <p class="text-green-600 font-semibold mt-1">${kpiData.taxaConversao.variacao}</p>
-                        </div>
-                        <div class="kpi-card kpi-card-orange">
-                            <h3 class="text-stone-600 font-semibold mb-2">Engajamento Social</h3>
-                            <p class="text-4xl font-bold text-stone-800">${kpiData.engajamentoSocial.valor}</p>
-                            <p class="text-red-600 font-semibold mt-1">${kpiData.engajamentoSocial.variacao}</p>
-                        </div>
-                        <div class="kpi-card kpi-card-yellow">
-                            <h3 class="text-stone-600 font-semibold mb-2">Custo por Aquisição</h3>
-                            <p class="text-4xl font-bold text-stone-800">${kpiData.custoAquisicao.valor}</p>
-                            <p class="text-red-600 font-semibold mt-1">${kpiData.custoAquisicao.variacao}</p>
-                        </div>
-                    </div>
+            const incompleteTasks = tasks.filter(t => !t.completed).length;
+            const activeCampaigns = campaigns.filter(c => c.status === 'Ativa').length;
+            const pendingBudgets = budgets.filter(b => b.status === 'Pendente').length;
+            const totalContacts = contacts.length;
 
-                    <!-- Campanhas Ativas e Avisos -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                            <h3 class="text-lg font-semibold mb-4 text-stone-800">Campanhas Ativas</h3>
-                            <div class="space-y-4">
-                                ${campaigns.filter(c => c.status === 'Ativa').map(c => `
-                                    <div>
-                                        <p class="font-bold text-stone-700">${c.nome}</p>
-                                        <p class="text-sm text-stone-500">Responsável: ${c.responsavel}</p>
-                                    </div>
-                                `).join('') || '<p class="text-stone-500">Nenhuma campanha ativa no momento.</p>'}
-                            </div>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                            <h3 class="text-lg font-semibold mb-4 text-stone-800">Avisos da Equipe</h3>
-                            <p class="text-stone-600">Reunião de alinhamento semanal movida para terça-feira, às 10h. Por favor, atualizem suas agendas.</p>
-                        </div>
+            contentArea.innerHTML = `
+                <div id="inicio-section" class="space-y-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="base-card"><p class="text-sm text-stone-500">Projetos Ativos</p><p class="text-3xl font-bold text-[#0D2A4C]">${activeCampaigns}</p></div>
+                        <div class="base-card"><p class="text-sm text-stone-500">Tarefas Pendentes</p><p class="text-3xl font-bold text-[#0D2A4C]">${incompleteTasks}</p></div>
+                        <div class="base-card"><p class="text-sm text-stone-500">Orçamentos Abertos</p><p class="text-3xl font-bold text-[#0D2A4C]">${pendingBudgets}</p></div>
+                        <div class="base-card"><p class="text-sm text-stone-500">Total de Contatos</p><p class="text-3xl font-bold text-[#0D2A4C]">${totalContacts}</p></div>
                     </div>
-                </section>
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                        <div class="lg:col-span-2 base-card"><h3 class="font-bold mb-4 text-stone-700">Contatos por Status</h3><canvas id="crmChartCanvas"></canvas></div>
+                        <div class="lg:col-span-3 base-card"><h3 class="font-bold mb-4 text-stone-700">Tarefas por Colaborador</h3><canvas id="tasksChartCanvas"></canvas></div>
+                    </div>
+                </div>
             `;
-            if (currentChart) currentChart.destroy();
+            renderCRMChart();
+            renderTasksChart();
+        }
+
+        function renderCRMChart() {
+            const ctx = document.getElementById('crmChartCanvas');
+            if (!ctx) return;
+            const statusCounts = contacts.reduce((acc, contact) => {
+                acc[contact.status] = (acc[contact.status] || 0) + 1;
+                return acc;
+            }, {});
+            if (crmChart) crmChart.destroy();
+            crmChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: Object.keys(statusCounts), datasets: [{ data: Object.values(statusCounts), backgroundColor: ['#FEF3C7', '#DBEAFE', '#D1FAE5'], borderColor: '#ffffff', borderWidth: 2 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'top' } } }
+            });
+        }
+
+        function renderTasksChart() {
+            const ctx = document.getElementById('tasksChartCanvas');
+            if (!ctx) return;
+            const tasksPerCollaborator = collaborators.map(collab => ({ name: collab.name, count: tasks.filter(task => (task.assignedTo || []).includes(collab.name) && !task.completed).length }));
+            if (tasksChart) tasksChart.destroy();
+            tasksChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: tasksPerCollaborator.map(item => item.name), datasets: [{ label: 'Tarefas Pendentes', data: tasksPerCollaborator.map(item => item.count), backgroundColor: '#0D2A4C', borderRadius: 4 }] },
+                options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+            });
         }
 
         function renderCampanhasSection() {
-            showHeader();
-            document.getElementById('main-title').textContent = 'Gestor de Campanhas';
-            document.getElementById('main-description').textContent = 'Acompanhe o status e os resultados de todas as campanhas de marketing.';
-            
+            document.getElementById('main-title').textContent = 'Gestor de Projetos';
+            document.getElementById('main-description').textContent = 'Acompanhe o status e os resultados de todos os projetos.';
             contentArea.innerHTML = `
-                <div class="text-right mb-6">
-                    <button class="primary-btn" onclick="openCampaignForm()">+ Adicionar Campanha</button>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    ${campaigns.map((campaign) => {
-                        let statusClass = '';
-                        switch(campaign.status) {
-                            case 'Ativa': statusClass = 'status-active'; break;
-                            case 'Planejada': statusClass = 'status-planned'; break;
-                            case 'Concluída': statusClass = 'status-completed'; break;
-                        }
-                        return `
-                        <div class="campaign-card cursor-pointer hover:shadow-lg hover:border-[#F1D24B] transition-all" onclick="openCampaignModal('${campaign.id}')">
+                <div id="campaigns-section">
+                    <div class="text-right mb-6">
+                        <button class="primary-btn w-auto" onclick="openCampaignForm()">+ Adicionar Projeto</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${campaigns.map(c => `
+                        <div class="base-card cursor-pointer" onclick="openCampaignModal('${c.id}')">
                             <div class="flex justify-between items-start mb-2">
-                                <h3 class="text-xl font-bold text-stone-800">${campaign.nome}</h3>
-                                <span class="status-tag ${statusClass}">${campaign.status}</span>
+                                <h3 class="text-xl font-bold text-stone-800">${c.nome}</h3>
+                                <span class="status-tag status-${c.status.toLowerCase()}">${c.status}</span>
                             </div>
-                            <p class="text-sm text-stone-500 mb-4">Responsável: ${campaign.responsavel}</p>
-                            <div class="bg-stone-50 p-3 rounded-lg">
-                                <p class="text-sm font-semibold text-stone-700">Objetivo:</p>
-                                <p class="text-sm text-stone-600">${campaign.objetivo}</p>
+                            <p class="text-sm text-stone-500 mb-4">Responsável: ${c.responsavel}</p>
+                            <p class="text-sm text-stone-600 truncate"><strong>Objetivo:</strong> ${c.objetivo}</p>
+                        </div>`).join('') || '<p class="col-span-full text-center py-10 text-stone-500">Nenhum projeto encontrado.</p>'}
+                    </div>
+                </div>`;
+        }
+        
+        function renderEventosSection() {
+            document.getElementById('main-title').textContent = 'Gestor de Eventos';
+            document.getElementById('main-description').textContent = 'Planeje e gerencie todos os eventos da empresa.';
+            contentArea.innerHTML = `
+                <div id="events-section">
+                    <div class="text-right mb-6">
+                        <button class="primary-btn w-auto" onclick="openEventForm()">+ Adicionar Evento</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${events.map(e => `
+                        <div class="base-card cursor-pointer" onclick="openEventModal('${e.id}')">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-stone-800">${e.nome}</h3>
+                                <span class="status-tag status-${e.tipo.toLowerCase()}">${e.tipo}</span>
                             </div>
-                        </div>
-                        `
-                    }).join('') || '<p class="text-stone-500 col-span-full text-center">Nenhuma campanha cadastrada.</p>'}
-                </div>
-            `;
-            if (currentChart) currentChart.destroy();
+                            <p class="text-sm text-stone-500 mb-4">Data: ${new Date(e.data + 'T00:00:00').toLocaleDateString('pt-BR')}</p>
+                            <p class="text-sm text-stone-600 truncate"><strong>Local:</strong> ${e.local}</p>
+                        </div>`).join('') || '<p class="col-span-full text-center py-10 text-stone-500">Nenhum evento encontrado.</p>'}
+                    </div>
+                </div>`;
         }
 
+        function renderOrcamentosSection() {
+            document.getElementById('main-title').textContent = 'Gestor de Orçamentos';
+            document.getElementById('main-description').textContent = 'Registre e acompanhe todas as propostas e orçamentos.';
+            contentArea.innerHTML = `
+                <div id="budgets-section">
+                    <div class="text-right mb-6">
+                        <button class="primary-btn w-auto" onclick="openBudgetForm()">+ Adicionar Orçamento</button>
+                    </div>
+                    <div class="space-y-4">
+                        ${budgets.map(b => `
+                        <div class="base-card flex flex-wrap justify-between items-center gap-4 cursor-pointer" onclick="openBudgetModal('${b.id}')">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-bold text-stone-800">${b.titulo}</h3>
+                                <p class="text-sm text-stone-500">Fornecedor: ${b.fornecedor}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xl font-bold text-stone-800">R$ ${parseFloat(b.valor || 0).toFixed(2)}</p>
+                                <span class="status-tag status-${b.status.toLowerCase()}">${b.status}</span>
+                            </div>
+                        </div>`).join('') || '<p class="text-center py-10 text-stone-500">Nenhum orçamento encontrado.</p>'}
+                    </div>
+                </div>`;
+        }
+        
         function renderTarefasSection() {
-            showHeader();
             document.getElementById('main-title').textContent = 'Lista de Tarefas';
-            document.getElementById('main-description').textContent = 'Gerencie e acompanhe as tarefas da equipe de marketing.';
-            if (currentChart) currentChart.destroy();
+            document.getElementById('main-description').textContent = 'Gerencie e acompanhe as tarefas da equipa.';
             
-            const assignees = [...new Set(tasks.flatMap(task => task.assignedTo))];
+            const assignees = [...new Set(collaborators.map(c => c.name))];
+            const addCollaboratorButton = currentUserRole === 'admin' 
+                ? `<button class="secondary-btn" onclick="openCollaboratorForm()">+ Adicionar Colaborador</button>` 
+                : '';
 
             contentArea.innerHTML = `
-                <section>
-                    <div class="flex justify-between items-center mb-6">
+                <div id="tasks-section">
+                    <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
                         <div id="task-filters" class="flex flex-col sm:flex-row flex-wrap gap-4 bg-white p-4 rounded-lg shadow-sm items-center">
                             <div class="flex-grow">
                                 <label for="person-filter" class="text-sm font-medium text-stone-600 mr-2">Filtrar por:</label>
@@ -435,114 +532,160 @@
                                     ${assignees.map(name => `<option value="${name}">${name}</option>`).join('')}
                                 </select>
                             </div>
-                            <div id="deadline-filters" class="flex gap-2">
-                                <button class="filter-btn active" data-filter="all">Todos</button>
-                                <button class="filter-btn" data-filter="nearest">Prazo Próximo</button>
-                                <button class="filter-btn" data-filter="overdue">Vencidas</button>
-                            </div>
+                            ${addCollaboratorButton}
                         </div>
-                        <button class="primary-btn" onclick="openTaskForm()">+ Adicionar Tarefa</button>
+                        <button class="primary-btn w-auto" onclick="openTaskForm()">+ Adicionar Tarefa</button>
                     </div>
-                    <div id="task-list-container" class="space-y-4">
-                        <!-- As tarefas serão renderizadas aqui pelo JavaScript -->
-                    </div>
-                </section>
+                    <div id="task-list-container" class="space-y-4"></div>
+                </div>
             `;
+            document.getElementById('person-filter').addEventListener('change', updateTaskList);
+            updateTaskList();
+        }
 
-            function updateTaskList() {
-                const personFilter = document.getElementById('person-filter').value;
-                const deadlineFilter = document.querySelector('#deadline-filters .filter-btn.active').dataset.filter;
-                
-                let filteredTasks = [...tasks];
+        function renderCRMSection() {
+            document.getElementById('main-title').textContent = 'CRM - Gestão de Clientes';
+            document.getElementById('main-description').textContent = 'Gerencie seus leads e clientes em um só lugar.';
+            contentArea.innerHTML = `
+                <div id="contacts-section">
+                    <div class="text-right mb-6">
+                        <button class="primary-btn w-auto" onclick="openContactForm()">+ Adicionar Contacto</button>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm overflow-x-auto">
+                        <table class="w-full min-w-max">
+                            <thead class="bg-stone-50">
+                                <tr>
+                                    <th class="p-4 text-left text-sm font-semibold text-stone-600">Nome</th>
+                                    <th class="p-4 text-left text-sm font-semibold text-stone-600">Email</th>
+                                    <th class="p-4 text-left text-sm font-semibold text-stone-600">Telefone</th>
+                                    <th class="p-4 text-left text-sm font-semibold text-stone-600">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${contacts.map(c => `
+                                <tr class="border-b border-stone-200 hover:bg-stone-50 cursor-pointer" onclick="openContactModal('${c.id}')">
+                                    <td class="p-4 font-medium text-stone-800">${c.nome}</td>
+                                    <td class="p-4 text-stone-600">${c.email}</td>
+                                    <td class="p-4 text-stone-600">${c.telefone}</td>
+                                    <td class="p-4"><span class="status-tag status-${c.status.toLowerCase()}">${c.status}</span></td>
+                                </tr>`).join('') || '<tr><td colspan="4" class="text-center py-10 text-stone-500">Nenhum contacto encontrado.</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+        }
+        
+        function renderEmpreendimentosSection() {
+            document.getElementById('main-title').textContent = 'Empreendimentos';
+            document.getElementById('main-description').textContent = 'Gerencie o portfólio de imóveis da Coinbra.';
+            const addEmpreendimentoButton = currentUserRole !== 'marketing'
+                ? `<button class="primary-btn w-auto" onclick="openEmpreendimentoForm()">+ Adicionar Empreendimento</button>`
+                : '';
 
-                if (personFilter !== 'all') {
-                    filteredTasks = filteredTasks.filter(task => task.assignedTo.includes(personFilter));
-                }
+            contentArea.innerHTML = `
+                <div id="empreendimentos-section">
+                    <div class="text-right mb-6">
+                        ${addEmpreendimentoButton}
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${empreendimentos.map(p => `
+                        <div class="base-card cursor-pointer" onclick="openEmpreendimentoModal('${p.id}')">
+                            <img src="${p.fotoUrl || 'https://placehold.co/600x400/0D2A4C/FFFFFF?text=Coinbra'}" alt="Foto do empreendimento ${p.nome}" class="w-full h-48 object-cover rounded-md mb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-stone-800">${p.nome}</h3>
+                                <span class="status-tag status-${p.status.toLowerCase().replace(' ', '-')}">${p.status}</span>
+                            </div>
+                        </div>`).join('') || '<p class="col-span-full text-center py-10 text-stone-500">Nenhum empreendimento encontrado.</p>'}
+                    </div>
+                </div>`;
+        }
 
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
+        function renderTabelasSection() {
+            document.getElementById('main-title').textContent = 'Tabelas de Vendas';
+            document.getElementById('main-description').textContent = 'Acesse as tabelas de vendas atualizadas de cada empreendimento.';
+            contentArea.innerHTML = `
+                <div id="tabelas-section">
+                    <div class="text-right mb-6">
+                        <button class="primary-btn w-auto" onclick="openTabelaForm()">+ Adicionar Tabela</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${tabelas.map(t => `
+                        <div class="base-card">
+                            <img src="${t.empreendimentoFotoUrl || 'https://placehold.co/600x400/0D2A4C/FFFFFF?text=Coinbra'}" alt="Foto do empreendimento ${t.empreendimentoNome}" class="w-full h-48 object-cover rounded-md mb-4">
+                            <h3 class="text-xl font-bold text-stone-800 mb-4">${t.empreendimentoNome}</h3>
+                            <a href="${t.tabelaUrl}" target="_blank" download class="primary-btn flex items-center justify-center text-center">
+                                <svg class="mr-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Baixar Tabela
+                            </a>
+                        </div>`).join('') || '<p class="col-span-full text-center py-10 text-stone-500">Nenhuma tabela encontrada.</p>'}
+                    </div>
+                </div>`;
+        }
+        
+        function updateTaskList() {
+            const container = document.getElementById('task-list-container');
+            if (!container) return;
 
-                if (deadlineFilter === 'overdue') {
-                    filteredTasks = filteredTasks.filter(task => new Date(task.deadline) < today);
-                } else if (deadlineFilter === 'nearest') {
-                    filteredTasks = filteredTasks
-                        .filter(task => new Date(task.deadline) >= today)
-                        .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-                } else {
-                    filteredTasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-                }
+            const personFilter = document.getElementById('person-filter').value;
+            let filteredTasks = [...tasks];
 
-                const taskListContainer = document.getElementById('task-list-container');
-                if (filteredTasks.length === 0) {
-                    taskListContainer.innerHTML = `<div class="text-center p-8 bg-white rounded-lg"><p class="text-stone-500">Nenhuma tarefa encontrada com os filtros selecionados.</p></div>`;
-                    return;
-                }
-                
-                taskListContainer.innerHTML = filteredTasks.map(task => {
-                    const deadlineDate = new Date(task.deadline);
-                    const isOverdue = deadlineDate < today;
-                    const deadlineClass = isOverdue ? 'deadline-overdue' : '';
-                    const formattedDate = deadlineDate.toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric' });
+            if (personFilter !== 'all') {
+                filteredTasks = filteredTasks.filter(task => (task.assignedTo || []).includes(personFilter));
+            }
 
-                    return `
-                        <div class="task-card">
-                            <p class="text-stone-700 flex-1">${task.description}</p>
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center">
-                                    ${task.assignedTo.map(name => `<span class="assignee-tag tag-${name.toLowerCase()}">${name}</span>`).join('')}
+            filteredTasks.sort((a, b) => a.completed - b.completed || new Date(a.deadline) - new Date(b.deadline));
+            
+            if (filteredTasks.length === 0) {
+                container.innerHTML = `<div class="text-center p-8 bg-white rounded-lg"><p class="text-stone-500">Nenhuma tarefa encontrada para o filtro selecionado.</p></div>`;
+                return;
+            }
+            
+            container.innerHTML = filteredTasks.map(task => {
+                const deadlineDate = new Date(task.deadline + 'T00:00:00');
+                const isOverdue = !task.completed && deadlineDate < new Date();
+                const deadlineClass = isOverdue ? 'deadline-overdue' : '';
+                const formattedDate = deadlineDate.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                const assignedByTag = task.assignedBy ? `<span class="user-tag tag-admin">${task.assignedBy}</span>` : '';
+
+                return `
+                    <div class="task-card flex items-start gap-4 ${task.completed ? 'completed' : ''}">
+                        <input type="checkbox" class="mt-1.5 h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" onchange="toggleTaskCompletion('${task.id}', ${task.completed})" ${task.completed ? 'checked' : ''}>
+                        <div class="flex-1">
+                             <p class="text-stone-800 font-medium">${task.description}</p>
+                            <div class="mt-3 flex flex-wrap justify-between items-center gap-4">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="text-xs text-stone-500">Para:</span>
+                                    ${(task.assignedTo || []).map(name => `<span class="user-tag" style="background-color: #e5e7eb; color: #374151;">${name}</span>`).join('')}
                                 </div>
                                 <div class="text-right">
                                     <span class="text-xs text-stone-500">Prazo</span>
                                     <p class="deadline-text ${deadlineClass}">${formattedDate}</p>
                                 </div>
-                                <button class="delete-btn" onclick="deleteTask('${task.id}')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                </button>
                             </div>
                         </div>
-                    `;
-                }).join('');
-            }
-
-            document.getElementById('person-filter').addEventListener('change', updateTaskList);
-            document.querySelectorAll('#deadline-filters .filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelector('#deadline-filters .filter-btn.active').classList.remove('active');
-                    btn.classList.add('active');
-                    updateTaskList();
-                });
-            });
-
-            updateTaskList();
+                        <button class="task-delete-btn" onclick="event.stopPropagation(); deleteItem('tasks', '${task.id}')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        </button>
+                    </div>
+                `;
+            }).join('');
         }
 
         function renderCalendarioSection() {
-            showHeader();
-            document.getElementById('main-title').textContent = 'Calendário de Conteúdo';
-            document.getElementById('main-description').textContent = 'Planeje e visualize todas as publicações de redes sociais, blog, email e vídeo em um formato semanal.';
-            
-            if (currentChart) currentChart.destroy();
-
-            const weekStarts = [
-                new Date('2025-06-30T03:00:00Z'),
-                new Date('2025-07-07T03:00:00Z')
-            ];
-
-            let finalHtml = '';
-            weekStarts.forEach((startDate, index) => {
-                finalHtml += generateWeekHtml(startDate, `Semana ${index + 1}`);
-            });
-
-            contentArea.innerHTML = finalHtml;
+            document.getElementById('main-title').textContent = 'Calendário de Entregas';
+            document.getElementById('main-description').textContent = 'Planeje e visualize todas as entregas e prazos.';
+            contentArea.innerHTML = `<div id="calendario-section">${generateWeekHtml(currentWeekStartDate)}</div>`;
         }
-
-        function generateWeekHtml(startDate, weekTitle) {
+        
+        function generateWeekHtml(startDate) {
             const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-            const monthNames = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+            const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
             let weekGridHtml = '';
 
             const endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + 6);
+            
+            const weekTitle = `Semana de ${startDate.getDate()} de ${monthNames[startDate.getMonth()]} a ${endDate.getDate()} de ${monthNames[endDate.getMonth()]} de ${endDate.getFullYear()}`;
 
             for (let i = 0; i < 7; i++) {
                 const day = new Date(startDate);
@@ -551,18 +694,15 @@
                 const dateStr = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
                 const posts = calendarEvents[dateStr] || [];
 
-                const postsHtml = posts.map(post => {
-                    const typeText = post.type.charAt(0).toUpperCase() + post.type.slice(1);
-                    return `
-                        <div class="post-item">
-                            <span class="post-type-tag post-tag-${post.type}">${typeText}</span>
-                            <p class="post-description">${post.description}</p>
-                            <button class="delete-btn" onclick="deleteCalendarEvent('${post.id}')">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </button>
-                        </div>
-                    `;
-                }).join('');
+                const postsHtml = posts.map(post => `
+                    <div class="post-item">
+                        <span class="post-type-tag post-tag-${post.type.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}">${post.type}</span>
+                        <p class="post-description">${post.description}</p>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteItem('calendarEvents', '${post.id}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+                `).join('');
 
                 weekGridHtml += `
                     <div class="day-card" onclick="openCalendarEventForm('${dateStr}')">
@@ -576,203 +716,579 @@
             }
 
             return `
-                <div class="week-container">
-                    <h3 class="week-header">${weekTitle}: ${startDate.getDate()} de ${monthNames[startDate.getMonth()]} - ${endDate.getDate()} de ${monthNames[endDate.getMonth()]}</h3>
-                    <div class="week-grid">
-                        ${weekGridHtml}
+                <div class="week-container" id="calendar-wrapper">
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                        <h3 class="week-header flex-grow" style="margin-bottom: 0; border: none;">${weekTitle}</h3>
+                        <div class="flex gap-2">
+                            <button class="secondary-btn" onclick="navigateWeek(-1)">‹ Semana Anterior</button>
+                            <button class="secondary-btn" onclick="navigateWeek(1)">Próxima Semana ›</button>
+                        </div>
                     </div>
+                    <div class="week-grid">${weekGridHtml}</div>
                 </div>
             `;
         }
-        
-        // --- FUNÇÕES DE INTERAÇÃO COM O BANCO DE DADOS (FIRESTORE) ---
 
+        // --- MODAL & FORM FUNCTIONS ---
+        function closeFormModal() { document.getElementById('form-modal').classList.remove('visible'); }
+        function showSuccessMessage(title, message) {
+            const modalTitle = document.getElementById('form-modal-title');
+            const modalContentArea = document.getElementById('form-modal-content-area');
+            
+            modalTitle.textContent = title;
+            modalContentArea.innerHTML = `
+                <div class="text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="mt-4 text-stone-600">${message}</p>
+                    <button onclick="closeFormModal()" class="primary-btn mt-6 w-auto px-8">OK</button>
+                </div>
+            `;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+        function openSignUpModal() {
+            const modalTitle = document.getElementById('form-modal-title');
+            const modalContentArea = document.getElementById('form-modal-content-area');
+            
+            modalTitle.textContent = "Criar Nova Conta";
+            modalContentArea.innerHTML = `
+                <form id="signup-form" class="space-y-4">
+                    <div><label for="signup-name" class="font-medium text-sm">Nome Completo</label><input type="text" id="signup-name" name="name" required class="form-input mt-1"></div>
+                    <div><label for="signup-email" class="font-medium text-sm">Email</label><input type="email" id="signup-email" name="email" required class="form-input mt-1"></div>
+                    <div><label for="signup-password" class="font-medium text-sm">Palavra-passe (mín. 6 caracteres)</label><input type="password" id="signup-password" name="password" required class="form-input mt-1"></div>
+                    <p id="signup-error" class="text-sm text-red-600"></p>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Registar</button></div>
+                </form>
+            `;
+            document.getElementById('signup-form').addEventListener('submit', handleSignUp);
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        function openCampaignForm(campaignId = null) {
+            const campaign = campaignId ? campaigns.find(c => c.id === campaignId) : null;
+            document.getElementById('form-modal-title').textContent = campaign ? "Editar Projeto" : "Adicionar Novo Projeto";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <input type="hidden" id="campaign-id" value="${campaignId || ''}">
+                    <div><label class="font-medium text-sm">Nome do Projeto</label><input type="text" id="campaign-name" class="form-input" required value="${campaign?.nome || ''}"></div>
+                    <div><label class="font-medium text-sm">Responsável</label><input type="text" id="campaign-owner" class="form-input" required value="${campaign?.responsavel || ''}"></div>
+                    <div><label class="font-medium text-sm">Status</label><select id="campaign-status" class="form-input" required><option>Planejada</option><option>Ativa</option><option>Concluída</option></select></div>
+                    <div><label class="font-medium text-sm">Objetivo</label><textarea id="campaign-goal" rows="3" class="form-input" required>${campaign?.objetivo || ''}</textarea></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar</button></div>
+                </form>`;
+            if (campaign) document.getElementById('campaign-status').value = campaign.status;
+            document.getElementById('form-modal-body').onsubmit = saveCampaign;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        async function saveCampaign(event) {
+            event.preventDefault();
+            const campaignId = document.getElementById('campaign-id').value;
+            const data = {
+                nome: document.getElementById('campaign-name').value,
+                responsavel: document.getElementById('campaign-owner').value,
+                status: document.getElementById('campaign-status').value,
+                objetivo: document.getElementById('campaign-goal').value,
+            };
+
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                if (campaignId) {
+                    await updateDoc(doc(db, `artifacts/${appId}/public/data/campaigns`, campaignId), data);
+                } else {
+                    data.createdAt = serverTimestamp();
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/campaigns`), data);
+                }
+                closeFormModal();
+            } catch (error) { console.error("Error saving project:", error); }
+        }
+
+        function openCampaignModal(campaignId) {
+            const campaign = campaigns.find(c => c.id === campaignId);
+            if (!campaign) return;
+            document.getElementById('form-modal-title').textContent = campaign.nome;
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <div class="space-y-4">
+                    <p><strong>Responsável:</strong> ${campaign.responsavel}</p>
+                    <p><strong>Status:</strong> <span class="status-tag status-${campaign.status.toLowerCase()}">${campaign.status}</span></p>
+                    <div><strong>Objetivo:</strong><p class="mt-1 p-3 bg-stone-50 rounded-md">${campaign.objetivo}</p></div>
+                    <div class="border-t pt-4 flex justify-end gap-2">
+                        <button class="secondary-btn" onclick="openCampaignForm('${campaign.id}')">Editar</button>
+                        <button class="danger-btn" onclick="deleteItem('campaigns', '${campaign.id}')">Apagar</button>
+                    </div>
+                </div>`;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        function openEventForm(eventId = null) {
+            const event = eventId ? events.find(e => e.id === eventId) : null;
+            document.getElementById('form-modal-title').textContent = event ? "Editar Evento" : "Adicionar Novo Evento";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <input type="hidden" id="event-id" value="${eventId || ''}">
+                    <div><label class="font-medium text-sm">Nome do Evento</label><input type="text" id="event-name" class="form-input" required value="${event?.nome || ''}"></div>
+                    <div><label class="font-medium text-sm">Data</label><input type="date" id="event-date" class="form-input" required value="${event?.data || ''}"></div>
+                    <div><label class="font-medium text-sm">Local</label><input type="text" id="event-location" class="form-input" required value="${event?.local || ''}"></div>
+                    <div><label class="font-medium text-sm">Tipo</label><select id="event-type" class="form-input" required><option>Online</option><option>Presencial</option></select></div>
+                    <div><label class="font-medium text-sm">Descrição</label><textarea id="event-description" rows="4" class="form-input">${event?.descricao || ''}</textarea></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar</button></div>
+                </form>`;
+            if (event) document.getElementById('event-type').value = event.tipo;
+            document.getElementById('form-modal-body').onsubmit = saveEvent;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        async function saveEvent(event) {
+            event.preventDefault();
+            const eventId = document.getElementById('event-id').value;
+            const data = {
+                nome: document.getElementById('event-name').value,
+                data: document.getElementById('event-date').value,
+                local: document.getElementById('event-location').value,
+                tipo: document.getElementById('event-type').value,
+                descricao: document.getElementById('event-description').value,
+            };
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                if (eventId) {
+                    await updateDoc(doc(db, `artifacts/${appId}/public/data/events`, eventId), data);
+                } else {
+                    data.createdAt = serverTimestamp();
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/events`), data);
+                }
+                closeFormModal();
+            } catch (error) { console.error("Error saving event:", error); }
+        }
+
+        function openEventModal(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (!event) return;
+            document.getElementById('form-modal-title').textContent = event.nome;
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <div class="space-y-4">
+                    <p><strong>Data:</strong> ${new Date(event.data + 'T00:00:00').toLocaleDateString('pt-BR')}</p>
+                    <p><strong>Local:</strong> ${event.local}</p>
+                    <p><strong>Tipo:</strong> <span class="status-tag status-${event.tipo.toLowerCase()}">${event.tipo}</span></p>
+                    ${event.descricao ? `<div><strong>Descrição:</strong><p class="mt-1 p-3 bg-stone-50 rounded-md whitespace-pre-wrap">${event.descricao}</p></div>` : ''}
+                    <div class="border-t pt-4 flex justify-end gap-2">
+                        <button class="secondary-btn" onclick="openEventForm('${event.id}')">Editar</button>
+                        <button class="danger-btn" onclick="deleteItem('events', '${event.id}')">Apagar</button>
+                    </div>
+                </div>`;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        function openBudgetForm(budgetId = null) {
+            const budget = budgetId ? budgets.find(b => b.id === budgetId) : null;
+            document.getElementById('form-modal-title').textContent = budget ? "Editar Orçamento" : "Adicionar Novo Orçamento";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <input type="hidden" id="budget-id" value="${budgetId || ''}">
+                    <div><label class="font-medium text-sm">Título</label><input type="text" id="budget-title" class="form-input" required value="${budget?.titulo || ''}"></div>
+                    <div><label class="font-medium text-sm">Fornecedor</label><input type="text" id="budget-provider" class="form-input" required value="${budget?.fornecedor || ''}"></div>
+                    <div><label class="font-medium text-sm">Valor (R$)</label><input type="number" step="0.01" id="budget-value" class="form-input" required value="${budget?.valor || ''}"></div>
+                    <div><label class="font-medium text-sm">Status</label><select id="budget-status" class="form-input" required><option>Pendente</option><option>Aprovado</option><option>Rejeitado</option></select></div>
+                    <div><label class="font-medium text-sm">Descrição</label><textarea id="budget-description" rows="3" class="form-input">${budget?.descricao || ''}</textarea></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar</button></div>
+                </form>`;
+            if (budget) document.getElementById('budget-status').value = budget.status;
+            document.getElementById('form-modal-body').onsubmit = saveBudget;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        async function saveBudget(event) {
+            event.preventDefault();
+            const budgetId = document.getElementById('budget-id').value;
+            const data = {
+                titulo: document.getElementById('budget-title').value,
+                fornecedor: document.getElementById('budget-provider').value,
+                valor: document.getElementById('budget-value').value,
+                status: document.getElementById('budget-status').value,
+                descricao: document.getElementById('budget-description').value,
+            };
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                if (budgetId) {
+                    await updateDoc(doc(db, `artifacts/${appId}/public/data/budgets`, budgetId), data);
+                } else {
+                    data.createdAt = serverTimestamp();
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/budgets`), data);
+                }
+                closeFormModal();
+            } catch (error) { console.error("Error saving budget:", error); }
+        }
+
+        function openBudgetModal(budgetId) {
+            const budget = budgets.find(b => b.id === budgetId);
+            if (!budget) return;
+            document.getElementById('form-modal-title').textContent = budget.titulo;
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <div class="space-y-4">
+                    <p><strong>Fornecedor:</strong> ${budget.fornecedor}</p>
+                    <p><strong>Valor:</strong> R$ ${parseFloat(budget.valor || 0).toFixed(2)}</p>
+                    <p><strong>Status:</strong> <span class="status-tag status-${budget.status.toLowerCase()}">${budget.status}</span></p>
+                    ${budget.descricao ? `<div><strong>Descrição:</strong><p class="mt-1 p-3 bg-stone-50 rounded-md">${budget.descricao}</p></div>` : ''}
+                    <div class="border-t pt-4 flex justify-end gap-2">
+                        <button class="secondary-btn" onclick="openBudgetForm('${budget.id}')">Editar</button>
+                        <button class="danger-btn" onclick="deleteItem('budgets', '${budget.id}')">Apagar</button>
+                    </div>
+                </div>`;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        async function toggleTaskCompletion(taskId, currentStatus) {
+            if (!db) return;
+            const taskRef = doc(db, `artifacts/${appId}/public/data/tasks`, taskId);
+            try {
+                await updateDoc(taskRef, { completed: !currentStatus });
+            } catch (error) {
+                console.error("Error updating task status:", error);
+            }
+        }
+        function openTaskForm() {
+            document.getElementById('form-modal-title').textContent = "Adicionar Nova Tarefa";
+            const collaboratorOptions = collaborators.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <div><label class="font-medium text-sm">Descrição</label><textarea id="task-description" rows="4" class="form-input" required></textarea></div>
+                    <div><label class="font-medium text-sm">Prazo Final</label><input type="date" id="task-deadline" class="form-input" required></div>
+                    <div><label class="font-medium text-sm">Atribuir para</label><select id="task-assignedTo" class="form-input" multiple required>${collaboratorOptions}</select></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar Tarefa</button></div>
+                </form>`;
+            document.getElementById('form-modal-body').onsubmit = saveTask;
+            document.getElementById('form-modal').classList.add('visible');
+        }
         async function saveTask(event) {
             event.preventDefault();
-            const form = event.target;
-            const description = form.description.value;
-            const deadline = form.deadline.value;
-            const assignedTo = Array.from(form.assignedTo.selectedOptions).map(option => option.value);
-            
-            if (!description || !deadline || assignedTo.length === 0) {
-                alert("Por favor, preencha todos os campos.");
-                return;
-            }
-
+            const data = {
+                description: document.getElementById('task-description').value,
+                deadline: document.getElementById('task-deadline').value,
+                assignedTo: Array.from(document.getElementById('task-assignedTo').selectedOptions).map(o => o.value),
+                assignedBy: currentUserName || 'Admin',
+                createdAt: serverTimestamp(),
+                completed: false
+            };
+            if (!data.description || !data.deadline || data.assignedTo.length === 0) { alert("Preencha todos os campos."); return; }
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
             try {
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'hub-marketing-slap';
-                await addDoc(collection(db, `artifacts/${appId}/public/data/tasks`), {
-                    description,
-                    deadline,
-                    assignedTo,
-                    createdAt: serverTimestamp()
-                });
+                await addDoc(collection(db, `artifacts/${appId}/public/data/tasks`), data);
                 closeFormModal();
-            } catch (error) {
-                console.error("Erro ao adicionar tarefa: ", error);
-            }
-        }
-
-        async function deleteTask(taskId) {
-            if (confirm("Tem certeza que deseja excluir esta tarefa?")) {
-                try {
-                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'hub-marketing-slap';
-                    await deleteDoc(doc(db, `artifacts/${appId}/public/data/tasks`, taskId));
-                } catch (error) {
-                    console.error("Erro ao excluir tarefa: ", error);
-                }
-            }
+            } catch (error) { console.error("Error saving task:", error); }
         }
         
-        async function saveCalendarEvent(event) {
-            event.preventDefault();
-            const form = event.target;
-            const date = form.date.value;
-            const type = form.type.value;
-            const description = form.description.value;
-
-            if (!date || !type || !description) {
-                alert("Por favor, preencha todos os campos.");
-                return;
-            }
-
-            try {
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'hub-marketing-slap';
-                await addDoc(collection(db, `artifacts/${appId}/public/data/calendarEvents`), {
-                    date,
-                    type,
-                    description,
-                    createdAt: serverTimestamp()
-                });
-                closeFormModal();
-            } catch (error) {
-                console.error("Erro ao adicionar evento no calendário: ", error);
-            }
-        }
-
-        async function deleteCalendarEvent(eventId) {
-            event.stopPropagation(); // Impede que o modal de adicionar evento abra
-            if (confirm("Tem certeza que deseja excluir este post?")) {
-                try {
-                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'hub-marketing-slap';
-                    await deleteDoc(doc(db, `artifacts/${appId}/public/data/calendarEvents`, eventId));
-                } catch (error) {
-                    console.error("Erro ao excluir evento do calendário: ", error);
-                }
-            }
-        }
-        
-        // --- FUNÇÕES DE MODAL ---
-        function openTaskForm() {
-            const modalTitle = document.getElementById('form-modal-title');
-            const modalBody = document.getElementById('form-modal-body');
-            
-            modalTitle.textContent = "Adicionar Nova Tarefa";
-            modalBody.innerHTML = `
-                <div>
-                    <label for="description" class="block text-sm font-medium text-stone-700">Descrição</label>
-                    <input type="text" id="description" name="description" class="form-input mt-1" required>
-                </div>
-                <div>
-                    <label for="deadline" class="block text-sm font-medium text-stone-700">Prazo Final</label>
-                    <input type="date" id="deadline" name="deadline" class="form-input mt-1" required>
-                </div>
-                <div>
-                    <label for="assignedTo" class="block text-sm font-medium text-stone-700">Atribuir para (segure Ctrl/Cmd para selecionar vários)</label>
-                    <select id="assignedTo" name="assignedTo" class="form-input mt-1" multiple required>
-                        <option value="Ana">Ana</option>
-                        <option value="Bruno">Bruno</option>
-                        <option value="Carla">Carla</option>
-                        <option value="Daniel">Daniel</option>
-                    </select>
-                </div>
-                <div class="text-right">
-                    <button type="submit" class="primary-btn">Salvar Tarefa</button>
-                </div>
-            `;
-            modalBody.onsubmit = saveTask;
+        function openCollaboratorForm() {
+            document.getElementById('form-modal-title').textContent = "Adicionar Colaborador";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <div><label class="font-medium text-sm">Nome do Colaborador</label><input type="text" id="collaborator-name" class="form-input" required></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar</button></div>
+                </form>`;
+            document.getElementById('form-modal-body').onsubmit = saveCollaborator;
             document.getElementById('form-modal').classList.add('visible');
+        }
+        async function saveCollaborator(event) {
+            event.preventDefault();
+            const name = document.getElementById('collaborator-name').value;
+            if (!name) return;
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                await addDoc(collection(db, `artifacts/${appId}/public/data/collaborators`), { name: name });
+                closeFormModal();
+            } catch (error) { console.error("Error saving collaborator:", error); }
+        }
+
+        function openContactForm(contactId = null) {
+            const contact = contactId ? contacts.find(c => c.id === contactId) : null;
+            document.getElementById('form-modal-title').textContent = contact ? "Editar Contacto" : "Adicionar Novo Contacto";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <input type="hidden" id="contact-id" value="${contactId || ''}">
+                    <div><label class="font-medium text-sm">Nome</label><input type="text" id="contact-name" class="form-input" required value="${contact?.nome || ''}"></div>
+                    <div><label class="font-medium text-sm">Email</label><input type="email" id="contact-email" class="form-input" value="${contact?.email || ''}"></div>
+                    <div><label class="font-medium text-sm">Telefone</label><input type="tel" id="contact-phone" class="form-input" value="${contact?.telefone || ''}"></div>
+                    <div><label class="font-medium text-sm">Status</label><select id="contact-status" class="form-input" required><option>Lead</option><option>Potencial</option><option>Cliente</option></select></div>
+                    <div><label class="font-medium text-sm">Observação</label><textarea id="contact-notes" rows="4" class="form-input">${contact?.observacao || ''}</textarea></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar</button></div>
+                </form>`;
+            if (contact) document.getElementById('contact-status').value = contact.status;
+            document.getElementById('form-modal-body').onsubmit = saveContact;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+        async function saveContact(event) {
+            event.preventDefault();
+            const contactId = document.getElementById('contact-id').value;
+            const data = {
+                nome: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                telefone: document.getElementById('contact-phone').value,
+                status: document.getElementById('contact-status').value,
+                observacao: document.getElementById('contact-notes').value,
+            };
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                if (contactId) {
+                    await updateDoc(doc(db, `artifacts/${appId}/public/data/contacts`, contactId), data);
+                } else {
+                    data.createdAt = serverTimestamp();
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/contacts`), data);
+                }
+                closeFormModal();
+            } catch (error) { console.error("Error saving contact:", error); }
+        }
+        function openContactModal(contactId) {
+            const contact = contacts.find(c => c.id === contactId);
+            if (!contact) return;
+            document.getElementById('form-modal-title').textContent = contact.nome;
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <div class="space-y-4">
+                    <p><strong>Email:</strong> ${contact.email || 'N/A'}</p>
+                    <p><strong>Telefone:</strong> ${contact.telefone || 'N/A'}</p>
+                    <p><strong>Status:</strong> <span class="status-tag status-${contact.status.toLowerCase()}">${contact.status}</span></p>
+                    ${contact.observacao ? `<div><strong>Observação:</strong><p class="mt-1 p-3 bg-stone-50 rounded-md whitespace-pre-wrap">${contact.observacao}</p></div>` : ''}
+                    <div class="border-t pt-4 flex justify-end gap-2">
+                        <button class="secondary-btn" onclick="openContactForm('${contact.id}')">Editar</button>
+                        <button class="danger-btn" onclick="deleteItem('contacts', '${contact.id}')">Apagar</button>
+                    </div>
+                </div>`;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        function openEmpreendimentoForm(empreendimentoId = null) {
+            const p = empreendimentoId ? empreendimentos.find(item => item.id === empreendimentoId) : null;
+            document.getElementById('form-modal-title').textContent = p ? "Editar Empreendimento" : "Adicionar Novo Empreendimento";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <input type="hidden" id="empreendimento-id" value="${empreendimentoId || ''}">
+                    <div><label class="font-medium text-sm">Nome do Empreendimento</label><input type="text" id="empreendimento-name" class="form-input" required value="${p?.nome || ''}"></div>
+                    <div><label class="font-medium text-sm">URL da Foto</label><input type="url" id="empreendimento-photo" class="form-input" value="${p?.fotoUrl || ''}"></div>
+                    <div><label class="font-medium text-sm">Status</label><select id="empreendimento-status" class="form-input" required><option>Lançamento</option><option>Em Obras</option><option>Entregue</option></select></div>
+                    <div><label class="font-medium text-sm">Descrição</label><textarea id="empreendimento-desc" rows="5" class="form-input" required>${p?.descricao || ''}</textarea></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar</button></div>
+                </form>`;
+            if (p) document.getElementById('empreendimento-status').value = p.status;
+            document.getElementById('form-modal-body').onsubmit = saveEmpreendimento;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+        async function saveEmpreendimento(event) {
+            event.preventDefault();
+            const empreendimentoId = document.getElementById('empreendimento-id').value;
+            const data = {
+                nome: document.getElementById('empreendimento-name').value,
+                fotoUrl: document.getElementById('empreendimento-photo').value,
+                status: document.getElementById('empreendimento-status').value,
+                descricao: document.getElementById('empreendimento-desc').value,
+            };
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                if (empreendimentoId) {
+                    await updateDoc(doc(db, `artifacts/${appId}/public/data/empreendimentos`, empreendimentoId), data);
+                } else {
+                    data.createdAt = serverTimestamp();
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/empreendimentos`), data);
+                }
+                closeFormModal();
+            } catch (error) { console.error("Error saving empreendimento:", error); }
+        }
+        function openEmpreendimentoModal(empreendimentoId) {
+            const p = empreendimentos.find(item => item.id === empreendimentoId);
+            if (!p) return;
+            document.getElementById('form-modal-title').textContent = p.nome;
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <div class="space-y-4">
+                    <img src="${p.fotoUrl || 'https://placehold.co/600x400/0D2A4C/FFFFFF?text=Coinbra'}" alt="Foto de ${p.nome}" class="w-full h-64 object-cover rounded-lg">
+                    <p><strong>Status:</strong> <span class="status-tag status-${p.status.toLowerCase().replace(' ', '-')}">${p.status}</span></p>
+                    <div><strong>Descrição:</strong><p class="mt-1 p-3 bg-stone-50 rounded-md whitespace-pre-wrap">${p.descricao}</p></div>
+                    <div class="border-t pt-4 flex justify-end gap-2">
+                        <button class="secondary-btn" onclick="openEmpreendimentoForm('${p.id}')">Editar</button>
+                        <button class="danger-btn" onclick="deleteItem('empreendimentos', '${p.id}')">Apagar</button>
+                    </div>
+                </div>`;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        function openTabelaForm() {
+            const empreendimentoOptions = empreendimentos.map(e => `<option value="${e.id}" data-foto="${e.fotoUrl}">${e.nome}</option>`).join('');
+            document.getElementById('form-modal-title').textContent = "Adicionar Tabela de Vendas";
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <div>
+                        <label class="font-medium text-sm">Empreendimento</label>
+                        <select id="tabela-empreendimento-id" class="form-input" required>
+                            <option value="">Selecione um empreendimento</option>
+                            ${empreendimentoOptions}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="font-medium text-sm">Arquivo da Tabela (PDF, Excel, etc.)</label>
+                        <input type="file" id="tabela-file" class="form-input" required>
+                    </div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar Tabela</button></div>
+                </form>`;
+            document.getElementById('form-modal-body').onsubmit = saveTabela;
+            document.getElementById('form-modal').classList.add('visible');
+        }
+
+        async function saveTabela(event) {
+            event.preventDefault();
+            const select = document.getElementById('tabela-empreendimento-id');
+            const selectedOption = select.options[select.selectedIndex];
+            const empreendimentoId = selectedOption.value;
+            const empreendimentoNome = selectedOption.text;
+            const empreendimentoFotoUrl = selectedOption.dataset.foto;
+            const file = document.getElementById('tabela-file').files[0];
+
+            if (!empreendimentoId || !file) {
+                alert("Por favor, selecione um empreendimento e um arquivo.");
+                return;
+            }
+
+            try {
+                const storageRef = ref(storage, `tabelas/${Date.now()}-${file.name}`);
+                await uploadBytes(storageRef, file);
+                const tabelaUrl = await getDownloadURL(storageRef);
+
+                await addDoc(collection(db, `artifacts/${appId}/public/data/tabelas`), {
+                    empreendimentoId,
+                    empreendimentoNome,
+                    empreendimentoFotoUrl,
+                    tabelaUrl,
+                    fileName: file.name,
+                    createdAt: serverTimestamp()
+                });
+                closeFormModal();
+            } catch (error) {
+                console.error("Erro ao salvar tabela:", error);
+                alert("Falha ao salvar a tabela.");
+            }
         }
 
         function openCalendarEventForm(date) {
-            const modalTitle = document.getElementById('form-modal-title');
-            const modalBody = document.getElementById('form-modal-body');
-            
-            modalTitle.textContent = `Adicionar Post para ${new Date(date + 'T03:00:00Z').toLocaleDateString('pt-BR')}`;
-            modalBody.innerHTML = `
-                <input type="hidden" name="date" value="${date}">
-                <div>
-                    <label for="type" class="block text-sm font-medium text-stone-700">Tipo de Post</label>
-                    <select id="type" name="type" class="form-input mt-1" required>
-                        <option value="stories">Stories</option>
-                        <option value="reels">Reels</option>
-                        <option value="tiktok">TikTok</option>
-                        <option value="youtube">YouTube</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="description" class="block text-sm font-medium text-stone-700">Descrição do Post</label>
-                    <input type="text" id="description" name="description" class="form-input mt-1" required>
-                </div>
-                <div class="text-right">
-                    <button type="submit" class="primary-btn">Salvar Post</button>
-                </div>
-            `;
-            modalBody.onsubmit = saveCalendarEvent;
+            document.getElementById('form-modal-title').textContent = `Adicionar Entrega para ${new Date(date + 'T00:00:00').toLocaleDateString('pt-BR')}`;
+            document.getElementById('form-modal-content-area').innerHTML = `
+                <form id="form-modal-body" class="space-y-4">
+                    <input type="hidden" name="date" value="${date}">
+                    <div><label class="font-medium text-sm">Tipo</label><select name="type" class="form-input" required><option>Documento</option><option>Relatório</option><option>Apresentação</option><option>Outro</option></select></div>
+                    <div><label class="font-medium text-sm">Descrição</label><input type="text" name="description" class="form-input" required></div>
+                    <div class="text-right"><button type="submit" class="primary-btn w-auto">Salvar Entrega</button></div>
+                </form>`;
+            document.getElementById('form-modal-body').onsubmit = saveCalendarEvent;
             document.getElementById('form-modal').classList.add('visible');
         }
-
-
-        function closeFormModal() {
-            document.getElementById('form-modal').classList.remove('visible');
+        async function saveCalendarEvent(event) {
+            event.preventDefault();
+            const form = event.target;
+            const data = {
+                date: form.date.value,
+                type: form.type.value,
+                description: form.description.value,
+                createdAt: serverTimestamp()
+            };
+            if (!db) { console.warn("Offline mode."); closeFormModal(); return; }
+            try {
+                await addDoc(collection(db, `artifacts/${appId}/public/data/calendarEvents`), data);
+                closeFormModal();
+            } catch (error) { console.error("Error saving calendar event:", error); }
+        }
+        function navigateWeek(direction) {
+            currentWeekStartDate.setDate(currentWeekStartDate.getDate() + (7 * direction));
+            renderCalendarioSection();
+        }
+        
+        async function deleteItem(collectionName, itemId) {
+            if (!db) { console.warn("Offline mode."); return; }
+            if (confirm('Tem a certeza que deseja apagar este item?')) {
+                try {
+                    await deleteDoc(doc(db, `artifacts/${appId}/public/data/${collectionName}`, itemId));
+                    closeFormModal();
+                } catch (error) { console.error(`Error deleting item from ${collectionName}:`, error); }
+            }
+        }
+        function getStartOfWeek(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            d.setHours(0, 0, 0, 0);
+            return new Date(d.setDate(diff));
         }
 
-        // --- INICIALIZAÇÃO ---
-        document.addEventListener('DOMContentLoaded', () => {
-            loadMockData(); // Carrega dados locais como fallback
-            initializeFirebase(); // Inicia o Firebase
+        // --- APP INITIALIZATION ---
+        function renderMenu() {
+            const mainNav = document.getElementById('main-navigation');
+            let menuItemsHTML = `
+                <button data-target="inicio" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>Início</button>
+            `;
+
+            if (currentUserRole === 'admin' || currentUserRole === 'comercial') {
+                 menuItemsHTML += `<button data-target="crm" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>CRM</button>`;
+                 menuItemsHTML += `<button data-target="tabelas" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Tabelas</button>`;
+            }
+
+            menuItemsHTML += `
+                <button data-target="empreendimentos" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21h20"/><path d="M7 21V8a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13"/><path d="M11 10h2"/><path d="M11 14h2"/><path d="M11 18h2"/></svg>Empreendimentos</button>
+                <button data-target="campanhas" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Projetos</button>
+                <button data-target="eventos" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3z"/><path d="M12.44 8.917a4 4 0 0 0-4.88 0C4.965 10.685 3 13.982 3 17.5V22h18v-4.5c0-3.518-1.965-6.815-4.56-8.583z"/></svg>Eventos</button>
+                <button data-target="orcamentos" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Orçamentos</button>
+                <button data-target="tarefas" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>Tarefas</button>
+            `;
+
+            if (currentUserRole === 'admin' || currentUserRole === 'marketing') {
+                menuItemsHTML += `<button data-target="calendario" class="nav-item w-full text-left px-4 py-2.5 rounded-lg flex items-center font-semibold"><svg class="mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>Calendário</button>`;
+            }
             
+            mainNav.innerHTML = menuItemsHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
             const pageRenderers = {
                 'inicio': renderInicioSection,
                 'campanhas': renderCampanhasSection,
+                'eventos': renderEventosSection,
+                'orcamentos': renderOrcamentosSection,
                 'tarefas': renderTarefasSection,
                 'calendario': renderCalendarioSection,
-                // ... outras seções ...
+                'crm': renderCRMSection,
+                'empreendimentos': renderEmpreendimentosSection,
+                'tabelas': renderTabelasSection,
             };
-
-            const mainNav = document.getElementById('main-navigation');
-            mainNav.addEventListener('click', (event) => {
+            
+            document.getElementById('main-navigation').addEventListener('click', (event) => {
                 const target = event.target.closest('.nav-item');
                 if (!target) return;
-
-                if (target.classList.contains('dropdown-toggle')) {
-                    const dropdown = target.closest('.nav-dropdown');
-                    const submenu = dropdown.querySelector('.submenu');
-                    const arrow = target.querySelector('.dropdown-arrow');
-                    submenu.classList.toggle('open');
-                    arrow.classList.toggle('rotate-180');
-                    return;
-                }
-
                 const pageKey = target.dataset.target;
                 if (pageKey && pageRenderers[pageKey]) {
                     pageRenderers[pageKey]();
                     setActiveNavItem(target);
                 }
             });
+            
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('logout-button').addEventListener('click', handleLogout);
+            document.getElementById('logout-pending-button').addEventListener('click', handleLogout);
+            document.getElementById('profile-picture-upload').addEventListener('change', handleProfilePictureUpload);
 
-            // Renderização inicial (será com dados de fallback até o Firebase carregar)
-            renderInicioSection();
-            setActiveNavItem(document.querySelector('[data-target="inicio"]'));
+            initializeFirebase();
         });
-
-        // Expor funções ao escopo global para serem chamadas pelo HTML
-        window.openTaskForm = openTaskForm;
-        window.deleteTask = deleteTask;
-        window.openCalendarEventForm = openCalendarEventForm;
-        window.deleteCalendarEvent = deleteCalendarEvent;
+        // Expose functions to global scope
         window.closeFormModal = closeFormModal;
-
+        window.openSignUpModal = openSignUpModal;
+        window.openCampaignForm = openCampaignForm;
+        window.openCampaignModal = openCampaignModal;
+        window.openEventForm = openEventForm;
+        window.openEventModal = openEventModal;
+        window.openBudgetForm = openBudgetForm;
+        window.openBudgetModal = openBudgetModal;
+        window.openTaskForm = openTaskForm;
+        window.toggleTaskCompletion = toggleTaskCompletion;
+        window.openCollaboratorForm = openCollaboratorForm;
+        window.openContactForm = openContactForm;
+        window.openContactModal = openContactModal;
+        window.openEmpreendimentoForm = openEmpreendimentoForm;
+        window.openEmpreendimentoModal = openEmpreendimentoModal;
+        window.openTabelaForm = openTabelaForm;
+        window.openCalendarEventForm = openCalendarEventForm;
+        window.navigateWeek = navigateWeek;
+        window.deleteItem = deleteItem;
     </script>
 </body>
 </html>
