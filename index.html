@@ -10,61 +10,179 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
         .card {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08);
+        }
+        
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .task-card {
-            background: white;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            border: 1px solid rgb(229 231 235);
-            transition: all 0.2s ease;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+            backdrop-filter: blur(20px);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .task-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .task-card:hover::before {
+            transform: scaleX(1);
         }
         
         .task-card:hover {
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
         }
         
         .task-card.completed {
-            background: rgb(249 250 251);
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
             opacity: 0.8;
         }
         
         .post-card {
-            background: white;
-            border-radius: 0.5rem;
-            padding: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 0.875rem;
+            padding: 0.875rem;
             margin: 0.25rem;
-            border: 1px solid rgb(229 231 235);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
         .post-card:hover {
-            box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .calendar-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
         }
         
         .calendar-day {
-            min-height: 120px;
-            border: 1px solid rgb(229 231 235);
-            padding: 0.5rem;
+            min-height: 130px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.2s ease;
         }
         
-        .priority-urgente { background-color: rgb(220 38 38); color: white; }
-        .priority-alta { background-color: rgb(234 88 12); color: white; }
-        .priority-media { background-color: rgb(202 138 4); color: white; }
-        .priority-baixa { background-color: rgb(22 163 74); color: white; }
+        .calendar-day:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
         
-        .post-tag-reel { background-color: rgb(139 69 19); color: white; }
-        .post-tag-stories { background-color: rgb(147 51 234); color: white; }
-        .post-tag-destaque { background-color: rgb(59 130 246); color: white; }
-        .post-tag-offline { background-color: rgb(75 85 99); color: white; }
-        .post-tag-campanha { background-color: rgb(16 185 129); color: white; }
+        .calendar-header {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
         
-        .status-tag { padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 0.75rem; font-weight: 500; }
+        .priority-urgente { 
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+        .priority-alta { 
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+        }
+        .priority-media { 
+            background: linear-gradient(135deg, #eab308, #ca8a04);
+            color: white;
+            box-shadow: 0 4px 10px rgba(234, 179, 8, 0.3);
+        }
+        .priority-baixa { 
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+        }
+        
+        .post-tag-reel { 
+            background: linear-gradient(135deg, #8b5a2b, #a16207);
+            color: white;
+            box-shadow: 0 4px 10px rgba(139, 90, 43, 0.3);
+        }
+        .post-tag-stories { 
+            background: linear-gradient(135deg, #a855f7, #9333ea);
+            color: white;
+            box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3);
+        }
+        .post-tag-destaque { 
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+        .post-tag-offline { 
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+            box-shadow: 0 4px 10px rgba(107, 114, 128, 0.3);
+        }
+        .post-tag-campanha { 
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+        
+        .status-tag { 
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+        }
         
         .modal {
             position: fixed;
@@ -72,36 +190,212 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         }
         
         .modal.hidden {
             display: none;
         }
         
+        .modal .card {
+            animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-tab {
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+        
         .nav-tab.active {
-            border-bottom: 2px solid rgb(234 88 12);
-            color: rgb(234 88 12);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 1rem;
+            padding: 0.875rem 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
         }
         
         .hidden { display: none; }
+        
+        .post-actions {
+            gap: 0.75rem;
+        }
+        
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .action-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+        
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #374151;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        
+        .brand-logo {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 1rem !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: rgba(102, 126, 234, 0.5) !important;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+            outline: none !important;
+        }
+        
+        .stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
     <!-- Login Screen -->
     <div id="loginScreen" class="min-h-screen flex items-center justify-center">
         <div class="card w-full max-w-md mx-4">
-            <div class="text-center space-y-4 p-6">
-                <div class="mx-auto w-32 h-20 bg-orange-600 text-white rounded-lg flex items-center justify-center text-lg font-bold">
+            <div class="text-center space-y-6 p-8">
+                <div class="mx-auto w-36 h-24 brand-logo text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-2xl">
                     NÓBREGA GONDIM
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">Hub de Gestão</h1>
-                    <p class="text-sm text-gray-600 mt-2">NÓBREGA GONDIM</p>
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Hub de Gestão</h1>
+                    <p class="text-sm text-gray-600 font-medium">NÓBREGA GONDIM</p>
                 </div>
             </div>
             
@@ -116,13 +410,13 @@
                         <input id="loginPassword" type="password" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
                     </div>
                     <div id="loginError" class="text-sm text-red-600 hidden"></div>
-                    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-md">
+                    <button type="submit" class="w-full btn-primary">
                         <span id="loginButtonText">Entrar</span>
                     </button>
                 </form>
                 <p class="text-sm text-center text-gray-600 mt-4">
                     Não tem uma conta?
-                    <button id="showSignup" class="font-medium text-orange-600 hover:underline ml-1">Cadastre-se</button>
+                    <button id="showSignup" class="font-semibold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:underline ml-1">Cadastre-se</button>
                 </p>
             </div>
         </div>
@@ -147,10 +441,10 @@
                         </div>
                         <div id="signupError" class="text-sm text-red-600 hidden"></div>
                         <div class="flex space-x-3">
-                            <button type="submit" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-md">
+                            <button type="submit" class="flex-1 btn-primary">
                                 <span id="signupButtonText">Cadastrar</span>
                             </button>
-                            <button type="button" id="cancelSignup" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Cancelar</button>
+                            <button type="button" id="cancelSignup" class="py-2 px-4 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -161,12 +455,12 @@
     <!-- Pending Approval Screen -->
     <div id="pendingScreen" class="hidden min-h-screen flex items-center justify-center bg-gray-50">
         <div class="card w-full max-w-md mx-4">
-            <div class="text-center space-y-4 p-6">
-                <div class="mx-auto w-32 h-20 bg-orange-600 text-white rounded-lg flex items-center justify-center text-lg font-bold">
+            <div class="text-center space-y-6 p-8">
+                <div class="mx-auto w-36 h-24 brand-logo text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-2xl">
                     NÓBREGA GONDIM
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">Aguardando Aprovação</h1>
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent mb-2">Aguardando Aprovação</h1>
                     <p class="text-sm text-gray-600 mt-4 leading-relaxed">
                         Seu cadastro foi realizado com sucesso! <br>
                         Agora você precisa aguardar a aprovação de um administrador para acessar o Hub de Gestão.
@@ -184,7 +478,7 @@
             </div>
             
             <div class="p-6 pt-0">
-                <button id="logoutFromPending" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md">
+                <button id="logoutFromPending" class="w-full bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all transform hover:scale-105">
                     Sair
                 </button>
             </div>
@@ -194,14 +488,14 @@
     <!-- Dashboard -->
     <div id="dashboard" class="hidden min-h-screen">
         <!-- Header -->
-        <header class="bg-white shadow-sm border-b">
+        <header class="glass-header shadow-xl">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-6">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-8 bg-orange-600 text-white rounded flex items-center justify-center text-sm font-bold">NG</div>
+                        <div class="w-14 h-10 brand-logo text-white rounded-xl flex items-center justify-center text-sm font-bold">NG</div>
                         <div>
-                            <h1 class="text-xl font-bold text-gray-900">Hub NÓBREGA GONDIM</h1>
-                            <p class="text-sm text-gray-500" id="userWelcome">Bem-vindo!</p>
+                            <h1 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Hub NÓBREGA GONDIM</h1>
+                            <p class="text-sm text-gray-600 font-medium" id="userWelcome">Bem-vindo!</p>
                         </div>
                     </div>
                     <button id="logoutButton" class="text-gray-500 hover:text-gray-700">
@@ -212,13 +506,13 @@
         </header>
 
         <!-- Navigation -->
-        <div class="bg-white border-b">
+        <div class="glass-header">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav class="flex space-x-8">
-                    <button class="nav-tab active py-4 px-1 border-b-2 font-medium text-sm" data-tab="calendar">
+                <nav class="flex space-x-2">
+                    <button class="nav-tab active py-4 px-6 font-semibold text-sm" data-tab="calendar">
                         <i class="fas fa-calendar-alt mr-2"></i>Calendário de Posts
                     </button>
-                    <button class="nav-tab py-4 px-1 font-medium text-sm text-gray-500" data-tab="tasks">
+                    <button class="nav-tab py-4 px-6 font-semibold text-sm text-gray-600" data-tab="tasks">
                         <i class="fas fa-tasks mr-2"></i>Gestão de Tarefas
                     </button>
                 </nav>
@@ -229,28 +523,28 @@
         <div id="calendarTab" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center space-x-4">
-                    <button id="prevMonth" class="p-2 rounded-md border hover:bg-gray-50">
-                        <i class="fas fa-chevron-left"></i>
+                    <button id="prevMonth" class="p-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all transform hover:scale-105">
+                        <i class="fas fa-chevron-left text-purple-600"></i>
                     </button>
-                    <h2 id="currentMonth" class="text-xl font-bold text-gray-900"></h2>
-                    <button id="nextMonth" class="p-2 rounded-md border hover:bg-gray-50">
-                        <i class="fas fa-chevron-right"></i>
+                    <h2 id="currentMonth" class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"></h2>
+                    <button id="nextMonth" class="p-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all transform hover:scale-105">
+                        <i class="fas fa-chevron-right text-purple-600"></i>
                     </button>
                 </div>
-                <button id="newPostButton" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md">
+                <button id="newPostButton" class="btn-primary">
                     <i class="fas fa-plus mr-2"></i>Nova Postagem
                 </button>
             </div>
 
-            <div class="bg-white rounded-lg shadow">
+            <div class="calendar-container shadow-2xl">
                 <div class="grid grid-cols-7 gap-0">
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Dom</div>
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Seg</div>
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Ter</div>
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Qua</div>
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Qui</div>
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Sex</div>
-                    <div class="p-4 text-center font-medium text-gray-500 border-b">Sáb</div>
+                    <div class="p-4 text-center calendar-header">Dom</div>
+                    <div class="p-4 text-center calendar-header">Seg</div>
+                    <div class="p-4 text-center calendar-header">Ter</div>
+                    <div class="p-4 text-center calendar-header">Qua</div>
+                    <div class="p-4 text-center calendar-header">Qui</div>
+                    <div class="p-4 text-center calendar-header">Sex</div>
+                    <div class="p-4 text-center calendar-header">Sáb</div>
                 </div>
                 <div id="calendarGrid" class="grid grid-cols-7 gap-0"></div>
             </div>
@@ -260,40 +554,49 @@
         <div id="tasksTab" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h3 class="text-2xl font-bold text-gray-800">Gestão de Tarefas</h3>
-                    <div class="flex gap-4 mt-2" id="taskStats">
-                        <span class="text-sm text-gray-600">Total: <span class="font-semibold">0</span></span>
-                        <span class="text-sm text-gray-600">Pendentes: <span class="font-semibold text-orange-600">0</span></span>
-                        <span class="text-sm text-gray-600">Finalizadas: <span class="font-semibold text-green-600">0</span></span>
+                    <h3 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">Gestão de Tarefas</h3>
+                    <div class="flex gap-6 mt-4" id="taskStats">
+                        <div class="stats-card text-center min-w-[100px]">
+                            <div class="text-2xl font-bold text-gray-800">0</div>
+                            <div class="text-sm text-gray-600 font-medium">Total</div>
+                        </div>
+                        <div class="stats-card text-center min-w-[100px]">
+                            <div class="text-2xl font-bold text-orange-500">0</div>
+                            <div class="text-sm text-gray-600 font-medium">Pendentes</div>
+                        </div>
+                        <div class="stats-card text-center min-w-[100px]">
+                            <div class="text-2xl font-bold text-green-500">0</div>
+                            <div class="text-sm text-gray-600 font-medium">Finalizadas</div>
+                        </div>
                     </div>
                 </div>
-                <button id="newTaskButton" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md">
+                <button id="newTaskButton" class="btn-primary">
                     <i class="fas fa-plus mr-2"></i>Nova Tarefa
                 </button>
             </div>
 
             <!-- Task Filters -->
-            <div class="space-y-4 mb-6">
-                <div class="flex gap-4" id="statusFilters">
-                    <button class="filter-btn active bg-orange-600 text-white px-3 py-1 rounded text-sm" data-filter="all">Todas</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-filter="pending">Pendentes</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-filter="completed">Concluídas</button>
+            <div class="space-y-6 mb-8">
+                <div class="flex flex-wrap gap-3" id="statusFilters">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="pending">Pendentes</button>
+                    <button class="filter-btn" data-filter="completed">Concluídas</button>
                 </div>
                 
-                <div class="flex gap-4" id="sectorFilters">
-                    <span class="text-sm font-medium text-gray-700 flex items-center">Setor:</span>
-                    <button class="filter-btn active bg-orange-600 text-white px-3 py-1 rounded text-sm" data-sector="all">Todos</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-sector="marketing">Marketing</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-sector="comercial">Comercial</button>
+                <div class="flex flex-wrap items-center gap-3" id="sectorFilters">
+                    <span class="text-sm font-semibold text-gray-700 bg-white/30 backdrop-blur-sm px-3 py-2 rounded-xl">Setor:</span>
+                    <button class="filter-btn active" data-sector="all">Todos</button>
+                    <button class="filter-btn" data-sector="marketing">Marketing</button>
+                    <button class="filter-btn" data-sector="comercial">Comercial</button>
                 </div>
                 
-                <div class="flex gap-4" id="priorityFilters">
-                    <span class="text-sm font-medium text-gray-700 flex items-center">Prioridade:</span>
-                    <button class="filter-btn active bg-orange-600 text-white px-3 py-1 rounded text-sm" data-priority="all">Todas</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-priority="urgente">🔴 Urgente</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-priority="alta">🟠 Alta</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-priority="media">🟡 Média</button>
-                    <button class="filter-btn border px-3 py-1 rounded text-sm" data-priority="baixa">🟢 Baixa</button>
+                <div class="flex flex-wrap items-center gap-3" id="priorityFilters">
+                    <span class="text-sm font-semibold text-gray-700 bg-white/30 backdrop-blur-sm px-3 py-2 rounded-xl">Prioridade:</span>
+                    <button class="filter-btn active" data-priority="all">Todas</button>
+                    <button class="filter-btn" data-priority="urgente">🔴 Urgente</button>
+                    <button class="filter-btn" data-priority="alta">🟠 Alta</button>
+                    <button class="filter-btn" data-priority="media">🟡 Média</button>
+                    <button class="filter-btn" data-priority="baixa">🟢 Baixa</button>
                 </div>
             </div>
 
@@ -346,8 +649,8 @@
                         <textarea id="postDescription" class="flex min-h-[80px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2"></textarea>
                     </div>
                     <div class="flex space-x-3">
-                        <button type="submit" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-md">Salvar</button>
-                        <button type="button" id="cancelPost" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Cancelar</button>
+                        <button type="submit" class="flex-1 btn-primary">Salvar</button>
+                        <button type="button" id="cancelPost" class="py-2 px-4 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -396,8 +699,8 @@
                         <textarea id="taskDescription" class="flex min-h-[80px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2"></textarea>
                     </div>
                     <div class="flex space-x-3">
-                        <button type="submit" class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded-md">Salvar</button>
-                        <button type="button" id="cancelTask" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Cancelar</button>
+                        <button type="submit" class="flex-1 btn-primary">Salvar</button>
+                        <button type="button" id="cancelTask" class="py-2 px-4 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Cancelar</button>
                     </div>
                 </form>
             </div>
@@ -431,6 +734,8 @@
         let currentDate = new Date();
         let posts = [];
         let tasks = [];
+        let isEditingPost = false;
+        let editingPostId = null;
         let currentFilters = {
             status: 'all',
             sector: 'all',
@@ -634,8 +939,30 @@
 
         // Posts
         document.getElementById('newPostButton').addEventListener('click', () => {
-            document.getElementById('postModal').classList.remove('hidden');
+            openPostModal();
         });
+        
+        function openPostModal(post = null) {
+            isEditingPost = !!post;
+            editingPostId = post ? post.id : null;
+            
+            const modalTitle = document.querySelector('#postModal h2');
+            modalTitle.textContent = isEditingPost ? 'Editar Postagem' : 'Nova Postagem';
+            
+            if (isEditingPost) {
+                // Preencher campos com dados do post
+                document.getElementById('postTitle').value = post.title;
+                document.getElementById('postType').value = post.type;
+                document.getElementById('postSector').value = post.sector;
+                document.getElementById('postDate').value = post.date;
+                document.getElementById('postObjective').value = post.objective || '';
+                document.getElementById('postDescription').value = post.description || '';
+            } else {
+                document.getElementById('postForm').reset();
+            }
+            
+            document.getElementById('postModal').classList.remove('hidden');
+        }
 
         document.getElementById('cancelPost').addEventListener('click', () => {
             document.getElementById('postModal').classList.add('hidden');
@@ -652,15 +979,24 @@
                 date: document.getElementById('postDate').value,
                 objective: document.getElementById('postObjective').value,
                 description: document.getElementById('postDescription').value,
-                createdBy: currentUser.uid,
-                createdByName: currentUser.displayName || currentUser.email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             
             try {
-                await db.collection('posts').add(postData);
+                if (isEditingPost) {
+                    // Atualizar post existente
+                    postData.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('posts').doc(editingPostId).update(postData);
+                } else {
+                    // Criar novo post
+                    postData.createdBy = currentUser.uid;
+                    postData.createdByName = currentUser.displayName || currentUser.email;
+                    postData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                    await db.collection('posts').add(postData);
+                }
+                
                 document.getElementById('postModal').classList.add('hidden');
                 document.getElementById('postForm').reset();
+                document.getElementById('postDetailModal').classList.add('hidden');
                 loadPosts();
             } catch (error) {
                 console.error('Erro ao salvar post:', error);
@@ -681,9 +1017,19 @@
             const content = document.getElementById('postDetailContent');
             content.innerHTML = `
                 <div class="mb-4">
-                    <div class="flex items-center gap-3 mb-2">
-                        <span class="status-tag post-tag-${post.type}">${getPostTypeLabel(post.type)}</span>
-                        <h2 class="text-lg font-semibold">${post.title}</h2>
+                    <div class="flex items-center justify-between gap-3 mb-2">
+                        <div class="flex items-center gap-3">
+                            <span class="status-tag post-tag-${post.type}">${getPostTypeLabel(post.type)}</span>
+                            <h2 class="text-lg font-semibold">${post.title}</h2>
+                        </div>
+                        <div class="flex post-actions">
+                            <button onclick="editPost('${post.id}')" class="action-btn btn-edit" title="Editar postagem">
+                                <i class="fas fa-edit mr-1"></i>Editar
+                            </button>
+                            <button onclick="deletePost('${post.id}')" class="action-btn btn-delete" title="Excluir postagem">
+                                <i class="fas fa-trash mr-1"></i>Excluir
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -710,8 +1056,13 @@
                             <p class="text-gray-600">${post.description}</p>
                         </div>
                     ` : ''}
-                    <div class="flex justify-end pt-4">
-                        <button onclick="document.getElementById('postDetailModal').classList.add('hidden')" class="py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Fechar</button>
+                    ${post.createdByName ? `
+                        <div class="text-sm text-gray-500 border-t pt-2">
+                            Criado por: ${post.createdByName}
+                        </div>
+                    ` : ''}
+                    <div class="flex justify-end pt-6">
+                        <button onclick="document.getElementById('postDetailModal').classList.add('hidden')" class="py-2 px-6 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Fechar</button>
                     </div>
                 </div>
             `;
@@ -727,6 +1078,29 @@
                 campanha: 'Campanha'
             };
             return labels[type] || type;
+        }
+        
+        function editPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                openPostModal(post);
+            }
+        }
+        
+        async function deletePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            const confirmMessage = `Tem certeza que deseja excluir a postagem "${post?.title}"?\n\nEsta ação não pode ser desfeita.`;
+            
+            if (confirm(confirmMessage)) {
+                try {
+                    await db.collection('posts').doc(postId).delete();
+                    document.getElementById('postDetailModal').classList.add('hidden');
+                    loadPosts();
+                } catch (error) {
+                    console.error('Erro ao deletar post:', error);
+                    alert('Erro ao excluir a postagem. Tente novamente.');
+                }
+            }
         }
 
         // Tasks
@@ -879,9 +1253,18 @@
             const completed = filteredTasks.filter(t => t.completed).length;
             
             document.getElementById('taskStats').innerHTML = `
-                <span class="text-sm text-gray-600">Total: <span class="font-semibold">${total}</span></span>
-                <span class="text-sm text-gray-600">Pendentes: <span class="font-semibold text-orange-600">${pending}</span></span>
-                <span class="text-sm text-gray-600">Finalizadas: <span class="font-semibold text-green-600">${completed}</span></span>
+                <div class="stats-card text-center min-w-[100px]">
+                    <div class="text-2xl font-bold text-gray-800">${total}</div>
+                    <div class="text-sm text-gray-600 font-medium">Total</div>
+                </div>
+                <div class="stats-card text-center min-w-[100px]">
+                    <div class="text-2xl font-bold text-orange-500">${pending}</div>
+                    <div class="text-sm text-gray-600 font-medium">Pendentes</div>
+                </div>
+                <div class="stats-card text-center min-w-[100px]">
+                    <div class="text-2xl font-bold text-green-500">${completed}</div>
+                    <div class="text-sm text-gray-600 font-medium">Finalizadas</div>
+                </div>
             `;
         }
 
@@ -894,25 +1277,21 @@
                 if (button.dataset.filter) {
                     currentFilters.status = filterType;
                     document.querySelectorAll('#statusFilters .filter-btn').forEach(b => {
-                        b.classList.remove('active', 'bg-orange-600', 'text-white');
-                        b.classList.add('border');
+                        b.classList.remove('active');
                     });
                 } else if (button.dataset.sector) {
                     currentFilters.sector = filterType;
                     document.querySelectorAll('#sectorFilters .filter-btn').forEach(b => {
-                        b.classList.remove('active', 'bg-orange-600', 'text-white');
-                        b.classList.add('border');
+                        b.classList.remove('active');
                     });
                 } else if (button.dataset.priority) {
                     currentFilters.priority = filterType;
                     document.querySelectorAll('#priorityFilters .filter-btn').forEach(b => {
-                        b.classList.remove('active', 'bg-orange-600', 'text-white');
-                        b.classList.add('border');
+                        b.classList.remove('active');
                     });
                 }
                 
-                button.classList.add('active', 'bg-orange-600', 'text-white');
-                button.classList.remove('border');
+                button.classList.add('active');
                 
                 renderTasks();
                 updateTaskStats();
