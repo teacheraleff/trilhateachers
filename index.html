@@ -158,6 +158,39 @@
         </div>
     </div>
 
+    <!-- Pending Approval Screen -->
+    <div id="pendingScreen" class="hidden min-h-screen flex items-center justify-center bg-gray-50">
+        <div class="card w-full max-w-md mx-4">
+            <div class="text-center space-y-4 p-6">
+                <div class="mx-auto w-32 h-20 bg-orange-600 text-white rounded-lg flex items-center justify-center text-lg font-bold">
+                    NÓBREGA GONDIM
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Aguardando Aprovação</h1>
+                    <p class="text-sm text-gray-600 mt-4 leading-relaxed">
+                        Seu cadastro foi realizado com sucesso! <br>
+                        Agora você precisa aguardar a aprovação de um administrador para acessar o Hub de Gestão.
+                    </p>
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-yellow-600 mr-2"></i>
+                            <span class="text-sm text-yellow-800 font-medium">Status: Pendente de Aprovação</span>
+                        </div>
+                        <p class="text-xs text-yellow-700 mt-2">
+                            Entre em contato com o administrador para acelerar o processo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-6 pt-0">
+                <button id="logoutFromPending" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md">
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Dashboard -->
     <div id="dashboard" class="hidden min-h-screen">
         <!-- Header -->
@@ -379,7 +412,7 @@
     </div>
 
     <script>
-        // Firebase Configuration
+        // Firebase Configuration - SUBSTITUA PELAS SUAS CREDENCIAIS
         const firebaseConfig = {
             apiKey: "AIzaSyC_kGPDwfphWslGn7aPSSs4XLj0D6_5K7E",
             authDomain: "hub-coinbra.firebaseapp.com",
@@ -394,6 +427,7 @@
         const db = firebase.firestore();
 
         let currentUser = null;
+        let currentUserData = null;
         let currentDate = new Date();
         let posts = [];
         let tasks = [];
@@ -404,11 +438,31 @@
         };
 
         // Authentication
-        auth.onAuthStateChanged(user => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
                 currentUser = user;
-                showDashboard();
-                loadUserData();
+                // Verificar status do usuário no Firestore
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    if (userDoc.exists) {
+                        currentUserData = userDoc.data();
+                        const userStatus = currentUserData.status || 'pending';
+                        
+                        if (userStatus === 'approved' || userStatus === 'admin') {
+                            showDashboard();
+                            loadUserData();
+                        } else {
+                            showPendingApproval();
+                        }
+                    } else {
+                        // Usuário não existe no Firestore, criar com status pending
+                        await createUserInFirestore(user);
+                        showPendingApproval();
+                    }
+                } catch (error) {
+                    console.error('Erro ao verificar usuário:', error);
+                    showLogin();
+                }
             } else {
                 showLogin();
             }
@@ -417,15 +471,37 @@
         function showLogin() {
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pendingScreen').classList.add('hidden');
         }
 
         function showDashboard() {
             document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('pendingScreen').classList.add('hidden');
             document.getElementById('dashboard').classList.remove('hidden');
             document.getElementById('userWelcome').textContent = `Bem-vindo, ${currentUser.displayName || currentUser.email}!`;
             renderCalendar();
             loadPosts();
             loadTasks();
+        }
+
+        function showPendingApproval() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pendingScreen').classList.remove('hidden');
+        }
+
+        async function createUserInFirestore(user) {
+            try {
+                await db.collection('users').doc(user.uid).set({
+                    name: user.displayName || user.email.split('@')[0],
+                    email: user.email,
+                    status: 'pending', // Status inicial sempre pendente
+                    role: 'user',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (error) {
+                console.error('Erro ao criar usuário no Firestore:', error);
+            }
         }
 
         // Login/Signup
@@ -455,6 +531,7 @@
                 await db.collection('users').doc(result.user.uid).set({
                     name: name,
                     email: email,
+                    status: 'pending', // Novo usuário sempre pendente
                     role: 'user',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
@@ -467,6 +544,10 @@
         });
 
         document.getElementById('logoutButton').addEventListener('click', () => {
+            auth.signOut();
+        });
+
+        document.getElementById('logoutFromPending').addEventListener('click', () => {
             auth.signOut();
         });
 
