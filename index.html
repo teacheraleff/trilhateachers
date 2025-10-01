@@ -1,1157 +1,710 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub de Gestão - NÓBREGA GONDIM</title>
+    <title>SLAP | Maturity Test Online</title>
+    <!-- Favicon da SLAP -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749543469/SLAP_FAVICON_AMARELO_coilvj.png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        /* Aplicando a fonte padrão e cores do Hub Pedagógico */
+        html, body {
+            height: 100%;
         }
-        
         body {
-            background: #f8f9fa;
-            min-height: 100vh;
-            color: #2c3e50;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+        #app-container {
+            flex: 1 0 auto;
+        }
+        main {
+            flex-shrink: 0;
         }
         
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e9ecef;
+        /* Estilos específicos para Ecrãs de Apresentação Escuros */
+        .dark-splash {
+            background-color: #1c1917; /* stone-900 */
+            color: #f5f5f4; /* stone-100 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; 
+            text-align: center;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            max-width: 42rem;
         }
         
-        .task-card {
-            background: white;
-            border-radius: 6px;
-            padding: 16px;
-            border: 1px solid #dee2e6;
-            transition: box-shadow 0.2s ease;
+        /* Estilos do Botão de Ação */
+        .action-button {
+             background-color: #F1D24B; 
+             color: #44403c; /* stone-800 */
+             border: none; 
+             padding: 0.75rem 1.5rem; 
+             border-radius: 9999px; 
+             font-weight: 700; 
+             cursor: pointer; 
+             transition: background-color 0.2s, transform 0.2s;
+             display: inline-flex;
+             align-items: center;
+             justify-content: center; /* Centraliza o conteúdo (texto/ícones) */
+             gap: 0.5rem;
+             text-decoration: none;
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        
-        .task-card:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        .action-button:hover:not(:disabled) {
+            background-color: #eab308; /* Darker yellow */
+            transform: translateY(-2px);
         }
-        
-        .task-card.completed {
-            background: #f8f9fa;
-            opacity: 0.7;
+        .action-button:disabled {
+            background-color: #a8a29e; /* stone-400 */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
-        
-        .post-card {
-            background: white;
-            border-radius: 4px;
-            padding: 8px;
-            margin: 2px;
-            border: 1px solid #dee2e6;
-            cursor: pointer;
-            font-size: 12px;
-            transition: box-shadow 0.2s ease;
-        }
-        
-        .post-card:hover {
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .calendar-container {
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
+        .progress-bar-background {
+            background-color: #e7e5e4; /* stone-200 */
+            border-radius: 9999px;
+            height: 1rem;
+            width: 100%;
             overflow: hidden;
         }
-        
-        .calendar-day {
-            min-height: 120px;
-            border: 1px solid #e9ecef;
-            padding: 8px;
-            background: white;
+        .progress-bar-foreground {
+            background-color: #F1D24B;
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out;
         }
         
-        .calendar-header {
-            background: #495057;
-            color: white;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            font-size: 0.875rem;
-        }
-        
-        .priority-urgente, .priority-alta, .priority-media, .priority-baixa,
-        .post-tag-reel, .post-tag-stories, .post-tag-destaque, .post-tag-offline, .post-tag-campanha { 
-            background: #6c757d;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 3px;
-        }
-        
-        .status-tag { 
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 500;
-            border: 1px solid #dee2e6;
-            background: #f8f9fa;
-            color: #495057;
-        }
-        
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+        /* Estilos para os botões de pontuação (Maturidade Assessment) */
+        .score-button {
+            padding: 0.5rem 0.75rem; 
+            border-radius: 0.5rem;
+            font-weight: 700;
+            transition: all 0.2s;
+            border: 2px solid transparent;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            min-width: 90px;
+        }
+        .score-button .score-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+
+        .score-button.selected {
+            border-color: #EAB308;
+            color: #1c1917;
+        }
+
+        /* Mapeamento de cores para os 3 critérios: ✅ (3) , ⚠️ (2), ❌ (1) */
+        .score-button.score-3 { background-color: #a7f3d0; color: #065F46; } /* Green (Recomendado) */
+        .score-button.score-2 { background-color: #fde68a; color: #92400E; } /* Yellow (Supervisão) */
+        .score-button.score-1 { background-color: #fca5a5; color: #991B1B; } /* Red (Não Recomendado) */
+
+        .score-button.score-3.selected { border-color: #10b981; }
+        .score-button.score-2.selected { border-color: #eab308; }
+        .score-button.score-1.selected { border-color: #ef4444; }
+
+
+        .score-button:hover:not(.selected) {
+            opacity: 0.8;
+        }
+        /* Estilo para a caixa de critérios */
+        .criteria-box {
+            background-color: #f5f5f4; /* stone-100 */
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e7e5e4;
+        }
+        /* Botão de Parar Teste */
+        .stop-test-button {
+            background-color: #ef4444; /* red-500 */
+            color: white; 
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4); 
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .stop-test-button:hover {
+            background-color: #dc2626; /* red-600 */
+            transform: translateY(-2px);
+        }
+        .stop-test-button:disabled {
+            background-color: #fca5a5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
-        .modal.hidden {
-            display: none;
+        /* Estilo específico para o campo de senha (solicitado pelo usuário) */
+        #password-input.login-input {
+            background-color: #ffffff !important; /* Fundo branco */
+            color: #1c1917 !important; /* Texto escuro */
+            border: 1px solid #a8a29e; /* Borda levemente cinza */
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+        #password-input.login-input::placeholder {
+            color: #78716c; /* Placeholder escuro */
         }
         
-        .nav-tab {
-            padding: 12px 24px;
-            border-radius: 4px 4px 0 0;
-            background: #f8f9fa;
-            color: #6c757d;
-            border: 1px solid #dee2e6;
-            border-bottom: none;
-        }
-        
-        .nav-tab.active {
-            background: white;
-            color: #495057;
-            border-color: #dee2e6;
-        }
-        
-        .btn-primary {
-            background: #495057;
-            border: 1px solid #495057;
-            color: white;
-            font-weight: 500;
-            border-radius: 4px;
-            padding: 10px 20px;
-            transition: background-color 0.2s ease;
-        }
-        
-        .btn-primary:hover {
-            background: #343a40;
-        }
-        
-        .hidden { display: none; }
-        
-        .action-btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-edit {
-            background: #007bff;
-            border-color: #007bff;
-            color: white;
-        }
-        
-        .btn-edit:hover {
-            background: #0056b3;
-            border-color: #0056b3;
-        }
-        
-        .btn-delete {
-            background: #dc3545;
-            border-color: #dc3545;
-            color: white;
-        }
-        
-        .btn-delete:hover {
-            background: #c82333;
-            border-color: #bd2130;
-        }
-        
-        .filter-btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 400;
-            border: 1px solid #dee2e6;
-            background: white;
-            color: #495057;
-            transition: all 0.2s ease;
-        }
-        
-        .filter-btn.active {
-            background: #495057;
-            border-color: #495057;
-            color: white;
-        }
-        
-        .filter-btn:hover {
-            background: #f8f9fa;
-        }
-        
-        .brand-logo {
-            background: #495057;
-        }
-        
-        input, select, textarea {
-            background: white !important;
-            border: 1px solid #ced4da !important;
-            border-radius: 4px !important;
-            padding: 8px 12px !important;
-            font-size: 14px !important;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: #007bff !important;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
-            outline: none !important;
-        }
-        
-        .stats-card {
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            padding: 16px;
+        /* Novo estilo para o ícone de aviso no resultado */
+        .warning-icon {
+            color: #d97706; /* amber-600 */
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+            display: inline-block;
         }
     </style>
 </head>
-<body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="min-h-screen flex items-center justify-center">
-        <div class="card w-full max-w-md mx-4">
-            <div class="text-center space-y-6 p-8">
-                <div class="mx-auto w-36 h-24 brand-logo text-white rounded-lg flex items-center justify-center text-lg font-medium">
-                    NÓBREGA GONDIM
-                </div>
-                <div>
-                    <h1 class="text-2xl font-semibold text-gray-900 mb-2">Hub de Gestão</h1>
-                    <p class="text-sm text-gray-600">NÓBREGA GONDIM</p>
-                </div>
-            </div>
-            
-            <div class="p-6 pt-0">
-                <form id="loginForm" class="space-y-4">
-                    <div>
-                        <label for="loginEmail" class="text-sm font-medium">Email</label>
-                        <input id="loginEmail" type="email" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                    </div>
-                    <div>
-                        <label for="loginPassword" class="text-sm font-medium">Senha</label>
-                        <input id="loginPassword" type="password" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                    </div>
-                    <div id="loginError" class="text-sm text-red-600 hidden"></div>
-                    <button type="submit" class="w-full btn-primary">
-                        <span id="loginButtonText">Entrar</span>
-                    </button>
-                </form>
-                <p class="text-sm text-center text-gray-600 mt-4">
-                    Não tem uma conta?
-                    <button id="showSignup" class="font-medium text-blue-600 hover:underline ml-1">Cadastre-se</button>
-                </p>
-            </div>
-        </div>
+<body class="bg-stone-200 text-stone-800">
+
+    <main id="app-container" class="flex items-center justify-center p-4 sm:p-6 min-h-screen">
+        <div class="w-full max-w-3xl mx-auto">
         
-        <!-- Signup Modal -->
-        <div id="signupModal" class="modal hidden">
-            <div class="card w-full max-w-md mx-4">
-                <div class="p-6">
-                    <h2 class="text-lg font-semibold mb-4">Cadastrar Nova Conta</h2>
-                    <form id="signupForm" class="space-y-4">
-                        <div>
-                            <label for="signupName" class="text-sm font-medium">Nome</label>
-                            <input id="signupName" type="text" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                        </div>
-                        <div>
-                            <label for="signupEmail" class="text-sm font-medium">Email</label>
-                            <input id="signupEmail" type="email" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                        </div>
-                        <div>
-                            <label for="signupPassword" class="text-sm font-medium">Senha</label>
-                            <input id="signupPassword" type="password" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                        </div>
-                        <div id="signupError" class="text-sm text-red-600 hidden"></div>
-                        <div class="flex space-x-3">
-                            <button type="submit" class="flex-1 btn-primary">
-                                <span id="signupButtonText">Cadastrar</span>
-                            </button>
-                            <button type="button" id="cancelSignup" class="py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 font-medium">Cancelar</button>
-                        </div>
-                    </form>
+            <!-- SPLASH SCREEN 1: PASSWORD LOGIN -->
+            <div id="splash-1-view" class="dark-splash mx-auto bg-stone-900 shadow-none">
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749349751/DBB440C2-684E-4DCF-9CD3-B2DDC18F1E53_3_vgocga.jpg" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6 sm:mb-8 rounded-lg">
+                <h1 class="text-4xl sm:text-5xl font-bold text-[#F1D24B] mb-6 sm:mb-8">
+                    Maturity Test Online
+                </h1>
+                <p class="text-lg text-stone-400 mb-4">Acesso Exclusivo para Professores.</p>
+                
+                <div class="w-full max-w-sm">
+                    <!-- Campo de senha com fundo branco -->
+                    <input type="password" id="password-input" 
+                           class="w-full p-3 rounded-lg login-input placeholder-stone-500 border border-stone-700 focus:outline-none focus:ring-2 focus:ring-[#F1D24B] mb-4" 
+                           placeholder="Enter Secret Password" required>
+                    <button class="action-button bg-[#F1D24B] text-stone-900 text-xl px-12 py-4 w-full" onclick="checkPassword()">
+                        Start Test
+                    </button>
+                    <p id="password-error" class="text-red-400 mt-3 hidden">Incorrect Password. Try again.</p>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Pending Approval Screen -->
-    <div id="pendingScreen" class="hidden min-h-screen flex items-center justify-center bg-gray-50">
-        <div class="card w-full max-w-md mx-4">
-            <div class="text-center space-y-6 p-8">
-                <div class="mx-auto w-36 h-24 brand-logo text-white rounded-lg flex items-center justify-center text-lg font-medium">
-                    NÓBREGA GONDIM
-                </div>
-                <div>
-                    <h1 class="text-2xl font-semibold text-gray-900 mb-2">Aguardando Aprovação</h1>
-                    <p class="text-sm text-gray-600 mt-4 leading-relaxed">
-                        Seu cadastro foi realizado com sucesso! <br>
-                        Agora você precisa aguardar a aprovação de um administrador para acessar o Hub de Gestão.
-                    </p>
-                    <div class="mt-6 p-4 bg-gray-50 rounded border border-gray-200">
-                        <div class="flex items-center">
-                            <i class="fas fa-clock text-gray-600 mr-2"></i>
-                            <span class="text-sm text-gray-800 font-medium">Status: Pendente de Aprovação</span>
-                        </div>
-                        <p class="text-xs text-gray-700 mt-2">
-                            Entre em contato com o administrador para acelerar o processo.
-                        </p>
-                    </div>
-                </div>
+            <!-- SPLASH SCREEN 2: CONFIRMATION -->
+            <div id="splash-2-view" class="dark-splash mx-auto bg-stone-900 hidden shadow-none">
+                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294959/SLAP_TIPO_BRANCO_uvynbr.png" alt="SLAP Logo Branco" class="w-32 h-auto mx-auto mb-4 sm:mb-6 opacity-80">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6 sm:mb-8 max-w-lg">
+                    Teacher, a criança está pronta para começar a conversa?
+                </h2>
+                <button class="action-button bg-stone-100 text-stone-900 text-lg px-10 py-3" onclick="startQuiz()">
+                    Iniciar Conversa
+                </button>
+            </div>
+
+            <!-- Quiz View (AVALIAÇÃO DE MATURIDADE) -->
+            <div id="quiz-view" class="hidden">
+                 <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl border border-stone-300 w-full">
+                    <!-- Quiz content will be injected here by JS -->
+                 </div>
             </div>
             
-            <div class="p-6 pt-0">
-                <button id="logoutFromPending" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-6 rounded transition-all">
-                    Sair
-                </button>
-            </div>
-        </div>
-    </div>
+            <!-- Ficha de Avaliação (REMOVIDA) -->
 
-    <!-- Dashboard -->
-    <div id="dashboard" class="hidden min-h-screen">
-        <!-- Header -->
-        <header class="bg-white border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center py-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-8 brand-logo text-white rounded flex items-center justify-center text-xs font-medium">NG</div>
-                        <div>
-                            <h1 class="text-lg font-semibold text-gray-900">Hub NÓBREGA GONDIM</h1>
-                            <p class="text-sm text-gray-600" id="userWelcome">Bem-vindo!</p>
-                        </div>
+
+            <!-- RESULTADO FINAL -->
+            <div id="result-view" class="hidden">
+                <div class="bg-white p-8 rounded-xl shadow-2xl border border-stone-300 text-center">
+                    <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo Preto" class="w-32 h-auto mx-auto mb-6">
+                    <h2 class="text-3xl font-bold mb-4 text-stone-800">Final Result / Recomendação</h2>
+                    <p id="result-time" class="text-xl text-stone-600 mb-4 font-semibold"></p>
+                    
+                    <div class="my-6 p-6 bg-[#F1D24B] rounded-lg">
+                        <p class="text-2xl font-bold text-stone-900 mb-2">Recomendação Final</p>
+                        <p id="result-recommendation" class="text-4xl font-extrabold text-stone-900 mb-2"></p>
                     </div>
-                    <button id="logoutButton" class="text-gray-500 hover:text-gray-700 text-sm">
-                        <i class="fas fa-sign-out-alt mr-1"></i>Sair
-                    </button>
+                    
+                    <p id="result-message" class="text-stone-700 max-w-md mx-auto"></p>
+
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                         <button onclick="restartQuiz()" class="action-button text-lg px-8 py-3 bg-stone-800 text-white hover:bg-stone-900">
+                             New Test
+                         </button>
+                    </div>
+
                 </div>
             </div>
-        </header>
-
-        <!-- Navigation -->
-        <div class="bg-white border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav class="flex">
-                    <button class="nav-tab active py-3 px-4 text-sm font-medium" data-tab="calendar">
-                        <i class="fas fa-calendar-alt mr-2"></i>Calendário de Posts
-                    </button>
-                    <button class="nav-tab py-3 px-4 text-sm font-medium" data-tab="tasks">
-                        <i class="fas fa-tasks mr-2"></i>Gestão de Tarefas
-                    </button>
-                </nav>
-            </div>
         </div>
-
-        <!-- Calendar Tab -->
-        <div id="calendarTab" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex items-center space-x-4">
-                    <button id="prevMonth" class="p-2 border border-gray-300 rounded hover:bg-gray-50">
-                        <i class="fas fa-chevron-left text-gray-600"></i>
-                    </button>
-                    <h2 id="currentMonth" class="text-xl font-semibold text-gray-900"></h2>
-                    <button id="nextMonth" class="p-2 border border-gray-300 rounded hover:bg-gray-50">
-                        <i class="fas fa-chevron-right text-gray-600"></i>
-                    </button>
-                </div>
-                <button id="newPostButton" class="btn-primary">
-                    <i class="fas fa-plus mr-2"></i>Nova Postagem
-                </button>
-            </div>
-
-            <div class="calendar-container">
-                <div class="grid grid-cols-7 gap-0">
-                    <div class="p-4 text-center calendar-header">Dom</div>
-                    <div class="p-4 text-center calendar-header">Seg</div>
-                    <div class="p-4 text-center calendar-header">Ter</div>
-                    <div class="p-4 text-center calendar-header">Qua</div>
-                    <div class="p-4 text-center calendar-header">Qui</div>
-                    <div class="p-4 text-center calendar-header">Sex</div>
-                    <div class="p-4 text-center calendar-header">Sáb</div>
-                </div>
-                <div id="calendarGrid" class="grid grid-cols-7 gap-0"></div>
-            </div>
-        </div>
-
-        <!-- Tasks Tab -->
-        <div id="tasksTab" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Gestão de Tarefas</h3>
-                    <div class="flex gap-4 mt-4" id="taskStats">
-                        <div class="stats-card text-center min-w-[80px]">
-                            <div class="text-lg font-semibold text-gray-800">0</div>
-                            <div class="text-xs text-gray-600">Total</div>
-                        </div>
-                        <div class="stats-card text-center min-w-[80px]">
-                            <div class="text-lg font-semibold text-gray-600">0</div>
-                            <div class="text-xs text-gray-600">Pendentes</div>
-                        </div>
-                        <div class="stats-card text-center min-w-[80px]">
-                            <div class="text-lg font-semibold text-gray-600">0</div>
-                            <div class="text-xs text-gray-600">Finalizadas</div>
-                        </div>
-                    </div>
-                </div>
-                <button id="newTaskButton" class="btn-primary">
-                    <i class="fas fa-plus mr-2"></i>Nova Tarefa
-                </button>
-            </div>
-
-            <!-- Task Filters -->
-            <div class="space-y-4 mb-6">
-                <div class="flex flex-wrap gap-2" id="statusFilters">
-                    <button class="filter-btn active" data-filter="all">Todas</button>
-                    <button class="filter-btn" data-filter="pending">Pendentes</button>
-                    <button class="filter-btn" data-filter="completed">Concluídas</button>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-2" id="sectorFilters">
-                    <span class="text-sm font-medium text-gray-700 mr-2">Setor:</span>
-                    <button class="filter-btn active" data-sector="all">Todos</button>
-                    <button class="filter-btn" data-sector="marketing">Marketing</button>
-                    <button class="filter-btn" data-sector="comercial">Comercial</button>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-2" id="priorityFilters">
-                    <span class="text-sm font-medium text-gray-700 mr-2">Prioridade:</span>
-                    <button class="filter-btn active" data-priority="all">Todas</button>
-                    <button class="filter-btn" data-priority="urgente">Urgente</button>
-                    <button class="filter-btn" data-priority="alta">Alta</button>
-                    <button class="filter-btn" data-priority="media">Média</button>
-                    <button class="filter-btn" data-priority="baixa">Baixa</button>
-                </div>
-            </div>
-
-            <!-- Tasks List -->
-            <div id="tasksList" class="space-y-4"></div>
-        </div>
-    </div>
-
-    <!-- Post Modal -->
-    <div id="postModal" class="modal hidden">
-        <div class="card w-full max-w-md mx-4">
-            <div class="p-6">
-                <h2 class="text-lg font-semibold mb-4">Nova Postagem</h2>
-                <form id="postForm" class="space-y-4">
-                    <div>
-                        <label class="text-sm font-medium">Título</label>
-                        <input id="postTitle" type="text" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-sm font-medium">Tipo de Postagem</label>
-                            <select id="postType" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2">
-                                <option value="">Selecione...</option>
-                                <option value="reel">Reel</option>
-                                <option value="stories">Stories</option>
-                                <option value="destaque">Destaque</option>
-                                <option value="offline">Offline</option>
-                                <option value="campanha">Campanha</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Setor</label>
-                            <select id="postSector" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2">
-                                <option value="">Selecione...</option>
-                                <option value="marketing">Marketing</option>
-                                <option value="comercial">Comercial</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Data da Postagem</label>
-                        <input id="postDate" type="date" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Objetivo</label>
-                        <textarea id="postObjective" class="flex min-h-[80px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2"></textarea>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Descrição</label>
-                        <textarea id="postDescription" class="flex min-h-[80px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2"></textarea>
-                    </div>
-                    <div class="flex space-x-3">
-                        <button type="submit" class="flex-1 btn-primary">Salvar</button>
-                        <button type="button" id="cancelPost" class="py-2 px-4 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Task Modal -->
-    <div id="taskModal" class="modal hidden">
-        <div class="card w-full max-w-md mx-4">
-            <div class="p-6">
-                <h2 class="text-lg font-semibold mb-4">Nova Tarefa</h2>
-                <form id="taskForm" class="space-y-4">
-                    <div>
-                        <label class="text-sm font-medium">Título da Tarefa</label>
-                        <input id="taskTitle" type="text" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="text-sm font-medium">Setor</label>
-                            <select id="taskSector" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2">
-                                <option value="">Selecione...</option>
-                                <option value="marketing">Marketing</option>
-                                <option value="comercial">Comercial</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-sm font-medium">Prioridade</label>
-                            <select id="taskPriority" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2">
-                                <option value="media">🟡 Média</option>
-                                <option value="urgente">🔴 Urgente</option>
-                                <option value="alta">🟠 Alta</option>
-                                <option value="baixa">🟢 Baixa</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Responsável</label>
-                        <input id="taskAssignee" type="text" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" placeholder="Nome do responsável" />
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Prazo</label>
-                        <input id="taskDeadline" type="date" required class="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2" />
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium">Descrição da Tarefa</label>
-                        <textarea id="taskDescription" class="flex min-h-[80px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm mt-2"></textarea>
-                    </div>
-                    <div class="flex space-x-3">
-                        <button type="submit" class="flex-1 btn-primary">Salvar</button>
-                        <button type="button" id="cancelTask" class="py-2 px-4 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Post Detail Modal -->
-    <div id="postDetailModal" class="modal hidden">
-        <div class="card w-full max-w-lg mx-4">
-            <div class="p-6" id="postDetailContent"></div>
-        </div>
-    </div>
-
+    </main>
+    
     <script>
-        // Firebase Configuration - SUBSTITUA PELAS SUAS CREDENCIAIS
-        const firebaseConfig = {
-            apiKey: "AIzaSyC_kGPDwfphWslGn7aPSSs4XLj0D6_5K7E",
-            authDomain: "hub-coinbra.firebaseapp.com",
-            projectId: "hub-coinbra",
-            storageBucket: "hub-coinbra.firebasestorage.app",
-            messagingSenderId: "89043424615",
-            appId: "1:89043424615:web:7fb619d96b6d234ab60bc2"
-        };
+        // --- CONSTANTES AND DOM ELEMENTS ---
+        const CORRECT_PASSWORD = 'Slapkids1*';
+        const splash1View = document.getElementById('splash-1-view');
+        const splash2View = document.getElementById('splash-2-view');
+        const quizView = document.getElementById('quiz-view');
+        const resultView = document.getElementById('result-view');
+        
+        let totalScore = 0; // Total score for the conversation (1 to 3)
+        let currentQuestionIndex = 0;
+        let studentScores = []; // Stores score for each question
+        let timerInterval = null; 
+        let startTime = 0; 
+        let totalTimeElapsed = 0; 
+        
+        // Key for the conversational score
+        const overallScoreKey = 'overallScore'; 
+        
+        // --- QUIZ DATA (MATURITY PROMPTS AND CRITERIA) ---
+        
+        // Score mapping for Conversational Steps: 3 (Excellent) -> 1 (Poor)
+        const scoreValues = [
+            { 
+                value: 1, 
+                label: 'Não Interagiu/Foco', 
+                icon: '<svg class="score-icon text-red-700" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>', 
+                desc: '1 pt - Não demonstrou maturidade/autonomia ou teve foco muito baixo.' 
+            }, 
+            { 
+                value: 2, 
+                label: 'Supervisão', 
+                icon: '<svg class="score-icon text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>',
+                desc: '2 pts - Interagiu, mas demonstra dependência ou dispersão. Supervisão inicial necessária.' 
+            },
+            { 
+                value: 3, 
+                label: 'Recomendado', 
+                icon: '<svg class="score-icon text-green-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+                desc: '3 pts - Interagiu bem, mostrou foco e autonomia. Recomendado para aulas online.'
+            }  
+        ];
+        
+        // Novo conjunto de prompts mais detalhado e com inglês
+        const maturityPrompts = [
+            // 1. Quebra-gelo & Comunicação Básica (PT/EN)
+            { step: 'Quebra-gelo (PT)', prompt: "Oi! Tudo bem? Qual o seu nome?" },
+            { step: 'Basic English', prompt: "Hello! What's your name? (Observar reação ao inglês)" },
+            { step: 'Personal Info (PT)', prompt: "Quantos anos você tem? Você estuda em qual série?" },
+            
+            // 2. Foco e Seguimento de Instruções (Atenção)
+            { step: 'Attention & Focus 1 (PT)', prompt: "Pega aí um objeto **AMARELO** e me mostra! (Observar tempo de reação e se precisa de repetição)" },
+            { step: 'Attention & Focus 2 (PT)', prompt: "Agora, faz uma **carinha feliz**! Bate palmas duas vezes!" },
+            { step: 'Basic English (Color)', prompt: "Show me something **BLUE**! (Observar se entende a cor e a instrução)" },
+            
+            // 3. Autonomia Tecnológica
+            { step: 'Tech Autonomy (Hardware)', prompt: "Quem liga o computador/tablet pra você? Você conseguiria ligar o microfone e a câmera sozinho?" },
+            { step: 'Tech Autonomy (Software)', prompt: "Se eu te mandar um link para abrir um joguinho, você consegue **clicar e navegar sozinho(a)**?" },
+            { step: 'Family Support', prompt: "Você vai ter alguém por perto durante a aula? Se sim, quem será essa pessoa?" },
+            
+            // 4. Comportamento e Emoção
+            { step: 'Behavior (Rules)', prompt: "Se o professor pedir pra **esperar um pouquinho** ou pedir silêncio, você consegue esperar a sua vez?" },
+            { step: 'Behavior (Frustration)', prompt: "O que você faz quando **não entende alguma coisa** na aula? Você sabe pedir ajuda?" },
+            { step: 'Opinion on Classes', prompt: "Você acha legal a ideia de estudar pelo computador com **outros amigos**?" }
+        ];
 
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        // O total de perguntas agora é 12. O cálculo da média se ajustará automaticamente.
 
-        let currentUser = null;
-        let currentUserData = null;
-        let currentDate = new Date();
-        let posts = [];
-        let tasks = [];
-        let isEditingPost = false;
-        let editingPostId = null;
-        let currentFilters = {
-            status: 'all',
-            sector: 'all',
-            priority: 'all'
-        };
 
-        // Authentication
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                currentUser = user;
-                // Verificar status do usuário no Firestore
-                try {
-                    const userDoc = await db.collection('users').doc(user.uid).get();
-                    if (userDoc.exists) {
-                        currentUserData = userDoc.data();
-                        const userStatus = currentUserData.status || 'pending';
-                        
-                        if (userStatus === 'approved' || userStatus === 'admin') {
-                            showDashboard();
-                            loadUserData();
-                        } else {
-                            showPendingApproval();
-                        }
-                    } else {
-                        // Usuário não existe no Firestore, criar com status pending
-                        await createUserInFirestore(user);
-                        showPendingApproval();
-                    }
-                } catch (error) {
-                    console.error('Erro ao verificar usuário:', error);
-                    showLogin();
-                }
+        // --- TIMER FUNCTIONS ---
+        
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            startTime = Date.now();
+            totalTimeElapsed = 0; 
+            timerInterval = setInterval(updateTimerDisplay, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                totalTimeElapsed = Date.now() - startTime; 
+            }
+        }
+
+        function formatTime(ms) {
+            const seconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            
+            const pad = (num) => num.toString().padStart(2, '0');
+            return `${pad(minutes)}:${pad(remainingSeconds)}`;
+        }
+
+        function updateTimerDisplay() {
+            const msElapsed = Date.now() - startTime;
+            const timerElement = document.getElementById('timer-display');
+            if (timerElement) {
+                timerElement.textContent = formatTime(msElapsed);
+            }
+        }
+
+        // --- NAVIGATION AND AUTHENTICATION FUNCTIONS ---
+
+        function hideAllViews() {
+            splash1View.classList.add('hidden');
+            splash2View.classList.add('hidden');
+            quizView.classList.add('hidden');
+            resultView.classList.add('hidden');
+        }
+
+        function startSplash1() {
+            hideAllViews();
+            splash1View.classList.remove('hidden');
+        }
+        
+        window.checkPassword = function() {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('password-error');
+
+            if (input.value === CORRECT_PASSWORD) {
+                errorMsg.classList.add('hidden');
+                goToSplash2();
             } else {
-                showLogin();
-            }
-        });
-
-        function showLogin() {
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('pendingScreen').classList.add('hidden');
-        }
-
-        function showDashboard() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('pendingScreen').classList.add('hidden');
-            document.getElementById('dashboard').classList.remove('hidden');
-            document.getElementById('userWelcome').textContent = `Bem-vindo, ${currentUser.displayName || currentUser.email}!`;
-            renderCalendar();
-            loadPosts();
-            loadTasks();
-        }
-
-        function showPendingApproval() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('dashboard').classList.add('hidden');
-            document.getElementById('pendingScreen').classList.remove('hidden');
-        }
-
-        async function createUserInFirestore(user) {
-            try {
-                await db.collection('users').doc(user.uid).set({
-                    name: user.displayName || user.email.split('@')[0],
-                    email: user.email,
-                    status: 'pending', // Status inicial sempre pendente
-                    role: 'user',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            } catch (error) {
-                console.error('Erro ao criar usuário no Firestore:', error);
+                errorMsg.classList.remove('hidden');
+                input.value = ''; 
+                input.focus();
             }
         }
 
-        // Login/Signup
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-            } catch (error) {
-                document.getElementById('loginError').textContent = error.message;
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        });
-
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            
-            try {
-                const result = await auth.createUserWithEmailAndPassword(email, password);
-                await result.user.updateProfile({ displayName: name });
-                
-                await db.collection('users').doc(result.user.uid).set({
-                    name: name,
-                    email: email,
-                    status: 'pending', // Novo usuário sempre pendente
-                    role: 'user',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                document.getElementById('signupModal').classList.add('hidden');
-            } catch (error) {
-                document.getElementById('signupError').textContent = error.message;
-                document.getElementById('signupError').classList.remove('hidden');
-            }
-        });
-
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            auth.signOut();
-        });
-
-        document.getElementById('logoutFromPending').addEventListener('click', () => {
-            auth.signOut();
-        });
-
-        // Modal controls
-        document.getElementById('showSignup').addEventListener('click', () => {
-            document.getElementById('signupModal').classList.remove('hidden');
-        });
-
-        document.getElementById('cancelSignup').addEventListener('click', () => {
-            document.getElementById('signupModal').classList.add('hidden');
-        });
-
-        // Tab Navigation
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                const tabName = e.target.dataset.tab;
-                
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                document.getElementById('calendarTab').classList.toggle('hidden', tabName !== 'calendar');
-                document.getElementById('tasksTab').classList.toggle('hidden', tabName !== 'tasks');
-            });
-        });
-
-        // Calendar
-        function renderCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            const monthName = currentDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-            document.getElementById('currentMonth').textContent = monthName.charAt(0).toUpperCase() + monthName.slice(1);
-            
-            grid.innerHTML = '';
-            
-            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            const startingDayOfWeek = firstDay.getDay();
-            
-            // Previous month's trailing days
-            for (let i = 0; i < startingDayOfWeek; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'calendar-day bg-gray-50';
-                grid.appendChild(cell);
-            }
-            
-            // Current month's days
-            for (let day = 1; day <= daysInMonth; day++) {
-                const cell = document.createElement('div');
-                cell.className = 'calendar-day';
-                cell.innerHTML = `<div class="font-medium text-gray-900 mb-2">${day}</div><div class="space-y-1" id="posts-${day}"></div>`;
-                grid.appendChild(cell);
-            }
-            
-            renderPostsInCalendar();
-        }
-
-        function renderPostsInCalendar() {
-            posts.forEach(post => {
-                const postDate = new Date(post.date + 'T00:00:00');
-                if (postDate.getMonth() === currentDate.getMonth() && postDate.getFullYear() === currentDate.getFullYear()) {
-                    const day = postDate.getDate();
-                    const container = document.getElementById(`posts-${day}`);
-                    if (container) {
-                        const postEl = document.createElement('div');
-                        postEl.className = `post-card text-xs post-tag-${post.type}`;
-                        postEl.textContent = post.title;
-                        postEl.addEventListener('click', () => showPostDetail(post));
-                        container.appendChild(postEl);
-                    }
-                }
-            });
-        }
-
-        // Calendar Navigation
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        });
-
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        });
-
-        // Posts
-        document.getElementById('newPostButton').addEventListener('click', () => {
-            openPostModal();
-        });
-        
-        function openPostModal(post = null) {
-            isEditingPost = !!post;
-            editingPostId = post ? post.id : null;
-            
-            const modalTitle = document.querySelector('#postModal h2');
-            modalTitle.textContent = isEditingPost ? 'Editar Postagem' : 'Nova Postagem';
-            
-            if (isEditingPost) {
-                // Preencher campos com dados do post
-                document.getElementById('postTitle').value = post.title;
-                document.getElementById('postType').value = post.type;
-                document.getElementById('postSector').value = post.sector;
-                document.getElementById('postDate').value = post.date;
-                document.getElementById('postObjective').value = post.objective || '';
-                document.getElementById('postDescription').value = post.description || '';
-            } else {
-                document.getElementById('postForm').reset();
-            }
-            
-            document.getElementById('postModal').classList.remove('hidden');
-        }
-
-        document.getElementById('cancelPost').addEventListener('click', () => {
-            document.getElementById('postModal').classList.add('hidden');
-            document.getElementById('postForm').reset();
-        });
-
-        document.getElementById('postForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const postData = {
-                title: document.getElementById('postTitle').value,
-                type: document.getElementById('postType').value,
-                sector: document.getElementById('postSector').value,
-                date: document.getElementById('postDate').value,
-                objective: document.getElementById('postObjective').value,
-                description: document.getElementById('postDescription').value,
-            };
-            
-            try {
-                if (isEditingPost) {
-                    // Atualizar post existente
-                    postData.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
-                    await db.collection('posts').doc(editingPostId).update(postData);
-                } else {
-                    // Criar novo post
-                    postData.createdBy = currentUser.uid;
-                    postData.createdByName = currentUser.displayName || currentUser.email;
-                    postData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                    await db.collection('posts').add(postData);
-                }
-                
-                document.getElementById('postModal').classList.add('hidden');
-                document.getElementById('postForm').reset();
-                document.getElementById('postDetailModal').classList.add('hidden');
-                loadPosts();
-            } catch (error) {
-                console.error('Erro ao salvar post:', error);
-            }
-        });
-
-        async function loadPosts() {
-            try {
-                const snapshot = await db.collection('posts').orderBy('date', 'desc').get();
-                posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderCalendar();
-            } catch (error) {
-                console.error('Erro ao carregar posts:', error);
-            }
-        }
-
-        function showPostDetail(post) {
-            const content = document.getElementById('postDetailContent');
-            content.innerHTML = `
-                <div class="mb-4">
-                    <div class="flex items-center justify-between gap-3 mb-2">
-                        <div class="flex items-center gap-3">
-                            <span class="status-tag post-tag-${post.type}">${getPostTypeLabel(post.type)}</span>
-                            <h2 class="text-lg font-semibold">${post.title}</h2>
-                        </div>
-                        <div class="flex post-actions">
-                            <button onclick="editPost('${post.id}')" class="action-btn btn-edit" title="Editar postagem">
-                                <i class="fas fa-edit mr-1"></i>Editar
-                            </button>
-                            <button onclick="deletePost('${post.id}')" class="action-btn btn-delete" title="Excluir postagem">
-                                <i class="fas fa-trash mr-1"></i>Excluir
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Setor</h4>
-                            <p class="text-gray-600 capitalize">${post.sector}</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Data da Postagem</h4>
-                            <p class="text-gray-600">${new Date(post.date + 'T00:00:00').toLocaleDateString('pt-BR')}</p>
-                        </div>
-                    </div>
-                    ${post.objective ? `
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Objetivo</h4>
-                            <p class="text-gray-600">${post.objective}</p>
-                        </div>
-                    ` : ''}
-                    ${post.description ? `
-                        <div>
-                            <h4 class="font-semibold text-gray-800 mb-2">Descrição</h4>
-                            <p class="text-gray-600">${post.description}</p>
-                        </div>
-                    ` : ''}
-                    ${post.createdByName ? `
-                        <div class="text-sm text-gray-500 border-t pt-2">
-                            Criado por: ${post.createdByName}
-                        </div>
-                    ` : ''}
-                    <div class="flex justify-end pt-6">
-                        <button onclick="document.getElementById('postDetailModal').classList.add('hidden')" class="py-2 px-6 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 font-medium transition-all">Fechar</button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('postDetailModal').classList.remove('hidden');
-        }
-
-        function getPostTypeLabel(type) {
-            const labels = {
-                reel: 'Reel',
-                stories: 'Stories',
-                destaque: 'Destaque',
-                offline: 'Offline',
-                campanha: 'Campanha'
-            };
-            return labels[type] || type;
+        window.goToSplash2 = function() {
+            hideAllViews();
+            splash2View.classList.remove('hidden');
         }
         
-        function editPost(postId) {
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                openPostModal(post);
-            }
+        window.goToResultView = function() {
+            hideAllViews();
+            resultView.classList.remove('hidden');
         }
         
-        async function deletePost(postId) {
-            const post = posts.find(p => p.id === postId);
-            const confirmMessage = `Tem certeza que deseja excluir a postagem "${post?.title}"?\n\nEsta ação não pode ser desfeita.`;
+        // --- QUIZ FUNCTIONS (Conversa) ---
+
+        function startQuiz() {
+            hideAllViews();
+            quizView.classList.remove('hidden');
             
-            if (confirm(confirmMessage)) {
-                try {
-                    await db.collection('posts').doc(postId).delete();
-                    document.getElementById('postDetailModal').classList.add('hidden');
-                    loadPosts();
-                } catch (error) {
-                    console.error('Erro ao deletar post:', error);
-                    alert('Erro ao excluir a postagem. Tente novamente.');
-                }
-            }
+            currentQuestionIndex = 0;
+            totalScore = 0;
+            // Initialize score data
+            studentScores = maturityPrompts.map(q => ({
+                ...q,
+                scores: { [overallScoreKey]: null }
+            }));
+            
+            startTimer(); 
+
+            displayQuestion();
         }
 
-        // Tasks
-        document.getElementById('newTaskButton').addEventListener('click', () => {
-            document.getElementById('taskModal').classList.remove('hidden');
-        });
-
-        document.getElementById('cancelTask').addEventListener('click', () => {
-            document.getElementById('taskModal').classList.add('hidden');
-            document.getElementById('taskForm').reset();
-        });
-
-        document.getElementById('taskForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        function displayQuestion() {
+            const quizContainer = quizView.querySelector('.bg-white');
+            const totalQuestions = studentScores.length;
             
-            const taskData = {
-                title: document.getElementById('taskTitle').value,
-                sector: document.getElementById('taskSector').value,
-                priority: document.getElementById('taskPriority').value,
-                assigneeName: document.getElementById('taskAssignee').value,
-                deadline: document.getElementById('taskDeadline').value,
-                description: document.getElementById('taskDescription').value,
-                completed: false,
-                status: 'planejada',
-                createdBy: currentUser.uid,
-                createdByName: currentUser.displayName || currentUser.email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            
-            try {
-                await db.collection('tasks').add(taskData);
-                document.getElementById('taskModal').classList.add('hidden');
-                document.getElementById('taskForm').reset();
-                loadTasks();
-            } catch (error) {
-                console.error('Erro ao salvar tarefa:', error);
-            }
-        });
-
-        async function loadTasks() {
-            try {
-                const snapshot = await db.collection('tasks').orderBy('createdAt', 'desc').get();
-                tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderTasks();
-                updateTaskStats();
-            } catch (error) {
-                console.error('Erro ao carregar tarefas:', error);
-            }
-        }
-
-        function renderTasks() {
-            const container = document.getElementById('tasksList');
-            const filteredTasks = tasks.filter(task => {
-                const statusMatch = currentFilters.status === 'all' || 
-                    (currentFilters.status === 'pending' && !task.completed) ||
-                    (currentFilters.status === 'completed' && task.completed);
-                const sectorMatch = currentFilters.sector === 'all' || task.sector === currentFilters.sector;
-                const priorityMatch = currentFilters.priority === 'all' || task.priority === currentFilters.priority;
-                
-                return statusMatch && sectorMatch && priorityMatch;
-            });
-            
-            if (filteredTasks.length === 0) {
-                container.innerHTML = '<div class="text-center py-10 text-gray-500">Nenhuma tarefa encontrada.</div>';
+            if (currentQuestionIndex >= totalQuestions) {
+                showResult();
                 return;
             }
+
+            const questionData = studentScores[currentQuestionIndex];
+            // O progresso deve ser baseado no índice atual + 1
+            const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
             
-            container.innerHTML = filteredTasks.map(task => `
-                <div class="task-card ${task.completed ? 'completed' : ''}">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-start space-x-3 flex-1">
-                            <div class="flex flex-col items-center gap-2">
-                                <input type="checkbox" ${task.completed ? 'checked' : ''} 
-                                    onchange="toggleTaskComplete('${task.id}', this.checked)"
-                                    class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
-                                ${task.completed ? '<span class="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded-full">Finalizada</span>' : ''}
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-gray-800">${task.title}</h4>
-                                ${task.description ? `<p class="text-gray-600 mt-1">${task.description}</p>` : ''}
-                                <div class="flex items-center mt-2 space-x-4 flex-wrap gap-2">
-                                    <span class="status-tag priority-${task.priority}">${getPriorityLabel(task.priority)}</span>
-                                    <span class="text-sm text-orange-600 font-medium bg-orange-50 px-2 py-1 rounded-full">${task.sector}</span>
-                                    <span class="text-sm text-gray-500">Responsável: ${task.assigneeName}</span>
-                                    ${task.createdByName ? `<span class="text-sm text-gray-400">Criado por: ${task.createdByName}</span>` : ''}
-                                    <span class="text-sm font-medium ${isOverdue(task.deadline) && !task.completed ? 'text-red-600' : 'text-gray-600'}">
-                                        Prazo: ${new Date(task.deadline + 'T00:00:00').toLocaleDateString('pt-BR')}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <button onclick="deleteTask('${task.id}')" class="text-gray-400 hover:text-red-500 p-2">
-                            <i class="fas fa-trash"></i>
-                        </button>
+            const quizLogoUrl = "https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png"; 
+            
+            const currentScore = questionData.scores[overallScoreKey];
+            
+            // Render score buttons (1, 2, 3)
+            const scoreButtons = scoreValues.map(score => {
+                const isSelected = currentScore === score.value;
+                // Classes score-1, score-2, score-3
+                const buttonClasses = `score-button score-${score.value} ${isSelected ? 'selected' : ''}`; 
+                return `<button class="${buttonClasses}" onclick="setOverallScore(${score.value}, this)">
+                            ${score.icon}
+                            <span class="text-xs font-medium">${score.label}</span>
+                        </button>`;
+            }).join('');
+
+            const criteriaHtml = `
+                <div class="mb-4">
+                    <p class="font-bold text-stone-700 mb-2">Score for this Step</p>
+                    <div id="overall-criteria" class="flex flex-wrap gap-2 justify-center sm:justify-start">
+                        ${scoreButtons}
                     </div>
                 </div>
-            `).join('');
-        }
-
-        function getPriorityLabel(priority) {
-            const labels = {
-                urgente: '🔴 Urgente',
-                alta: '🟠 Alta',
-                media: '🟡 Média',
-                baixa: '🟢 Baixa'
-            };
-            return labels[priority] || priority;
-        }
-
-        function isOverdue(deadline) {
-            return new Date(deadline + 'T00:00:00') < new Date();
-        }
-
-        async function toggleTaskComplete(taskId, completed) {
-            try {
-                await db.collection('tasks').doc(taskId).update({ 
-                    completed: completed,
-                    status: completed ? 'concluida' : 'planejada'
-                });
-                loadTasks();
-            } catch (error) {
-                console.error('Erro ao atualizar tarefa:', error);
-            }
-        }
-
-        async function deleteTask(taskId) {
-            if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
-                try {
-                    await db.collection('tasks').doc(taskId).delete();
-                    loadTasks();
-                } catch (error) {
-                    console.error('Erro ao deletar tarefa:', error);
-                }
-            }
-        }
-
-        function updateTaskStats() {
-            const filteredTasks = tasks.filter(task => {
-                const statusMatch = currentFilters.status === 'all' || 
-                    (currentFilters.status === 'pending' && !task.completed) ||
-                    (currentFilters.status === 'completed' && task.completed);
-                const sectorMatch = currentFilters.sector === 'all' || task.sector === currentFilters.sector;
-                const priorityMatch = currentFilters.priority === 'all' || task.priority === currentFilters.priority;
-                
-                return statusMatch && sectorMatch && priorityMatch;
-            });
-            
-            const total = filteredTasks.length;
-            const pending = filteredTasks.filter(t => !t.completed).length;
-            const completed = filteredTasks.filter(t => t.completed).length;
-            
-            document.getElementById('taskStats').innerHTML = `
-                <div class="stats-card text-center min-w-[100px]">
-                    <div class="text-2xl font-bold text-gray-800">${total}</div>
-                    <div class="text-sm text-gray-600 font-medium">Total</div>
-                </div>
-                <div class="stats-card text-center min-w-[100px]">
-                    <div class="text-2xl font-bold text-orange-500">${pending}</div>
-                    <div class="text-sm text-gray-600 font-medium">Pendentes</div>
-                </div>
-                <div class="stats-card text-center min-w-[100px]">
-                    <div class="text-2xl font-bold text-green-500">${completed}</div>
-                    <div class="text-sm text-gray-600 font-medium">Finalizadas</div>
-                </div>
             `;
+            
+            
+            // Check if overall score was given to enable the next button
+            const scored = questionData.scores[overallScoreKey] !== null;
+            const nextButtonDisabled = scored ? '' : 'disabled';
+            const buttonText = (currentQuestionIndex < totalQuestions - 1) ? "Next Step" : "End Test";
+            const nextFunction = (currentQuestionIndex < totalQuestions - 1) ? "nextQuestion()" : "showResult()";
+            
+            const stopTestButton = `
+                <button class="stop-test-button text-lg px-8 py-3" onclick="showResult(true)">
+                    End Test and See Summary
+                </button>
+            `;
+
+            quizContainer.innerHTML = `
+                <div id="quiz-content">
+                     <div class="flex justify-between items-center mb-6">
+                        <img src="${quizLogoUrl}" alt="SLAP Logo Preto" class="w-24 h-auto">
+                        <div class="text-3xl font-bold text-stone-800 p-2 border-2 border-stone-800 rounded-lg">
+                            <span id="timer-display">00:00</span>
+                        </div>
+                     </div>
+                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                        <div class="w-full sm:w-auto mb-3 sm:mb-0">
+                            <p class="text-sm font-semibold text-stone-500 mb-1">Step ${currentQuestionIndex + 1} of ${totalQuestions}</p>
+                            <div class="progress-bar-background">
+                                <div class="progress-bar-foreground" style="width: ${progressPercentage}%;"></div>
+                            </div>
+                        </div>
+                        <div class="text-center w-full sm:w-auto ml-0 sm:ml-4 p-2 bg-yellow-50 rounded-lg"> 
+                            <p class="text-sm font-semibold text-stone-500">Focus of the Step</p>
+                            <span class="text-xl font-bold text-stone-900">${questionData.step}</span>
+                        </div>
+                     </div>
+                    
+                    <!-- Prompt for the Teacher (text in Portuguese) -->
+                    <div class="p-6 bg-indigo-50 rounded-xl mb-6">
+                        <p class="text-sm font-semibold text-indigo-600 mb-2">QUESTIONS / SUGGESTED ACTIVITIES:</p>
+                        <h3 class="text-xl sm:text-2xl font-bold text-indigo-800">${questionData.prompt}</h3>
+                    </div>
+                    
+                    <!-- Critérios de observação para o professor (agora mais completos, sem emoji e usando <strong>) -->
+                    <div class="p-4 bg-stone-100 rounded-lg border border-stone-300 mb-6">
+                        <p class="text-sm font-semibold text-stone-600">Critérios de Observação:</p>
+                        <ul class="text-sm text-stone-700 list-disc list-inside mt-1 space-y-2">
+                            ${getObservationForStep(questionData.step)}
+                        </ul>
+                    </div>
+
+                    <!-- Scoring Section -->
+                    <div class="criteria-box">
+                        <h4 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Avaliação da Resposta (Geral)</h4>
+                        ${criteriaHtml}
+                    </div>
+                    
+                    <div id="quiz-nav" class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        ${stopTestButton}
+                        <button class="action-button text-lg px-8 py-3" onclick="${nextFunction}" ${nextButtonDisabled}>
+                            ${buttonText} 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>`;
+            
+            // Update progress bar after HTML injection
+            setTimeout(() => {
+                quizContainer.querySelector('.progress-bar-foreground').style.width = `${((currentQuestionIndex + 1) / totalQuestions) * 100}%`;
+            }, 100);
+            
+            updateTimerDisplay();
         }
 
-        // Filter controls
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const button = e.target;
-                const filterType = button.dataset.filter || button.dataset.sector || button.dataset.priority;
-                
-                if (button.dataset.filter) {
-                    currentFilters.status = filterType;
-                    document.querySelectorAll('#statusFilters .filter-btn').forEach(b => {
-                        b.classList.remove('active');
-                    });
-                } else if (button.dataset.sector) {
-                    currentFilters.sector = filterType;
-                    document.querySelectorAll('#sectorFilters .filter-btn').forEach(b => {
-                        b.classList.remove('active');
-                    });
-                } else if (button.dataset.priority) {
-                    currentFilters.priority = filterType;
-                    document.querySelectorAll('#priorityFilters .filter-btn').forEach(b => {
-                        b.classList.remove('active');
-                    });
-                }
-                
-                button.classList.add('active');
-                
-                renderTasks();
-                updateTaskStats();
-            });
-        });
-
-        async function loadUserData() {
-            // Load posts and tasks when user logs in
-            await Promise.all([loadPosts(), loadTasks()]);
+        // Função para pegar as observações mais completas e usando <strong>
+        function getObservationForStep(step) {
+            switch(step) {
+                case 'Quebra-gelo (PT)':
+                    return `
+                        <li><strong>Comunicação:</strong> Observar se o aluno responde de forma natural, clara e se demonstra à vontade.</li>
+                        <li><strong>Disposição:</strong> Avaliar se demonstra simpatia ou empolgação inicial para o teste.</li>
+                    `;
+                case 'Basic English':
+                    return `
+                        <li><strong>Reação ao Idioma:</strong> Observar a expressão do aluno ao ouvir inglês. Ele reage, tenta responder ou se fecha?</li>
+                        <li><strong>Entendimento Mínimo:</strong> Se consegue identificar o pedido básico ('name').</li>
+                    `;
+                case 'Personal Info (PT)':
+                    return `
+                        <li><strong>Entendimento:</strong> Analisar se compreende as perguntas básicas sobre informações pessoais e série.</li>
+                        <li><strong>Foco:</strong> Se consegue manter a atenção no professor ao responder.</li>
+                    `;
+                case 'Attention & Focus 1 (PT)':
+                    return `
+                        <li><strong>Seguimento de Instruções:</strong> Verificar a <strong>velocidade</strong> e <strong>precisão</strong> ao cumprir o comando (pegar objeto).</li>
+                        <li><strong>Necessidade de Repetição:</strong> Se precisa de repetição ou de dicas para cumprir a tarefa.</li>
+                    `;
+                case 'Attention & Focus 2 (PT)':
+                    return `
+                        <li><strong>Foco e Mudança de Tarefa:</strong> Observar a transição rápida entre comandos diferentes (expressão facial e movimento).</li>
+                        <li><strong>Engajamento:</strong> Se ri, se diverte, mas consegue retornar ao foco do comando.</li>
+                    `;
+                case 'Basic English (Color)':
+                    return `
+                        <li><strong>Compreensão de Comando:</strong> Se entende a instrução e a cor solicitada em inglês (comando não-verbal).</li>
+                        <li><strong>Reação:</strong> Se há hesitação ou se a resposta é imediata.</li>
+                    `;
+                case 'Tech Autonomy (Hardware)':
+                    return `
+                        <li><strong>Independência:</strong> Avaliar se o aluno fala com convicção que pode ligar o próprio dispositivo e operar microfone/câmera.</li>
+                        <li><strong>Dependência:</strong> Se depende totalmente de um adulto para as funções básicas de áudio e vídeo.</li>
+                    `;
+                case 'Tech Autonomy (Software)':
+                    return `
+                        <li><strong>Habilidade de Navegação:</strong> Avaliar se ele consegue seguir a instrução de <strong>clicar em um link</strong> ou em uma janela pop-up.</li>
+                        <li><strong>Consciência do Ambiente Online:</strong> Se demonstra familiaridade com o ambiente de navegação.</li>
+                    `;
+                case 'Family Support':
+                    return `
+                        <li><strong>Suporte Garantido:</strong> Confirmar quem será o responsável por perto durante a aula online.</li>
+                        <li><strong>Consistência:</strong> Se o suporte é consistente ou se o aluno fica sozinho em boa parte do tempo.</li>
+                    `;
+                case 'Behavior (Rules)':
+                    return `
+                        <li><strong>Paciência:</strong> Observar a reação do aluno à ideia de ter que <strong>esperar a sua vez</strong> ou o pedido de silêncio (pode ser uma reação verbal ou expressão facial).</li>
+                        <li><strong>Respeito:</strong> Se entende a dinâmica de revezamento de fala em grupo.</li>
+                    `;
+                case 'Behavior (Frustration)':
+                    return `
+                        <li><strong>Resiliência:</strong> Avaliar a reação quando <strong>não entende algo</strong> ou comete um erro.</li>
+                        <li><strong>Busca por Ajuda:</strong> Se sabe pedir ajuda ativamente (demonstrando iniciativa) ou se fecha/desiste.</li>
+                    `;
+                case 'Opinion on Classes':
+                    return `
+                        <li><strong>Motivação:</strong> Avaliar a <strong>empolgação</strong> e a percepção geral sobre o formato online com outros alunos.</li>
+                        <li><strong>Expectativa:</strong> Se tem uma expectativa realista sobre o que é uma aula online.</li>
+                    `;
+                case 'Encerramento':
+                    return `
+                        <li><strong>Fechamento:</strong> Avaliar a impressão final e o desejo de voltar.</li>
+                        <li><strong>Consciência Tecnológica:</strong> Se o aluno tem consciência de como <strong>encerrar a reunião</strong> (simulando o fim da aula e desligando o dispositivo).</li>
+                    `;
+                default:
+                    return '<li>Observação geral do comportamento e interação do aluno.</li>';
+            }
         }
 
-        // Close modals when clicking outside
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                }
+        window.setOverallScore = function(scoreValue, clickedButton) {
+            const questionData = studentScores[currentQuestionIndex];
+            
+            questionData.scores[overallScoreKey] = scoreValue;
+            
+            const criteriaDiv = document.getElementById('overall-criteria');
+            criteriaDiv.querySelectorAll('.score-button').forEach(button => {
+                button.classList.remove('selected');
             });
-        });
+            clickedButton.classList.add('selected');
+            
+            const nextButton = document.querySelector('#quiz-nav .action-button:not(.stop-test-button)'); 
+            if (nextButton) {
+                nextButton.disabled = false;
+            }
+        }
+
+        window.nextQuestion = function() {
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+        
+        // --- RESULT AND LEVEL CALCULATION FUNCTIONS (Conversa) ---
+
+        function calculateConversationRecommendation(quickFinish = false) {
+            totalScore = 0;
+            
+            let scoredQuestions = studentScores.slice(0, currentQuestionIndex);
+            
+            if (!quickFinish && currentQuestionIndex < studentScores.length) {
+                const lastQuestion = studentScores[currentQuestionIndex];
+                if (lastQuestion.scores[overallScoreKey] !== null) {
+                    scoredQuestions = studentScores.slice(0, currentQuestionIndex + 1);
+                }
+            }
+            
+            const questionsAnswered = scoredQuestions.length;
+            
+            scoredQuestions.forEach(q => {
+                const questionScore = q.scores[overallScoreKey] || 0;
+                totalScore += questionScore; 
+            });
+
+            const maxScoreForAnswered = questionsAnswered * 3; // Max score per step is 3
+            const totalPossibleQuestions = maturityPrompts.length; // 12 steps
+            
+            let recommendation = 'Aguardando Avaliação';
+            let message = 'Por favor, complete a conversa ou use o botão "Encerrar Teste".';
+            
+            if (questionsAnswered > 0) {
+                 const averageScore = totalScore / questionsAnswered;
+                 
+                 // SVG para o ícone de aviso: Triângulo
+                 const warningIcon = `<svg class="warning-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 14l-2-4h4l-2 4z"/></svg>`;
+
+                 // Map Average Score (1 to 3)
+                 if (averageScore < 1.7) { 
+                    recommendation = 'Não Recomendado neste momento';
+                    message = 'O aluno teve dificuldade em manter o foco e seguir as instruções da conversa (média de pontuação abaixo de 1.7/3). É indicado <strong>aguardar amadurecimento</strong> ou tentar o formato presencial.'; 
+                 }
+                 else if (averageScore < 2.3) { 
+                    recommendation = 'Recomendado com supervisão inicial';
+                    message = 'O aluno interagiu, mas demonstrou momentos de dispersão ou dependência (média entre 1.7 e 2.3/3). A <strong>supervisão de um adulto é crucial</strong> nas primeiras aulas para garantir o acompanhamento.'; 
+                 }
+                 else { 
+                    recommendation = 'Recomendado para aulas online';
+                    message = 'O aluno demonstrou excelente maturidade, foco e autonomia na conversa (média acima de 2.3/3). A <strong>adaptação ao formato online deve ser tranquila</strong> e sem necessidade de supervisão intensa.'; 
+                 }
+
+                 if (quickFinish && questionsAnswered < totalPossibleQuestions) {
+                    // Substitui o emoji ⚠️ pelo SVG no início da mensagem
+                    message = `${warningIcon} Teste interrompido após ${questionsAnswered} de ${totalPossibleQuestions} etapas. A recomendação foi baseada nas etapas concluídas. ${message}`;
+                 }
+            }
+
+
+            return { 
+                recommendation, 
+                message, 
+                answeredCount: questionsAnswered,
+                totalPossible: totalPossibleQuestions,
+                score: totalScore,
+                maxScore: maxScoreForAnswered
+            };
+        }
+
+        window.showResult = function(quickFinish = false) {
+            stopTimer(); // Stop the timer
+            
+            // Ensures the last question score is saved if it was scored before finishing
+            if (!quickFinish && currentQuestionIndex < studentScores.length && studentScores[currentQuestionIndex].scores[overallScoreKey] === null) {
+                studentScores[currentQuestionIndex].scores[overallScoreKey] = 1; // Default to lowest score if skipped
+            }
+
+            const resultData = calculateConversationRecommendation(quickFinish);
+            
+            hideAllViews();
+            resultView.classList.remove('hidden');
+
+            const timeDisplay = formatTime(totalTimeElapsed);
+            document.getElementById('result-time').textContent = `Duração Total da Conversa: ${timeDisplay}`;
+            
+            document.getElementById('result-recommendation').textContent = resultData.recommendation;
+            document.getElementById('result-message').innerHTML = resultData.message; // Usando innerHTML para permitir o bold e o SVG
+        }
+
+        window.restartQuiz = function() {
+            startSplash1();
+            totalScore = 0;
+            currentQuestionIndex = 0;
+            studentScores = [];
+            stopTimer();
+            totalTimeElapsed = 0;
+            startTime = 0;
+        }
+
+        // --- START FLOW ---
+        window.onload = startSplash1;
     </script>
 </body>
 </html>
