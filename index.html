@@ -245,7 +245,7 @@
                     <div id="audio-player-1-container" class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
                         <p class="font-bold text-stone-700 mb-2 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-                            Support Audio 1 (Podcast/Instruction)
+                            Support Audio
                         </p>
                         <audio id="study-audio-player" controls controlsList="nodownload" class="w-full rounded-md mt-2">
                             <source id="study-audio-source" src="" type="audio/mpeg">
@@ -258,7 +258,7 @@
                     <div id="audio-player-2-container" class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
                         <p class="font-bold text-stone-700 mb-2 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-                            Support Audio 2 (Deep Dive)
+                            Support Audio
                         </p>
                         <audio id="study-audio-player-2" controls controlsList="nodownload" class="w-full rounded-md mt-2">
                             <source id="study-audio-source-2" src="" type="audio/mpeg">
@@ -310,7 +310,7 @@
                     ] },
                     { q: "An instructor observes a student's accuracy errors during the APPLY phase. What is the most methodologically sound action?", options: [
                         { text: "Note the error but wait until the PERFORM phase to correct, prioritizing flow.", isCorrect: false },
-                        { text: "<strong>Intervene immediately and explicitly correct the error</strong>, as APPLY's primary goal is accuracy and confidence building with support.", isCorrect: true },
+                        { text: "Intervene immediately and explicitly correct the error, as APPLY's primary goal is accuracy and confidence building with support.", isCorrect: true },
                         { text: "Ask the student to consult the textbook for the correct rule, applying the ZPD principle of discovery.", isCorrect: false },
                         { text: "Ignore the error entirely to prevent the Affective Filter from rising.", isCorrect: false }
                     ] },
@@ -322,13 +322,13 @@
                     ] },
                     { q: "A student is speaking fluently in the PERFORM phase but repeats a known error. The instructor chooses Recasting. Why might a highly experienced SLAP instructor choose Delayed Correction instead?", options: [
                         { text: "Recasting guarantees the student understands the mistake, which Delayed Correction does not.", isCorrect: false },
-                        { text: "Recasting, while subtle, still interrupts the student's *production stream* and risks raising the Monitor; <strong>Delayed Correction preserves maximum fluency</strong>.", isCorrect: true },
+                        { text: "Recasting, while subtle, still interrupts the student's *production stream* and risks raising the Monitor; Delayed Correction preserves maximum fluency.", isCorrect: true },
                         { text: "Recasting is only suitable for the APPLY phase, not PERFORM.", isCorrect: false },
                         { text: "Delayed Correction is simpler for the instructor to manage multiple errors at once.", isCorrect: false }
                     ] },
                     { q: "The LEARN phase requires 'strategic repetition'. This strategy primarily serves which of the three SLAP pillars (Emotion, Logic, Communication)?", options: [
                         { text: "Emotion, by reducing anxiety related to new grammar.", isCorrect: false },
-                        { text: "<strong>Logic</strong>, by ensuring fixation and active comprehension of theoretical content.", isCorrect: true },
+                        { text: "Logic, by ensuring fixation and active comprehension of theoretical content.", isCorrect: true },
                         { text: "Real Communication, by rehearsing sentences for later spontaneous use.", isCorrect: false },
                         { text: "All three equally.", isCorrect: false }
                     ] },
@@ -1990,7 +1990,7 @@
             questionsPool.splice(randomIndex, 1); 
 
             // Update interface
-            mainQuestion.textContent = currentQuestion.q;
+            mainQuestion.innerHTML = currentQuestion.q; // Use innerHTML to render strong tag
             
             renderOptions();
             
