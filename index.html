@@ -166,11 +166,80 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
             border-color: #8671d1; /* Purple border on hover */
         }
+
+        /* Login Gate Specific Styles */
+        #login-gate {
+            background-color: #44403c; /* stone-800 */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+        .login-card {
+            background-color: white;
+            color: #44403c;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+        }
+        .login-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        .login-button {
+            background-color: #F1D24B;
+            color: #44403c;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+        .login-button:hover {
+            background-color: #eab308;
+        }
         
     </style>
 </head>
 <body>
-    <div id="main-wrapper">
+    
+    <!-- LOGIN GATE -->
+    <div id="login-gate">
+        <div class="login-card text-center">
+            <h1 class="text-3xl font-bold mb-4 text-[#8671d1]">SLAP Training Access</h1>
+            <p class="text-lg font-medium mb-6">To enter, correctly guess the flavor of the juice I am thinking of:</p>
+            
+            <form id="login-form" onsubmit="checkPassword(event)">
+                <label for="password-input" class="block text-left font-semibold text-sm mb-1">
+                    Juice Flavor (in lowercase):
+                </label>
+                <input 
+                    type="password" 
+                    id="password-input" 
+                    class="login-input" 
+                    placeholder="e.g., banana" 
+                    required
+                >
+                <button type="submit" class="login-button">
+                    Enter Training Track
+                </button>
+                <p id="login-feedback" class="mt-4 text-red-600 hidden font-bold">Incorrect flavor. Try again!</p>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="main-wrapper" class="hidden">
         
         <!-- HEADER (Logo and Title) -->
         <header class="py-6 border-b border-stone-200 mb-8">
@@ -320,12 +389,12 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759807902/TRILHA_SLAP_METHOD_ijg0xa.mp3', 
                 studyAudio2: '', 
                 studySummary: "This module covers the entire SLAP didactic cycle: the unique purpose of the SPARK, LEARN, APPLY, and PERFORM phases, and how they combine to achieve the pillars of **Emotion, Logic, and Real Communication**.",
-                studyText: 'The SLAP Method is the foundational didactic framework, moving beyond traditional methods by prioritizing **active, experience-based learning**. The four phases—SPARK, LEARN, APPLY, PERFORM—are not mere steps but an interconnected cycle designed to build language proficiency through **emotion, logic, and real communication**.\n\n**Strategic Goal of Each Phase:**\n* **SPARK (Emotion/Engagement):** The entry point. Its singular purpose is to dismantle the **Affective Filter** and generate curiosity. The key is **instigation, not instruction**.\n* **LEARN (Logic/Structure):** The phase for theoretical scaffolding. The instructor’s role is that of a clear guide, maintaining a balanced **TTT/STT ratio** to ensure active comprehension and prevent passive listening. Strategic repetition is critical here.\n* **APPLY (Logic/Practice):** The transition zone for controlled production. The focus shifts to **accuracy** and confidence building through structured tasks (e.g., fill-ins, guided dialogues). The environment must normalize errors, allowing the instructor to **intervene, correct, and guide**.\n* **PERFORM (Communication/Fluency):** The peak moment for authentic language use. The goal is **spontaneous communication** and **fluency**. The instructor must become a mediator, prioritizing the student’s flow of speech and reserving corrections for **delayed, post-activity feedback**.\n\n**The Cycle Principle:** The effectiveness of the Perform phase directly relies on the safety built in SPARK and the accuracy practiced in APPLY. A breakdown in one phase destabilizes the entire communicative goal.',
+                studyText: 'The SLAP Method is the foundational didactic framework, moving beyond traditional methods by prioritizing **active, experience-based learning**. The four phases—SPARK, LEARN, APPLY, PERFORM—are not mere steps but an interconnected cycle designed to build language proficiency through **emotion, logic, and real communication**.\n\n**Strategic Goal of Each Phase:**\n→ **SPARK (Emotion/Engagement):** The entry point. Its singular purpose is to dismantle the **Affective Filter** and generate curiosity. The key is **instigation, not instruction**.\n→ **LEARN (Logic/Structure):** The phase for theoretical scaffolding. The instructor’s role is that of a clear guide, maintaining a balanced **TTT/STT ratio** to ensure active comprehension and prevent passive listening. Strategic repetition is critical here.\n→ **APPLY (Logic/Practice):** The transition zone for controlled production. The focus shifts to **accuracy** and confidence building through structured tasks (e.g., fill-ins, guided dialogues). The environment must normalize errors, allowing the instructor to **intervene, correct, and guide**.\n→ **PERFORM (Communication/Fluency):** The peak moment for authentic language use. The goal is **spontaneous communication** and **fluency**. The instructor must become a mediator, prioritizing the student’s flow of speech and reserving corrections for **delayed, post-activity feedback**.\n\n**The Cycle Principle:** The effectiveness of the Perform phase directly relies on the safety built in SPARK and the accuracy practiced in APPLY. A breakdown in one phase destabilizes the entire communicative goal.',
                 questions: [
                     { q: "A teacher spends the first 15 minutes of class providing a detailed grammatical explanation, believing this 'sets the ground' for learning. Which SLAP principle is critically violated and why?", options: [
                         { text: "The APPLY principle, because 15 minutes should be spent on structured practice.", isCorrect: false },
                         { text: "The TTT/STT balance, as excessive TTT blocks active learning.", isCorrect: false },
-                        { text: "The <strong>SPARK</strong> principle, because its key goal is to instigate interest quickly and manage the emotional connection, which is lost with long, early explanations.", isCorrect: true },
+                        { text: "The SPARK principle, because its key goal is to instigate interest quickly and manage the emotional connection, which is lost with long, early explanations.", isCorrect: true },
                         { text: "The PERFORM principle, because detailed explanations should only happen at the end.", isCorrect: false }
                     ] },
                     { q: "An instructor observes a student's accuracy errors during the APPLY phase. What is the most methodologically sound action?", options: [
@@ -337,7 +406,7 @@
                     { q: "Which phase of the SLAP cycle carries the primary responsibility for reducing the student's Affective Filter, essential for language risk-taking?", options: [
                         { text: "The LEARN phase, through clear, logical structure.", isCorrect: false },
                         { text: "The PERFORM phase, by achieving communication success.", isCorrect: false },
-                        { text: "The <strong>SPARK</strong> phase, whose emotional focus creates a safe, engaging entry point.", isCorrect: true },
+                        { text: "The SPARK phase, whose emotional focus creates a safe, engaging entry point.", isCorrect: true },
                         { text: "The APPLY phase, by offering controlled practice.", isCorrect: false }
                     ] },
                     { q: "A student is speaking fluently in the PERFORM phase but repeats a known error. The instructor chooses Recasting. Why might a highly experienced SLAP instructor choose Delayed Correction instead?", options: [
@@ -354,72 +423,72 @@
                     ] },
                     { q: "What is the consequence of weak performance in the APPLY phase before moving to PERFORM?", options: [
                         { text: "The student will show excessive TTT in the PERFORM phase.", isCorrect: false },
-                        { text: "The <strong>student will lack the necessary accuracy base</strong>, leading to non-communicative speech and high anxiety in the free production phase.", isCorrect: true },
+                        { text: "The student will lack the necessary accuracy base, leading to non-communicative speech and high anxiety in the free production phase.", isCorrect: true },
                         { text: "The instructor will need to increase TTT in the PERFORM phase.", isCorrect: false },
                         { text: "The SPARK phase must be repeated.", isCorrect: false }
                     ] },
                     { q: "A class starts with a difficult, context-heavy grammar question without any Warm-Up. What is the primary barrier erected for the student?", options: [
                         { text: "The Monitor is prematurely engaged.", isCorrect: false },
                         { text: "The opportunity for Recasting is lost.", isCorrect: false },
-                        { text: "The <strong>Affective Filter is immediately raised</strong> due to lack of emotional connection and a steep entry barrier.", isCorrect: true },
+                        { text: "The Affective Filter is immediately raised due to lack of emotional connection and a steep entry barrier.", isCorrect: true },
                         { text: "The STT is maximized from the beginning.", isCorrect: false }
                     ] },
-                    { q: "In the PERFORM phase, the instructor's fundamental shift is from 'Instructor as Guide' to 'Instructor as <strong>Mediator</strong>'. What does this shift prioritize?", options: [
+                    { q: "In the PERFORM phase, the instructor's fundamental shift is from 'Instructor as Guide' to 'Instructor as Mediator'. What does this shift prioritize?", options: [
                         { text: "Accuracy over Fluency.", isCorrect: false },
                         { text: "Pedagogical intervention over observation.", isCorrect: false },
-                        { text: "<strong>Flow of speech and spontaneous communication</strong> over formal correctness.", isCorrect: true },
+                        { text: "Flow of speech and spontaneous communication over formal correctness.", isCorrect: true },
                         { text: "Grammatical mastery over vocabulary use.", isCorrect: false }
                     ] },
                     { q: "Which of the following activities is <strong>least</strong> suitable for the LEARN phase?", options: [
                         { text: "Contextualized explanation using visual aids.", isCorrect: false },
                         { text: "Targeted repetition of the new structure by the student.", isCorrect: false },
-                        { text: "<strong>Asking students to debate a philosophical topic freely</strong> for ten minutes.", isCorrect: true },
+                        { text: "Asking students to debate a philosophical topic freely for ten minutes.", isCorrect: true },
                         { text: "Questions that confirm student understanding (checking questions).", isCorrect: false }
                     ] },
                     { q: "The statement 'The student experiences English' is reflected in the SLAP methodology by emphasizing:", options: [
                         { text: "Rigid adherence to the textbook.", isCorrect: false },
-                        { text: "The <strong>sequential flow from emotional engagement (SPARK) to supported practice (APPLY) and culminating in authentic interaction (PERFORM)</strong>.", isCorrect: true },
+                        { text: "The sequential flow from emotional engagement (SPARK) to supported practice (APPLY) and culminating in authentic interaction (PERFORM).", isCorrect: true },
                         { text: "The instructor's primary role as a language model.", isCorrect: false },
                         { text: "The use of only complex, advanced vocabulary.", isCorrect: false }
                     ] },
                     { q: "In the context of the SLAP cycle, what must an instructor ensure when applying the 'encourage mistakes without fear' tip in the APPLY phase?", options: [
                         { text: "That all mistakes are ignored.", isCorrect: false },
-                        { text: "That mistakes are viewed as <strong>necessary feedback for learning</strong>, prompting gentle, guiding correction.", isCorrect: true },
+                        { text: "That mistakes are viewed as necessary feedback for learning, prompting gentle, guiding correction.", isCorrect: true },
                         { text: "That the student uses only the Monitor for self-correction.", isCorrect: false },
                         { text: "That TTT remains higher than STT.", isCorrect: false }
                     ] },
                     { q: "The goal of 'consolidating what has been learned in a safe environment' is the unique responsibility of the:", options: [
                         { text: "SPARK phase, by initiating the topic.", isCorrect: false },
-                        { text: "<strong>APPLY phase</strong>, bridging theory (LEARN) and free production (PERFORM).", isCorrect: true },
+                        { text: "APPLY phase, bridging theory (LEARN) and free production (PERFORM).", isCorrect: true },
                         { text: "LEARN phase, through theoretical explanation.", isCorrect: false },
                         { text: "PERFORM phase, by demanding fluency.", isCorrect: false }
                     ] },
                     { q: "If an instructor only gives explanations and skips the APPLY and PERFORM phases, which pillar of the SLAP philosophy is neglected?", options: [
                         { text: "Logic (as they only provide theory).", isCorrect: false },
                         { text: "Emotion (as they start and end with theory).", isCorrect: false },
-                        { text: "<strong>Real Communication</strong>, as the theory never transforms into usable, spontaneous linguistic skill.", isCorrect: true },
+                        { text: "Real Communication, as the theory never transforms into usable, spontaneous linguistic skill.", isCorrect: true },
                         { text: "Accuracy (as there is no controlled practice).", isCorrect: false }
                     ] },
                     { q: "What distinguishes the PERFORM phase's 'communicative performance' focus from the APPLY phase's 'practice' focus?", options: [
                         { text: "PERFORM focuses on grammatical accuracy; APPLY focuses on contextual relevance.", isCorrect: false },
-                        { text: "<strong>PERFORM focuses on spontaneous fluency; APPLY focuses on supported accuracy</strong>.", isCorrect: true },
+                        { text: "PERFORM focuses on spontaneous fluency; APPLY focuses on supported accuracy.", isCorrect: true },
                         { text: "PERFORM involves only listening; APPLY involves only speaking.", isCorrect: false },
                         { text: "PERFORM requires more TTT; APPLY requires more STT.", isCorrect: false }
                     ] },
                     { q: "In which phase is it most crucial for the instructor to use 'questions that confirm student understanding' and why?", options: [
                         { text: "PERFORM, to check comprehension after a long speech.", isCorrect: false },
                         { text: "APPLY, to check accuracy before correcting.", isCorrect: false },
-                        { text: "<strong>LEARN, to verify theoretical absorption</strong> before moving to practical application (APPLY).", isCorrect: true },
+                        { text: "LEARN, to verify theoretical absorption before moving to practical application (APPLY).", isCorrect: true },
                         { text: "SPARK, to ensure the emotional connection is established.", isCorrect: false }
                     ] },
                     { q: "An instructor correctly identifies the current topic, but the students remain silent and disengaged. Which phase likely failed to 'prepare the ground for learning'?", options: [
                         { text: "The LEARN phase.", isCorrect: false },
                         { text: "The APPLY phase.", isCorrect: false },
-                        { text: "The <strong>SPARK phase</strong>.", isCorrect: true },
+                        { text: "The SPARK phase.", isCorrect: true },
                         { text: "The PERFORM phase.", isCorrect: false }
                     ] },
                     { q: "The concept of 'active learning journey' is directly supported by which sequence in the SLAP Method?", options: [
-                        { text: "<strong>SPARK → LEARN → APPLY → PERFORM</strong>.", isCorrect: true },
+                        { text: "SPARK → LEARN → APPLY → PERFORM.", isCorrect: true },
                         { text: "LEARN → APPLY → SPARK → PERFORM.", isCorrect: false },
                         { text: "PERFORM → LEARN → APPLY → SPARK.", isCorrect: false },
                         { text: "SPARK → PERFORM → APPLY → LEARN.", isCorrect: false }
@@ -427,7 +496,7 @@
                     { q: "If an instructor insists on interrupting a student during free speech to correct every minor error, they are fundamentally undermining the goal of:", options: [
                         { text: "Accuracy (APPLY).", isCorrect: false },
                         { text: "Theory building (LEARN).", isCorrect: false },
-                        { text: "<strong>Fluency and self-confidence (PERFORM)</strong>.", isCorrect: true },
+                        { text: "Fluency and self-confidence (PERFORM).", isCorrect: true },
                         { text: "Warm-up (SPARK).", isCorrect: false }
                     ] },
                     { q: "What is the role of 'contextualized explanations' in the LEARN phase?", options: [
@@ -439,7 +508,7 @@
                     { q: "The SLAP method advocates for the instructor to 'step back' and assume the role of mediator when the focus shifts to:", options: [
                         { text: "The theoretical explanation of complex rules.", isCorrect: false },
                         { text: "Controlled vocabulary practice.", isCorrect: false },
-                        { text: "<strong>Free and spontaneous communication</strong>.", isCorrect: true },
+                        { text: "Free and spontaneous communication.", isCorrect: true },
                         { text: "Initial engagement with a quick game.", isCorrect: false }
                     ] },
                 ],
@@ -450,125 +519,125 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759807903/TRILHA_TTT_o7qs6s.mp3', 
                 studyAudio2: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759807903/TRILHA_STT_ovp9sw.mp3', 
                 studySummary: "This module covers the critical **TTT vs. STT balance**, exploring strategies to minimize instructor speaking time (TTT) and maximize student production (STT), which is essential for developing communicative fluency in the APPLY and PERFORM phases.",
-                studyText: 'The **TTT (Teacher Talking Time) vs. STT (Student Talking Time)** ratio is a foundational metric in communicative instruction. The SLAP methodology positions the **student as the protagonist**, demanding that **STT occupies the majority of class time**, particularly within the **APPLY and PERFORM** phases.\n\n**Strategic TTT Management:** TTT is necessary in the LEARN phase for clear explanation, but excessive TTT is a major inhibitor of fluency development. A skilled SLAP instructor minimizes TTT by:\n* **Prioritizing Context:** Reducing verbal explanation in favor of highly **contextualized examples** and visual cues.\n* **Strategic Questioning:** Shifting from closed, monosyllabic answers (e.g., "Do you like coffee? Yes/No") to **open-ended, provocative questions** that compel extended student production.\n* **Efficiency in Instruction:** Keeping instructions brief and modeling activities swiftly.\n\n**Maximizing STT for Fluency:** The inverse relationship holds true: the less the instructor speaks, the more the student learns and practices. Protecting STT involves **strategic error correction** (Module 7), ensuring the student\'s flow of speech is not prematurely interrupted, thereby supporting the development of **confidence and spontaneous communication**.',
+                studyText: 'The **TTT (Teacher Talking Time) vs. STT (Student Talking Time)** ratio is a foundational metric in communicative instruction. The SLAP methodology positions the **student as the protagonist**, demanding that **STT occupies the majority of class time**, particularly within the **APPLY and PERFORM** phases.\n\n**Strategic TTT Management:** TTT is necessary in the LEARN phase for clear explanation, but excessive TTT is a major inhibitor of fluency development. A skilled SLAP instructor minimizes TTT by:\n* Prioritizing Context: Reducing verbal explanation in favor of highly **contextualized examples** and visual cues.\n* Strategic Questioning: Shifting from closed, monosyllabic answers (e.g., "Do you like coffee? Yes/No") to **open-ended, provocative questions** that compel extended student production.\n* Efficiency in Instruction: Keeping instructions brief and modeling activities swiftly.\n\n**Maximizing STT for Fluency:** The inverse relationship holds true: the less the instructor speaks, the more the student learns and practices. Protecting STT involves **strategic error correction** (Module 7), ensuring the student\'s flow of speech is not prematurely interrupted, thereby supporting the development of **confidence and spontaneous communication**.',
                 questions: [
                     { q: "An instructor notes that students frequently respond in single words, forcing the instructor to continually ask follow-up questions. This scenario indicates a failure to apply which TTT/STT strategy?", options: [
                         { text: "Failure to reduce long explanations in the LEARN phase.", isCorrect: false },
                         { text: "Failure to transition the class to the PERFORM phase quickly enough.", isCorrect: false },
-                        { text: "Failure to use <strong>strategic, open-ended questions</strong> that compel extended student responses.", isCorrect: true },
+                        { text: "Failure to use strategic, open-ended questions that compel extended student responses.", isCorrect: true },
                         { text: "Excessive use of Recasting during the SPARK phase.", isCorrect: false }
                     ] },
                     { q: "If the instructor spends 65% of the class giving instructions and lecturing, what is the *long-term pedagogical consequence* according to SLAP principles?", options: [
                         { text: "Improved student engagement due to clarity.", isCorrect: false },
                         { text: "Increased accuracy due to modeling.", isCorrect: false },
-                        { text: "<strong>Drastic reduction in STT</strong>, hindering the development of fluency and confidence necessary for the PERFORM phase.", isCorrect: true },
+                        { text: "Drastic reduction in STT, hindering the development of fluency and confidence necessary for the PERFORM phase.", isCorrect: true },
                         { text: "Lowered Affective Filter.", isCorrect: false }
                     ] },
                     { q: "During a structured practice activity (APPLY), an instructor needs to explain a sudden rule clarification. The most efficient way to manage TTT without sacrificing clarity is:", options: [
                         { text: "Stop the activity entirely for a 10-minute lecture and then restart.", isCorrect: false },
-                        { text: "Use <strong>quick, contextualized examples and visual aids</strong> to illustrate the point, ensuring instructions are brief.", isCorrect: true },
+                        { text: "Use quick, contextualized examples and visual aids to illustrate the point, ensuring instructions are brief.", isCorrect: true },
                         { text: "Write the rule on the board and ask the students to look it up later.", isCorrect: false },
                         { text: "Ask a series of closed 'Yes/No' questions until the student guesses the rule.", isCorrect: false }
                     ] },
                     { q: "The statement 'speaking less is not participating less' applies uniquely to the instructor. This implies a core shift from:", options: [
                         { text: "Content delivery to assessment.", isCorrect: false },
                         { text: "Grammatical accuracy to pronunciation.", isCorrect: false },
-                        { text: "Dominating the airtime to actively <strong>creating space for the student to produce language (STT)</strong>.", isCorrect: true },
+                        { text: "Dominating the airtime to actively creating space for the student to produce language (STT).", isCorrect: true },
                         { text: "The LEARN phase to the SPARK phase.", isCorrect: false }
                     ] },
                     { q: "Which of the following scenarios represents an appropriate use of high TTT in the SLAP methodology?", options: [
                         { text: "Correcting a student's mistake during the PERFORM phase.", isCorrect: false },
-                        { text: "Providing <strong>concise, contextualized explanation</strong> of a complex theoretical concept in the LEARN phase.", isCorrect: true },
+                        { text: "Providing concise, contextualized explanation of a complex theoretical concept in the LEARN phase.", isCorrect: true },
                         { text: "Conducting a Warm-Up game with long, complex instructions.", isCorrect: false },
                         { text: "Reviewing all vocabulary previously taught in the SPARK phase.", isCorrect: false }
                     ] },
                     { q: "What is the primary consequence of an instructor failing to use *contextualized examples* in the LEARN phase, relying only on abstract rules?", options: [
                         { text: "It reduces TTT effectively.", isCorrect: false },
                         { text: "It decreases student confidence in the APPLY phase.", isCorrect: false },
-                        { text: "It makes the Input less comprehensible and relevant, hindering the transition from Logic (LEARN) to <strong>real-world communication (PERFORM)</strong>.", isCorrect: true },
+                        { text: "It makes the Input less comprehensible and relevant, hindering the transition from Logic (LEARN) to real-world communication (PERFORM).", isCorrect: true },
                         { text: "It maximizes STT.", isCorrect: false }
                     ] },
                     { q: "If the instructor consistently interrupts students to correct minor, non-impeding mistakes, this action demonstrates a priority of:", options: [
                         { text: "Fluency over Accuracy, thereby reducing the Affective Filter.", isCorrect: false },
-                        { text: "<strong>Accuracy over Fluency</strong>, which ultimately harms STT and the student's communicative confidence.", isCorrect: true },
+                        { text: "Accuracy over Fluency, which ultimately harms STT and the student's communicative confidence.", isCorrect: true },
                         { text: "STT over TTT.", isCorrect: false },
                         { text: "The Monitor Hypothesis over Comprehensible Input.", isCorrect: false }
                     ] },
                     { q: "A SLAP instructor should view STT primarily as:", options: [
                         { text: "A secondary goal to grammatical instruction.", isCorrect: false },
                         { text: "A time slot reserved for reading comprehension.", isCorrect: false },
-                        { text: "The <strong>essential opportunity</strong> for students to interact, practice, and spontaneously produce language.", isCorrect: true },
+                        { text: "The essential opportunity for students to interact, practice, and spontaneously produce language.", isCorrect: true },
                         { text: "The instructor's time to prepare the next activity.", isCorrect: false }
                     ] },
                     { q: "Which question type is most effective for maximizing STT and shifting the communicative burden onto the student?", options: [
-                        { text: "Closed questions requiring a 'Yes/No' answer (e.g., 'Are you happy?').", isCorrect: false },
+                        { text: "Closed questions requiring a 'Yes/No' answer (e.Environment.g., 'Are you happy?').", isCorrect: false },
                         { text: "Questions testing factual knowledge (e.g., 'What is the past tense of eat?').", isCorrect: false },
-                        { text: "<strong>Open-ended, opinion-based questions</strong> (e.g., 'If you could change one thing about your city, what would it be and why?').", isCorrect: true },
+                        { text: "Open-ended, opinion-based questions (e.g., 'If you could change one thing about your city, what would it be and why?').", isCorrect: true },
                         { text: "Questions requiring written responses only.", isCorrect: false }
                     ] },
                     { q: "What is the central philosophical principle behind minimizing TTT in the SLAP method?", options: [
                         { text: "To comply with administrative rules.", isCorrect: false },
                         { text: "To reduce the instructor's energy expenditure.", isCorrect: false },
-                        { text: "The <strong>student is the protagonist</strong>, and their time spent producing language is directly proportional to their learning gains.", isCorrect: true },
+                        { text: "The student is the protagonist, and their time spent producing language is directly proportional to their learning gains.", isCorrect: true },
                         { text: "It maximizes the Affective Filter.", isCorrect: false }
                     ] },
                     { q: "An instructor observes that students speak actively in the APPLY phase (structured) but fall silent in the PERFORM phase (free production). The most likely TTT/STT-related issue is:", options: [
                         { text: "TTT was too low in the LEARN phase.", isCorrect: false },
-                        { text: "<strong>TTT was too high in the APPLY phase</strong>, making the student dependent on the instructor's immediate support and unable to cope with autonomy.", isCorrect: true },
+                        { text: "TTT was too high in the APPLY phase, making the student dependent on the instructor's immediate support and unable to cope with autonomy.", isCorrect: true },
                         { text: "STT was maximized too early in the SPARK phase.", isCorrect: false },
                         { text: "The correction strategy used in PERFORM was too subtle.", isCorrect: false }
                     ] },
                     { q: "The strategic reduction of TTT in the SLAP method is directly supported by which correction technique?", options: [
                         { text: "On-the-spot correction, as it is immediate.", isCorrect: false },
-                        { text: "<strong>Recasting and Delayed Correction</strong>, as they minimize instructor speech interruption during student production.", isCorrect: true },
+                        { text: "Recasting and Delayed Correction, as they minimize instructor speech interruption during student production.", isCorrect: true },
                         { text: "Peer correction, as it eliminates the instructor's speaking time.", isCorrect: false },
                         { text: "Written correction, as it is entirely separate from the class flow.", isCorrect: false }
                     ] },
                     { q: "If an instructor only teaches by reading the textbook aloud, they are achieving a high TTT/STT imbalance that primarily negates the SLAP pillar of:", options: [
                         { text: "Emotion.", isCorrect: false },
-                        { text: "<strong>Real Communication</strong> (since there is no production).", isCorrect: true },
+                        { text: "Real Communication (since there is no production).", isCorrect: true },
                         { text: "Logic.", isCorrect: false },
                         { text: "Accuracy.", isCorrect: false }
                     ] },
                     { q: "To protect the flow of STT in the PERFORM phase, the instructor must shift the correction focus to **strategic correction**. This means:", options: [
-                        { text: "<strong>Interrupting only when a mistake affects the student's comprehension</strong>.", isCorrect: true },
+                        { text: "Interrupting only when a mistake affects the student's comprehension.", isCorrect: true },
                         { text: "Interrupting whenever a major grammatical mistake occurs.", isCorrect: false },
                         { text: "Interrupting when the student uses vocabulary learned in the current class.", isCorrect: false },
                         { text: "Avoiding all eye contact during student speech.", isCorrect: false }
                     ] },
-                    { q: "What is the benefit of a high STT ratio in the APPLY phase (Practice)?", options: [
+                    { q: "What is the benefit of a high STT ratio in the APPLY phase (Practice)?", isCorrect: false, options: [
                         { text: "It prepares the student for passive listening in the LEARN phase.", isCorrect: false },
-                        { text: "It allows for maximum practical application of the theory learned, which <strong>solidifies the logical comprehension</strong>.", isCorrect: true },
+                        { text: "It allows for maximum practical application of the theory learned, which solidifies the logical comprehension.", isCorrect: true },
                         { text: "It shifts the focus from accuracy to fluency too early.", isCorrect: false },
                         { text: "It eliminates the need for TTT.", isCorrect: false }
                     ] },
                     { q: "When managing TTT, an instructor should aim for instructions that are:", options: [
                         { text: "Detailed, long, and repeat the core concept.", isCorrect: false },
-                        { text: "<strong>Concise, modeled, and ensure rapid student transition</strong> to the activity.", isCorrect: true },
+                        { text: "Concise, modeled, and ensure rapid student transition to the activity.", isCorrect: true },
                         { text: "Provided only in the target language at a high speed.", isCorrect: false },
                         { text: "Provided in writing only.", isCorrect: false }
                     ] },
                     { q: "What is the primary philosophical implication of defining the student as the 'protagonist'?", options: [
                         { text: "The instructor must follow the student's demands.", isCorrect: false },
-                        { text: "The student's production and active engagement drive the learning process, <strong>minimizing the instructor's dominance</strong>.", isCorrect: true },
+                        { text: "The student's production and active engagement drive the learning process, minimizing the instructor's dominance.", isCorrect: true },
                         { text: "The student is responsible for all theoretical preparation.", isCorrect: false },
                         { text: "The class focus must always be on the SPARK phase.", isCorrect: false }
                     ] },
                     { q: "If an instructor fails to reduce TTT, the most immediate victim is:", options: [
                         { text: "The instructor's energy.", isCorrect: false },
                         { text: "The student's reading comprehension.", isCorrect: false },
-                        { text: "The <strong>opportunities for student production (STT)</strong>.", isCorrect: true },
+                        { text: "The opportunities for student production (STT).", isCorrect: true },
                         { text: "The grammatical curriculum.", isCorrect: false }
                     ] },
                     { q: "What TTT management strategy supports the ZPD principle (Module 8)?", options: [
                         { text: "High TTT to provide maximum scaffolding.", isCorrect: false },
-                        { text: "<strong>Gradual reduction of TTT</strong> as the student demonstrates autonomy (minimizing 'handing everything over ready-made').", isCorrect: true },
+                        { text: "Gradual reduction of TTT as the student demonstrates autonomy (minimizing 'handing everything over ready-made').", isCorrect: true },
                         { text: "Maintaining TTT constant throughout the class.", isCorrect: false },
                         { text: "Eliminating TTT entirely.", isCorrect: false }
                     ] },
                     { q: "What should the instructor prioritize *more* than grammatical perfection when managing TTT/STT in the communicative phases?", options: [
                         { text: "Vocabulary memorization.", isCorrect: false },
-                        { text: "The <strong>student's confidence and opportunity for spontaneous communication</strong>.", isCorrect: true },
+                        { text: "The student's confidence and opportunity for spontaneous communication.", isCorrect: true },
                         { text: "The aesthetic of the lesson plan.", isCorrect: false },
                         { text: "The speed of the activity.", isCorrect: false }
                     ] },
@@ -580,77 +649,77 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759807903/TRILHA_WARM_UP_x_LEAD_IN_jzn4ux.mp3', // Updated
                 studyAudio2: '', // Removed second audio
                 studySummary: "This module clarifies the distinction between the **Warm-Up** (linguistic and emotional preparation) and the **Lead-In** (topical connection) strategies, both essential for creating the emotional bridge of the SPARK phase.",
-                studyText: 'The **SPARK** phase is the crucial entry point of the SLAP cycle, focused entirely on igniting curiosity and creating an **emotional bridge** (reducing the Affective Filter) before instruction begins. This is achieved through two distinct, complementary strategies:\n\n**1. Warm-Up (Linguistic/Emotional Warm-up):**\nIts primary function is *linguistic and emotional preparation*. It <strong>unlocks speaking</strong> and **re-activates known vocabulary** through light, non-threatening, and quick activities (typically 2-5 minutes). It is general and does not need to connect directly to the main lesson topic (e.g., \'Two Truths and a Lie\').\n\n**2. Lead-In (Contextual Bridge):**\nIts function is **topical connection**. It gently guides the student from the general warm-up towards the <strong>specific subject</strong> of the class, establishing **context and relevance** for the upcoming LEARN phase. The key here is *instigation*—using provocative images or questions to create curiosity—**without teaching the theoretical content**.\n\n**The Critical Transition:** The transition from Lead-In to LEARN must be seamless, with the Lead-In demonstrating *why* the student needs the theory, validating the content to be taught. The most common mistake is confusing these roles or allowing either activity to turn into a detailed instructional segment (excessive TTT), which defeats the purpose of SPARK.',
+                studyText: 'The **SPARK** phase is the crucial entry point of the SLAP cycle, focused entirely on igniting curiosity and creating an **emotional bridge** (reducing the Affective Filter) before instruction begins. This is achieved through two distinct, complementary strategies:\n\n→ Warm-Up (Linguistic/Emotional Warm-up): Its primary function is *linguistic and emotional preparation*. It **unlocks speaking** and **re-activates known vocabulary** through light, non-threatening, and quick activities (typically 2-5 minutes). It is general and does not need to connect directly to the main lesson topic (e.g., \'Two Truths and a Lie\').\n\n→ Lead-In (Contextual Bridge): Its function is **topical connection**. It gently guides the student from the general warm-up towards the **specific subject** of the class, establishing **context and relevance** for the upcoming LEARN phase. The key here is *instigation*—using provocative images or questions to create curiosity—**without teaching the theoretical content**.\n\n**The Critical Transition:** The transition from Lead-In to LEARN must be seamless, with the Lead-In demonstrating *why* the student needs the theory, validating the content to be taught. The most common mistake is confusing these roles or allowing either activity to turn into a detailed instructional segment (excessive TTT), which defeats the purpose of SPARK.',
                 questions: [
                     { q: "An instructor starts the class with a 15-minute debate on a philosophical issue related to the lesson topic. This is an overextension of which SPARK element, and what is the primary risk?", options: [
                         { text: "Warm-Up; the risk is the student becoming overly comfortable and ignoring the LEARN phase.", isCorrect: false },
-                        { text: "<strong>Lead-In; the primary risk is that the activity is too long and complex</strong>, stealing time from the main phases and prematurely raising the difficulty barrier.", isCorrect: true },
+                        { text: "Lead-In; the primary risk is that the activity is too long and complex, stealing time from the main phases and prematurely raising the difficulty barrier.", isCorrect: true },
                         { text: "Lead-In; the risk is the student not re-activating known vocabulary.", isCorrect: false },
                         { text: "Warm-Up; the risk is eliminating the need for the Lead-In.", isCorrect: false }
                     ] },
                     { q: "An instructor uses a quick 'Would You Rather?' game (2 minutes) that is unrelated to the lesson topic. This is a methodologically correct application of which strategy?", options: [
                         { text: "Lead-In, because it creates context for the class topic.", isCorrect: false },
-                        { text: "<strong>Warm-Up</strong>, because its goal is linguistic and emotional preparation, independent of the topic.", isCorrect: true },
+                        { text: "Warm-Up, because its goal is linguistic and emotional preparation, independent of the topic.", isCorrect: true },
                         { text: "Lead-In, because it is short and uses provocative images.", isCorrect: false },
                         { text: "The SPARK phase fails because it lacks topical connection.", isCorrect: false }
                     ] },
                     { q: "The main pedagogical purpose of the **Lead-In** is to strengthen which SLAP pillar by demonstrating the content's necessity?", options: [
                         { text: "Emotion, by making the student laugh.", isCorrect: false },
-                        { text: "<strong>Logic</strong>, by establishing context and relevance for the theoretical content (LEARN).", isCorrect: true },
+                        { text: "Logic, by establishing context and relevance for the theoretical content (LEARN).", isCorrect: true },
                         { text: "Real Communication, by forcing spontaneous speech.", isCorrect: false },
                         { text: "Accuracy, by reviewing grammar.", isCorrect: false }
                     ] },
                     { q: "If an instructor notices during the Lead-In that students are hesitant to speak and use only basic phrases, which preceding element was likely insufficient?", options: [
                         { text: "The LEARN phase (theory).", isCorrect: false },
                         { text: "The PERFORM phase (fluency).", isCorrect: false },
-                        { text: "The <strong>Warm-Up</strong>, which should have unlocked speaking and re-activated known vocabulary.", isCorrect: true },
+                        { text: "The Warm-Up, which should have unlocked speaking and re-activated known vocabulary.", isCorrect: true },
                         { text: "The application of Delayed Correction.", isCorrect: false }
                     ] },
                     { q: "An instructor is teaching the Present Perfect. Which of the following is the most appropriate **Lead-In question**?", options: [
                         { text: "What is the formula: Subject + Have/Has + Past Participle?", isCorrect: false },
                         { text: "What did you eat for breakfast today?", isCorrect: false },
-                        { text: "<strong>What is the most interesting experience you've had recently, and why is it important now?</strong> (Instigating the concept without teaching the rule).", isCorrect: true },
+                        { text: "What is the most interesting experience you've had recently, and why is it important now? (Instigating the concept without teaching the rule).", isCorrect: true },
                         { text: "Should the Lead-In be longer than the Warm-Up?", isCorrect: false }
                     ] },
                     { q: "What is the primary risk of confusing the Warm-Up with the Lead-In?", options: [
                         { text: "The class will run out of time for the PERFORM phase.", isCorrect: false },
-                        { text: "The <strong>student will be unprepared linguistically, or the class will lack relevance/context</strong> for the main topic.", isCorrect: true },
+                        { text: "The student will be unprepared linguistically, or the class will lack relevance/context for the main topic.", isCorrect: true },
                         { text: "The instructor will increase TTT in the LEARN phase.", isCorrect: false },
                         { text: "The Monitor Hypothesis will be excessively activated.", isCorrect: false }
                     ] },
                     { q: "What should an instructor do if students ask a deep grammatical question immediately after the Lead-In?", options: [
                         { text: "Provide a detailed answer immediately, as the student is engaged.", isCorrect: false },
-                        { text: "Acknowledge the curiosity and <strong>strategically redirect the question</strong>, saying: 'Excellent question! We will focus on that structural point in detail during the LEARN phase now.'", isCorrect: true },
+                        { text: "Acknowledge the curiosity and strategically redirect the question, saying: 'Excellent question! We will focus on that structural point in detail during the LEARN phase now.'", isCorrect: true },
                         { text: "Move directly to the APPLY phase.", isCorrect: false },
                         { text: "Use Recasting to reformulate the question.", isCorrect: false }
                     ] },
                     { q: "If the instructor uses a *provocative image* related to technology and asks for opinions, what is the action's primary focus?", options: [
                         { text: "Warm-Up (emotional preparation).", isCorrect: false },
-                        { text: "<strong>Lead-In (creating context and instigating the topic)</strong>.", isCorrect: true },
+                        { text: "Lead-In (creating context and instigating the topic).", isCorrect: true },
                         { text: "APPLY (controlled practice).", isCorrect: false },
                         { text: "PERFORM (spontaneous communication).", isCorrect: false }
                     ] },
                     { q: "The term **'emotional bridge'** best describes the cumulative function of the SPARK phase as it:", options: [
                         { text: "Connects one grammatical rule to another.", isCorrect: false },
-                        { text: "<strong>Connects the student's personal sphere (emotion) to the class content (logic)</strong>, lowering the Affective Filter.", isCorrect: true },
+                        { text: "Connects the student's personal sphere (emotion) to the class content (logic), lowering the Affective Filter.", isCorrect: true },
                         { text: "Connects the APPLY phase to the PERFORM phase.", isCorrect: false },
                         { text: "Connects the instructor to the coordinator.", isCorrect: false }
                     ] },
                     { q: "The essential difference is that the Warm-Up prioritizes **unlocking speaking**, while the Lead-In prioritizes:", options: [
                         { text: "Immediate correction.", isCorrect: false },
                         { text: "The highest TTT in the class.", isCorrect: false },
-                        { text: "<strong>Topical connection and relevance</strong>.", isCorrect: true },
+                        { text: "Topical connection and relevance.", isCorrect: true },
                         { text: "Reading comprehension.", isCorrect: false }
                     ] },
                     { q: "A good Lead-In should create context and relevance **without teaching the theoretical content**. This is crucial because:", options: [
                         { text: "Teaching prematurely ruins the surprise of the LEARN phase.", isCorrect: false },
-                        { text: "It <strong>prevents the Lead-In from becoming an unfocused and inefficient repetition</strong> of the LEARN phase.", isCorrect: true },
+                        { text: "It prevents the Lead-In from becoming an unfocused and inefficient repetition of the LEARN phase.", isCorrect: true },
                         { text: "It maximizes the Affective Filter.", isCorrect: false },
                         { text: "It shifts the focus to Delayed Correction.", isCorrect: false }
                     ] },
                     { q: "What should the instructor prioritize in a Warm-Up that includes *Two Truths and a Lie*?", options: [
                         { text: "Grammatical accuracy and complex sentence structure.", isCorrect: false },
-                        { text: "<strong>Flow, fun, and natural re-activation of known vocabulary</strong>.", isCorrect: true },
+                        { text: "Flow, fun, and natural re-activation of known vocabulary.", isCorrect: true },
                         { text: "A clear link to the lesson topic.", isCorrect: false },
                         { text: "Detailed scaffolding for every student.", isCorrect: false }
                     ] },
@@ -662,7 +731,7 @@
                     ] },
                     { q: "If the Warm-Up and Lead-In are consistently taking more than 10-15 minutes of the class, the instructor is failing in which key area?", options: [
                         { text: "Fluency development (PERFORM).", isCorrect: false },
-                        { text: "<strong>Efficiency and TTT management</strong> in the SPARK phase.", isCorrect: true },
+                        { text: "Efficiency and TTT management in the SPARK phase.", isCorrect: true },
                         { text: "Accuracy (APPLY).", isCorrect: false },
                         { text: "Rapport building.", isCorrect: false }
                     ] },
@@ -710,7 +779,7 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759809772/TRILHA_PRACTICE_x_PRODUCTION_cp4aab.mp3', // Updated
                 studyAudio2: '', // Removed second audio
                 studySummary: "This module differentiates between **Practice (APPLY)**, focused on supported **accuracy** and structural consolidation, and **Production (PERFORM)**, which aims for **spontaneous fluency** and authentic communication without interruption.",
-                studyText: 'The transition from **APPLY (Practice)** to **PERFORM (Production)** marks the final, most critical didactic shift in the SLAP Method, moving from controlled competence to authentic usage. The instructor must fully internalize the difference in focus and intervention strategy between these two phases.\n\n**APPLY (Practice with Support): Accuracy & Confidence**\n* **Goal:** Reinforce learned content through <strong>controlled practice</strong> (logic) and build confidence. **Accuracy** is the primary metric.\n* **Instructor Role:** <strong>Intervene, correct, and guide</strong> actively. Mistakes are expected feedback for learning. Intervention is necessary to ensure the student internalizes the correct form before attempting free production.\n* **Activities:** Structured exercises, guided role-plays, fill-in-the-blanks.\n\n**PERFORM (Free Production): Fluency & Communication**\n* **Goal:** Achieve <strong>spontaneous communication</strong> and **fluency** (real communication). The student must act with full linguistic autonomy.\n* **Instructor Role:** <strong>Mediator and Observer</strong>. The primary rule is **AVOID INTERRUPTION**. Corrections are reserved for **Delayed Feedback** or only if the mistake severely impedes comprehension (rare).\n* **Activities:** Debates, authentic discussions, complex simulations (e.g., job interviews), storytelling.\n\n**The Strategic Dilemma:** The most common mistake is applying the **APPLY correction strategy (immediate correction)** in the **PERFORM phase**, which instantly destroys fluency, raises the Affective Filter, and paralyzes spontaneous production.',
+                studyText: 'The transition from **APPLY (Practice)** to **PERFORM (Production)** marks the final, most critical didactic shift in the SLAP Method, moving from controlled competence to authentic usage. The instructor must fully internalize the difference in focus and intervention strategy between these two phases.\n\n**APPLY (Practice with Support): Accuracy & Confidence**\n→ Goal: Reinforce learned content through <strong>controlled practice</strong> (logic) and build confidence. **Accuracy** is the primary metric.\n→ Instructor Role: <strong>Intervene, correct, and guide</strong> actively. Mistakes are expected feedback for learning. Intervention is necessary to ensure the student internalizes the correct form before attempting free production.\n→ Activities: Structured exercises, guided role-plays, fill-in-the-blanks.\n\n**PERFORM (Free Production): Fluency & Communication**\n→ Goal: Achieve <strong>spontaneous communication</strong> and **fluency** (real communication). The student must act with full linguistic autonomy.\n→ Instructor Role: <strong>Mediator and Observer</strong>. The primary rule is **AVOID INTERRUPTION**. Corrections are reserved for **Delayed Feedback** or only if the mistake severely impedes comprehension (rare).\n→ Activities: Debates, authentic discussions, complex simulations (e.g., job interviews), storytelling.\n\n**The Strategic Dilemma:** The most common mistake is applying the **APPLY correction strategy (immediate correction)** in the **PERFORM phase**, which instantly destroys fluency, raises the Affective Filter, and paralyzes spontaneous production.',
                 questions: [
                     { q: "A teacher observes an accuracy error during a fill-in-the-blanks exercise. The teacher immediately corrects the student and has them repeat the correct phrase. This intervention is methodologically justified because:", options: [
                         { text: "The exercise is part of the PERFORM phase, and fluency must be maintained.", isCorrect: false },
@@ -840,11 +909,11 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759809772/TRILHA_RAPPORT_iljryx.mp3', 
                 studyAudio2: '', 
                 studySummary: "This module examines the principles of building **Rapport**—the emotional foundation of trust and empathy. It covers how to maintain professional boundaries, use **Positive Reinforcement**, and normalize mistakes to lower the student's **Affective Filter**.",
-                studyText: 'Rapport is the **emotional foundation** of the instructor-student dynamic, defined by **trust, empathy, and collaboration**. It is fundamental for the SLAP method because communicative learning requires **vulnerability**; the student must feel safe enough to experiment and make mistakes, which directly influences the Affective Filter (Module 6).\n\n**Rapport vs. Friendship:** Good rapport does *not* require the instructor to be the student\'s friend, but rather to be a **trusted professional mentor** whom the student feels confident learning with.\n\n**Strategic Rapport Building:**\n* **Personal Connection:** Using the student\'s name genuinely and showing *interest beyond the class* (hobbies, etc.) demonstrates respect for the person, not just the learner.\n* **Positive Climate:** Maintaining <strong>open body language</strong> and a welcoming tone, coupled with **positive reinforcement of small achievements**.\n* **Mistake Normalization:** Treating errors not as failures, but as **natural, necessary feedback** in the learning process. This minimizes anxiety and encourages risk-taking, directly reducing the **Affective Filter**.',
+                studyText: 'Rapport is the **emotional foundation** of the instructor-student dynamic, defined by **trust, empathy, and collaboration**. It is fundamental for the SLAP method because communicative learning requires **vulnerability**; the student must feel safe enough to experiment and make mistakes, which directly influences the Affective Filter (Module 6).\n\n**Rapport vs. Friendship:** Good rapport does *not* require the instructor to be the student\'s friend, but rather to be a **trusted professional mentor** whom the student feels confident learning with.\n\n**Strategic Rapport Building:**\n* Personal Connection: Using the student\'s name genuinely and showing *interest beyond the class* (hobbies, etc.) demonstrates respect for the person, not just the learner.\n* Positive Climate: Maintaining open body language and a welcoming tone, coupled with **positive reinforcement of small achievements**.\n* Mistake Normalization: Treating errors not as failures, but as **natural, necessary feedback** in the learning process. This minimizes anxiety and encourages risk-taking, directly reducing the **Affective Filter**.',
                 questions: [
                     { q: "A teacher struggles to get students to participate in the PERFORM phase, though they perform well in APPLY. This gap is most likely related to a failure in which rapport principle?", options: [
                         { text: "Failure to use the student's name frequently.", isCorrect: false },
-                        { text: "The lack of an environment where the student feels the <strong>confidence and emotional safety (low Affective Filter)</strong> necessary for vulnerability in free production.", isCorrect: true },
+                        { text: "The lack of an environment where the student feels the confidence and emotional safety (low Affective Filter) necessary for vulnerability in free production.", isCorrect: true },
                         { text: "Excessive TTT during the LEARN phase.", isCorrect: false },
                         { text: "Over-reliance on On-the-spot correction.", isCorrect: false }
                     ] },
@@ -856,13 +925,13 @@
                     ] },
                     { q: "Rapport building is described as moving beyond technique to include <strong>presence and sensitivity</strong>. This is crucial because:", options: [
                         { text: "It reduces the need for the LEARN phase.", isCorrect: false },
-                        { text: "It requires the instructor to perceive the <strong>student as a person first</strong>, which builds a genuine bond of trust.", isCorrect: true },
+                        { text: "It requires the instructor to perceive the student as a person first, which builds a genuine bond of trust.", isCorrect: true },
                         { text: "It ensures the TTT is always low.", isCorrect: false },
                         { text: "It guarantees the student reaches the C2 level.", isCorrect: false }
                     ] },
                     { q: "What is the primary risk of an instructor adopting the approach of being the student's 'friend' (in the social sense) instead of a professional mentor?", options: [
                         { text: "The student will demand immediate correction.", isCorrect: false },
-                        { text: "The <strong>professional boundaries</strong> of the relationship may be compromised, undermining the necessary confidence for structured learning and assessment.", isCorrect: true },
+                        { text: "The professional boundaries of the relationship may be compromised, undermining the necessary confidence for structured learning and assessment.", isCorrect: true },
                         { text: "The instructor's TTT will increase.", isCorrect: false },
                         { text: "The student will only want to do Lead-In activities.", isCorrect: false }
                     ] },
@@ -874,7 +943,7 @@
                     ] },
                     { q: "Why is a high level of **vulnerability** inherent to the communicative SLAP method?", options: [
                         { text: "Because the exercises are extremely difficult.", isCorrect: false },
-                        { text: "Because the <strong>student must constantly expose their knowledge gaps</strong> and make mistakes in real-time communication.", isCorrect: true },
+                        { text: "Because the student must constantly expose their knowledge gaps and make mistakes in real-time communication.", isCorrect: true },
                         { text: "Because the instructor always uses Delayed Correction.", isCorrect: false },
                         { text: "Because the class focuses only on the Logic pillar.", isCorrect: false }
                     ] },
@@ -887,12 +956,12 @@
                     { q: "In the context of the Affective Filter, good rapport acts primarily as:", options: [
                         { text: "A tool for grading.", isCorrect: false },
                         { text: "A mechanism to raise the Monitor's activity.", isCorrect: false },
-                        { text: "A <strong>shield that reduces anxiety, embarrassment, and fear of failure</strong>, maximizing language absorption.", isCorrect: true },
+                        { text: "A shield that reduces anxiety, embarrassment, and fear of failure, maximizing language absorption.", isCorrect: true },
                         { text: "A way to increase TTT.", isCorrect: false }
                     ] },
                     { q: "If an instructor maintains a closed posture (arms crossed, serious tone), which rapport principle is violated, and what is the consequence?", options: [
                         { text: "Mistake Normalization; the consequence is too many student errors.", isCorrect: false },
-                        { text: "<strong>Open body language</strong>; the consequence is conveying distance and potentially raising the Affective Filter.", isCorrect: true },
+                        { text: "Open body language; the consequence is conveying distance and potentially raising the Affective Filter.", isCorrect: true },
                         { text: "Positive Reinforcement; the consequence is reduced TTT.", isCorrect: false },
                         { text: "Recasting; the consequence is increased STT.", isCorrect: false }
                     ] },
@@ -910,14 +979,14 @@
                     ] },
                     { q: "The rapport principle of **using the student's name frequently and genuinely** primarily fulfills which need?", options: [
                         { text: "The need for Logic.", isCorrect: false },
-                        { text: "The need for <strong>individual recognition and validation</strong>.", isCorrect: true },
+                        { text: "The need for individual recognition and validation.", isCorrect: true },
                         { text: "The need to track attendance.", isCorrect: false },
                         { text: "The need for a quick Warm-Up.", isCorrect: false }
                     ] },
                     { q: "Rapport, which focuses on emotional and interpersonal bond, is the foundation for the successful execution of which two Krashen Hypotheses (Module 6)?", options: [
                         { text: "Monitor and Input.", isCorrect: false },
                         { text: "Input and Output.", isCorrect: false },
-                        { text: "<strong>Affective Filter and Comprehensible Input</strong>.", isCorrect: true },
+                        { text: "Affective Filter and Comprehensible Input.", isCorrect: true },
                         { text: "Monitor and Output.", isCorrect: false }
                     ] },
                     { q: "The statement 'Rapport is presence and sensitivity' suggests that effective rapport building is largely dependent on the instructor's:", options: [
@@ -940,7 +1009,7 @@
                     ] },
                     { q: "An instructor's welcoming tone of voice and open body language primarily supports the goal of the <strong>SPARK</strong> phase by:", options: [
                         { text: "Maintaining TTT balance.", isCorrect: false },
-                        { text: "<strong>Creating a receptive and non-intimidating emotional entry point</strong>.", isCorrect: true },
+                        { text: "Creating a receptive and non-intimidating emotional entry point.", isCorrect: true },
                         { text: "Ensuring all vocabulary is re-activated.", isCorrect: false },
                         { text: "Focusing on logical structure.", isCorrect: false }
                     ] },
@@ -1034,7 +1103,7 @@
                     ] },
                     { q: "What is the pedagogical risk of relying solely on the **Monitor** for learning?", options: [
                         { text: "The student will communicate too spontaneously.", isCorrect: false },
-                        { text: "The Monitor, being focused on form, leads to slow, unnatural production and inhibits the development of natural fluency.", isCorrect: true },
+                        { text: "The Monitor, being focused on form, leads to slow, unnatural production and inhibited fluency.", isCorrect: true },
                         { text: "The input will be too challenging.", isCorrect: false },
                         { text: "The TTT will become too low.", isCorrect: false }
                     ] },
@@ -1100,71 +1169,71 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759810679/TRILHA_TEC_DE_CORRECOES_pno5x4.mp3', 
                 studyAudio2: '', 
                 studySummary: "This module covers the **strategic art of correction**, detailing the use of **On-the-spot, Delayed Correction, Recasting, and Peer Correction**. The goal is learning to correct effectively without compromising student **fluency** or **Affective Filter**.",
-                studyText: 'Correction is a **strategic art** in the SLAP method. The choice of technique depends entirely on the pedagogical goal (Accuracy vs. Fluency) and the class phase (APPLY vs. PERFORM). The guiding principle is: **correct without breaking fluency or raising the Affective Filter**.\n\n**Technique vs. Context:**\n* **On-the-spot Correction:** Immediate, subtle, and natural correction. *Best used in the **APPLY** phase* when **accuracy is the focus**, or in PERFORM only if the error severely compromises communication. Overuse is the main cause of inhibited speech.\n* **Delayed Correction:** The instructor observes and notes errors during a fluency activity and addresses them **after the activity is complete**. *Ideal for the **PERFORM** phase* to protect the student\'s natural flow (STT).\n* **Recasting:** Implicit correction; the instructor repeats the student’s phrase correctly **without interruption**. Excellent for subtle feedback without engaging the student\'s Monitor, applicable in both speaking phases.\n* **Peer Correction:** Strengthens **autonomy** and community. Requires instructor mediation to ensure it remains positive and focused.\n* **Written Correction:** Used for written production; must focus on **guiding** the student toward self-correction rather than merely marking errors.\n\n**The Golden Rule:** A professional instructor knows that not all mistakes require correction; some are merely part of the communicative process, while others are critical learning opportunities.',
+                studyText: 'Correction is a **strategic art** in the SLAP method. The choice of technique depends entirely on the pedagogical goal (Accuracy vs. Fluency) and the class phase (APPLY vs. PERFORM). The guiding principle is: **correct without breaking fluency or raising the Affective Filter**.\n\n**Technique vs. Context:**\n→ On-the-spot Correction: Immediate, subtle, and natural correction. *Best used in the **APPLY** phase* when **accuracy is the focus**, or in PERFORM only if the error severely compromises communication. Overuse is the main cause of inhibited speech.\n→ Delayed Correction: The instructor observes and notes errors during a fluency activity and addresses them **after the activity is complete**. *Ideal for the **PERFORM** phase* to protect the student\'s natural flow (STT).\n→ Recasting: Implicit correction; the instructor repeats the student’s phrase correctly **without interruption**. Excellent for subtle feedback without engaging the student\'s Monitor, applicable in both speaking phases.\n→ Peer Correction: Strengthens **autonomy** and community. Requires instructor mediation to ensure it remains positive and focused.\n→ Written Correction: Used for written production; must focus on **guiding** the student toward self-correction rather than merely marking errors.\n\n**The Golden Rule:** A professional instructor knows that not all mistakes require correction; some are merely part of the communicative process, while others are critical learning opportunities.',
                 questions: [
                     { q: "During a spontaneous group discussion (PERFORM), a student makes a consistent grammar error that does not impede comprehension. What is the most methodologically sound action?", options: [
                         { text: "Use Recasting repeatedly to implicitly correct the error.", isCorrect: false },
                         { text: "Stop the discussion immediately to use On-the-spot correction.", isCorrect: false },
-                        { text: "Continue the discussion, note the error, and address it in a brief <strong>Delayed Correction</strong> segment after the PERFORM activity.", isCorrect: true },
+                        { text: "Continue the discussion, note the error, and address it in a brief Delayed Correction segment after the PERFORM activity.", isCorrect: true },
                         { text: "Ask another student to use Peer Correction immediately.", isCorrect: false }
                     ] },
                     { q: "An instructor observes a student struggling with a verb conjugation during a guided role-play (APPLY). The most appropriate correction strategy is:", options: [
                         { text: "Delayed Correction, as fluency is the primary goal.", isCorrect: false },
-                        { text: "<strong>On-the-spot correction</strong> (subtly, e.g., 'Ah, he goes, right?') or explicit guidance, as <strong>accuracy is the focus in APPLY</strong>.", isCorrect: true },
+                        { text: "On-the-spot correction (subtly, e.g., 'Ah, he goes, right?') or explicit guidance, as accuracy is the focus in APPLY.", isCorrect: true },
                         { text: "Ignore the error, as mistakes are part of the process.", isCorrect: false },
                         { text: "Written Correction.", isCorrect: false }
                     ] },
                     { q: "What is the primary pedagogical drawback of constantly using **Recasting**?", options: [
                         { text: "It violates the principle of Delayed Correction.", isCorrect: false },
-                        { text: "It risks the student not consciously noticing or processing the correction (Monitor), <strong>hindering long-term accuracy development</strong>.", isCorrect: true },
+                        { text: "It risks the student not consciously noticing or processing the correction (Monitor), hindering long-term accuracy development.", isCorrect: true },
                         { text: "It raises the Affective Filter.", isCorrect: false },
                         { text: "It leads to excessive TTT.", isCorrect: false }
                     ] },
                     { q: "The technique that best supports student **autonomy** and fosters a positive error culture is:", options: [
                         { text: "Recasting.", isCorrect: false },
                         { text: "Written Correction.", isCorrect: false },
-                        { text: "<strong>Peer Correction</strong> (with proper mediation).", isCorrect: true },
+                        { text: "Peer Correction (with proper mediation).", isCorrect: true },
                         { text: "On-the-spot correction.", isCorrect: false }
                     ] },
                     { q: "When performing Written Correction on an essay, the instructor's feedback should prioritize:", options: [
                         { text: "Marking every single error in red.", isCorrect: false },
-                        { text: "Focusing on global errors and providing <strong>guidance for self-correction and revision</strong>.", isCorrect: true },
+                        { text: "Focusing on global errors and providing guidance for self-correction and revision.", isCorrect: true },
                         { text: "Using only Recasting phrases.", isCorrect: false },
                         { text: "Delaying the feedback until the next semester.", isCorrect: false }
                     ] },
                     { q: "Why must On-the-spot correction be used **subtly and naturally**?", options: [
                         { text: "To make the correction easier for the instructor.", isCorrect: false },
-                        { text: "To correct the mistake without causing <strong>embarrassment or significantly interrupting the speech flow</strong>.", isCorrect: true },
+                        { text: "To correct the mistake without causing embarrassment or significantly interrupting the speech flow.", isCorrect: true },
                         { text: "To increase TTT.", isCorrect: false },
                         { text: "It is only used for written mistakes.", isCorrect: false }
                     ] },
                     { q: "An instructor collects common mistakes observed during the PERFORM phase and designs a quick, targeted APPLY exercise for the following class. This demonstrates the effective use of:", options: [
                         { text: "Recasting.", isCorrect: false },
                         { text: "Immediate Correction.", isCorrect: false },
-                        { text: "<strong>Delayed Correction</strong> (as the data collection leads to post-activity feedback).", isCorrect: true },
+                        { text: "Delayed Correction (as the data collection leads to post-activity feedback).", isCorrect: true },
                         { text: "Peer Correction without mediation.", isCorrect: false }
                     ] },
                     { q: "What is the main risk of an instructor using **Delayed Correction** during a dedicated **APPLY** activity?", options: [
                         { text: "It protects the student's fluency too much.", isCorrect: false },
-                        { text: "The student will <strong>internalize and fix accuracy errors</strong> that the APPLY phase was designed to correct immediately.", isCorrect: true },
+                        { text: "The student will internalize and fix accuracy errors that the APPLY phase was designed to correct immediately.", isCorrect: true },
                         { text: "It increases the Monitor's capacity.", isCorrect: false },
                         { text: "It converts the activity into the SPARK phase.", isCorrect: false }
                     ] },
                     { q: "If a student's mistake is so severe that the message is completely lost (e.g., confusing negation and affirmation), which technique might be used in the PERFORM phase, even though it breaks fluency?", options: [
                         { text: "Recasting (followed by checking question).", isCorrect: false },
                         { text: "Delayed Correction (as it is the PERFORM phase).", isCorrect: false },
-                        { text: "<strong>On-the-spot correction (Immediate)</strong>, as comprehension is compromised.", isCorrect: true },
+                        { text: "On-the-spot correction (Immediate), as comprehension is compromised.", isCorrect: true },
                         { text: "Written Correction.", isCorrect: false }
                     ] },
                     { q: "The secret to correcting in SLAP is knowing:", options: [
                         { text: "Only one correction technique.", isCorrect: false },
                         { text: "The perfect ratio of TTT to STT.", isCorrect: false },
-                        { text: "<strong>When the mistake is a learning opportunity</strong> that requires intervention and when it is merely part of the communicative process that requires observation.", isCorrect: true },
+                        { text: "When the mistake is a learning opportunity that requires intervention and when it is merely part of the communicative process that requires observation.", isCorrect: true },
                         { text: "How to use only Peer Correction effectively.", isCorrect: false }
                     ] },
                     { q: "The instructor wants to provide subtle pronunciation correction without interrupting the student's speech flow. Which technique is most appropriate?", options: [
                         { text: "On-the-spot correction.", isCorrect: false },
-                        { text: "<strong>Recasting</strong>.", isCorrect: true },
+                        { text: "Recasting.", isCorrect: true },
                         { text: "Written Correction.", isCorrect: false },
                         { text: "Peer correction.", isCorrect: false }
                     ] },
@@ -1176,7 +1245,7 @@
                     ] },
                     { q: "The strategic choice between On-the-spot correction and Delayed correction depends primarily on the distinction between:", options: [
                         { text: "TTT and STT.", isCorrect: false },
-                        { text: "<strong>Accuracy (Form) and Fluency (Flow)</strong>.", isCorrect: true },
+                        { text: "Accuracy (Form) and Fluency (Flow).", isCorrect: true },
                         { text: "SPARK and LEARN.", isCorrect: false },
                         { text: "Monitor and Affective Filter.", isCorrect: false }
                     ] },
@@ -1360,7 +1429,7 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759809771/TRILHA_LISTENING_ACTIVITIES_dfadid.mp3', 
                 studyAudio2: '', 
                 studySummary: "This module covers the four types of **Active Listening**—Gist, Detail, Inference, and Opinion—and emphasizes the professional necessity of assigning a **specific purpose** to every listening task to maximize comprehension.",
-                studyText: 'Listening is an **active, purposeful skill** in the SLAP method, moving beyond merely hearing sounds to comprehending **meaning, context, and intention**. A professional instructor must master the four main types of Listening activities to vary the challenge and focus:\n\n**1. Listening for Gist (General Idea):** The core task is global comprehension—understanding the <strong>central theme</strong> or purpose. Used for initial exposure or short content (e.g., introductions, trailers). The student *does not* need to catch every word.\n\n**2. Listening for Detail (Specific Information):** Requires intensive listening to extract **specific data** (e.g., names, numbers, dates, locations). Best used for practical tasks like filling out a form or confirming facts.\n\n**3. Listening for Inference:** Demands higher-order reasoning—the student must **deduce** what is implied but not explicitly stated (e.g., guessing the speaker\'s relationship, next action, or outcome).\n\n**4. Listening for Opinions and Attitudes:** The highest level of comprehension, focusing on the speaker\'s <strong>subjective stance</strong> (e.g., tone of irony, attitude, belief, or emotion). Essential for advanced discussions and debates.\n\n**🔑 Practical Tip:** Never ask a student to "listen and understand everything." Every Listening activity must be assigned with a clear, specific **purpose** aligned with one of these four types. Varying the type of listening keeps the student engaged and develops a full range of comprehension skills.',
+                studyText: 'Listening is an **active, purposeful skill** in the SLAP method, moving beyond merely hearing sounds to comprehending **meaning, context, and intention**. A professional instructor must master the four main types of Listening activities to vary the challenge and focus:\n\n→ Listening for Gist (General Idea): The core task is global comprehension—understanding the <strong>central theme</strong> or purpose. Used for initial exposure or short content (e.g., introductions, trailers). The student *does not* need to catch every word.\n\n→ Listening for Detail (Specific Information): Requires intensive listening to extract **specific data** (e.g., names, numbers, dates, locations). Best used for practical tasks like filling out a form or confirming facts.\n\n→ Listening for Inference: Demands higher-order reasoning—the student must **deduce** what is implied but not explicitly stated (e.g., guessing the speaker\'s relationship, next action, or outcome).\n\n→ Listening for Opinions and Attitudes: The highest level of comprehension, focusing on the speaker\'s <strong>subjective stance</strong> (e.g., tone of irony, attitude, belief, or emotion). Essential for advanced discussions and debates.\n\n**🔑 Practical Tip:** Never ask a student to "listen and understand everything." Every Listening activity must be assigned with a clear, specific **purpose** aligned with one of these four types. Varying the type of listening keeps the student engaged and develops a full range of comprehension skills.',
                 questions: [
                     { q: "An instructor plays a news report and asks students to write down the **names of the political leaders** and the **date of the meeting**. This is primarily testing which type of Listening?", options: [
                         { text: "Listening for Gist.", isCorrect: false },
@@ -1490,7 +1559,7 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759868533/TRILHA_OBSERVAC%CC%A7A%CC%83O_E_FEEDBACK_bfvbdn.mp3',
                 studyAudio2: '',
                 studySummary: "This module covers the mandatory cycle of **Class Observation** and **Feedback Sessions**. It details how this process ensures quality, consistency, and professional self-awareness, providing **constructive feedback** for continuous evolution.",
-                studyText: 'Class Observation and subsequent Feedback Sessions are the primary mechanisms for ensuring **quality, consistency, and continuous instructor evolution** in the SLAP method. The process moves beyond mere evaluation to build **pedagogical self-awareness**.\n\n**Class Observation (Live Evaluation):**\n* **Purpose:** To evaluate the instructor\'s real-time application of the SLAP cycle, correction techniques, TTT/STT balance, and rapport.\n* **Conducted by:** The coordinator or an experienced instructor.\n* **Focus:** How theory translates into practice and whether the method is being applied consistently.\n\n**Feedback Session (Post-Observation):**\n* **Nature:** Must be <strong>detailed, constructive, and balanced</strong>, highlighting both **strengths** and **specific opportunities for improvement**.\n* **Goal:** To help the instructor achieve pedagogical self-awareness, guiding their personal development goals that will be aligned in the 1:1 meetings.\n\n**The Culture of Growth:** This mandatory cycle fosters a **collaborative learning culture**, making the process of being observed a tool for growth rather than a source of anxiety (Affective Filter).',
+                studyText: 'Class Observation and subsequent Feedback Sessions are the primary mechanisms for ensuring **quality, consistency, and continuous instructor evolution** in the SLAP method. The process moves beyond mere evaluation to build **pedagogical self-awareness**.\n\n**Class Observation (Live Evaluation):**\n→ Purpose: To evaluate the instructor\'s real-time application of the SLAP cycle, correction techniques, TTT/STT balance, and rapport.\n→ Conducted by: The coordinator or an experienced instructor.\n→ Focus: How theory translates into practice and whether the method is being applied consistently.\n\n**Feedback Session (Post-Observation):**\n→ Nature: Must be <strong>detailed, constructive, and balanced</strong>, highlighting both **strengths** and **specific opportunities for improvement**.\n→ Goal: To help the instructor achieve pedagogical self-awareness, guiding their personal development goals that will be aligned in the 1:1 meetings.\n\n**The Culture of Growth:** This mandatory cycle fosters a **collaborative learning culture**, making the process of being observed a tool for growth rather than a source of anxiety (Affective Filter).',
                 questions: [
                     { q: "What is the most critical aspect evaluated during a Class Observation in the SLAP method?", options: [
                         { text: "The age of the students.", isCorrect: false },
@@ -1620,7 +1689,7 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759811382/TRILHA_NOTAS_E_TESTES_je3hkw.mp3', // Updated
                 studyAudio2: '', 
                 studySummary: "This module explains the **SLAP assessment system (100 points)**, detailing the four core tests (Midterm, Listening, Grammar, Oral) and the strategic weighting given to **Participation and Attendance** to measure both linguistic knowledge and student commitment.",
-                studyText: 'The SLAP assessment system is comprehensive, valuing both **Linguistic Knowledge (tests)** and **Student Engagement (participation/attendance)**, totaling **100 points**. It ensures the final grade reflects the student\'s full commitment and ability, not just test scores.\n\n**The Four Core Tests:**\n* **Midterm Test:** Evaluates **general comprehension** of content up to the middle of the semester.\n* **Listening Test:** Measures comprehension of **Gist, Details, Inferences, and Opinions** (Module 9).\n* **Grammar Test:** Focuses on **structural knowledge** and the ability to apply rules correctly in communicative contexts.\n* **Oral Test:** The ultimate evaluation of **fluency, pronunciation, vocabulary, and spontaneous communication** (PERFORM goal).\n\n**Engagement Components:**\n* **10 Participation Points:** Assigned by the instructor based on the student’s **active engagement** in classes (effort, trying, interacting).\n* **10 Attendance Points:** Calculated **automatically by the system** based on frequency.\n\n**The Goal:** The structure ensures the assessment validates the *entire* SLAP journey, measuring the effectiveness of the teaching cycle.',
+                studyText: 'The SLAP assessment system is comprehensive, valuing both **Linguistic Knowledge (tests)** and **Student Engagement (participation/attendance)**, totaling **100 points**. It ensures the final grade reflects the student\'s full commitment and ability, not just test scores.\n\n**The Four Core Tests:**\n→ Midterm Test: Evaluates **general comprehension** of content up to the middle of the semester.\n→ Listening Test: Measures comprehension of **Gist, Details, Inferences, and Opinions** (Module 9).\n→ Grammar Test: Focuses on **structural knowledge** and the ability to apply rules correctly in communicative contexts.\n→ Oral Test: The ultimate evaluation of **fluency, pronunciation, vocabulary, and spontaneous communication** (PERFORM goal).\n\n**Engagement Components:**\n→ 10 Participation Points: Assigned by the instructor based on the student’s **active engagement** in classes (effort, trying, interacting).\n→ 10 Attendance Points: Calculated **automatically by the system** based on frequency.\n\n**The Goal:** The structure ensures the assessment validates the *entire* SLAP journey, measuring the effectiveness of the teaching cycle.',
                 questions: [
                     { q: "The SLAP assessment system totals 100 points. How is the weighting strategically divided?", options: [
                         { text: "All 100 points are based solely on test scores.", isCorrect: false },
@@ -1754,62 +1823,62 @@
                 questions: [
                     { q: "In a Collective Group setting, an instructor uses a strategic technique to ensure quiet students have an opportunity to speak. This action primarily addresses the challenge of:", options: [
                         { text: "Personalizing the pace.", isCorrect: false },
-                        { text: "<strong>Managing multiple students simultaneously and ensuring active participation for all</strong>.", isCorrect: true },
+                        { text: "Managing multiple students simultaneously and ensuring active participation for all.", isCorrect: true },
                         { text: "Achieving accelerated progression.", isCorrect: false },
                         { text: "Providing 100% personalized feedback.", isCorrect: false }
                     ] },
                     { q: "What is the primary benefit of the <strong>accelerated progression</strong> possible with VIP students?", options: [
                         { text: "The instructor can reduce TTT.", isCorrect: false },
-                        { text: "The <strong>pace, vocabulary, and examples can be adapted precisely to the student's specific needs (personalization)</strong>.", isCorrect: true },
+                        { text: "The pace, vocabulary, and examples can be adapted precisely to the student's specific needs (personalization).", isCorrect: true },
                         { text: "The student will not make any mistakes.", isCorrect: false },
                         { text: "The instructor becomes a facilitator.", isCorrect: false }
                     ] },
                     { q: "The role of <strong>Facilitator</strong> (Groups) requires the instructor to focus on:", options: [
                         { text: "Detailed, explicit correction of every minor error.", isCorrect: false },
-                        { text: "<strong>Creating interactive dynamics and strategically distributing speaking opportunities</strong>.", isCorrect: true },
+                        { text: "Creating interactive dynamics and strategically distributing speaking opportunities.", isCorrect: true },
                         { text: "Focusing solely on the advanced students.", isCorrect: false },
                         { text: "Ignoring all TTT/STT ratios.", isCorrect: false }
                     ] },
                     { q: "The phrase 'The instructor's responsibility increases' in the VIP setting is justified because:", options: [
                         { text: "The instructor must manage group dynamics.", isCorrect: false },
                         { text: "The instructor must follow a fixed textbook pace.", isCorrect: false },
-                        { text: "The <strong>entire learning outcome is dictated by the single instructor's personalized guidance</strong>.", isCorrect: true },
+                        { text: "The entire learning outcome is dictated by the single instructor's personalized guidance.", isCorrect: true },
                         { text: "The instructor must reduce the Affective Filter.", isCorrect: false }
                     ] },
                     { q: "In a Collective Group, the instructor uses **Peer Correction**. This is a particularly effective strategy because it:", options: [
                         { text: "Reduces the need for scaffolding.", isCorrect: false },
-                        { text: "<strong>Allows for multiple students to engage in correction actively</strong>, distributing the cognitive load and maximizing interaction.", isCorrect: true },
+                        { text: "Allows for multiple students to engage in correction actively, distributing the cognitive load and maximizing interaction.", isCorrect: true },
                         { text: "Provides 100% personalized feedback.", isCorrect: false },
                         { text: "Ensures the pace is slower.", isCorrect: false }
                     ] },
                     { q: "When teaching a VIP student who works in finance, the instructor, acting as a <strong>Personalized Mentor</strong>, should prioritize:", options: [
                         { text: "General grammar examples.", isCorrect: false },
-                        { text: "<strong>Adapting class materials and examples to finance-specific vocabulary and scenarios</strong>.", isCorrect: true },
+                        { text: "Adapting class materials and examples to finance-specific vocabulary and scenarios.", isCorrect: true },
                         { text: "Strictly adhering to the general curriculum.", isCorrect: false },
                         { text: "Ignoring the PERFORM phase.", isCorrect: false }
                     ] },
                     { q: "What is the primary challenge related to **scaffolding** in a Collective Group setting?", options: [
                         { text: "Scaffolding is not needed in groups.", isCorrect: false },
-                        { text: "<strong>Applying scaffolding consistently across diverse student profiles simultaneously</strong>.", isCorrect: true },
+                        { text: "Applying scaffolding consistently across diverse student profiles simultaneously.", isCorrect: true },
                         { text: "The scaffolding must be permanent.", isCorrect: false },
                         { text: "It must be reduced to zero in the LEARN phase.", isCorrect: false }
                     ] },
                     { q: "If an instructor notices that an interactive dynamic is failing in a group, what should the <strong>Facilitator</strong> do?", options: [
                         { text: "Blame the students.", isCorrect: false },
-                        { text: "<strong>Stop the dynamic and quickly transition</strong> to a structured activity or re-teach the concept (APPLY/LEARN).", isCorrect: true },
+                        { text: "Stop the dynamic and quickly transition to a structured activity or re-teach the concept (APPLY/LEARN).", isCorrect: true },
                         { text: "Increase TTT with a long lecture.", isCorrect: false },
                         { text: "Focus on the quietest student.", isCorrect: false }
                     ] },
                     { q: "The core difference in correction approach between the two roles is that VIP allows for *more* <strong>detailed feedback</strong> because:", options: [
                         { text: "Group correction must be delayed.", isCorrect: false },
-                        { text: "The <strong>single focus allows the mentor to analyze and address specific, individual errors more precisely</strong>.", isCorrect: true },
+                        { text: "The single focus allows the mentor to analyze and address specific, individual errors more precisely.", isCorrect: true },
                         { text: "The VIP student has a lower Affective Filter.", isCorrect: false },
                         { text: "The instructor is not required to use the SLAP method.", isCorrect: false }
                     ] },
                     { q: "The ability to **alternate** effectively between Facilitator and Personalized Mentor is essential for:", options: [
                         { text: "The student's ability to achieve B2 CEFR.", isCorrect: false },
                         { text: "The student's performance in the Oral Test.", isCorrect: false },
-                        { text: "The instructor's <strong>versatility and effectiveness across the entire SLAP program</strong>.", isCorrect: true },
+                        { text: "The instructor's versatility and effectiveness across the entire SLAP program.", isCorrect: true },
                         { text: "The Monitor Hypothesis.", isCorrect: false }
                     ] },
                     { q: "What is the primary risk of applying a 'Personalized Mentor' strategy (e.g., highly focused content) to a large Collective Group?", options: [
@@ -2010,7 +2079,7 @@
                 studyAudio: 'https://res.cloudinary.com/dqfi22uz0/video/upload/v1759813295/TRILHA_SLAP_LEVELS_gvuxra.mp3',
                 studyAudio2: '', 
                 studySummary: "This module covers the **SLAP Level Nomenclature** (Starter to Senior), explaining the structure of two modules per level and the progression that culminates in the **B2 CEFR** level and the **Advanced Conversation Class (ACC)**.",
-                studyText: 'The SLAP structure avoids confusing traditional Brazilian labels by adopting American-school nomenclatures, which better reflect the actual linguistic competence achieved at each stage (e.g., \'Advanced\' often only equating to B2 CEFR).\n\n**The SLAP Progression (Starter to Senior):**\n* **Starter** – Beginner\n* <strong>Freshman</strong> – Pre-Intermediate\n* <strong>Sophomore</strong> – Intermediate\n* <strong>Junior</strong> – Upper-Intermediate\n* <strong>Senior</strong> – Pre-Advanced (culminating at **B2 CEFR**)\n\n**Module Structure:** Each level consists of <strong>two modules</strong>, ensuring organized and clear progression. After the Senior level, students transition to the **ACC (Advanced Conversation Class)**, focusing on total fluency and advanced, spontaneous conversation.\n\n**Instructor\'s Role in Communication:** The instructor must always explain to students that the SLAP method prepares them for **natural fluency** and real language use, moving beyond arbitrary labels to focus on **gradual mastery**.',
+                studyText: 'The SLAP structure avoids confusing traditional Brazilian labels by adopting American-school nomenclatures, which better reflect the actual linguistic competence achieved at each stage (e.g., \'Advanced\' often only equating to B2 CEFR).\n\n**The SLAP Progression (Starter to Senior):**\n→ Starter – Beginner\n→ Freshman – Pre-Intermediate\n→ Sophomore – Intermediate\n→ Junior – Upper-Intermediate\n→ Senior – Pre-Advanced (culminating at **B2 CEFR**)\n\n**Module Structure:** Each level consists of two modules, ensuring organized and clear progression. After the Senior level, students transition to the **ACC (Advanced Conversation Class)**, focusing on total fluency and advanced, spontaneous conversation.\n\n**Instructor\'s Role in Communication:** The instructor must always explain to students that the SLAP method prepares them for **natural fluency** and real language use, moving beyond arbitrary labels to focus on **gradual mastery**.',
                 questions: [
                     { q: "Why does the SLAP methodology avoid traditional terms like 'advanced' for its levels in the Brazilian context?", options: [
                         { text: "Because traditional terms encourage the use of the Monitor.", isCorrect: false },
@@ -2149,6 +2218,11 @@
         const streakDisplay = document.getElementById('streak-display');
         const feedbackAlert = document.getElementById('feedback-alert');
 
+        // Login Elements
+        const loginGate = document.getElementById('login-gate');
+        const passwordInput = document.getElementById('password-input');
+        const loginFeedback = document.getElementById('login-feedback');
+
 
         // Study View Elements
         const studyModuleTitle = document.getElementById('study-module-title');
@@ -2176,21 +2250,44 @@
         }));
 
 
+        // --- LOGIN FUNCTION ---
+
+        window.checkPassword = function(event) {
+            event.preventDefault();
+            const password = passwordInput.value.toLowerCase().trim();
+            const correctPassword = "abacaxi"; 
+            
+            if (password === correctPassword) {
+                loginGate.classList.add('hidden');
+                document.getElementById('main-wrapper').classList.remove('hidden');
+                loginFeedback.classList.add('hidden');
+                renderLevelCards();
+            } else {
+                loginFeedback.textContent = "Sabor incorreto. Tente novamente!";
+                loginFeedback.classList.remove('hidden');
+                passwordInput.value = '';
+            }
+        }
+
         // --- NAVIGATION AND GAME STATE FUNCTIONS ---
 
         /**
          * Parses text for bold formatting (**) and newline characters (\n)
-         * to HTML elements (<p> and <strong>).
+         * and replaces list markers (*, •) with a consistent arrow (→).
          */
         function formatTextForDisplay(text) {
             if (!text) return '';
             
-            // 1. Convert newlines to paragraphs
-            const paragraphs = text.split('\n').map(p => {
+            // 1. Convert **bold** to <strong>bold</strong> (must be done first)
+            let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // 2. Replace bullet points (*, •, -, etc.) at the start of a line with an arrow.
+            formattedText = formattedText.replace(/(\r\n|\n)[*-•—]\s/g, '\n→ ');
+            
+            // 3. Convert newlines to paragraphs
+            const paragraphs = formattedText.split('\n').map(p => {
                 if (p.trim() === '') return '';
-                // 2. Convert **bold** to <strong>bold</strong> (only within non-empty text)
-                let formattedP = p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                return `<p class="mb-3">${formattedP}</p>`;
+                return `<p class="mb-3">${p}</p>`;
             }).join('');
 
             return paragraphs;
@@ -2347,8 +2444,12 @@
             questionsPool.splice(randomIndex, 1); 
 
             // Update interface
-            // Apply formatting for the question text
-            mainQuestion.innerHTML = currentQuestion.q.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Apply formatting for the question text (removing ALL bolding)
+            let formattedQuestion = currentQuestion.q;
+            formattedQuestion = formattedQuestion.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            formattedQuestion = formattedQuestion.replace(/<\/?strong>/g, ''); // Ensure no bold tags remain for questions (only internal JS bolding)
+            
+            mainQuestion.innerHTML = formattedQuestion;
             
             renderOptions();
             
@@ -2370,8 +2471,11 @@
                 button.setAttribute('data-index', index);
                 button.onclick = () => submitAnswer(index);
                 
-                // Apply formatting for the option text (only replacing ** by <strong>)
-                const formattedText = option.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                // Apply formatting for the option text (Removing ALL bolding from options)
+                let formattedText = option.text;
+                formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '$1'); // Remove markdown bolding
+                formattedText = formattedText.replace(/<\/?strong>/g, '');      // Remove strong tags
+                
 
                 button.innerHTML = `
                     <span class="option-prefix">${optionPrefixes[index]}</span>
@@ -2485,7 +2589,9 @@
 
         // --- INITIALIZATION ---
         window.onload = function() {
-            renderLevelCards();
+            // Check if user is logged in (hides dashboard until checked)
+            document.getElementById('main-wrapper').classList.add('hidden');
+            loginGate.classList.remove('hidden');
         };
     </script>
 </body>
