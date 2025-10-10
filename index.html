@@ -605,7 +605,7 @@
                         { text: "Interrupting when the student uses vocabulary learned in the current class.", isCorrect: false },
                         { text: "Avoiding all eye contact during student speech.", isCorrect: false }
                     ] },
-                    { q: "What is the benefit of a high STT ratio in the APPLY phase (Practice)?", isCorrect: false, options: [
+                    { q: "What is the benefit of a high STT ratio in the APPLY phase (Practice)?", options: [
                         { text: "It prepares the student for passive listening in the LEARN phase.", isCorrect: false },
                         { text: "It allows for maximum practical application of the theory learned, which solidifies the logical comprehension.", isCorrect: true },
                         { text: "It shifts the focus from accuracy to fluency too early.", isCorrect: false },
@@ -1287,7 +1287,7 @@
                     ] },
                     { q: "Why is <strong>Recasting</strong> generally less effective for advanced structural corrections?", options: [
                         { text: "Because advanced students only accept Written Correction.", isCorrect: false },
-                        { text: "Because the correction is subtle/implicit, and the <strong>advanced student's Monitor may not consciously detect and process the difference</strong>.", isCorrect: true },
+                        { text: "Porque a correção é subtil/implícita, e o <strong>Monitor do aluno avançado pode não detetar e processar conscientemente a diferença</strong>.", isCorrect: true },
                         { text: "Because Recasting increases TTT.", isCorrect: false },
                         { text: "Because it raises the Affective Filter.", isCorrect: false }
                     ] },
@@ -2258,7 +2258,8 @@
             const correctPassword = "abacaxi"; 
             
             if (password === correctPassword) {
-                loginGate.classList.add('hidden');
+                // IMPORTANT FIX: Use display: none on the gate to remove it from document flow
+                loginGate.style.display = 'none'; 
                 document.getElementById('main-wrapper').classList.remove('hidden');
                 loginFeedback.classList.add('hidden');
                 renderLevelCards();
@@ -2589,9 +2590,10 @@
 
         // --- INITIALIZATION ---
         window.onload = function() {
-            // Check if user is logged in (hides dashboard until checked)
+            // Hides main content initially
             document.getElementById('main-wrapper').classList.add('hidden');
-            loginGate.classList.remove('hidden');
+            // Shows login gate initially
+            loginGate.style.display = 'flex';
         };
     </script>
 </body>
