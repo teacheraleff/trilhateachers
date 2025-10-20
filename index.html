@@ -2561,9 +2561,9 @@
                 const card = document.createElement('div');
                 card.className = `level-card relative`; 
                 
-                // Determine question count for range display
-                const questionCount = data.questions.length;
-                const rangeDisplay = questionCount === 20 ? '20 Qs' : `${questionCount} Qs`;
+                // --- REMOVED QUESTION COUNT DISPLAY ---
+                // const questionCount = data.questions.length;
+                // const rangeDisplay = questionCount === 20 ? '20 Qs' : `${questionCount} Qs`;
 
                 card.innerHTML = `
                     ${slapIcon} <!-- Injected Icon -->
@@ -2583,7 +2583,7 @@
                             </button>
                             <!-- Practice Button -->
                             <button class="action-button w-full sm:w-auto flex-grow text-sm" onclick="openQuestionGenerator('${moduleName}')">
-                                Practice (${rangeDisplay})
+                                Practice 
                             </button>
                         </div>
                     </div>
