@@ -391,7 +391,97 @@
                 studySummary: "This module covers the entire SLAP didactic cycle: the unique purpose of the SPARK, LEARN, APPLY, and PERFORM phases, and how they combine to achieve the pillars of **Emotion, Logic, and Real Communication**.",
                 studyText: 'The SLAP Method is the foundational didactic framework, moving beyond traditional methods by prioritizing **active, experience-based learning**. The four phases—SPARK, LEARN, APPLY, PERFORM—are not mere steps but an interconnected cycle designed to build language proficiency through **emotion, logic, and real communication**.\n\n**Strategic Goal of Each Phase:**\n→ **SPARK (Emotion/Engagement):** The entry point. Its singular purpose is to dismantle the **Affective Filter** and generate curiosity. The key is **instigation, not instruction**.\n→ **LEARN (Logic/Structure):** The phase for theoretical scaffolding. The instructor’s role is that of a clear guide, maintaining a balanced **TTT/STT ratio** to ensure active comprehension and prevent passive listening. Strategic repetition is critical here.\n→ **APPLY (Logic/Practice):** The transition zone for controlled production. The focus shifts to **accuracy** and confidence building through structured tasks (e.g., fill-ins, guided dialogues). The environment must normalize errors, allowing the instructor to **intervene, correct, and guide**.\n→ **PERFORM (Communication/Fluency):** The peak moment for authentic language use. The goal is **spontaneous communication** and **fluency**. The instructor must become a mediator, prioritizing the student’s flow of speech and reserving corrections for **delayed, post-activity feedback**.\n\n**The Cycle Principle:** The effectiveness of the Perform phase directly relies on the safety built in SPARK and the accuracy practiced in APPLY. A breakdown in one phase destabilizes the entire communicative goal.',
                 questions: [
-                    { q: "A teacher spends the first 15 minutes of class providing a detailed grammatical explanation, believing this 'sets the ground' for learning. Which SLAP principle is critically violated and why?", options: [
+  {
+    q: "During a SLAP lesson, the teacher gives a long explanation of grammar in Apply before letting students try any exercises. Which principle is being compromised, and what is the most likely consequence?",
+    options: [
+      { text: "Students experience reduced autonomy because they are overwhelmed by excessive Teacher Talking Time and cannot engage in self-production immediately; this may delay overall fluency and reduce motivation, and they might rely on the teacher for guidance in every subsequent activity.", isCorrect: false },
+      { text: "Excessive examples and lengthy explanations might lead to cognitive overload, reduce engagement, lower confidence, and make students overly dependent on the teacher, even though some STT could still occur if exercises are simple enough.", isCorrect: false },
+      { text: "Maximizing Student Talking Time is at risk; excessive Teacher Talking Time delays independent practice and reduces opportunities for the student to self-produce language, which can lower confidence and delay fluency development.", isCorrect: true },
+      { text: "Rapport might be affected because students feel over-directed, potentially creating a sense of disconnection from the teacher, while comprehension and performance could still progress slowly over the lesson.", isCorrect: false }
+  ]
+  },
+  {
+    q: "In a SLAP lesson, the teacher asks students to discuss a complex topic immediately in Perform without prior Apply practice. What is the main methodological risk?",
+    options: [
+      { text: "Students might become anxious, disengaged, or hesitant to speak, which reduces both fluency and comprehension, and the teacher may feel compelled to intervene excessively, further increasing TTT and decreasing STT across the lesson.", isCorrect: false },
+      { text: "Phased progression is compromised; students are likely to experience cognitive overload and reduced autonomy, as they have not internalized the knowledge during Apply, limiting meaningful STT and lowering overall engagement.", isCorrect: true },
+      { text: "Rapport could be affected if students feel unsupported, and they might question the teacher's competence or lose trust, even though some communication could still occur with peer assistance.", isCorrect: false },
+      { text: "Lead-In and Spark phases are slightly compromised, potentially reducing initial engagement and interest, which might affect motivation, though fluency could still develop gradually.", isCorrect: false }
+  ]
+  },
+  {
+    q: "A teacher constantly interrupts students during Perform to correct minor mistakes. How does this affect the lesson according to the Slap method?",
+    options: [
+      { text: "Peer correction might mitigate some issues, but repeated interruptions increase cognitive load, reduce STT significantly, interrupt natural discourse, discourage risk-taking, and create a classroom environment where students fear producing language independently.", isCorrect: false },
+      { text: "Immediate correction disrupts fluency, reduces STT, and increases TTT, undermining confidence and risk-taking, which is contrary to Slap’s emphasis on natural output and phased support.", isCorrect: true },
+      { text: "Delayed correction could help address accuracy without breaking flow, but over-reliance on it may confuse students and delay their self-monitoring skills, even though it preserves TTT.", isCorrect: false },
+      { text: "Written correction is safer for maintaining fluency during Perform, but it delays immediate feedback, which may slow down language acquisition and reduce active engagement in oral tasks.", isCorrect: false }
+  ]
+  },
+  {
+    q: "The teacher uses a detailed Lead-In with multiple examples and long explanations, leaving little room for student interaction. What is the main risk?",
+    options: [
+      { text: "Rapport may be slightly weakened because students receive more teacher focus than peer engagement, potentially leading to some disengagement, although students might still participate actively if prompted later.", isCorrect: false },
+      { text: "Spark may lose its motivational effect, and students could feel over-directed, leading to cognitive overload that impairs subsequent Apply and Perform phases; yet, some comprehension may still occur through careful guidance.", isCorrect: false },
+      { text: "Excessive Teacher Talking Time reduces Student Talking Time, creating passivity that can carry over into Apply and Perform, diminishing autonomy and confidence.", isCorrect: true },
+      { text: "Scaffolding could be partially misaligned due to overemphasis on modeling, leading students to be less prepared for independent exercises, although some guidance still supports comprehension.", isCorrect: false }
+  ]
+  },
+  {
+    q: "During Spark, the teacher models answers repeatedly, preventing students from attempting responses. What principle is most affected?",
+    options: [
+      { text: "Rapport might be slightly affected as students feel overly directed, although engagement could still happen with peer support.", isCorrect: false },
+      { text: "Maximizing Student Talking Time is compromised; students become passive observers, reducing active participation in Apply and Perform, which can hinder autonomy and engagement.", isCorrect: true },
+      { text: "Scaffolding is preserved through modeling, but over-reliance may prevent students from internalizing content independently, reducing the effectiveness of later phases.", isCorrect: false },
+      { text: "Accuracy might decrease as students follow examples without attempting their own language production, though fluency could still develop partially with guided practice.", isCorrect: false }
+  ]
+  },
+  {
+    q: "In Apply, the teacher gives exercises without checking comprehension from Learn. Some students repeatedly ask for clarification. According to Slap methodology, what is the most appropriate response?",
+    options: [
+      { text: "The teacher could continue without intervention, assuming students will eventually understand, but this risks cognitive overload, reduced autonomy, and lower STT, ultimately limiting skill acquisition and participation.", isCorrect: false },
+      { text: "Scaffold the exercises by providing step-by-step guidance and gradually reducing support, ensuring that students internalize knowledge while maintaining autonomy and maximizing STT in Apply.", isCorrect: true },
+      { text: "Move directly to Perform activities to encourage fluency, even if some students lack comprehension, relying on peer assistance to fill gaps, which could lead to frustration and uneven learning outcomes.", isCorrect: false },
+      { text: "Focus exclusively on written corrections and feedback after Apply activities, which preserves TTT but may reduce oral output and delay consolidation of understanding.", isCorrect: false }
+  ]
+  },
+  {
+    q: "In Apply, the teacher emphasizes perfect grammar and constantly corrects minor errors. What is the main risk according to Slap principles?",
+    options: [
+      { text: "Focusing on accuracy could slightly delay rapport-building and might reduce fluency, though structured guidance may partially compensate for decreased student production.", isCorrect: false },
+      { text: "Excessive attention to accuracy increases Teacher Talking Time and reduces Student Talking Time, disrupting fluency development, lowering confidence, and conflicting with Slap’s philosophy of phased support and prioritizing communication over perfection.", isCorrect: true },
+      { text: "Lead-In and Spark phases may be less effective, but some practice in Apply and Perform could still reinforce knowledge.", isCorrect: false },
+      { text: "Overemphasis on grammar might slightly misalign scaffolding, although students could still achieve autonomous output with peer support.", isCorrect: false }
+  ]
+  },
+  {
+    q: "A teacher allows students to remain silent during Spark, expecting them to deduce the topic themselves. What risk does this pose?",
+    options: [
+      { text: "High cognitive load without sufficient guidance can demotivate students, reduce STT in later phases, and undermine confidence, conflicting with the structured Spark and Lead-In approach of the Slap method.", isCorrect: true },
+      { text: "Accuracy may be slightly affected in Learn, although some students could still produce language independently during Perform.", isCorrect: false },
+      { text: "Rapport could be somewhat weakened if students feel unsupported, though scaffolding in Apply might mitigate disengagement.", isCorrect: false },
+      { text: "Phased progression might be slightly delayed, though motivation could recover in later activities with peer support.", isCorrect: false }
+  ]
+  },
+  {
+    q: "During Learn, the teacher models answers extensively but provides minimal support in Apply. Students make repeated mistakes. What is the methodological flaw?",
+    options: [
+      { text: "Rapport could suffer slightly, though peer support might still allow some engagement.", isCorrect: false },
+      { text: "Scaffolding is improperly distributed; overemphasis on Teacher Talking Time in Learn followed by insufficient support in Apply reduces STT, impedes autonomy, and can overwhelm students during phases that require independent practice.", isCorrect: true },
+      { text: "Accuracy focus in Learn may delay fluency, but guided correction in Perform could compensate partially.", isCorrect: false },
+      { text: "Spark and Lead-In phases may not prepare students fully, though Apply exercises might still provide some independent practice.", isCorrect: false }
+  ]
+  },
+  {
+    q: "A teacher introduces a new topic with a 15-minute monologue without Spark or Lead-In. What principle is most violated and why?",
+    options: [
+      { text: "Phased progression and STT are violated; excessive Teacher Talking Time without engaging Spark or Lead-In reduces motivation, delays contextualization, and undermines autonomy, affecting Apply and Perform in the lesson.", isCorrect: true },
+      { text: "Accuracy might be slightly delayed, though some fluency could still occur spontaneously.", isCorrect: false },
+      { text: "Rapport is slightly affected because students feel ignored, though comprehension may occur through passive listening.", isCorrect: false },
+      { text: "Scaffolding could be partially misaligned, though long explanations may compensate for lack of Spark.", isCorrect: false }
+  ]
+  },
+{ q: "A teacher spends the first 15 minutes of class providing a detailed grammatical explanation, believing this 'sets the ground' for learning. Which SLAP principle is critically violated and why?", options: [
                         { text: "The SPARK principle, because the first minutes should only be spent with fun activities.", isCorrect: false },
                         { text: "The TTT/STT balance, as excessive TTT blocks active learning.", isCorrect: false },
                         { text: "The SPARK principle, because its key goal is to instigate interest quickly.", isCorrect: true },
