@@ -3,395 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SLAP | HOMEWORK - STARTER 1</title>
-    <!-- SLAP Favicon -->
+    <title>SLAP | Central de Estudos - Starter 1</title>
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749543469/SLAP_FAVICON_AMARELO_coilvj.png">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: DM Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: #f4f7f9;
-            min-height: 100vh;
-            margin: 0;
-            scroll-behavior: smooth;
-        }
+        body { font-family: 'DM Sans', sans-serif; background-color: #f4f7f9; min-height: 100vh; margin: 0; scroll-behavior: smooth; }
+        #main-wrapper { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1.5rem; position: relative; }
         
-        #main-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.5rem 1.5rem; /* Minimized top padding */
-        }
-
-        /* Login Gate - Fixed Centering */
-        #login-gate {
-            background-color: #44403c;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-        }
-        .login-card {
-            background-color: white;
-            color: #44403c;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-        }
-        .login-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.75rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .login-input:focus { border-color: #8671d1; }
-
-        .action-button {
-             background-color: #F1D24B; 
-             color: #44403c;
-             padding: 0.75rem 1rem; 
-             border-radius: 0.75rem; 
-             font-weight: 700; 
-             cursor: pointer; 
-             transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
-             display: inline-flex;
-             align-items: center;
-             justify-content: center; 
-             gap: 0.25rem;
-             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .action-button:hover:not(:disabled) {
-            background-color: #eab308;
-            transform: translateY(-2px);
-        }
-        .action-button:disabled {
-            background-color: #e5e7eb;
-            color: #9ca3af;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
+        /* AUTH GATES */
+        #auth-gate { background-color: #44403c; min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; z-index: 9999; overflow-y: auto; padding: 2rem 1rem; }
+        .auth-card { background-color: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); width: 100%; max-width: 420px; text-align: center; }
+        .auth-input { width: 100%; padding: 0.85rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; margin-bottom: 1rem; font-size: 1rem; outline: none; transition: 0.2s; }
+        .auth-input:focus { border-color: #8671d1; }
+        .toggle-link { color: #8671d1; font-weight: 700; cursor: pointer; text-decoration: underline; }
         
-        .secondary-button {
-            background-color: #44403c;
-            color: white;
-            padding: 0.75rem 1rem; 
-            border-radius: 0.75rem; 
-            font-weight: 500; 
-            cursor: pointer; 
-            transition: background-color 0.2s, transform 0.2s;
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.25rem;
-        }
-        .secondary-button:hover:not(:disabled) { background-color: #292524; transform: translateY(-1px); }
+        .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1rem; border-radius: 0.75rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .action-button:hover:not(:disabled) { background-color: #eab308; transform: translateY(-2px); }
+        .action-button:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: wait; }
 
-        .level-card {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); 
-            transition: all 0.2s ease-in-out;
-            border: 2px solid transparent;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
+        .secondary-button { background-color: #44403c; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+        .secondary-button:hover { background-color: #292524; transform: translateY(-1px); }
+
+        .level-card { background-color: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; }
         .level-card:not(.locked):hover { transform: scale(1.02); border-color: #8671d1; }
-        .level-card.locked { opacity: 0.6; background-color: #f9fafb; cursor: not-allowed; }
+        .level-card.locked { opacity: 0.6; background-color: #f9fafb; pointer-events: none; }
+        
+        .module-tag { display: inline-block; padding: 0.25rem 0.5rem; background-color: #8671d1; color: white; font-size: 0.75rem; font-weight: 700; border-radius: 0.5rem; margin-bottom: 0.5rem; }
+        .lock-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(68,64,60,0.8); padding: 1rem; border-radius: 50%; }
 
-        .module-tag {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            background-color: #8671d1;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border-radius: 0.5rem;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-
-        /* HM Shortcut Boxes - Compact */
-        #hm-shortcuts-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            max-width: 850px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hm-box {
-            width: 54px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.4rem;
-            font-size: 0.65rem;
-            font-weight: 800;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: 1px solid #e2e8f0;
-            background-color: white;
-            flex-shrink: 0;
-        }
-        .hm-box-active { color: #8671d1; border-color: #8671d1; }
-        .hm-box-active:hover { background-color: #f3f0ff; transform: translateY(-2px); box-shadow: 0 2px 4px rgba(134, 113, 209, 0.2); }
-        .hm-box-locked { background-color: #f1f5f9; color: #cbd5e1; cursor: not-allowed; border-color: #e2e8f0; }
-
-        /* Chunks Grid */
-        .chunks-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border: 2px solid #e2e8f0;
-            border-radius: 1rem;
-            overflow: hidden;
-            background-color: white;
-            text-align: left;
-        }
-        .chunks-header { background-color: #44403c; color: white; padding: 1rem; font-weight: 700; text-transform: uppercase; }
+        /* Game Specifics */
+        .chunks-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; background: white; text-align: left; }
+        .chunks-header { background: #44403c; color: white; padding: 1rem; font-weight: 700; text-transform: uppercase; }
         .chunks-cell { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; }
-        .chunks-cell-en { font-weight: 700; color: #1e1b4b; background-color: #f8fafc; }
-        .chunks-cell-pt { font-style: italic; color: #475569; justify-content: space-between; }
-        .translation-hidden { filter: blur(5px); opacity: 0.3; user-select: none; transition: all 0.3s; }
+        .chunks-cell-en { font-weight: 500; color: #1e1b4b; background-color: #f8fafc; }
+        .chunks-cell-pt { font-style: italic; color: #64748b; justify-content: space-between; }
+        .translation-hidden { filter: blur(5px); opacity: 0.3; transition: 0.3s; user-select: none; } 
         .translation-visible { filter: blur(0); opacity: 1; user-select: text; }
 
-        /* Lock Overlay */
-        .lock-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 20;
-            background-color: rgba(68, 64, 60, 0.8);
-            border-radius: 50%;
-            padding: 1rem;
-            pointer-events: none;
-        }
+        .number-btn { background: white; border: 2px solid #e2e8f0; border-radius: 1rem; padding: 1rem; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px; }
+        .number-btn:hover { border-color: #8671d1; transform: translateY(-2px); }
+        .number-btn span.main-text { font-size: 1.5rem; font-weight: 800; }
+        .number-btn span.sub-text { font-size: 0.7rem; font-weight: 600; color: #8671d1; text-transform: uppercase; }
+        .number-btn.playing { border-color: #F1D24B; background-color: #fffbeb; animation: pulse 1s infinite; }
 
-        /* Flashcards */
-        .flashcard-container { perspective: 1000px; width: 100%; max-width: 400px; height: 300px; margin: 0.5rem auto; cursor: pointer; }
+        .flashcard-container { perspective: 1000px; width: 100%; max-width: 400px; height: 300px; margin: 1rem auto; cursor: pointer; }
         .flashcard { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            backface-visibility: hidden; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 1.5rem; 
-            padding: 1rem; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-        }
+        .flashcard-front, .flashcard-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 1.5rem; padding: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .flashcard-front { background-color: #8671d1; color: white; }
         .flashcard-back { background-color: #F1D24B; color: #44403c; transform: rotateY(180deg); }
+        
+        .scramble-word { background: white; border: 2px solid #8671d1; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; margin: 0.25rem; font-weight: 700; color: #44403c; transition: 0.2s; }
+        .scramble-word:hover { background: #f3f0ff; }
+        .scramble-dropzone { min-height: 80px; border: 2px dashed #cbd5e1; border-radius: 1rem; padding: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; background-color: #f8fafc; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 600; color: #8671d1; }
+        
+        .dictation-input { font-size: 2rem; text-align: center; border: 3px solid #e2e8f0; border-radius: 1rem; width: 220px; padding: 0.5rem; outline: none; }
+        .dictation-input:focus { border-color: #8671d1; }
+        .dictation-input.correct { border-color: #22c55e; background: #dcfce7; }
+        .dictation-input.wrong { border-color: #ef4444; background: #fee2e2; }
 
-        /* CLEAN Listening Grid */
-        .listening-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
-            gap: 0.75rem; 
-            margin-top: 1rem; 
-        }
-        .number-btn { 
-            background-color: white; 
-            border: 2px solid #e5e7eb; 
-            border-radius: 1rem; 
-            padding: 1rem 0.5rem; 
-            color: #44403c; 
-            transition: all 0.2s; 
-            cursor: pointer; 
-            text-align: center; 
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.25rem;
-            min-height: 80px;
-        }
-        .number-btn span.main-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-        .number-btn span.sub-text {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #8671d1;
-            text-transform: uppercase;
-            opacity: 0.9;
-        }
-        .number-btn:hover { border-color: #8671d1; transform: translateY(-3px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .number-btn.playing { border-color: #F1D24B; background-color: #fffbeb; animation: pulse 1s infinite; }
-        .ready-icon { position: absolute; top: 5px; right: 5px; color: #8671d1; opacity: 0.4; }
+        /* Shortcuts inside dashboard */
+        #hm-shortcuts-container { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-bottom: 2rem; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 1rem; }
+        .hm-box { width: 54px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 0.4rem; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: 1px solid #e2e8f0; background: white; }
+        .hm-box-active { color: #8671d1; border-color: #8671d1; }
+        .hm-box-active:hover { background: #f3f0ff; transform: translateY(-2px); }
+        .hm-box-locked { background: #f1f5f9; color: #cbd5e1; cursor: not-allowed; }
+
+        .streak-container { display: flex; justify-content: center; gap: 5px; margin-bottom: 1rem; }
+        .streak-dot { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; transition: 0.3s; }
+        .streak-dot.active { background: #F1D24B; transform: scale(1.2); }
+
+        /* QUIZ UI */
+        .option-button { background-color: white; border: 2px solid #e2e8f0; color: #44403c; text-align: left; padding: 1rem; border-radius: 0.75rem; width: 100%; transition: all 0.2s; cursor: pointer; display: flex; align-items: center; gap: 1rem; }
+        .option-button:hover:not(:disabled) { border-color: #8671d1; background-color: #f8fafc; }
+        .option-prefix { width: 2.2rem; height: 2.2rem; background: #f3f0ff; color: #8671d1; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #e0d7f7; }
+
+        .help-btn { position: absolute; top: 1rem; right: 1.5rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: white; border: 2px solid #e2e8f0; color: #8671d1; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: white; border-radius: 1.5rem; padding: 1.8rem; max-width: 400px; width: 90%; transform: scale(0.9); transition: 0.3s; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
 
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
     
-    <!-- LOGIN GATE -->
-    <div id="login-gate">
-        <div class="login-card text-center">
+    <!-- AUTH GATE -->
+    <div id="auth-gate">
+        <div class="auth-card">
             <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 mx-auto mb-6">
-            <h1 class="text-2xl font-bold mb-4 text-[#8671d1]">Grammar Access</h1>
-            <p class="text-sm font-medium mb-6 text-stone-500">Digite a senha da sua cantora para entrar:</p>
             
-            <form onsubmit="checkPassword(event)">
-                <input type="password" id="password-input" class="login-input" placeholder="ex: ariana" required>
-                <button type="submit" class="action-button w-full py-4 text-lg">Entrar</button>
-                <p id="login-feedback" class="mt-4 text-red-600 hidden font-bold">Senha incorreta. Tente novamente.</p>
-            </form>
+            <!-- Login -->
+            <div id="login-container">
+                <h1 class="text-2xl font-bold mb-6 text-stone-800">Portal do Aluno</h1>
+                <form id="login-form">
+                    <input type="email" id="login-email" class="auth-input" placeholder="Seu E-mail" required>
+                    <input type="password" id="login-password" class="auth-input" placeholder="Sua Senha" required>
+                    <button type="submit" id="btn-login" class="action-button mb-4">ENTRAR</button>
+                </form>
+                <p class="text-sm text-stone-500">Ainda não tem conta? <span class="toggle-link" onclick="toggleAuth('register')">Cadastre-se</span></p>
+            </div>
+
+            <!-- Register -->
+            <div id="register-container" class="hidden">
+                <h1 class="text-2xl font-bold mb-6 text-stone-800">Criar Conta</h1>
+                <form id="register-form">
+                    <div class="flex gap-2">
+                        <input type="text" id="reg-name" class="auth-input" placeholder="Nome" required>
+                        <input type="text" id="reg-surname" class="auth-input" placeholder="Sobrenome" required>
+                    </div>
+                    <input type="email" id="reg-email" class="auth-input" placeholder="E-mail" required>
+                    <input type="password" id="reg-password" class="auth-input" placeholder="Senha" required>
+                    <button type="submit" id="btn-register" class="action-button mb-4">SOLICITAR ACESSO</button>
+                </form>
+                <p class="text-sm text-stone-500">Já tem conta? <span class="toggle-link" onclick="toggleAuth('login')">Fazer Login</span></p>
+            </div>
+
+            <p id="auth-feedback" class="mt-4 text-red-500 font-bold hidden text-sm"></p>
         </div>
     </div>
 
+    <!-- MAIN APP CONTENT -->
     <div id="main-wrapper" class="hidden">
-        <header class="py-2 border-b border-stone-200 mb-4 text-center">
-            <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto">
-            <h1 class="text-2xl font-bold text-stone-800 uppercase tracking-tight">HOMEWORK - STARTER 1</h1>
-            <p class="text-sm text-stone-500 font-medium">Portal de Atividades Práticas</p>
+        <header class="py-8 border-b border-stone-200 mb-10 text-center relative">
+            <div class="absolute top-0 right-0 p-4">
+                <button class="text-stone-400 hover:text-stone-600 font-bold text-xs" onclick="logout()">SAIR</button>
+            </div>
+            
+            <button class="help-btn" onclick="document.getElementById('rules-modal').classList.add('active')">?</button>
+
+            <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
+            <h1 class="text-3xl font-bold text-stone-800 tracking-tight mb-3">Central de Estudos - Starter 1</h1>
+            <p class="text-stone-500 font-medium px-4 leading-relaxed max-w-2xl mx-auto">Material didático exclusivo focado em reforçar a acurácia estrutural e a confiança na comunicação.</p>
+            
+            <div class="mt-6 flex justify-center">
+                <a href="#" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-stone-200 rounded-full text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    BAIXAR CONTEÚDO PROGRAMÁTICO
+                </a>
+            </div>
         </header>
 
-        <!-- HM Navigation Shortcuts -->
-        <div id="hm-shortcuts-container"></div>
-
-        <!-- DASHBOARD VIEW -->
         <div id="dashboard-view" class="w-full">
-            <div id="level-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="hm-shortcuts-container"></div>
+            <div id="level-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
         </div>
 
-        <!-- PRACTICE VIEW -->
         <div id="generator-view" class="hidden w-full">
-            <button class="secondary-button mb-4" onclick="showDashboard()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                Voltar
-            </button>
+            <button class="secondary-button mb-4" onclick="showDashboard()">Voltar</button>
             <div class="bg-white p-6 rounded-2xl shadow-xl max-w-2xl mx-auto">
                 <h2 class="text-xl font-bold text-stone-800 mb-4 text-center" id="current-hw-display"></h2>
+                <div id="quiz-streak-bar" class="streak-container"></div>
+                <div id="feedback-alert" class="hidden p-3 mb-6 rounded-lg text-white font-semibold text-center"></div>
                 <div class="challenge-box mb-6 border-l-4 border-indigo-400 p-6 bg-slate-50">
                     <p id="main-question" class="text-lg font-bold text-slate-800"></p>
                 </div>
                 <div id="options-container" class="space-y-3"></div>
                 <div id="rationale-display" class="hidden mt-6">
-                    <div id="rationale-content" class="p-4 bg-amber-50 rounded-lg text-amber-900 mb-4 text-sm"></div>
+                    <div id="rationale-content" class="p-4 bg-green-50 text-green-900 rounded-lg mb-4 text-sm border-l-4 border-green-400"></div>
                     <button class="action-button w-full" onclick="loadNextQuestion()">Próximo Exercício</button>
                 </div>
             </div>
         </div>
 
-        <!-- STUDY VIEW -->
         <div id="study-view" class="hidden w-full">
-             <button class="secondary-button mb-4" onclick="showDashboard()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                Voltar
-            </button>
+             <button class="secondary-button mb-4" onclick="showDashboard()">Voltar</button>
             <div class="bg-white p-6 rounded-2xl shadow-xl max-w-4xl mx-auto text-center">
                  <h2 class="text-xl font-bold text-stone-800 mb-1" id="study-title"></h2>
                  <p class="text-stone-500 mb-2 italic text-sm" id="study-instruction"></p>
+                 <div id="streak-bar-container" class="hidden"></div>
                  <div id="preloading-status" class="text-xs text-blue-500 font-bold mb-4 h-4"></div>
                  <div id="study-content-area" class="p-0"></div>
             </div>
         </div>
     </div>
     
-    <script>
-        const apiKey = "AIzaSyAEGbckOywhDZ_unbK5cAxGdDKsnyEcu98"; 
+    <!-- RULES POPUP -->
+    <div id="rules-modal" class="modal-overlay" onclick="if(event.target === this) this.classList.remove('active')">
+        <div class="modal-content">
+            <h3 class="text-xl font-black text-stone-800 mb-5 text-center">Manual de Regras</h3>
+            <div class="space-y-5 text-left text-stone-600 text-sm leading-relaxed">
+                <div class="flex gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">1</div>
+                    <p><strong>Acesso Individual:</strong> Não compartilhe sua senha. Monitoramos acessos por IP.</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">2</div>
+                    <p><strong>Frequência:</strong> A evolução vem da prática constante. Tente completar um módulo de Homework após cada aula com seu teacher.</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">3</div>
+                    <p><strong>Prints:</strong> Ao completar um Streak de 5, tire um print e envie para seu teacher.</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">4</div>
+                    <p><strong>Listening:</strong> Use fones de ouvido para captar os detalhes.</p>
+                </div>
+            </div>
+            <button class="action-button w-full mt-8" onclick="document.getElementById('rules-modal').classList.remove('active')">Entendi, vamos lá!</button>
+        </div>
+    </div>
+
+    <!-- FIREBASE & LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+        // FIREBASE CONFIG - USER PROVIDED
+        const firebaseConfig = {
+            apiKey: "AIzaSyDlleaDp-GKGDgn6A1oFG8THsMPsz1if1E",
+            authDomain: "starter1-ff48b.firebaseapp.com",
+            projectId: "starter1-ff48b",
+            storageBucket: "starter1-ff48b.firebasestorage.app",
+            messagingSenderId: "760746346199",
+            appId: "1:760746346199:web:00aa643f1a9daee0ca5292",
+            measurementId: "G-609TK71R1R"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const APP_ID = "slap-starter-1";
+
+        // --- AUTH ---
+        window.toggleAuth = (mode) => {
+            document.getElementById('login-container').classList.toggle('hidden', mode === 'register');
+            document.getElementById('register-container').classList.toggle('hidden', mode === 'login');
+            document.getElementById('auth-feedback').classList.add('hidden');
+        };
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fb = document.getElementById('auth-feedback');
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+            const name = document.getElementById('reg-name').value + " " + document.getElementById('reg-surname').value;
+            
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, pass);
+                // Save to Firestore Rule 1 path
+                await setDoc(doc(db, 'artifacts', APP_ID, 'users', cred.user.uid, 'profile', 'info'), {
+                    name, email, isApproved: false, createdAt: new Date().toISOString()
+                });
+                fb.textContent = "Cadastro feito! Peça ao seu Teacher para aprovar seu acesso.";
+                fb.className = "mt-4 text-green-600 font-bold block";
+                fb.classList.remove('hidden');
+                await signOut(auth);
+                setTimeout(() => toggleAuth('login'), 4000);
+            } catch (err) {
+                fb.textContent = "Erro ao cadastrar. Verifique os dados.";
+                fb.classList.remove('hidden');
+                console.error(err);
+            }
+        });
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fb = document.getElementById('auth-feedback');
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+            
+            try {
+                const cred = await signInWithEmailAndPassword(auth, email, pass);
+                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'users', cred.user.uid, 'profile', 'info'));
+                
+                if (snap.exists() && snap.data().isApproved) {
+                    // Logado e Aprovado
+                } else {
+                    await signOut(auth);
+                    fb.textContent = "Sua conta ainda não foi aprovada pelo Teacher.";
+                    fb.classList.remove('hidden');
+                }
+            } catch (err) {
+                fb.textContent = "E-mail ou senha incorretos.";
+                fb.classList.remove('hidden');
+            }
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                getDoc(doc(db, 'artifacts', APP_ID, 'users', user.uid, 'profile', 'info')).then(snap => {
+                    if (snap.exists() && snap.data().isApproved) {
+                        document.getElementById('auth-gate').style.display = 'none';
+                        document.getElementById('main-wrapper').classList.remove('hidden');
+                        renderDashboard();
+                    }
+                });
+            } else {
+                document.getElementById('main-wrapper').classList.add('hidden');
+                document.getElementById('auth-gate').style.display = 'flex';
+            }
+        });
+
+        window.logout = () => signOut(auth);
+
+        // --- APP DATA & LOGIC ---
+        const apiKeyTTS = "AIzaSyAEGbckOywhDZ_unbK5cAxGdDKsnyEcu98"; 
         const audioCache = new Map();
+        let quizStreak = 0;
+        let currentStreak = 0;
+        const STREAK_GOAL = 5;
+        let currentAulaId = 0;
 
         const aulaNames = [
             { id: 1, name: "Open House", hasHomework: false },
             { id: 2, name: "Feelings", hasHomework: true, specialMode: 'flashcards' },
             { id: 3, name: "Names & Greetings", hasHomework: true, specialMode: 'chunks' },
-            { id: 4, name: "Numbers pt. 1", hasHomework: true, specialMode: 'listening', items: [
-                {n: "1", w: "One"}, {n: "2", w: "Two"}, {n: "3", w: "Three"}, {n: "4", w: "Four"}, {n: "5", w: "Five"},
-                {n: "6", w: "Six"}, {n: "7", w: "Seven"}, {n: "8", w: "Eight"}, {n: "9", w: "Nine"}, {n: "10", w: "Ten"},
-                {n: "11", w: "Eleven"}, {n: "12", w: "Twelve"}, {n: "13", w: "Thirteen"}, {n: "14", w: "Fourteen"}, {n: "15", w: "Fifteen"},
-                {n: "16", w: "Sixteen"}, {n: "17", w: "Seventeen"}, {n: "18", w: "Eighteen"}, {n: "19", w: "Nineteen"}, {n: "20", w: "Twenty"},
-                {n: "22", w: "Twenty-two"}, {n: "30", w: "Thirty"}, {n: "35", w: "Thirty-five"}, {n: "40", w: "Forty"}, {n: "48", w: "Forty-eight"},
-                {n: "50", w: "Fifty"}, {n: "51", w: "Fifty-one"}, {n: "60", w: "Sixty"}, {n: "64", w: "Sixty-four"}, {n: "70", w: "Seventy"},
-                {n: "77", w: "Seventy-seven"}, {n: "80", w: "Eighty"}, {n: "86", w: "Eighty-six"}, {n: "90", w: "Ninety"}, {n: "99", w: "Ninety-nine"}
-            ]},
-            { id: 5, name: "Numbers pt. 2", hasHomework: true, specialMode: 'listening', items: [
-                {n: "100", w: "One hundred"}, {n: "150", w: "One hundred and fifty"}, {n: "200", w: "Two hundred"}, {n: "300", w: "Three hundred"}, {n: "325", w: "Three hundred and twenty-five"},
-                {n: "400", w: "Four hundred"}, {n: "500", w: "Five hundred"}, {n: "505", w: "Five hundred and five"}, {n: "600", w: "Six hundred"}, {n: "700", w: "Seven hundred"},
-                {n: "800", w: "Eight hundred"}, {n: "900", w: "Nine hundred"}, {n: "1,000", w: "One thousand"}, {n: "1,200", w: "One thousand two hundred"}, {n: "2,000", w: "Two thousand"},
-                {n: "4,000", w: "Four thousand"}, {n: "5,500", w: "Five thousand five hundred"}, {n: "10,000", w: "Ten thousand"}, {n: "10,500", w: "Ten thousand five hundred"}, {n: "20,000", w: "Twenty thousand"},
-                {n: "30,000", w: "Thirty thousand"}, {n: "40,000", w: "Forty thousand"}, {n: "45,300", w: "Forty-five thousand three hundred"}, {n: "50,000", w: "Fifty thousand"}, {n: "60,000", w: "Sixty thousand"},
-                {n: "70,000", w: "Seventy thousand"}, {n: "80,000", w: "Eighty thousand"}, {n: "90,000", w: "Ninety thousand"}
-            ]},
-            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', items: [
-                {n: "A", w: "A", p: "/eɪ/"}, {n: "B", w: "B", p: "/biː/"}, {n: "C", w: "C", p: "/siː/"}, {n: "D", w: "D", p: "/diː/"}, {n: "E", w: "E", p: "/iː/"},
-                {n: "F", w: "F", p: "/ɛf/"}, {n: "G", w: "G", p: "/dʒiː/"}, {n: "H", w: "H", p: "/eɪtʃ/"}, {n: "I", w: "I", p: "/aɪ/"}, {n: "J", w: "J", p: "/dʒeɪ/"},
-                {n: "K", w: "K", p: "/keɪ/"}, {n: "L", w: "L", p: "/ɛl/"}, {n: "M", w: "M", p: "/ɛm/"}, {n: "N", w: "N", p: "/ɛn/"}, {n: "O", w: "O", p: "/oʊ/"},
-                {n: "P", w: "P", p: "/piː/"}, {n: "Q", w: "Q", p: "/kjuː/"}, {n: "R", w: "R", p: "/ɑːr/"}, {n: "S", w: "S", p: "/ɛs/"}, {n: "T", w: "T", p: "/tiː/"},
-                {n: "U", w: "U", p: "/juː/"}, {n: "V", w: "V", p: "/viː/"}, {n: "W", w: "W", p: "/ˈdʌbəljuː/"}, {n: "X", w: "X", p: "/ɛks/"}, {n: "Y", w: "Y", p: "/waɪ/"}, {n: "Z", w: "Z", p: "/ziː/"}
-            ]},
-            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', items: [
-                {n: "1st", w: "First"}, {n: "2nd", w: "Second"}, {n: "3rd", w: "Third"}, {n: "4th", w: "Fourth"}, {n: "5th", w: "Fifth"},
-                {n: "6th", w: "Sixth"}, {n: "7th", w: "Seventh"}, {n: "8th", w: "Eighth"}, {n: "9th", w: "Ninth"}, {n: "10th", w: "Tenth"},
-                {n: "11th", w: "Eleventh"}, {n: "12th", w: "Twelfth"}, {n: "13th", w: "Thirteenth"}, {n: "14th", w: "Fourteenth"}, {n: "15th", w: "Fifteenth"},
-                {n: "20th", w: "Twentieth"}, {n: "21st", w: "Twenty-first"}, {n: "22nd", w: "Twenty-second"}, {n: "30th", w: "Thirtieth"}, {n: "31st", w: "Thirty-first"},
-                {n: "40th", w: "Fortieth"}, {n: "45th", w: "Forty-fifth"}, {n: "50th", w: "Fiftieth"}, {n: "58th", w: "Fifty-eighth"}, 
-                {n: "60th", w: "Sixtieth"}, {n: "63rd", w: "Sixty-third"}, {n: "70th", w: "Seventieth"}, {n: "77th", w: "Seventy-seventh"},
-                {n: "80th", w: "Eightieth"}, {n: "89th", w: "Eighty-ninth"}, {n: "90th", w: "Ninetieth"}
-            ]},
+            { id: 4, name: "Numbers pt. 1", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: ["1","15","50","13","30","22","45","60","77","99"] },
+            { id: 5, name: "Numbers pt. 2", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: ["100","250","500","1000","5500"] },
+            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', items: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"].map(l => ({n: l, w: l, p: `/${l.toLowerCase()}/`})) },
+            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"}] },
             { id: 8, name: "Basic Verbs", hasHomework: true },
             { id: 9, name: "Basic Adjectives", hasHomework: true },
-            { id: 10, name: "Demonstrative Pronouns", hasHomework: true },
+            { id: 10, name: "Demonstrative Pronouns", hasHomework: true, specialMode: 'scramble' },
             { id: 11, name: "Verb to be", hasHomework: true },
             { id: 12, name: "Countries and Nationalities", hasHomework: true, specialMode: 'flashcards' },
             { id: 13, name: "Neighborhood", hasHomework: true },
             { id: 14, name: "Family Members", hasHomework: true },
             { id: 15, name: "Midterm Test", hasHomework: false },
-            { id: 16, name: "Can e Can't", hasHomework: true },
+            { id: 16, name: "Can e Can't", hasHomework: true, specialMode: 'scramble' },
             { id: 17, name: "Midterm Test Correction", hasHomework: false },
-            { id: 18, name: "Simple Present pt. 1", hasHomework: true },
+            { id: 18, name: "Simple Present pt. 1", hasHomework: true, specialMode: 'scramble' },
             { id: 19, name: "Simple Present pt. 2", hasHomework: true },
-            { id: 20, name: "Object Pronouns", hasHomework: true },
+            { id: 20, name: "Object Pronouns", hasHomework: true, specialMode: 'scramble' },
             { id: 21, name: "Likes and Dislikes", hasHomework: true },
             { id: 22, name: "Free Time Activities", hasHomework: true },
-            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', items: [
-                {n: "Jan", w: "January"}, {n: "Feb", w: "February"}, {n: "Mar", w: "March"}, {n: "Apr", w: "April"},
-                {n: "May", w: "May"}, {n: "Jun", w: "June"}, {n: "Jul", w: "July"}, {n: "Aug", w: "August"},
-                {n: "Sep", w: "September"}, {n: "Oct", w: "October"}, {n: "Nov", w: "November"}, {n: "Dec", w: "December"}
-            ]},
-            { id: 24, name: "Possessive Adjectives", hasHomework: true },
-            { id: 25, name: "Possessive Pronouns", hasHomework: true },
+            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', items: [{n:"Jan",w:"January"},{n:"Feb",w:"February"},{n:"Mar",w:"March"},{n:"Apr",w:"April"},{n:"May",w:"May"},{n:"Jun",w:"June"},{n:"Jul",w:"July"},{n:"Aug",w:"August"},{n:"Sep",w:"September"},{n:"Oct",w:"October"},{n:"Nov",w:"November"},{n:"Dec",w:"December"}] },
+            { id: 24, name: "Possessive Adjectives", hasHomework: true, specialMode: 'scramble' },
+            { id: 25, name: "Possessive Pronouns", hasHomework: true, specialMode: 'scramble' },
             { id: 26, name: "Foods and Fruits", hasHomework: true, specialMode: 'flashcards' },
             { id: 27, name: "Presentation", hasHomework: false },
-            { id: 28, name: "Hours", hasHomework: true, specialMode: 'flashcards' },
+            { id: 28, name: "Hours", hasHomework: true, specialMode: 'flashcards', thirdBtn: 'dictation' },
             { id: 29, name: "Kahoot Review", hasHomework: false },
             { id: 30, name: "Listening Test", hasHomework: false },
             { id: 31, name: "Grammar Test", hasHomework: false },
@@ -411,53 +357,41 @@
         };
 
         const chunksData = {
-            3: [
-                { en: "What's your name?", pt: "Qual é o seu nome?" },
-                { en: "What's your first name?", pt: "Qual é o seu primeiro nome?" },
-                { en: "What's your middle name?", pt: "Qual é o seu nome do meio?" },
-                { en: "What's your nickname?", pt: "Qual é o seu apelido?" },
-                { en: "What's your last name?", pt: "Qual é o seu sobrenome?" }
-            ]
+            3: [{ en: "What's your name?", pt: "Qual é o seu nome?" }, { en: "What's your last name?", pt: "Qual é o seu sobrenome?" }]
         };
 
-        const mockQuestions = {
-            11: [{ q: "She ___ a student.", options: [{text: "is", isCorrect: true}, {text: "am", isCorrect: false}], rationale: "She usa 'is'." }]
+        const gamesData = {
+            10: [{ full: "this is my car", words: ["this", "is", "my", "car"] }],
+            16: [{ full: "I can dance", words: ["I", "can", "dance"] }],
+            4: { dictation: ["1", "15", "50", "13", "30"] },
+            28: { dictation: ["08:00", "12:30"] },
+            18: [{ full: "I drink water every day", words: ["I", "drink", "water", "every", "day"] }],
+            20: [{ full: "help me please", words: ["help", "me", "please"] }],
+            24: [{ full: "my book is new", words: ["my", "book", "is", "new"] }],
+            25: [{ full: "this pen is mine", words: ["this", "pen", "is", "mine"] }]
         };
-
-        let currentQuestion = null;
-        let questionsPool = [];
-        let answerSubmitted = false;
-        let currentFlashcardIdx = 0;
-        let currentShuffledCards = [];
 
         async function fetchTTSAudio(text) {
             if (audioCache.has(text)) return audioCache.get(text);
-            const payload = {
-                contents: [{ parts: [{ text: `Say clearly: ${text}` }] }],
-                generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } } },
-                model: "gemini-2.5-flash-preview-tts"
-            };
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKeyTTS}`;
+            const payload = { contents: [{ parts: [{ text: `Say clearly: ${text}` }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } } }, model: "gemini-2.5-flash-preview-tts" };
             try {
                 const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                if (!response.ok) throw new Error("API error");
                 const result = await response.json();
                 const pcmData = result.candidates[0].content.parts[0].inlineData.data;
-                const wavBlob = pcmToWav(pcmData, 24000);
-                const audio = new Audio(URL.createObjectURL(wavBlob));
+                const audio = new Audio(URL.createObjectURL(pcmToWav(pcmData, 24000)));
                 audioCache.set(text, audio);
                 return audio;
-            } catch (error) { return null; }
+            } catch (e) { return null; }
         }
 
         function pcmToWav(base64Pcm, sampleRate) {
             const binaryString = atob(base64Pcm);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) bytes[i] = binaryString.charCodeAt(i);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
             const buffer = new ArrayBuffer(44 + bytes.length);
             const view = new DataView(buffer);
-            const writeString = (offset, string) => { for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i)); };
+            const writeString = (o, s) => { for (let i = 0; i < s.length; i++) view.setUint8(o + i, s.charCodeAt(i)); };
             writeString(0, 'RIFF'); view.setUint32(4, 36 + bytes.length, true); writeString(8, 'WAVE'); writeString(12, 'fmt ');
             view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
             view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
@@ -466,199 +400,182 @@
             return new Blob([buffer], { type: 'audio/wav' });
         }
 
-        window.checkPassword = function(e) {
-            e.preventDefault();
-            if (document.getElementById('password-input').value.toLowerCase().trim() === 'ariana') {
-                document.getElementById('login-gate').style.display = 'none';
-                document.getElementById('main-wrapper').classList.remove('hidden');
-                renderDashboard();
-            } else { 
-                document.getElementById('login-feedback').classList.remove('hidden'); 
-            }
-        };
-
-        window.showDashboard = function() {
-            document.getElementById('dashboard-view').classList.remove('hidden');
-            document.getElementById('hm-shortcuts-container').classList.remove('hidden'); // SHOW SHORTCUTS
-            document.getElementById('generator-view').classList.add('hidden');
-            document.getElementById('study-view').classList.add('hidden');
-        };
-
-        window.scrollToModule = function(id) {
-            const el = document.getElementById(`module-${id}`);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function renderDashboard() {
-            // Render Shortcuts
-            const shortcuts = document.getElementById('hm-shortcuts-container');
-            shortcuts.innerHTML = aulaNames.map(aula => {
-                const label = `HM ${String(aula.id).padStart(2, '0')}`;
-                return aula.hasHomework 
-                    ? `<div class="hm-box hm-box-active" onclick="scrollToModule(${aula.id})">${label}</div>`
-                    : `<div class="hm-box hm-box-locked"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>`;
-            }).join('');
-
+        window.renderDashboard = function() {
             const container = document.getElementById('level-cards-container');
-            container.innerHTML = aulaNames.map(aula => {
-                let studyLabel = '';
-                if (aula.specialMode === 'flashcards') studyLabel = 'FLASHCARDS';
-                else if (aula.specialMode === 'listening') studyLabel = 'LISTENING';
-                else if (aula.specialMode === 'chunks') studyLabel = 'CHUNKS';
-
-                const sBtn = studyLabel ? `<button class="secondary-button flex-1 text-xs" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
-                const tBtn = (aula.id === 23) ? `<button class="secondary-button flex-1 text-xs" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
-
-                return `
-                <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
-                    ${!aula.hasHomework ? `
-                        <div class="lock-overlay">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        </div>
-                    ` : `<img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1760657894/SLAP_ICON_PRETO_2_2_tv8bmp.png" alt="Logo" class="absolute top-4 right-4 w-8 h-8 opacity-10">`}
+            container.innerHTML = aulaNames.map(aula => `
+                <div class="level-card" id="module-${aula.id}">
                     <div>
-                        <span class="module-tag">STARTER 1 - HW AULA ${String(aula.id).padStart(2, '0')}</span>
+                        <span class="module-tag">HW AULA ${String(aula.id).padStart(2, '0')}</span>
                         <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
-                        <p class="text-stone-500 text-sm mb-6">${aula.hasHomework ? 'Pratique as estruturas aprendidas em aula.' : 'Sem homework disponível.'}</p>
+                        <p class="text-stone-500 text-sm mb-6">Módulo de reforço estrutural.</p>
                     </div>
-                    <div class="flex flex-nowrap gap-2">
-                        ${sBtn} ${tBtn}
-                        <button class="action-button flex-1 text-xs uppercase" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>Praticar</button>
+                    <div class="flex flex-wrap gap-2">
+                        ${aula.specialMode ? `<button class="secondary-button flex-1 text-xs" onclick="openStudy(${aula.id})">${aula.specialMode.toUpperCase()}</button>` : ''}
+                        ${aula.thirdBtn ? `<button class="secondary-button flex-1 text-xs" onclick="openDictation(${aula.id})">${aula.thirdBtn.toUpperCase()}</button>` : ''}
+                        <button class="action-button flex-1 text-xs uppercase" onclick="openPractice(${aula.id})">HOMEWORK</button>
                     </div>
-                </div>`
-            }).join('');
+                </div>`).join('');
+            const shortcuts = document.getElementById('hm-shortcuts-container');
+            shortcuts.innerHTML = aulaNames.map(aula => `<div class="hm-box hm-box-active" onclick="document.getElementById('module-${aula.id}').scrollIntoView({behavior:'smooth', block:'center'})">HM ${String(aula.id).padStart(2, '0')}</div>`).join('');
+        };
+
+        // --- QUIZ & PRACTICE ---
+        function getQuizDataForModule(id) {
+            // Generates 10 mock questions for any module
+            const modName = aulaNames.find(a => a.id === id).name;
+            const generic = [];
+            for(let i=0; i<10; i++) {
+                generic.push({
+                    q: `Pergunta prática ${i+1} sobre: ${modName}. Qual a opção correta?`,
+                    options: [
+                        {text: "Opção Correta", isCorrect: true},
+                        {text: "Opção Errada 1", isCorrect: false},
+                        {text: "Opção Errada 2", isCorrect: false},
+                        {text: "Opção Errada 3", isCorrect: false}
+                    ],
+                    rationale: "Esta é uma pergunta de treino gerada para completar o exercício."
+                });
+            }
+            return generic;
         }
 
         window.openPractice = function(id) {
-            const aula = aulaNames.find(a => a.id === id);
+            currentAulaId = id;
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
+            document.getElementById('hm-shortcuts-container').classList.add('hidden');
             document.getElementById('generator-view').classList.remove('hidden');
-            document.getElementById('current-hw-display').textContent = `Homework Aula ${id}: ${aula.name}`;
-            questionsPool = mockQuestions[id] || [{ q: `Exercício para ${aula.name}: Qual a forma correta?`, options: [{text: "Opção A", isCorrect: true}, {text: "Opção B", isCorrect: false}], rationale: "Acurácia estrutural é fundamental!" }];
-            loadNextQuestion();
+            document.getElementById('current-hw-display').textContent = "Homework: " + aulaNames.find(a => a.id===id).name;
+            quizStreak = 0; renderQuizStreak(); loadNextQuestion();
         };
 
         window.loadNextQuestion = function() {
-            const q = questionsPool[Math.floor(Math.random() * questionsPool.length)];
-            currentQuestion = q;
-            document.getElementById('main-question').textContent = q.q;
+            if (quizStreak >= STREAK_GOAL) {
+                document.getElementById('main-question').innerHTML = `<div class="text-center py-4"><div class="text-6xl mb-4">📸</div><h2 class="text-2xl font-bold">Missão Cumprida!</h2><p class="text-stone-500">Tire um print para o seu Teacher!</p></div>`;
+                document.getElementById('options-container').innerHTML = `<button class="action-button" onclick="showDashboard()">Voltar</button>`;
+                document.getElementById('rationale-display').classList.add('hidden');
+                return;
+            }
+            const raw = getQuizDataForModule(currentAulaId);
+            currentQuestion = raw[Math.floor(Math.random() * raw.length)];
+            document.getElementById('main-question').textContent = currentQuestion.q;
             document.getElementById('rationale-display').classList.add('hidden');
             document.getElementById('feedback-alert').classList.add('hidden');
             answerSubmitted = false;
-            const container = document.getElementById('options-container');
-            container.innerHTML = q.options.map((opt, i) => `<button class="option-button w-full border-2 border-slate-200 p-4 rounded-xl font-bold text-left hover:border-indigo-400" onclick="submitAnswer(${i})">${opt.text}</button>`).join('');
+            document.getElementById('options-container').innerHTML = currentQuestion.options.map((o, i) => `
+                <button class="option-button" onclick="submitAnswer(${o.isCorrect}, ${i}, '${data.rationale}')">
+                    <span class="option-prefix">${String.fromCharCode(65+i)}</span>
+                    <span>${o.text}</span>
+                </button>`).join('');
         };
 
-        window.submitAnswer = function(idx) {
-            if (answerSubmitted) return;
-            answerSubmitted = true;
-            const isCorrect = currentQuestion.options[idx].isCorrect;
+        window.submitAnswer = function(correct, idx, rationale) {
             const alert = document.getElementById('feedback-alert');
-            alert.textContent = isCorrect ? "Muito bem!" : "Tente entender o porquê:";
-            alert.className = `p-3 mb-6 rounded-lg text-white font-semibold text-center ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`;
-            alert.classList.remove('hidden');
-            document.getElementById('rationale-content').textContent = currentQuestion.rationale;
+            if (correct) { alert.textContent = "Muito bem!"; alert.className = "p-3 mb-6 rounded-lg text-green-900 bg-green-100 border border-green-200 block"; quizStreak++; }
+            else { alert.textContent = "Que pena!"; alert.className = "p-3 mb-6 rounded-lg text-red-900 bg-red-100 border border-red-200 block"; quizStreak = 0; }
+            renderQuizStreak();
+            document.getElementById('rationale-content').textContent = rationale;
             document.getElementById('rationale-display').classList.remove('hidden');
             document.querySelectorAll('.option-button').forEach((btn, i) => {
                 btn.disabled = true;
-                if (currentQuestion.options[i].isCorrect) btn.classList.add('border-green-500', 'bg-green-500');
-                else if (i === idx) btn.classList.add('border-red-500', 'bg-red-500');
+                if (i === 0) btn.classList.add('bg-green-50', 'border-green-400');
+                else if (i === idx) btn.classList.add('bg-red-50', 'border-red-400');
             });
         };
 
+        function renderQuizStreak() {
+            let dots = '';
+            for(let i=0; i<STREAK_GOAL; i++) dots += `<div class="streak-dot ${i < quizStreak ? 'active' : ''}"></div>`;
+            document.getElementById('quiz-streak-bar').innerHTML = dots;
+        }
+
+        // --- STUDY MODES ---
         window.openStudy = function(id) {
             const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
+            document.getElementById('hm-shortcuts-container').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
-            const titleArea = document.getElementById('study-title');
-            const instrArea = document.getElementById('study-instruction');
-            const contentArea = document.getElementById('study-content-area');
-            
-            if (aula.specialMode === 'flashcards') {
-                titleArea.textContent = `Flashcards: ${aula.name}`;
-                instrArea.textContent = "Toque na carta para ver a tradução.";
-                currentFlashcardIdx = 0; currentShuffledCards = shuffle([...flashcardsData[id]]); renderFlashcards();
-            } else if (aula.specialMode === 'listening') {
-                titleArea.textContent = `Listening: ${aula.name}`;
-                instrArea.textContent = "Toque no item para ouvir.";
-                renderListeningBoard(aula.items);
-            } else if (aula.specialMode === 'chunks') {
-                titleArea.textContent = "CHUNKS OF LANGUAGE";
-                instrArea.textContent = "Clique no olho para revelar.";
-                renderChunksGrid(chunksData[id]);
-            }
+            document.getElementById('study-title').textContent = aula.name;
+            currentStreak = 0; renderStreakBar();
+            if (aula.specialMode === 'flashcards') { currentFlashcardIdx = 0; currentShuffledCards = [...flashcardsData[id]]; renderFlashcards(); }
+            else if (aula.specialMode === 'listening') renderListeningBoard(aula.items);
+            else if (aula.specialMode === 'chunks') renderChunksGrid(chunksData[id]);
+            else if (aula.specialMode === 'scramble') { currentShuffledData = [...gamesData[id]]; currentIdx = 0; renderScramble(); }
         };
 
-        window.openFlashcards = function(id) {
-            const aula = aulaNames.find(a => a.id === id);
+        window.openDictation = function(id) {
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
             document.getElementById('study-view').classList.remove('hidden');
-            document.getElementById('study-title').textContent = "Flashcards: Holidays";
-            currentFlashcardIdx = 0; currentShuffledCards = shuffle([...flashcardsData[id]]); renderFlashcards();
+            document.getElementById('study-title').textContent = "Dictation Mode";
+            currentShuffledData = gamesData[id].dictation || [];
+            currentIdx = 0; currentStreak = 0; renderStreakBar(); renderDictation();
         }
 
-        window.toggleChunk = function(index) {
-            const text = document.getElementById(`chunk-pt-${index}`);
-            text.classList.toggle('translation-hidden');
-            text.classList.toggle('translation-visible');
+        function renderStreakBar() {
+            const bar = document.getElementById('streak-bar-container');
+            bar.classList.remove('hidden');
+            let dots = '';
+            for(let i=0; i<STREAK_GOAL; i++) dots += `<div class="streak-dot ${i < currentStreak ? 'active' : ''}"></div>`;
+            bar.innerHTML = dots;
         }
 
         function renderChunksGrid(data) {
-            const area = document.getElementById('study-content-area');
-            area.innerHTML = `<div class="chunks-grid shadow-lg">${data.map((item, index) => `
-                <div class="chunks-cell chunks-cell-en">${item.en}</div>
-                <div class="chunks-cell chunks-cell-pt"><span id="chunk-pt-${index}" class="translation-hidden">${item.pt}</span>
-                    <button onclick="toggleChunk(${index})" class="p-1 ml-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                </div>`).join('')}</div>`;
+            document.getElementById('study-content-area').innerHTML = `<div class="chunks-grid">${data.map((item, i) => `
+                <div class="chunks-cell bg-stone-50">${item.en}</div>
+                <div class="chunks-cell"><span id="cpt-${i}" class="translation-hidden">${item.pt}</span><button class="ml-auto opacity-40 hover:opacity-100" onclick="document.getElementById('cpt-${i}').classList.toggle('translation-hidden')">👁️</button></div>`).join('')}</div>`;
         }
 
-        async function renderListeningBoard(items) {
-            const area = document.getElementById('study-content-area');
-            area.innerHTML = `<div class="listening-grid"></div>`;
-            const grid = area.querySelector('.listening-grid');
-            items.forEach((item, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'number-btn';
-                // HTML for Listening buttons RESTORED
-                btn.innerHTML = `<span class="main-text">${item.n}</span><span class="sub-text">${item.p || item.w}</span>`;
-                btn.onclick = async () => {
-                    if (btn.classList.contains('playing')) return;
-                    btn.classList.add('playing');
-                    const audio = await fetchTTSAudio(item.w); // Uses the word for TTS
-                    if (audio) { audio.currentTime = 0; audio.play(); audio.onended = () => btn.classList.remove('playing'); }
-                    else btn.classList.remove('playing');
-                };
+        function renderListeningBoard(items) {
+            document.getElementById('study-content-area').innerHTML = `<div class="listening-grid"></div>`;
+            const grid = document.querySelector('.listening-grid');
+            items.forEach(item => {
+                const btn = document.createElement('button'); btn.className = 'number-btn';
+                btn.innerHTML = `<span class="main-text">${item.n || item}</span><span class="sub-text">${item.w || ''}</span>`;
+                btn.onclick = async () => { btn.classList.add('playing'); const audio = await fetchTTSAudio(item.w || item); if(audio) audio.play(); audio.onended = () => btn.classList.remove('playing'); };
                 grid.appendChild(btn);
             });
         }
 
         function renderFlashcards() {
-            const area = document.getElementById('study-content-area');
-            const update = () => {
-                const card = currentShuffledCards[currentFlashcardIdx];
-                const isText = /[a-zA-Z0-9]/.test(card.front); 
-                const frontSize = isText ? 'text-4xl' : 'text-9xl';
-                area.innerHTML = `
-                    <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
-                        <div class="flashcard"><div class="flashcard-front"><span class="text-xs absolute top-8 opacity-50 font-bold tracking-widest">PORTUGUESE</span><span class="${frontSize} font-bold mt-4">${card.front}</span></div>
-                        <div class="flashcard-back"><span class="text-xs absolute top-8 opacity-50 font-bold tracking-widest">ENGLISH</span><span class="text-3xl font-bold mt-4">${card.back}</span></div></div>
+            const card = currentShuffledCards[currentFlashcardIdx];
+            document.getElementById('study-content-area').innerHTML = `
+                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                    <div class="flashcard">
+                        <div class="flashcard-front"><span class="text-xs opacity-50">PORTUGUESE</span><span class="text-3xl font-bold">${card.front}</span></div>
+                        <div class="flashcard-back"><span class="text-xs opacity-50">ENGLISH</span><span class="text-3xl font-bold">${card.back}</span></div>
                     </div>
-                    <div class="flex items-center justify-between max-w-xs mx-auto mt-4">
-                        <button class="secondary-button p-3 rounded-full" onclick="changeFC(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
-                        <span class="font-bold text-stone-400">${currentFlashcardIdx + 1} / ${currentShuffledCards.length}</span>
-                        <button class="secondary-button p-3 rounded-full" onclick="changeFC(1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
-                    </div>`;
-            };
-            window.changeFC = (dir) => { currentFlashcardIdx = (currentFlashcardIdx + dir + currentShuffledCards.length) % currentShuffledCards.length; update(); };
-            update();
+                </div>
+                <div class="flex justify-between max-w-xs mx-auto mt-4"><button class="secondary-button" onclick="changeFC(-1)">⬅️</button><span class="font-bold">${currentFlashcardIdx+1}/${currentShuffledCards.length}</span><button class="secondary-button" onclick="changeFC(1)">➡️</button></div>`;
         }
+        window.changeFC = (d) => { currentFlashcardIdx = (currentFlashcardIdx + d + currentShuffledCards.length) % currentShuffledCards.length; renderFlashcards(); };
+
+        function renderScramble() {
+            if (currentStreak >= STREAK_GOAL) { document.getElementById('study-content-area').innerHTML = `<div class="text-center py-10"><h2 class="text-2xl font-bold">🏆 Missão Cumprida!</h2><button class="action-button mt-4" onclick="showDashboard()">Voltar</button></div>`; return; }
+            const item = currentShuffledData[currentIdx % currentShuffledData.length]; scrambleResult = [];
+            document.getElementById('study-content-area').innerHTML = `<div class="scramble-dropzone" id="scramble-res">Monte a frase...</div><div class="flex flex-wrap justify-center gap-2 mb-8">${shuffle([...item.words]).map(w => `<button class="scramble-word" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}</div><div id="scramble-fb"></div>`;
+        }
+        window.pickWord = (btn, w, full) => {
+            scrambleResult.push(w); document.getElementById('scramble-res').textContent = scrambleResult.join(' '); btn.style.visibility = 'hidden';
+            if (scrambleResult.length === full.split(' ').length) {
+                if (scrambleResult.join(' ').toLowerCase() === full.toLowerCase()) { currentStreak++; renderStreakBar(); setTimeout(() => { currentIdx++; renderScramble(); }, 1000); }
+                else { currentStreak = 0; renderStreakBar(); document.getElementById('scramble-fb').textContent = "Errou! Tente de novo."; setTimeout(renderScramble, 2000); }
+            }
+        };
+
+        function renderDictation() {
+            if (currentStreak >= STREAK_GOAL) { document.getElementById('study-content-area').innerHTML = `<div class="text-center py-10"><h2 class="text-2xl font-bold">🎉 Missão Cumprida!</h2><button class="action-button mt-4" onclick="showDashboard()">Voltar</button></div>`; return; }
+            const item = currentShuffledData[currentIdx % currentShuffledData.length];
+            document.getElementById('study-content-area').innerHTML = `<div class="flex flex-col items-center gap-4"><button class="w-16 h-16 bg-indigo-100 rounded-full text-2xl" id="d-play">🔊</button><input type="text" id="d-input" class="dictation-input"><button class="action-button" onclick="checkDictation('${item}')">Verificar</button></div><div id="d-fb" class="mt-4"></div>`;
+            document.getElementById('d-play').onclick = async () => { const a = await fetchTTSAudio(item); if(a) a.play(); };
+        }
+        window.checkDictation = (correct) => {
+            const input = document.getElementById('d-input');
+            if (input.value.trim().toLowerCase() === correct.toLowerCase()) { currentStreak++; renderStreakBar(); currentIdx++; renderDictation(); }
+            else { currentStreak = 0; renderStreakBar(); input.classList.add('wrong'); setTimeout(() => { input.classList.remove('wrong'); input.value = ''; }, 1000); }
+        };
 
         function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-
-        window.onload = function() { document.getElementById('login-gate').style.display = 'flex'; };
+        function scrollToModule(id) { document.getElementById(`module-${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        window.scrollToModule = scrollToModule;
     </script>
 </body>
 </html>
