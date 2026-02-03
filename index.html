@@ -12,42 +12,31 @@
         body { font-family: 'DM Sans', sans-serif; background-color: #f4f7f9; min-height: 100vh; margin: 0; scroll-behavior: smooth; }
         #main-wrapper { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1.5rem; position: relative; }
         
-        /* AUTH GATES */
-        #auth-gate { background-color: #44403c; min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; z-index: 9999; overflow-y: auto; padding: 2rem 1rem; }
-        .auth-card { background-color: white; padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); width: 100%; max-width: 420px; text-align: center; }
-        .auth-input { width: 100%; padding: 0.85rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; margin-bottom: 1rem; font-size: 1rem; outline: none; transition: 0.2s; }
-        .auth-input:focus { border-color: #8671d1; }
-        .toggle-link { color: #8671d1; font-weight: 700; cursor: pointer; text-decoration: underline; }
-        
+        /* UI BUTTONS */
         .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1rem; border-radius: 0.75rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .action-button:hover:not(:disabled) { background-color: #eab308; transform: translateY(-2px); }
-        .action-button:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: wait; }
+        .action-button:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
 
         .secondary-button { background-color: #44403c; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
         .secondary-button:hover { background-color: #292524; transform: translateY(-1px); }
 
+        /* CARDS */
         .level-card { background-color: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; }
         .level-card:not(.locked):hover { transform: scale(1.02); border-color: #8671d1; }
         .level-card.locked { opacity: 0.6; background-color: #f9fafb; pointer-events: none; }
         
         .module-tag { display: inline-block; padding: 0.25rem 0.5rem; background-color: #8671d1; color: white; font-size: 0.75rem; font-weight: 700; border-radius: 0.5rem; margin-bottom: 0.5rem; }
-        .lock-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(68,64,60,0.8); padding: 1rem; border-radius: 50%; }
+        .lock-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(68,64,60,0.9); padding: 1rem; border-radius: 50%; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* Game Specifics */
-        .chunks-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; background: white; text-align: left; }
-        .chunks-header { background: #44403c; color: white; padding: 1rem; font-weight: 700; text-transform: uppercase; }
-        .chunks-cell { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; }
-        .chunks-cell-en { font-weight: 500; color: #1e1b4b; background-color: #f8fafc; }
-        .chunks-cell-pt { font-style: italic; color: #64748b; justify-content: space-between; }
-        .translation-hidden { filter: blur(5px); opacity: 0.3; transition: 0.3s; user-select: none; } 
-        .translation-visible { filter: blur(0); opacity: 1; user-select: text; }
-
+        /* LISTENING */
+        .listening-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .number-btn { background: white; border: 2px solid #e2e8f0; border-radius: 1rem; padding: 1rem; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px; }
         .number-btn:hover { border-color: #8671d1; transform: translateY(-2px); }
         .number-btn span.main-text { font-size: 1.5rem; font-weight: 800; }
         .number-btn span.sub-text { font-size: 0.7rem; font-weight: 600; color: #8671d1; text-transform: uppercase; }
         .number-btn.playing { border-color: #F1D24B; background-color: #fffbeb; animation: pulse 1s infinite; }
 
+        /* FLASHCARDS */
         .flashcard-container { perspective: 1000px; width: 100%; max-width: 400px; height: 300px; margin: 1rem auto; cursor: pointer; }
         .flashcard { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped { transform: rotateY(180deg); }
@@ -55,25 +44,69 @@
         .flashcard-front { background-color: #8671d1; color: white; }
         .flashcard-back { background-color: #F1D24B; color: #44403c; transform: rotateY(180deg); }
         
-        .scramble-word { background: white; border: 2px solid #8671d1; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; margin: 0.25rem; font-weight: 700; color: #44403c; transition: 0.2s; }
-        .scramble-word:hover { background: #f3f0ff; }
-        .scramble-dropzone { min-height: 80px; border: 2px dashed #cbd5e1; border-radius: 1rem; padding: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; background-color: #f8fafc; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 600; color: #8671d1; }
+        /* CHUNKS */
+        .chunks-grid { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid #e2e8f0; border-radius: 1rem; overflow: hidden; background: white; text-align: left; }
+        .chunks-header { background: #44403c; color: white; padding: 1rem; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+        .chunks-cell { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; font-weight: 500; }
+        .chunks-cell-en { color: #1e1b4b; background-color: #f8fafc; }
+        .chunks-cell-pt { color: #64748b; justify-content: space-between; }
+        .translation-hidden { filter: blur(5px); opacity: 0.3; transition: 0.3s; user-select: none; } 
+        .translation-visible { filter: blur(0); opacity: 1; user-select: text; }
+
+        /* SCRAMBLE */
+        .scramble-dropzone {
+            min-height: 80px; 
+            border: 2px dashed #cbd5e1; 
+            border-radius: 1rem; 
+            padding: 1.5rem; 
+            display: flex; 
+            flex-wrap: wrap; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.75rem; 
+            background-color: #f8fafc; 
+            margin-bottom: 2rem; 
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            color: #8671d1;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .scramble-word {
+            background: white; 
+            border: 2px solid #e2e8f0; 
+            padding: 0.75rem 1.25rem; 
+            border-radius: 0.75rem; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: #44403c; 
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .scramble-word:hover { border-color: #8671d1; transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         
-        .dictation-input { font-size: 2rem; text-align: center; border: 3px solid #e2e8f0; border-radius: 1rem; width: 220px; padding: 0.5rem; outline: none; }
+        /* MISTAKE */
+        .mistake-word { display: inline-block; padding: 0.2rem 0.4rem; border-radius: 0.4rem; cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; }
+        .mistake-word:hover { background-color: #fee2e2; border-bottom-color: #ef4444; }
+        .mistake-word.wrong-choice { background-color: #fee2e2; border-bottom-color: #ef4444; text-decoration: line-through; }
+        .mistake-word.correct-choice { background: #dcfce7; border-color: #22c55e; }
+
+        /* DICTATION */
+        .dictation-input { font-size: 2rem; text-align: center; border: 3px solid #e2e8f0; border-radius: 1rem; width: 220px; padding: 0.5rem; outline: none; transition: 0.2s; }
         .dictation-input:focus { border-color: #8671d1; }
         .dictation-input.correct { border-color: #22c55e; background: #dcfce7; }
         .dictation-input.wrong { border-color: #ef4444; background: #fee2e2; }
+        
+        /* Streak Progress Bar */
+        .streak-container { display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 1rem; }
+        .streak-dot { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; transition: all 0.3s ease; }
+        .streak-dot.active { background: #F1D24B; transform: scale(1.2); }
 
-        /* Shortcuts inside dashboard */
+        /* HM SHORTCUTS */
         #hm-shortcuts-container { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-bottom: 2rem; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 1rem; }
-        .hm-box { width: 54px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 0.4rem; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: 1px solid #e2e8f0; background: white; }
+        .hm-box { width: 54px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 0.4rem; font-size: 0.65rem; font-weight: 800; transition: all 0.2s; cursor: pointer; border: 1px solid #e2e8f0; background: white; }
         .hm-box-active { color: #8671d1; border-color: #8671d1; }
         .hm-box-active:hover { background: #f3f0ff; transform: translateY(-2px); }
-        .hm-box-locked { background: #f1f5f9; color: #cbd5e1; cursor: not-allowed; }
-
-        .streak-container { display: flex; justify-content: center; gap: 5px; margin-bottom: 1rem; }
-        .streak-dot { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; transition: 0.3s; }
-        .streak-dot.active { background: #F1D24B; transform: scale(1.2); }
+        .hm-box-locked { background: #f1f5f9; color: #cbd5e1; cursor: not-allowed; border-color: #e2e8f0; }
 
         /* QUIZ UI */
         .option-button { background-color: white; border: 2px solid #e2e8f0; color: #44403c; text-align: left; padding: 1rem; border-radius: 0.75rem; width: 100%; transition: all 0.2s; cursor: pointer; display: flex; align-items: center; gap: 1rem; }
@@ -91,48 +124,9 @@
 </head>
 <body>
     
-    <!-- AUTH GATE -->
-    <div id="auth-gate">
-        <div class="auth-card">
-            <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 mx-auto mb-6">
-            
-            <!-- Login -->
-            <div id="login-container">
-                <h1 class="text-2xl font-bold mb-6 text-stone-800">Portal do Aluno</h1>
-                <form id="login-form">
-                    <input type="email" id="login-email" class="auth-input" placeholder="Seu E-mail" required>
-                    <input type="password" id="login-password" class="auth-input" placeholder="Sua Senha" required>
-                    <button type="submit" id="btn-login" class="action-button mb-4">ENTRAR</button>
-                </form>
-                <p class="text-sm text-stone-500">Ainda não tem conta? <span class="toggle-link" onclick="toggleAuth('register')">Cadastre-se</span></p>
-            </div>
-
-            <!-- Register -->
-            <div id="register-container" class="hidden">
-                <h1 class="text-2xl font-bold mb-6 text-stone-800">Criar Conta</h1>
-                <form id="register-form">
-                    <div class="flex gap-2">
-                        <input type="text" id="reg-name" class="auth-input" placeholder="Nome" required>
-                        <input type="text" id="reg-surname" class="auth-input" placeholder="Sobrenome" required>
-                    </div>
-                    <input type="email" id="reg-email" class="auth-input" placeholder="E-mail" required>
-                    <input type="password" id="reg-password" class="auth-input" placeholder="Senha" required>
-                    <button type="submit" id="btn-register" class="action-button mb-4">SOLICITAR ACESSO</button>
-                </form>
-                <p class="text-sm text-stone-500">Já tem conta? <span class="toggle-link" onclick="toggleAuth('login')">Fazer Login</span></p>
-            </div>
-
-            <p id="auth-feedback" class="mt-4 text-red-500 font-bold hidden text-sm"></p>
-        </div>
-    </div>
-
     <!-- MAIN APP CONTENT -->
-    <div id="main-wrapper" class="hidden">
+    <div id="main-wrapper">
         <header class="py-8 border-b border-stone-200 mb-10 text-center relative">
-            <div class="absolute top-0 right-0 p-4">
-                <button class="text-stone-400 hover:text-stone-600 font-bold text-xs" onclick="logout()">SAIR</button>
-            </div>
-            
             <button class="help-btn" onclick="document.getElementById('rules-modal').classList.add('active')">?</button>
 
             <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
@@ -186,129 +180,25 @@
         <div class="modal-content">
             <h3 class="text-xl font-black text-stone-800 mb-5 text-center">Manual de Regras</h3>
             <div class="space-y-5 text-left text-stone-600 text-sm leading-relaxed">
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">1</div>
-                    <p><strong>Acesso Individual:</strong> Não compartilhe sua senha. Monitoramos acessos por IP.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">2</div>
-                    <p><strong>Frequência:</strong> A evolução vem da prática constante. Tente completar um módulo de Homework após cada aula com seu teacher.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">3</div>
-                    <p><strong>Prints:</strong> Ao completar um Streak de 5, tire um print e envie para seu teacher.</p>
-                </div>
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">4</div>
-                    <p><strong>Listening:</strong> Use fones de ouvido para captar os detalhes.</p>
-                </div>
+                <div class="flex gap-3"><div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">1</div><p><strong>Acesso Individual:</strong> Não compartilhe sua senha. Monitoramos acessos por IP.</p></div>
+                <div class="flex gap-3"><div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">2</div><p><strong>Frequência:</strong> A evolução vem da prática constante. Tente completar um módulo de Homework após cada aula com seu teacher.</p></div>
+                <div class="flex gap-3"><div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">3</div><p><strong>Prints:</strong> Ao completar um Streak de 5, tire um print e envie para seu teacher.</p></div>
+                <div class="flex gap-3"><div class="w-6 h-6 rounded-full bg-[#8671d1] text-white flex items-center justify-center shrink-0 font-bold">4</div><p><strong>Listening:</strong> Use fones de ouvido para captar os detalhes.</p></div>
             </div>
             <button class="action-button w-full mt-8" onclick="document.getElementById('rules-modal').classList.remove('active')">Entendi, vamos lá!</button>
         </div>
     </div>
 
-    <!-- FIREBASE & LOGIC -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
-
-        // FIREBASE CONFIG - USER PROVIDED
-        const firebaseConfig = {
-            apiKey: "AIzaSyDlleaDp-GKGDgn6A1oFG8THsMPsz1if1E",
-            authDomain: "starter1-ff48b.firebaseapp.com",
-            projectId: "starter1-ff48b",
-            storageBucket: "starter1-ff48b.firebasestorage.app",
-            messagingSenderId: "760746346199",
-            appId: "1:760746346199:web:00aa643f1a9daee0ca5292",
-            measurementId: "G-609TK71R1R"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const APP_ID = "slap-starter-1";
-
-        // --- AUTH ---
-        window.toggleAuth = (mode) => {
-            document.getElementById('login-container').classList.toggle('hidden', mode === 'register');
-            document.getElementById('register-container').classList.toggle('hidden', mode === 'login');
-            document.getElementById('auth-feedback').classList.add('hidden');
-        };
-
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fb = document.getElementById('auth-feedback');
-            const email = document.getElementById('reg-email').value;
-            const pass = document.getElementById('reg-password').value;
-            const name = document.getElementById('reg-name').value + " " + document.getElementById('reg-surname').value;
-            
-            try {
-                const cred = await createUserWithEmailAndPassword(auth, email, pass);
-                // Save to Firestore Rule 1 path
-                await setDoc(doc(db, 'artifacts', APP_ID, 'users', cred.user.uid, 'profile', 'info'), {
-                    name, email, isApproved: false, createdAt: new Date().toISOString()
-                });
-                fb.textContent = "Cadastro feito! Peça ao seu Teacher para aprovar seu acesso.";
-                fb.className = "mt-4 text-green-600 font-bold block";
-                fb.classList.remove('hidden');
-                await signOut(auth);
-                setTimeout(() => toggleAuth('login'), 4000);
-            } catch (err) {
-                fb.textContent = "Erro ao cadastrar. Verifique os dados.";
-                fb.classList.remove('hidden');
-                console.error(err);
-            }
-        });
-
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fb = document.getElementById('auth-feedback');
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-password').value;
-            
-            try {
-                const cred = await signInWithEmailAndPassword(auth, email, pass);
-                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'users', cred.user.uid, 'profile', 'info'));
-                
-                if (snap.exists() && snap.data().isApproved) {
-                    // Logado e Aprovado
-                } else {
-                    await signOut(auth);
-                    fb.textContent = "Sua conta ainda não foi aprovada pelo Teacher.";
-                    fb.classList.remove('hidden');
-                }
-            } catch (err) {
-                fb.textContent = "E-mail ou senha incorretos.";
-                fb.classList.remove('hidden');
-            }
-        });
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                getDoc(doc(db, 'artifacts', APP_ID, 'users', user.uid, 'profile', 'info')).then(snap => {
-                    if (snap.exists() && snap.data().isApproved) {
-                        document.getElementById('auth-gate').style.display = 'none';
-                        document.getElementById('main-wrapper').classList.remove('hidden');
-                        renderDashboard();
-                    }
-                });
-            } else {
-                document.getElementById('main-wrapper').classList.add('hidden');
-                document.getElementById('auth-gate').style.display = 'flex';
-            }
-        });
-
-        window.logout = () => signOut(auth);
-
-        // --- APP DATA & LOGIC ---
-        const apiKeyTTS = "AIzaSyAEGbckOywhDZ_unbK5cAxGdDKsnyEcu98"; 
+    <script>
+        const apiKey = "AIzaSyDlleaDp-GKGDgn6A1oFG8THsMPsz1if1E"; 
         const audioCache = new Map();
-        let quizStreak = 0;
+        
         let currentStreak = 0;
+        let quizStreak = 0;
         const STREAK_GOAL = 5;
-        let currentAulaId = 0;
+        let currentAulaId = 0; 
 
+        // --- APP DATA ---
         const aulaNames = [
             { id: 1, name: "Open House", hasHomework: false },
             { id: 2, name: "Feelings", hasHomework: true, specialMode: 'flashcards' },
@@ -325,7 +215,7 @@
             { id: 13, name: "Neighborhood", hasHomework: true },
             { id: 14, name: "Family Members", hasHomework: true },
             { id: 15, name: "Midterm Test", hasHomework: false },
-            { id: 16, name: "Can e Can't", hasHomework: true, specialMode: 'scramble' },
+            { id: 16, name: "Can e Can't", hasHomework: true },
             { id: 17, name: "Midterm Test Correction", hasHomework: false },
             { id: 18, name: "Simple Present pt. 1", hasHomework: true, specialMode: 'scramble' },
             { id: 19, name: "Simple Present pt. 2", hasHomework: true },
@@ -364,6 +254,7 @@
             10: [{ full: "this is my car", words: ["this", "is", "my", "car"] }],
             16: [{ full: "I can dance", words: ["I", "can", "dance"] }],
             4: { dictation: ["1", "15", "50", "13", "30"] },
+            5: { dictation: ["100", "500", "1000"] },
             28: { dictation: ["08:00", "12:30"] },
             18: [{ full: "I drink water every day", words: ["I", "drink", "water", "every", "day"] }],
             20: [{ full: "help me please", words: ["help", "me", "please"] }],
@@ -371,57 +262,75 @@
             25: [{ full: "this pen is mine", words: ["this", "pen", "is", "mine"] }]
         };
 
-        async function fetchTTSAudio(text) {
-            if (audioCache.has(text)) return audioCache.get(text);
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKeyTTS}`;
-            const payload = { contents: [{ parts: [{ text: `Say clearly: ${text}` }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } } }, model: "gemini-2.5-flash-preview-tts" };
-            try {
-                const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                const result = await response.json();
-                const pcmData = result.candidates[0].content.parts[0].inlineData.data;
-                const audio = new Audio(URL.createObjectURL(pcmToWav(pcmData, 24000)));
-                audioCache.set(text, audio);
-                return audio;
-            } catch (e) { return null; }
-        }
-
-        function pcmToWav(base64Pcm, sampleRate) {
-            const binaryString = atob(base64Pcm);
-            const bytes = new Uint8Array(binaryString.length);
-            for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
-            const buffer = new ArrayBuffer(44 + bytes.length);
-            const view = new DataView(buffer);
-            const writeString = (o, s) => { for (let i = 0; i < s.length; i++) view.setUint8(o + i, s.charCodeAt(i)); };
-            writeString(0, 'RIFF'); view.setUint32(4, 36 + bytes.length, true); writeString(8, 'WAVE'); writeString(12, 'fmt ');
-            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true); view.setUint16(34, 16, true); writeString(36, 'data'); view.setUint32(40, bytes.length, true);
-            for (let i = 0; i < bytes.length; i++) view.setUint8(44 + i, bytes[i]);
-            return new Blob([buffer], { type: 'audio/wav' });
-        }
-
-        window.renderDashboard = function() {
-            const container = document.getElementById('level-cards-container');
-            container.innerHTML = aulaNames.map(aula => `
-                <div class="level-card" id="module-${aula.id}">
-                    <div>
-                        <span class="module-tag">HW AULA ${String(aula.id).padStart(2, '0')}</span>
-                        <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
-                        <p class="text-stone-500 text-sm mb-6">Módulo de reforço estrutural.</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2">
-                        ${aula.specialMode ? `<button class="secondary-button flex-1 text-xs" onclick="openStudy(${aula.id})">${aula.specialMode.toUpperCase()}</button>` : ''}
-                        ${aula.thirdBtn ? `<button class="secondary-button flex-1 text-xs" onclick="openDictation(${aula.id})">${aula.thirdBtn.toUpperCase()}</button>` : ''}
-                        <button class="action-button flex-1 text-xs uppercase" onclick="openPractice(${aula.id})">HOMEWORK</button>
-                    </div>
-                </div>`).join('');
-            const shortcuts = document.getElementById('hm-shortcuts-container');
-            shortcuts.innerHTML = aulaNames.map(aula => `<div class="hm-box hm-box-active" onclick="document.getElementById('module-${aula.id}').scrollIntoView({behavior:'smooth', block:'center'})">HM ${String(aula.id).padStart(2, '0')}</div>`).join('');
+        // --- REAL HOMEWORK QUESTIONS (FROM WORD FILE) ---
+        const quizData = {
+            2: [ // AULA 01: FEELINGS
+                {q: "Complete the sentence: 'I am ____ because I didn’t sleep well.'", options: [{text:"tired", isCorrect:true}, {text:"happy", isCorrect:false}, {text:"angry", isCorrect:false}, {text:"excited", isCorrect:false}], rationale: "Não dormir bem causa cansaço (tired)."},
+                {q: "Which sentence is grammatically correct?", options: [{text:"I feel sad", isCorrect:true}, {text:"I am feel sad", isCorrect:false}, {text:"I feeling sad", isCorrect:false}, {text:"I am sad feel", isCorrect:false}], rationale: "'I feel sad' ou 'I am sad' são as formas corretas."},
+                {q: "Choose the best option: 'She is angry' means:", options: [{text:"Ela está brava", isCorrect:true}, {text:"Ela está cansada", isCorrect:false}, {text:"Ela está feliz", isCorrect:false}, {text:"Ela está animada", isCorrect:false}], rationale: "Angry significa brava/irritada."},
+                {q: "You lost your wallet. How do you feel?", options: [{text:"Angry", isCorrect:true}, {text:"Happy", isCorrect:false}, {text:"Relaxed", isCorrect:false}, {text:"Excited", isCorrect:false}], rationale: "Perder a carteira geralmente causa raiva ou frustração."},
+                {q: "What is the opposite of happy?", options: [{text:"Sad", isCorrect:true}, {text:"Angry", isCorrect:false}, {text:"Tired", isCorrect:false}, {text:"Scared", isCorrect:false}], rationale: "O oposto de feliz é triste (sad)."},
+                {q: "Complete: 'They ____ scared of flying.'", options: [{text:"are", isCorrect:true}, {text:"is", isCorrect:false}, {text:"am", isCorrect:false}, {text:"be", isCorrect:false}], rationale: "'They' (eles) exige o verbo 'are'."},
+                {q: "Which option is NOT a feeling?", options: [{text:"Smile", isCorrect:true}, {text:"Nervous", isCorrect:false}, {text:"Tired", isCorrect:false}, {text:"Angry", isCorrect:false}], rationale: "Smile (sorriso) é uma ação/expressão, não um sentimento."},
+                {q: "Choose the correct word order:", options: [{text:"I am angry now", isCorrect:true}, {text:"I am now angry", isCorrect:false}, {text:"I angry am now", isCorrect:false}, {text:"I now am angry", isCorrect:false}], rationale: "A ordem padrão é Sujeito + Verbo + Adjetivo + Tempo."},
+                {q: "Why is she smiling?", options: [{text:"Because she is happy", isCorrect:true}, {text:"Because she is tired", isCorrect:false}, {text:"Because she is angry", isCorrect:false}, {text:"Because she is scared", isCorrect:false}], rationale: "Sorrímos quando estamos felizes."},
+                {q: "Choose the correct meaning of scared:", options: [{text:"Assustado", isCorrect:true}, {text:"Cansado", isCorrect:false}, {text:"Feliz", isCorrect:false}, {text:"Nervoso", isCorrect:false}], rationale: "Scared significa assustado."}
+            ],
+            3: [ // AULA 02: NAMES & GREETINGS
+                {q: "Choose the most appropriate greeting for a formal situation:", options: [{text:"Hello", isCorrect:true}, {text:"Hi!", isCorrect:false}, {text:"Hey!", isCorrect:false}, {text:"What’s up?", isCorrect:false}], rationale: "Hello é o mais formal e neutro."},
+                {q: "Complete the sentence: '____ name is Daniela.'", options: [{text:"My", isCorrect:true}, {text:"I", isCorrect:false}, {text:"Me", isCorrect:false}, {text:"Mine", isCorrect:false}], rationale: "My (meu) é o adjetivo possessivo correto."},
+                {q: "Which sentence is correct?", options: [{text:"My name is Daniela", isCorrect:true}, {text:"My name Daniela", isCorrect:false}, {text:"My is name Daniela", isCorrect:false}, {text:"Name is my Daniela", isCorrect:false}], rationale: "A estrutura é My name + is + Nome."},
+                {q: "You meet someone for the first time at work. What do you say?", options: [{text:"Hello, nice to meet you", isCorrect:true}, {text:"Bye", isCorrect:false}, {text:"See you later", isCorrect:false}, {text:"Good night", isCorrect:false}], rationale: "Cumprimento padrão para o primeiro encontro."},
+                {q: "Choose the correct question:", options: [{text:"What is your name?", isCorrect:true}, {text:"What your name is?", isCorrect:false}, {text:"What is name you?", isCorrect:false}, {text:"Your name what is?", isCorrect:false}], rationale: "Ordem correta: Wh-word + is + sujeito?"},
+                {q: "Complete the expression: 'Nice to ____ you.'", options: [{text:"meet", isCorrect:true}, {text:"see", isCorrect:false}, {text:"say", isCorrect:false}, {text:"talk", isCorrect:false}], rationale: "Nice to meet you = Prazer em conhecê-lo."},
+                {q: "“Hi, I’m Paulo” means:", options: [{text:"Oi, eu sou Paulo", isCorrect:true}, {text:"Oi, qual é seu nome?", isCorrect:false}, {text:"Tchau, Paulo", isCorrect:false}, {text:"Prazer, Paulo", isCorrect:false}], rationale: "Tradução direta de apresentação."},
+                {q: "Which greeting is more informal?", options: [{text:"Hi", isCorrect:true}, {text:"Good evening", isCorrect:false}, {text:"Hello", isCorrect:false}, {text:"Good afternoon", isCorrect:false}], rationale: "Hi é informal."},
+                {q: "Choose the best answer: — What’s your name?", options: [{text:"My name is Laura", isCorrect:true}, {text:"Hi!", isCorrect:false}, {text:"Nice to meet you", isCorrect:false}, {text:"Goodbye", isCorrect:false}], rationale: "Resposta direta à pergunta."},
+                {q: "When do we usually say “Goodbye”?", options: [{text:"When we leave", isCorrect:true}, {text:"When we arrive", isCorrect:false}, {text:"When we introduce ourselves", isCorrect:false}, {text:"When we meet someone", isCorrect:false}], rationale: "Goodbye é despedida."}
+            ],
+            4: [ // AULA 03: NUMBERS PT. 1
+                {q: "Choose the correct number: 'Eight'", options: [{text:"8", isCorrect:true}, {text:"6", isCorrect:false}, {text:"7", isCorrect:false}, {text:"9", isCorrect:false}], rationale: "Eight = 8."},
+                {q: "Complete: 'I have ____ cousins.'", options: [{text:"two", isCorrect:true}, {text:"second", isCorrect:false}, {text:"twice", isCorrect:false}, {text:"double", isCorrect:false}], rationale: "Usa-se número cardinal para quantidade."},
+                {q: "What comes after nine?", options: [{text:"Ten", isCorrect:true}, {text:"Eight", isCorrect:false}, {text:"Eleven", isCorrect:false}, {text:"Twelve", isCorrect:false}], rationale: "9, 10 (Ten)."},
+                {q: "Choose the correct option: 'I am ____ years old.'", options: [{text:"twenty", isCorrect:true}, {text:"twentieth", isCorrect:false}, {text:"twenties", isCorrect:false}, {text:"twentys", isCorrect:false}], rationale: "Idade usa números cardinais."},
+                {q: "Which sentence is correct?", options: [{text:"I have three brothers", isCorrect:true}, {text:"I have three brother", isCorrect:false}, {text:"I have brother three", isCorrect:false}, {text:"I have brothers three", isCorrect:false}], rationale: "Plural no substantivo após o número."},
+                {q: "Choose the correct word: '____ people are in the class.' (10)", options: [{text:"Ten", isCorrect:true}, {text:"Tenth", isCorrect:false}, {text:"Teen", isCorrect:false}, {text:"Tens", isCorrect:false}], rationale: "Quantidade 10 = Ten."},
+                {q: "What number is this? 5 + 4", options: [{text:"Nine", isCorrect:true}, {text:"Eight", isCorrect:false}, {text:"Ten", isCorrect:false}, {text:"Eleven", isCorrect:false}], rationale: "5 mais 4 é 9 (Nine)."},
+                {q: "Choose the natural sentence in English:", options: [{text:"I am 30 years old", isCorrect:true}, {text:"I have 30 years", isCorrect:false}, {text:"I am 30 years", isCorrect:false}, {text:"I have 30 old", isCorrect:false}], rationale: "Em inglês, 'somos' a idade (I am), não 'temos'."},
+                {q: "Choose the correct spelling:", options: [{text:"Four", isCorrect:true}, {text:"For", isCorrect:false}, {text:"Fore", isCorrect:false}, {text:"Fower", isCorrect:false}], rationale: "Quatro = Four."},
+                {q: "Which sentence uses numbers correctly?", options: [{text:"I have two cars", isCorrect:true}, {text:"I have two car", isCorrect:false}, {text:"I have cars two", isCorrect:false}, {text:"I have two car’s", isCorrect:false}], rationale: "Número + Substantivo Plural."}
+            ],
+            5: [ // AULA 04: NUMBERS PT. 2
+                {q: "How do we usually say a phone number?", options: [{text:"Digit by digit", isCorrect:true}, {text:"In big numbers", isCorrect:false}, {text:"As one long number", isCorrect:false}, {text:"Using ordinal numbers", isCorrect:false}], rationale: "Telefones são ditos dígito a dígito."},
+                {q: "Choose the correct way to say 358:", options: [{text:"Three hundred fifty-eight", isCorrect:true}, {text:"Three five eight", isCorrect:false}, {text:"Thirty five eight", isCorrect:false}, {text:"Three hundred and eight", isCorrect:false}], rationale: "Centenas + dezenas."},
+                {q: "How do we usually say the year 2015?", options: [{text:"Twenty fifteen", isCorrect:true}, {text:"Two thousand and fifteen", isCorrect:false}, {text:"Two zero one five", isCorrect:false}, {text:"Two thousand five", isCorrect:false}], rationale: "Anos geralmente são divididos em dois (20-15)."},
+                {q: "Choose the most natural way to say $12.99:", options: [{text:"Twelve ninety-nine", isCorrect:true}, {text:"Twelve dollars ninety-nine", isCorrect:false}, {text:"Twelve dollars and ninety-nine cents", isCorrect:false}, {text:"Ninety-nine dollars twelve", isCorrect:false}], rationale: "Forma curta comum para preços."},
+                {q: "Complete: 'My house number is ____.' (404)", options: [{text:"Four zero four", isCorrect:true}, {text:"Four hundred four", isCorrect:false}, {text:"Forty four", isCorrect:false}, {text:"Four hundred and zero four", isCorrect:false}], rationale: "Endereços também costumam ser dígito a dígito."},
+                {q: "Choose the correct option: 'My phone number starts with ____.' (9)", options: [{text:"Nine", isCorrect:true}, {text:"Ninety", isCorrect:false}, {text:"Ninth", isCorrect:false}, {text:"Nineteen", isCorrect:false}], rationale: "Dígito 9 = Nine."},
+                {q: "What number comes after thirty-nine?", options: [{text:"Forty", isCorrect:true}, {text:"Thirty-ten", isCorrect:false}, {text:"Fourteen", isCorrect:false}, {text:"Forty-one", isCorrect:false}], rationale: "39 -> 40 (Forty)."},
+                {q: "Choose the correct sentence:", options: [{text:"The price is twenty dollars and fifty cents", isCorrect:true}, {text:"The price is 20 dollars and 50", isCorrect:false}, {text:"The price is twenty dollars fifty", isCorrect:false}, {text:"The price is twenty fifty", isCorrect:false}], rationale: "Forma completa e correta de preço."},
+                {q: "How do we usually say apartment numbers?", options: [{text:"Digit by digit", isCorrect:true}, {text:"Using ordinal numbers", isCorrect:false}, {text:"Using letters", isCorrect:false}, {text:"Using plural numbers", isCorrect:false}], rationale: "Como telefones e endereços."},
+                {q: "Choose the correct spelling:", options: [{text:"Forty", isCorrect:true}, {text:"Fourty", isCorrect:false}, {text:"Fourtid", isCorrect:false}, {text:"Fourtee", isCorrect:false}], rationale: "Quarenta se escreve Forty (sem o 'u' de Four)."}
+            ],
+            6: [ // AULA 05: SPELLING
+                {q: "Someone asks: 'How do you spell your last name?' You answer:", options: [{text:"S-I-L-V-A", isCorrect:true}, {text:"I am Silva", isCorrect:false}, {text:"Silva", isCorrect:false}, {text:"My name is Silva", isCorrect:false}], rationale: "Soletrar = dizer letra por letra."},
+                {q: "Choose the correct spelling: 'Maria'", options: [{text:"M-A-R-I-A", isCorrect:true}, {text:"M-E-R-I-A", isCorrect:false}, {text:"M-A-R-E-A", isCorrect:false}, {text:"M-E-R-E-A", isCorrect:false}], rationale: "A soletração correta."},
+                {q: "How do you say @ in English?", options: [{text:"At", isCorrect:true}, {text:"On", isCorrect:false}, {text:"In", isCorrect:false}, {text:"To", isCorrect:false}], rationale: "@ = At."},
+                {q: "Complete: 'My email is anna ____ hotmail.com'", options: [{text:"at", isCorrect:true}, {text:"on", isCorrect:false}, {text:"in", isCorrect:false}, {text:"to", isCorrect:false}], rationale: "Usa-se 'at' para o @."},
+                {q: "Which sentence is correct?", options: [{text:"Can you spell your name?", isCorrect:true}, {text:"Can you spell me your name?", isCorrect:false}, {text:"You spell your name?", isCorrect:false}, {text:"Spell you your name?", isCorrect:false}], rationale: "Pergunta correta de habilidade."},
+                {q: "How do you abbreviate Television?", options: [{text:"T-V", isCorrect:true}, {text:"Tee-vee", isCorrect:false}, {text:"Ti-vi", isCorrect:false}, {text:"Tee-vi", isCorrect:false}], rationale: "TV são as letras T e V."},
+                {q: "Choose the correct option: 'My name is Jacob. It has ____ letters.'", options: [{text:"five", isCorrect:true}, {text:"fifth", isCorrect:false}, {text:"fiveth", isCorrect:false}, {text:"fifteenth", isCorrect:false}], rationale: "J-A-C-O-B = 5 letras."},
+                {q: "When spelling information, we usually:", options: [{text:"Say each letter clearly", isCorrect:true}, {text:"Speak fast", isCorrect:false}, {text:"Use ordinal numbers", isCorrect:false}, {text:"Translate the word", isCorrect:false}], rationale: "Clareza é essencial ao soletrar."},
+                {q: "Choose the correct spelling: 'Google'", options: [{text:"G-O-O-G-L-E", isCorrect:true}, {text:"G-O-G-L-E", isCorrect:false}, {text:"G-U-G-L-E", isCorrect:false}, {text:"G-O-O-G-E-L", isCorrect:false}], rationale: "Soletração correta da marca."},
+                {q: "What do we say after spelling a word?", options: [{text:"That’s correct", isCorrect:true}, {text:"Thank you", isCorrect:false}, {text:"How are you?", isCorrect:false}, {text:"Goodbye", isCorrect:false}], rationale: "Confirmamos que está correto."}
+            ]
         };
 
-        // --- QUIZ & PRACTICE ---
+        // Fallback generator for other modules to ensure 10 questions exist
         function getQuizDataForModule(id) {
-            // Generates 10 mock questions for any module
+            if (quizData[id]) return quizData[id];
+            
+            // Generic fallback questions based on module name
             const modName = aulaNames.find(a => a.id === id).name;
             const generic = [];
             for(let i=0; i<10; i++) {
@@ -439,10 +348,111 @@
             return generic;
         }
 
+        let currentQuestion = null;
+        let questionsPool = [];
+        let answerSubmitted = false;
+        let currentFlashcardIdx = 0;
+        let currentShuffledCards = [];
+        let currentShuffledData = []; 
+        let currentIdx = 0; 
+        let scrambleResult = [];
+
+        async function fetchTTSAudio(text) {
+            if (audioCache.has(text)) return audioCache.get(text);
+            const payload = {
+                contents: [{ parts: [{ text: `Say clearly: ${text}` }] }],
+                generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } } },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+            try {
+                const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+                if (!response.ok) throw new Error("API error");
+                const result = await response.json();
+                const pcmData = result.candidates[0].content.parts[0].inlineData.data;
+                const wavBlob = pcmToWav(pcmData, 24000);
+                const audio = new Audio(URL.createObjectURL(wavBlob));
+                audioCache.set(text, audio);
+                return audio;
+            } catch (error) { return null; }
+        }
+
+        function pcmToWav(base64Pcm, sampleRate) {
+            const binaryString = atob(base64Pcm);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) bytes[i] = binaryString.charCodeAt(i);
+            const buffer = new ArrayBuffer(44 + bytes.length);
+            const view = new DataView(buffer);
+            const writeString = (offset, string) => { for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i)); };
+            writeString(0, 'RIFF'); view.setUint32(4, 36 + bytes.length, true); writeString(8, 'WAVE'); writeString(12, 'fmt ');
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true); view.setUint16(34, 16, true); writeString(36, 'data'); view.setUint32(40, bytes.length, true);
+            for (let i = 0; i < bytes.length; i++) view.setUint8(44 + i, bytes[i]);
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        window.showDashboard = function() {
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('hm-shortcuts-container').classList.remove('hidden');
+            document.getElementById('generator-view').classList.add('hidden');
+            document.getElementById('study-view').classList.add('hidden');
+        };
+
+        window.scrollToModule = function(id) {
+            const el = document.getElementById(`module-${id}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function renderDashboard() {
+            // Render Shortcuts
+            const shortcuts = document.getElementById('hm-shortcuts-container');
+            shortcuts.innerHTML = aulaNames.map(aula => {
+                const label = `HM ${String(aula.id).padStart(2, '0')}`;
+                return aula.hasHomework 
+                    ? `<div class="hm-box hm-box-active" onclick="scrollToModule(${aula.id})">${label}</div>`
+                    : `<div class="hm-box hm-box-locked"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>`;
+            }).join('');
+
+            const container = document.getElementById('level-cards-container');
+            container.innerHTML = aulaNames.map(aula => {
+                let studyLabel = '';
+                if (aula.specialMode === 'flashcards') studyLabel = 'FLASHCARDS';
+                else if (aula.specialMode === 'listening') studyLabel = 'LISTENING';
+                else if (aula.specialMode === 'chunks') studyLabel = 'CHUNKS';
+                else if (aula.specialMode === 'mistake') studyLabel = 'DETETIVE';
+                else if (aula.specialMode === 'scramble') studyLabel = 'SCRAMBLE';
+
+                const sBtn = studyLabel ? `<button class="secondary-button flex-1 text-xs" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
+                const tBtn = (aula.id === 23) ? `<button class="secondary-button flex-1 text-xs" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
+                const dBtn = (aula.thirdBtn === 'dictation') ? `<button class="secondary-button flex-1 text-xs" onclick="openDictation(${aula.id})">DICTATION</button>` : '';
+
+                return `
+                <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
+                    ${!aula.hasHomework ? `
+                        <div class="lock-overlay">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                    ` : `<img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1760657894/SLAP_ICON_PRETO_2_2_tv8bmp.png" alt="Logo" class="absolute top-4 right-4 w-8 h-8 opacity-10">`}
+                    <div>
+                        <span class="module-tag">STARTER 1 - HW AULA ${String(aula.id).padStart(2, '0')}</span>
+                        <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
+                        <p class="text-stone-500 text-sm mb-6">${aula.hasHomework ? 'Pratique as estruturas aprendidas em aula.' : 'Sem homework disponível.'}</p>
+                    </div>
+                    <div class="flex flex-nowrap gap-2">
+                        ${sBtn} ${tBtn} ${dBtn}
+                        <button class="action-button flex-1 text-xs uppercase" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
+                    </div>
+                </div>`
+            }).join('');
+        }
+
         window.openPractice = function(id) {
-            currentAulaId = id;
+            currentAulaId = id; 
+            const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden');
+            document.getElementById('hm-shortcuts-container').classList.add('hidden'); 
             document.getElementById('generator-view').classList.remove('hidden');
             document.getElementById('current-hw-display').textContent = "Homework: " + aulaNames.find(a => a.id===id).name;
             quizStreak = 0; renderQuizStreak(); loadNextQuestion();
@@ -450,121 +460,286 @@
 
         window.loadNextQuestion = function() {
             if (quizStreak >= STREAK_GOAL) {
-                document.getElementById('main-question').innerHTML = `<div class="text-center py-4"><div class="text-6xl mb-4">📸</div><h2 class="text-2xl font-bold">Missão Cumprida!</h2><p class="text-stone-500">Tire um print para o seu Teacher!</p></div>`;
-                document.getElementById('options-container').innerHTML = `<button class="action-button" onclick="showDashboard()">Voltar</button>`;
+                document.getElementById('main-question').innerHTML = `<div class="text-center py-4"><div class="text-6xl mb-4">📸</div><h2 class="text-2xl font-bold text-stone-800 mb-2">Homework Concluído!</h2><p class="text-stone-500 mb-6">Tire um print desta tela e envie para o seu teacher para mostrar que você arrasou!</p><div class="text-4xl font-black text-indigo-500 mb-6">STREAK: 5</div></div>`;
+                document.getElementById('options-container').innerHTML = `<button class="action-button w-full" onclick="showDashboard()">Voltar ao Menu</button>`;
                 document.getElementById('rationale-display').classList.add('hidden');
+                document.getElementById('feedback-alert').classList.add('hidden');
                 return;
             }
-            const raw = getQuizDataForModule(currentAulaId);
-            currentQuestion = raw[Math.floor(Math.random() * raw.length)];
+
+            if (questionsPool.length === 0) {
+                 questionsPool = shuffle([...getQuizDataForModule(currentAulaId)]); 
+            }
+
+            currentQuestion = questionsPool.pop();
+            
             document.getElementById('main-question').textContent = currentQuestion.q;
             document.getElementById('rationale-display').classList.add('hidden');
             document.getElementById('feedback-alert').classList.add('hidden');
             answerSubmitted = false;
-            document.getElementById('options-container').innerHTML = currentQuestion.options.map((o, i) => `
-                <button class="option-button" onclick="submitAnswer(${o.isCorrect}, ${i}, '${data.rationale}')">
-                    <span class="option-prefix">${String.fromCharCode(65+i)}</span>
-                    <span>${o.text}</span>
-                </button>`).join('');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = currentQuestion.options.map((opt, i) => 
+                `<button class="option-button w-full border-2 border-slate-200 p-4 rounded-xl font-bold text-left hover:border-indigo-400 transition-all flex items-center" onclick="submitAnswer(${idxToBool(opt.isCorrect)}, ${i}, '${(currentQuestion.rationale || "").replace(/'/g, "\\'")}')">
+                    <span class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3 flex-shrink-0 text-sm border border-indigo-100">${String.fromCharCode(65+i)}</span>
+                    <span>${opt.text}</span>
+                </button>`
+            ).join('');
         };
+        
+        function idxToBool(val) { return val ? 'true' : 'false'; } // Helper for inline click handlers
 
         window.submitAnswer = function(correct, idx, rationale) {
+            if (answerSubmitted) return;
+            answerSubmitted = true;
             const alert = document.getElementById('feedback-alert');
-            if (correct) { alert.textContent = "Muito bem!"; alert.className = "p-3 mb-6 rounded-lg text-green-900 bg-green-100 border border-green-200 block"; quizStreak++; }
-            else { alert.textContent = "Que pena!"; alert.className = "p-3 mb-6 rounded-lg text-red-900 bg-red-100 border border-red-200 block"; quizStreak = 0; }
+            
+            if (correct) {
+                alert.textContent = "Muito bem!";
+                alert.className = `p-3 mb-6 rounded-lg text-green-900 font-semibold text-center bg-green-100 border border-green-300`;
+                quizStreak++;
+            } else {
+                alert.textContent = "Que pena! O streak reiniciou.";
+                alert.className = `p-3 mb-6 rounded-lg text-red-900 font-semibold text-center bg-red-100 border border-red-300`;
+                quizStreak = 0;
+            }
             renderQuizStreak();
+
             document.getElementById('rationale-content').textContent = rationale;
             document.getElementById('rationale-display').classList.remove('hidden');
             document.querySelectorAll('.option-button').forEach((btn, i) => {
                 btn.disabled = true;
-                if (i === 0) btn.classList.add('bg-green-50', 'border-green-400');
-                else if (i === idx) btn.classList.add('bg-red-50', 'border-red-400');
+                if (i === idx) {
+                   if(correct) btn.classList.add('bg-green-50', 'border-green-400');
+                   else btn.classList.add('bg-red-50', 'border-red-400');
+                }
             });
         };
-
+        
         function renderQuizStreak() {
             let dots = '';
             for(let i=0; i<STREAK_GOAL; i++) dots += `<div class="streak-dot ${i < quizStreak ? 'active' : ''}"></div>`;
             document.getElementById('quiz-streak-bar').innerHTML = dots;
         }
 
-        // --- STUDY MODES ---
         window.openStudy = function(id) {
             const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden');
+            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
             document.getElementById('study-view').classList.remove('hidden');
-            document.getElementById('study-title').textContent = aula.name;
-            currentStreak = 0; renderStreakBar();
-            if (aula.specialMode === 'flashcards') { currentFlashcardIdx = 0; currentShuffledCards = [...flashcardsData[id]]; renderFlashcards(); }
-            else if (aula.specialMode === 'listening') renderListeningBoard(aula.items);
-            else if (aula.specialMode === 'chunks') renderChunksGrid(chunksData[id]);
-            else if (aula.specialMode === 'scramble') { currentShuffledData = [...gamesData[id]]; currentIdx = 0; renderScramble(); }
+            const titleArea = document.getElementById('study-title');
+            const instrArea = document.getElementById('study-instruction');
+            const contentArea = document.getElementById('study-content-area');
+            const statusArea = document.getElementById('preloading-status');
+            
+            titleArea.textContent = aula.name;
+            statusArea.textContent = "";
+            currentIdx = 0;
+            currentStreak = 0; // Reset streak
+            renderStreakBar(); // Initial render
+
+            if (aula.specialMode === 'flashcards') {
+                instrArea.textContent = "Toque na carta para ver a tradução.";
+                currentFlashcardIdx = 0; 
+                currentShuffledCards = shuffle([...flashcardsData[id]]); 
+                renderFlashcards();
+            } else if (aula.specialMode === 'listening') {
+                instrArea.textContent = "Toque no item para ouvir.";
+                renderListeningBoard(aula.items);
+            } else if (aula.specialMode === 'chunks') {
+                titleArea.textContent = "CHUNKS OF LANGUAGE";
+                instrArea.textContent = "Clique no olho para revelar.";
+                renderChunksGrid(chunksData[id]);
+            } else if (aula.specialMode === 'mistake') {
+                instrArea.textContent = "Clique na palavra que contém o erro.";
+                currentShuffledData = shuffle([...gamesData[id]]);
+                renderMistake();
+            } else if (aula.specialMode === 'scramble') {
+                instrArea.textContent = "Ordene as palavras para formar a frase.";
+                currentShuffledData = shuffle([...gamesData[id]]);
+                renderScramble();
+            }
         };
 
-        window.openDictation = function(id) {
+        window.openFlashcards = function(id) {
+            const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
             document.getElementById('study-view').classList.remove('hidden');
-            document.getElementById('study-title').textContent = "Dictation Mode";
-            currentShuffledData = gamesData[id].dictation || [];
-            currentIdx = 0; currentStreak = 0; renderStreakBar(); renderDictation();
+            document.getElementById('study-title').textContent = "Flashcards: Holidays";
+            currentFlashcardIdx = 0; currentShuffledCards = shuffle([...flashcardsData[id]]); renderFlashcards();
+        }
+
+        window.openDictation = function(id) {
+             const aula = aulaNames.find(a => a.id === id);
+             document.getElementById('dashboard-view').classList.add('hidden');
+             document.getElementById('hm-shortcuts-container').classList.add('hidden');
+             document.getElementById('study-view').classList.remove('hidden');
+             document.getElementById('study-title').textContent = "Dictation Mode";
+             document.getElementById('study-instruction').textContent = "Ouça o áudio e escreva o que ouvir (números ou extenso).";
+             currentShuffledData = shuffle([...gamesData[id].dictation]);
+             currentIdx = 0;
+             currentStreak = 0; // Reset Streak
+             renderStreakBar(); // Initial render
+             renderDictation();
+        }
+
+        window.toggleChunk = function(index) {
+            const text = document.getElementById(`chunk-pt-${index}`);
+            text.classList.toggle('translation-hidden');
+            text.classList.toggle('translation-visible');
         }
 
         function renderStreakBar() {
-            const bar = document.getElementById('streak-bar-container');
-            bar.classList.remove('hidden');
-            let dots = '';
-            for(let i=0; i<STREAK_GOAL; i++) dots += `<div class="streak-dot ${i < currentStreak ? 'active' : ''}"></div>`;
-            bar.innerHTML = dots;
+            const container = document.getElementById('streak-bar-container');
+            if (document.getElementById('study-title').textContent.includes("Dictation") || document.getElementById('study-title').textContent.includes("Scramble") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
+                container.classList.remove('hidden');
+                let dots = '';
+                for(let i=0; i<STREAK_GOAL; i++) {
+                    const activeClass = i < currentStreak ? 'active' : '';
+                    dots += `<div class="streak-dot ${activeClass}"></div>`;
+                }
+                container.innerHTML = `<span class="text-sm font-bold text-stone-400 mr-2">STREAK:</span> ${dots}`;
+            } else {
+                container.classList.add('hidden');
+            }
         }
 
         function renderChunksGrid(data) {
-            document.getElementById('study-content-area').innerHTML = `<div class="chunks-grid">${data.map((item, i) => `
-                <div class="chunks-cell bg-stone-50">${item.en}</div>
-                <div class="chunks-cell"><span id="cpt-${i}" class="translation-hidden">${item.pt}</span><button class="ml-auto opacity-40 hover:opacity-100" onclick="document.getElementById('cpt-${i}').classList.toggle('translation-hidden')">👁️</button></div>`).join('')}</div>`;
+            const area = document.getElementById('study-content-area');
+            area.innerHTML = `<div class="chunks-grid shadow-lg">${data.map((item, index) => `
+                <div class="chunks-cell chunks-cell-en">${item.en}</div>
+                <div class="chunks-cell chunks-cell-pt"><span id="chunk-pt-${index}" class="translation-hidden">${item.pt}</span>
+                    <button onclick="toggleChunk(${index})" class="p-1 ml-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                </div>`).join('')}</div>`;
         }
 
-        function renderListeningBoard(items) {
-            document.getElementById('study-content-area').innerHTML = `<div class="listening-grid"></div>`;
-            const grid = document.querySelector('.listening-grid');
-            items.forEach(item => {
-                const btn = document.createElement('button'); btn.className = 'number-btn';
-                btn.innerHTML = `<span class="main-text">${item.n || item}</span><span class="sub-text">${item.w || ''}</span>`;
-                btn.onclick = async () => { btn.classList.add('playing'); const audio = await fetchTTSAudio(item.w || item); if(audio) audio.play(); audio.onended = () => btn.classList.remove('playing'); };
+        async function renderListeningBoard(items) {
+            const area = document.getElementById('study-content-area');
+            area.innerHTML = `<div class="listening-grid"></div>`;
+            const grid = area.querySelector('.listening-grid');
+            items.forEach((item, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'number-btn';
+                btn.innerHTML = `<span class="main-text">${item.n || item}</span><span class="sub-text">${item.p || item.w}</span>`;
+                btn.onclick = async () => {
+                    if (btn.classList.contains('playing')) return;
+                    btn.classList.add('playing');
+                    const audio = await fetchTTSAudio(item.w || item);
+                    if (audio) { audio.currentTime = 0; audio.play(); audio.onended = () => btn.classList.remove('playing'); }
+                    else btn.classList.remove('playing');
+                };
                 grid.appendChild(btn);
             });
         }
 
         function renderFlashcards() {
-            const card = currentShuffledCards[currentFlashcardIdx];
-            document.getElementById('study-content-area').innerHTML = `
-                <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
-                    <div class="flashcard">
-                        <div class="flashcard-front"><span class="text-xs opacity-50">PORTUGUESE</span><span class="text-3xl font-bold">${card.front}</span></div>
-                        <div class="flashcard-back"><span class="text-xs opacity-50">ENGLISH</span><span class="text-3xl font-bold">${card.back}</span></div>
+            const area = document.getElementById('study-content-area');
+            const update = () => {
+                const card = currentShuffledCards[currentFlashcardIdx];
+                const isText = /[a-zA-Z0-9]/.test(card.front); 
+                const frontSize = isText ? 'text-4xl' : 'text-9xl';
+                area.innerHTML = `
+                    <div class="flashcard-container" onclick="this.querySelector('.flashcard').classList.toggle('flipped')">
+                        <div class="flashcard"><div class="flashcard-front"><span class="text-xs absolute top-8 opacity-50 font-bold tracking-widest">PORTUGUESE</span><span class="${frontSize} font-bold mt-4">${card.front}</span></div>
+                        <div class="flashcard-back"><span class="text-xs absolute top-8 opacity-50 font-bold tracking-widest">ENGLISH</span><span class="text-3xl font-bold mt-4">${card.back}</span></div></div>
                     </div>
-                </div>
-                <div class="flex justify-between max-w-xs mx-auto mt-4"><button class="secondary-button" onclick="changeFC(-1)">⬅️</button><span class="font-bold">${currentFlashcardIdx+1}/${currentShuffledCards.length}</span><button class="secondary-button" onclick="changeFC(1)">➡️</button></div>`;
+                    <div class="flex items-center justify-between max-w-xs mx-auto mt-4">
+                        <button class="secondary-button p-3 rounded-full" onclick="changeFC(-1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+                        <span class="font-bold text-stone-400">${currentFlashcardIdx + 1} / ${currentShuffledCards.length}</span>
+                        <button class="secondary-button p-3 rounded-full" onclick="changeFC(1)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                    </div>`;
+            };
+            window.changeFC = (dir) => { currentFlashcardIdx = (currentFlashcardIdx + dir + currentShuffledCards.length) % currentShuffledCards.length; update(); };
+            update();
         }
-        window.changeFC = (d) => { currentFlashcardIdx = (currentFlashcardIdx + d + currentShuffledCards.length) % currentShuffledCards.length; renderFlashcards(); };
+
+        function renderMistake() {
+            const area = document.getElementById('study-content-area');
+            renderStreakBar();
+            
+            if (currentStreak >= STREAK_GOAL) {
+                 area.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-10">
+                        <div class="text-6xl mb-4">📸</div>
+                        <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
+                        <p class="text-stone-500 mb-8">Tire um print e envie para o seu teacher para mostrar que você arrasou!</p>
+                        <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
+                        <button class="secondary-button mt-4" onclick="currentStreak=0; currentShuffledData=shuffle([...currentShuffledData]); renderMistake()">Reiniciar</button>
+                    </div>`;
+                return;
+            }
+
+            const item = currentShuffledData[currentIdx];
+            const words = item.sentence.split(' ');
+            area.innerHTML = `
+                <div class="text-2xl font-bold mb-8 leading-loose">
+                    ${words.map(w => `<span class="mistake-word" onclick="checkMistakeClick(this, '${w}', '${item.wrong}', '${item.correct}', '${item.rationale}')">${w}</span>`).join(' ')}
+                </div>
+                <div id="mistake-fb" class="hidden p-4 rounded-xl mb-4 text-left"></div>
+                <button class="action-button w-full hidden" id="mistake-next" onclick="nextRound(renderMistake)">Próxima Frase</button>
+            `;
+        }
+
+        window.checkMistakeClick = function(el, w, wrong, correct, rationale) {
+            const clean = w.replace(/[.,]/g, "");
+            const fb = document.getElementById('mistake-fb');
+            if (clean === wrong) {
+                el.classList.add('correct-choice');
+                fb.innerHTML = `<p class="font-bold text-green-800">Correct! O erro era "${wrong}". O certo é "${correct}".</p><p class="text-sm text-green-700 mt-2">${rationale}</p>`;
+                fb.className = "p-4 rounded-xl bg-green-100 block mb-4";
+                document.getElementById('mistake-next').classList.remove('hidden');
+                document.querySelectorAll('.mistake-word').forEach(m => m.onclick = null);
+                currentStreak++;
+            } else {
+                el.classList.add('wrong-choice');
+                currentStreak = 0; // Reset on error
+            }
+            renderStreakBar();
+        };
 
         function renderScramble() {
-            if (currentStreak >= STREAK_GOAL) { document.getElementById('study-content-area').innerHTML = `<div class="text-center py-10"><h2 class="text-2xl font-bold">🏆 Missão Cumprida!</h2><button class="action-button mt-4" onclick="showDashboard()">Voltar</button></div>`; return; }
-            const item = currentShuffledData[currentIdx % currentShuffledData.length]; scrambleResult = [];
-            document.getElementById('study-content-area').innerHTML = `<div class="scramble-dropzone" id="scramble-res">Monte a frase...</div><div class="flex flex-wrap justify-center gap-2 mb-8">${shuffle([...item.words]).map(w => `<button class="scramble-word" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}</div><div id="scramble-fb"></div>`;
+            const area = document.getElementById('study-content-area');
+            renderStreakBar();
+
+            if (currentStreak >= STREAK_GOAL) {
+                area.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-10">
+                        <div class="text-6xl mb-4">📸</div>
+                        <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
+                        <p class="text-stone-500 mb-8">Tire um print e envie para o seu teacher para mostrar que você arrasou!</p>
+                        <button class="action-button px-8" onclick="showDashboard()">Voltar ao Menu</button>
+                        <button class="secondary-button mt-4" onclick="currentStreak=0; currentShuffledData=shuffle([...currentShuffledData]); renderScramble()">Jogar Novamente</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const item = currentShuffledData[currentIdx % currentShuffledData.length];
+            scrambleResult = [];
+            const shuffled = shuffle([...item.words]);
+            area.innerHTML = `
+                <div class="scramble-dropzone mb-8" id="scramble-res">Clique nas palavras...</div>
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    ${shuffled.map(w => `<button class="scramble-word" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}
+                </div>
+                <div id="scramble-fb" class="hidden p-4 rounded-xl mb-4"></div>
+                <button class="action-button w-full hidden" id="scramble-next" onclick="nextRound(renderScramble)">Próxima Frase</button>
+            `;
         }
+
         window.pickWord = (btn, w, full) => {
-            scrambleResult.push(w); document.getElementById('scramble-res').textContent = scrambleResult.join(' '); btn.style.visibility = 'hidden';
+            scrambleResult.push(w); document.getElementById('s-res').textContent = scrambleResult.join(' '); btn.style.visibility = 'hidden';
             if (scrambleResult.length === full.split(' ').length) {
                 if (scrambleResult.join(' ').toLowerCase() === full.toLowerCase()) { currentStreak++; renderStreakBar(); setTimeout(() => { currentIdx++; renderScramble(); }, 1000); }
-                else { currentStreak = 0; renderStreakBar(); document.getElementById('scramble-fb').textContent = "Errou! Tente de novo."; setTimeout(renderScramble, 2000); }
+                else { currentStreak = 0; renderStreakBar(); document.getElementById('s-fb').textContent = "Errou! Tente de novo."; setTimeout(renderScramble, 2000); }
             }
         };
 
         function renderDictation() {
             if (currentStreak >= STREAK_GOAL) { document.getElementById('study-content-area').innerHTML = `<div class="text-center py-10"><h2 class="text-2xl font-bold">🎉 Missão Cumprida!</h2><button class="action-button mt-4" onclick="showDashboard()">Voltar</button></div>`; return; }
             const item = currentShuffledData[currentIdx % currentShuffledData.length];
-            document.getElementById('study-content-area').innerHTML = `<div class="flex flex-col items-center gap-4"><button class="w-16 h-16 bg-indigo-100 rounded-full text-2xl" id="d-play">🔊</button><input type="text" id="d-input" class="dictation-input"><button class="action-button" onclick="checkDictation('${item}')">Verificar</button></div><div id="d-fb" class="mt-4"></div>`;
+            document.getElementById('study-content-area').innerHTML = `<div class="flex flex-col items-center gap-4"><button class="w-16 h-16 bg-indigo-100 rounded-full text-3xl shadow-lg" id="d-play">🔊</button><input type="text" id="d-input" class="dictation-input"><button class="action-button" onclick="checkDictation('${item}')">Verificar</button></div><div id="d-fb" class="mt-4"></div>`;
             document.getElementById('d-play').onclick = async () => { const a = await fetchTTSAudio(item); if(a) a.play(); };
         }
         window.checkDictation = (correct) => {
@@ -576,6 +751,12 @@
         function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
         function scrollToModule(id) { document.getElementById(`module-${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
         window.scrollToModule = scrollToModule;
+
+        window.onload = function() { 
+            // Bypass login for now as requested
+            document.getElementById('main-wrapper').classList.remove('hidden'); 
+            renderDashboard(); 
+        };
     </script>
 </body>
 </html>
