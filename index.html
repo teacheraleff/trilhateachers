@@ -89,6 +89,18 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         .scramble-word:hover { border-color: #8671d1; transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .scramble-word-selected {
+            background: #8671d1; 
+            color: white;
+            border: 2px solid #8671d1; 
+            padding: 0.5rem 1rem; 
+            border-radius: 0.5rem; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: all 0.2s;
+            margin: 0.125rem;
+        }
+        .scramble-word-selected:hover { background: #7161b1; border-color: #7161b1; }
 
         /* MISTAKE */
         .mistake-word { display: inline-block; padding: 0.2rem 0.4rem; border-radius: 0.4rem; cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; }
@@ -844,27 +856,49 @@
                     </span>
                 </div>
                 <div id="scramble-fb" class="hidden p-4 rounded-xl mb-6 text-center font-bold"></div>
-                <div class="scramble-dropzone mb-6" id="scramble-res">Clique nas palavras para formar a frase...</div>
-                <div class="flex flex-wrap justify-center gap-3 mb-6">
-                    ${shuffled.map(w => `<button class="scramble-word" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}
+                <div class="scramble-dropzone mb-6 flex flex-wrap justify-center gap-2 min-h-[60px]" id="scramble-res"><span class="text-stone-400">Clique nas palavras para formar a frase...</span></div>
+                <div class="flex flex-wrap justify-center gap-3 mb-6" id="scramble-words">
+                    ${shuffled.map((w, i) => `<button class="scramble-word" data-idx="${i}" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}
                 </div>
                 <button class="action-button w-full hidden" id="scramble-next" onclick="window.nextRound(renderScramble)">Próxima Frase</button>
             `;
         }
 
         window.pickWord = function(btn, w, full) {
-            // Read the word aloud when clicked
             speakText(w);
-            scrambleResult.push(w); document.getElementById('scramble-res').textContent = scrambleResult.join(' '); btn.style.visibility = 'hidden';
+            const idx = btn.getAttribute('data-idx');
+            scrambleResult.push({ word: w, idx: idx });
+            btn.style.visibility = 'hidden';
+            updateScrambleResult(full);
+        };
+
+        window.unpickWord = function(idx, full) {
+            scrambleResult = scrambleResult.filter(item => item.idx !== idx);
+            const btn = document.querySelector(`#scramble-words button[data-idx="${idx}"]`);
+            if (btn) btn.style.visibility = 'visible';
+            updateScrambleResult(full);
+        };
+
+        function updateScrambleResult(full) {
+            const resArea = document.getElementById('scramble-res');
+            if (scrambleResult.length === 0) {
+                resArea.innerHTML = '<span class="text-stone-400">Clique nas palavras para formar a frase...</span>';
+                return;
+            }
+            resArea.innerHTML = scrambleResult.map(item => 
+                `<button class="scramble-word-selected" onclick="unpickWord('${item.idx}', '${full}')">${item.word}</button>`
+            ).join('');
+            
             if (scrambleResult.length === full.split(' ').length) {
                 const fb = document.getElementById('scramble-fb');
-                // Case insensitive check for user convenience but keeping structure
-                if (scrambleResult.join(' ').toLowerCase() === full.toLowerCase()) { 
+                const resultText = scrambleResult.map(i => i.word).join(' ');
+                if (resultText.toLowerCase() === full.toLowerCase()) { 
                     currentStreak++; 
                     renderStreakBar(); 
                     fb.textContent = "Perfect! Frase correta.";
                     fb.className = "p-4 rounded-xl bg-green-100 text-green-800 block mb-4";
                     document.getElementById('scramble-next').classList.remove('hidden');
+                    resArea.querySelectorAll('button').forEach(b => b.onclick = null);
                 } else { 
                     currentStreak = 0; 
                     renderStreakBar(); 
