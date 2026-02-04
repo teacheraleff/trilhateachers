@@ -9,8 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
+        :root { --primary: #8671d1; --secondary: #F1D24B; }
         body { font-family: 'DM Sans', sans-serif; background-color: #f4f7f9; min-height: 100vh; margin: 0; scroll-behavior: smooth; }
-        #main-wrapper { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1.5rem; position: relative; }
+        #main-wrapper { max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem; position: relative; }
+        .bg-primary\/10 { background-color: rgba(134, 113, 209, 0.1); }
+        .text-primary { color: #8671d1; }
 
         /* UI BUTTONS */
         .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1rem; border-radius: 0.75rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
@@ -21,9 +24,12 @@
         .secondary-button:hover { background-color: #292524; transform: translateY(-1px); }
 
         /* CARDS */
-        .level-card { background-color: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; }
+        .level-card { background-color: white; padding: 1.75rem; border-radius: 1.25rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; min-height: 180px; }
         .level-card:not(.locked):hover { transform: scale(1.02); border-color: #8671d1; }
         .level-card.locked { opacity: 0.6; background-color: #f9fafb; pointer-events: none; }
+        
+        /* STUDY VIEW CONTAINER */
+        .study-container { background: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 2rem; }
 
         .module-tag { display: inline-block; padding: 0.25rem 0.5rem; background-color: #8671d1; color: white; font-size: 0.75rem; font-weight: 700; border-radius: 0.5rem; margin-bottom: 0.5rem; }
         .lock-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(68,64,60,0.9); padding: 1rem; border-radius: 50%; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -163,13 +169,16 @@
         </div>
 
         <div id="study-view" class="hidden w-full">
-             <button class="secondary-button mb-4" onclick="showDashboard()">Voltar</button>
-            <div class="bg-white p-6 rounded-2xl shadow-xl max-w-4xl mx-auto text-center">
-                 <h2 class="text-xl font-bold text-stone-800 mb-1" id="study-title"></h2>
-                 <p class="text-stone-500 mb-2 italic text-sm" id="study-instruction"></p>
-                 <div id="streak-bar-container" class="hidden"></div>
-                 <div id="preloading-status" class="text-xs text-blue-500 font-bold mb-4 h-4"></div>
-                 <div id="study-content-area" class="p-0"></div>
+             <button class="secondary-button mb-6 flex items-center gap-2" onclick="showDashboard()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                Voltar ao Menu
+             </button>
+            <div class="study-container max-w-4xl mx-auto text-center">
+                 <h2 class="text-2xl font-bold text-stone-800 mb-2" id="study-title"></h2>
+                 <p class="text-stone-500 mb-4 italic text-sm" id="study-instruction"></p>
+                 <div id="streak-bar-container" class="hidden mb-6"></div>
+                 <div id="preloading-status" class="text-xs text-primary font-bold mb-4 h-4"></div>
+                 <div id="study-content-area" class="py-4"></div>
             </div>
         </div>
     </div>
@@ -189,7 +198,6 @@
     </div>
 
     <script>
-        const apiKey = "AIzaSyDlleaDp-GKGDgn6A1oFG8THsMPsz1if1E"; 
         const audioCache = new Map();
 
         let currentStreak = 0;
@@ -214,10 +222,10 @@
             { id: 5, name: "Numbers pt. 2", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [
                 {n: "100", w: "One hundred"}, {n: "150", w: "One hundred and fifty"}, {n: "200", w: "Two hundred"}, {n: "300", w: "Three hundred"}, {n: "325", w: "Three hundred and twenty-five"}, {n: "400", w: "Four hundred"}, {n: "500", w: "Five hundred"}, {n: "505", w: "Five hundred and five"}, {n: "600", w: "Six hundred"}, {n: "700", w: "Seven hundred"}, {n: "800", w: "Eight hundred"}, {n: "900", w: "Nine hundred"}, {n: "1,000", w: "One thousand"}, {n: "1,200", w: "One thousand two hundred"}, {n: "2,000", w: "Two thousand"}, {n: "4,000", w: "Four thousand"}, {n: "5,500", w: "Five thousand five hundred"}, {n: "10,000", w: "Ten thousand"}, {n: "10,500", w: "Ten thousand five hundred"}, {n: "20,000", w: "Twenty thousand"}, {n: "30,000", w: "Thirty thousand"}, {n: "40,000", w: "Forty thousand"}, {n: "45,300", w: "Forty-five thousand three hundred"}, {n: "50,000", w: "Fifty thousand"}, {n: "60,000", w: "Sixty thousand"}, {n: "70,000", w: "Seventy thousand"}, {n: "80,000", w: "Eighty thousand"}, {n: "90,000", w: "Ninety thousand"}
             ]},
-            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', items: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"].map(l => ({n: l, w: l, p: `/${l.toLowerCase()}/`})) },
-            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"40th",w:"Fortieth"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"63rd",w:"Sixty-third"},{n:"70th",w:"Seventieth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"}] },
-            { id: 8, name: "Basic Verbs", hasHomework: true },
-            { id: 9, name: "Basic Adjectives", hasHomework: true },
+            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"].map(l => ({n: l, w: l, p: `/${l.toLowerCase()}/`})) },
+            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"40th",w:"Fortieth"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"63rd",w:"Sixty-third"},{n:"70th",w:"Seventieth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"}] },
+            { id: 8, name: "Basic Verbs", hasHomework: true, thirdBtn: 'dictation' },
+            { id: 9, name: "Basic Adjectives", hasHomework: true, thirdBtn: 'dictation' },
             { id: 10, name: "Demonstrative Pronouns", hasHomework: true, specialMode: 'scramble' },
             { id: 11, name: "Verb to be", hasHomework: true },
             { id: 12, name: "Countries and Nationalities", hasHomework: true, specialMode: 'flashcards' },
@@ -248,27 +256,114 @@
         ];
 
         const flashcardsData = {
-            2: [{ front: "Feliz", back: "Happy" }, { front: "Triste", back: "Sad" }, { front: "Bravo(a)", back: "Angry" }],
-            12: [{ front: "🇧🇷", back: "Brazil / Brazilian" }, { front: "🇺🇸", back: "USA / American" }],
-            23: [{ front: "Natal", back: "Christmas" }, { front: "Ano Novo", back: "New Year's Day" }, { front: "Páscoa", back: "Easter" }, { front: "Dia das Mães", back: "Mother's Day" }, { front: "Dia dos Pais", back: "Father's Day" }],
-            26: [{ front: "🍎", back: "Apple" }, { front: "🍌", back: "Banana" }, { front: "🍕", back: "Pizza" }, { front: "🥦", back: "Broccoli" }, { front: "🥕", back: "Carrot" }, { front: "🥩", back: "Steak" }, { front: "🍚", back: "Rice" }, { front: "🍦", back: "Ice cream" }],
-            28: [{ front: "08:00", back: "Eight o'clock" }, { front: "08:30", back: "Half past eight" }]
+            2: [
+                { front: "Feliz", back: "Happy" }, { front: "Triste", back: "Sad" }, { front: "Bravo(a)", back: "Angry" },
+                { front: "Cansado(a)", back: "Tired" }, { front: "Animado(a)", back: "Excited" }, { front: "Nervoso(a)", back: "Nervous" },
+                { front: "Assustado(a)", back: "Scared" }, { front: "Entediado(a)", back: "Bored" }, { front: "Confuso(a)", back: "Confused" },
+                { front: "Orgulhoso(a)", back: "Proud" }
+            ],
+            12: [
+                { front: "🇧🇷", back: "Brazil / Brazilian" }, { front: "🇺🇸", back: "USA / American" },
+                { front: "🇬🇧", back: "England / British" }, { front: "🇫🇷", back: "France / French" },
+                { front: "🇪🇸", back: "Spain / Spanish" }, { front: "🇮🇹", back: "Italy / Italian" },
+                { front: "🇯🇵", back: "Japan / Japanese" }, { front: "🇨🇳", back: "China / Chinese" },
+                { front: "🇩🇪", back: "Germany / German" }, { front: "🇵🇹", back: "Portugal / Portuguese" }
+            ],
+            23: [
+                { front: "Natal", back: "Christmas" }, { front: "Ano Novo", back: "New Year's Day" }, 
+                { front: "Páscoa", back: "Easter" }, { front: "Dia das Mães", back: "Mother's Day" }, 
+                { front: "Dia dos Pais", back: "Father's Day" }, { front: "Dia das Crianças", back: "Children's Day" },
+                { front: "Carnaval", back: "Carnival" }, { front: "Dia de Ação de Graças", back: "Thanksgiving" },
+                { front: "Dia dos Namorados", back: "Valentine's Day" }, { front: "Halloween", back: "Halloween" }
+            ],
+            26: [
+                { front: "🍎", back: "Apple" }, { front: "🍌", back: "Banana" }, { front: "🍕", back: "Pizza" }, 
+                { front: "🥦", back: "Broccoli" }, { front: "🥕", back: "Carrot" }, { front: "🥩", back: "Steak" }, 
+                { front: "🍚", back: "Rice" }, { front: "🍦", back: "Ice cream" }, { front: "🍞", back: "Bread" },
+                { front: "🧀", back: "Cheese" }
+            ],
+            28: [
+                { front: "08:00", back: "Eight o'clock" }, { front: "08:30", back: "Half past eight" },
+                { front: "09:15", back: "Nine fifteen / Quarter past nine" }, { front: "10:45", back: "Ten forty-five / Quarter to eleven" },
+                { front: "12:00", back: "Twelve o'clock / Noon" }, { front: "00:00", back: "Midnight" },
+                { front: "03:30", back: "Three thirty / Half past three" }, { front: "06:45", back: "Six forty-five / Quarter to seven" },
+                { front: "11:15", back: "Eleven fifteen" }, { front: "07:00", back: "Seven o'clock" }
+            ]
         };
 
         const chunksData = {
-            3: [{ en: "What's your name?", pt: "Qual é o seu nome?" }, { en: "What's your first name?", pt: "Qual é o seu primeiro nome?" }, { en: "What's your middle name?", pt: "Qual é o seu nome do meio?" }, { en: "What's your nickname?", pt: "Qual é o seu apelido?" }, { en: "What's your last name?", pt: "Qual é o seu sobrenome?" }]
+            // Asking About Names (module 3)
+            3: [
+                { en: "What's your name?", pt: "Qual é o seu nome?" }, 
+                { en: "What's your first name?", pt: "Qual é o seu primeiro nome?" }, 
+                { en: "What's your middle name?", pt: "Qual é o seu nome do meio?" }, 
+                { en: "What's your nickname?", pt: "Qual é o seu apelido?" }, 
+                { en: "What's your last name?", pt: "Qual é o seu sobrenome?" },
+                { en: "My name is...", pt: "Meu nome é..." },
+                { en: "Nice to meet you!", pt: "Prazer em conhecê-lo!" },
+                { en: "Where are you from?", pt: "De onde você é?" },
+                { en: "How old are you?", pt: "Quantos anos você tem?" },
+                { en: "I'm from Brazil.", pt: "Eu sou do Brasil." }
+            ]
         };
 
         const gamesData = {
-            10: [{ full: "this is my car", words: ["this", "is", "my", "car"] }],
-            16: [{ full: "I can dance", words: ["I", "can", "dance"] }],
-            4: { dictation: ["1", "15", "50", "13", "30"] },
-            5: { dictation: ["100", "500", "1000"] },
-            28: { dictation: ["08:00", "12:30"] },
-            18: [{ full: "I drink water every day", words: ["I", "drink", "water", "every", "day"] }],
-            20: [{ full: "help me please", words: ["help", "me", "please"] }],
-            24: [{ full: "my book is new", words: ["my", "book", "is", "new"] }],
-            25: [{ full: "this pen is mine", words: ["this", "pen", "is", "mine"] }]
+            // Demonstrative Pronouns (module 10)
+            10: [
+                { full: "this is my car", words: ["this", "is", "my", "car"] },
+                { full: "that is your house", words: ["that", "is", "your", "house"] },
+                { full: "these are my books", words: ["these", "are", "my", "books"] },
+                { full: "those are her shoes", words: ["those", "are", "her", "shoes"] },
+                { full: "this is a good idea", words: ["this", "is", "a", "good", "idea"] }
+            ],
+            // Can e Can't (module 16)
+            16: [
+                { full: "I can dance", words: ["I", "can", "dance"] },
+                { full: "she can speak English", words: ["she", "can", "speak", "English"] },
+                { full: "they can't swim", words: ["they", "can't", "swim"] },
+                { full: "we can play soccer", words: ["we", "can", "play", "soccer"] },
+                { full: "he can't drive a car", words: ["he", "can't", "drive", "a", "car"] }
+            ],
+            // Simple Present pt. 1 (module 18)
+            18: [
+                { full: "I drink water every day", words: ["I", "drink", "water", "every", "day"] },
+                { full: "she works at a hospital", words: ["she", "works", "at", "a", "hospital"] },
+                { full: "they study English", words: ["they", "study", "English"] },
+                { full: "he plays soccer on weekends", words: ["he", "plays", "soccer", "on", "weekends"] },
+                { full: "we eat breakfast together", words: ["we", "eat", "breakfast", "together"] }
+            ],
+            // Object Pronouns (module 20)
+            20: [
+                { full: "help me please", words: ["help", "me", "please"] },
+                { full: "I love you", words: ["I", "love", "you"] },
+                { full: "call him now", words: ["call", "him", "now"] },
+                { full: "give her the book", words: ["give", "her", "the", "book"] },
+                { full: "tell us the story", words: ["tell", "us", "the", "story"] }
+            ],
+            // Possessive Adjectives (module 24)
+            24: [
+                { full: "my book is new", words: ["my", "book", "is", "new"] },
+                { full: "your car is fast", words: ["your", "car", "is", "fast"] },
+                { full: "her dress is beautiful", words: ["her", "dress", "is", "beautiful"] },
+                { full: "his name is John", words: ["his", "name", "is", "John"] },
+                { full: "our house is big", words: ["our", "house", "is", "big"] }
+            ],
+            // Possessive Pronouns (module 25)
+            25: [
+                { full: "this pen is mine", words: ["this", "pen", "is", "mine"] },
+                { full: "that book is yours", words: ["that", "book", "is", "yours"] },
+                { full: "the car is hers", words: ["the", "car", "is", "hers"] },
+                { full: "this phone is his", words: ["this", "phone", "is", "his"] },
+                { full: "the house is ours", words: ["the", "house", "is", "ours"] }
+            ],
+            // Dictation data
+            4: { dictation: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"] },
+            5: { dictation: ["eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"] },
+            6: { dictation: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] },
+            7: { dictation: ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"] },
+            8: { dictation: ["run", "walk", "eat", "drink", "sleep", "work", "play", "read", "write", "speak"] },
+            9: { dictation: ["happy", "sad", "big", "small", "hot", "cold", "fast", "slow", "good", "bad"] },
+            28: { dictation: ["08:00", "12:30", "03:15", "06:45", "09:00", "10:30", "02:00", "07:15", "11:45", "04:30"] }
         };
 
         // --- REAL HOMEWORK QUESTIONS (10 PER MODULE) ---
@@ -344,7 +439,7 @@
             const generic = [];
             for(let i=0; i<10; i++) {
                 generic.push({
-                    q: `Pergunta prática ${i+1} sobre: ${modName}. Qual a opção correta?`,
+                    q: `Qual a opção correta?`,
                     options: [
                         {text: "Opção Correta", isCorrect: true},
                         {text: "Opção Errada 1", isCorrect: false},
@@ -366,40 +461,41 @@
         let currentIdx = 0; 
         let scrambleResult = [];
 
-        async function fetchTTSAudio(text) {
-            if (audioCache.has(text)) return audioCache.get(text);
-            const payload = {
-                contents: [{ parts: [{ text: `Say clearly: ${text}` }] }],
-                generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Aoede" } } } },
-                model: "gemini-2.5-flash-preview-tts"
-            };
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-            try {
-                const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                if (!response.ok) throw new Error("API error");
-                const result = await response.json();
-                const pcmData = result.candidates[0].content.parts[0].inlineData.data;
-                const wavBlob = pcmToWav(pcmData, 24000);
-                const audio = new Audio(URL.createObjectURL(wavBlob));
-                audioCache.set(text, audio);
-                return audio;
-            } catch (error) { return null; }
+        // Web Speech API - funciona em qualquer navegador moderno, sem precisar de API key
+        function speakText(text) {
+            return new Promise((resolve) => {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1;
+                    
+                    // Tenta encontrar uma voz em inglês
+                    const voices = window.speechSynthesis.getVoices();
+                    const englishVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+                    if (englishVoice) utterance.voice = englishVoice;
+                    
+                    utterance.onend = () => resolve();
+                    utterance.onerror = () => resolve();
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    resolve();
+                }
+            });
+        }
+        
+        // Carrega vozes quando disponíveis
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
         }
 
-        function pcmToWav(base64Pcm, sampleRate) {
-            const binaryString = atob(base64Pcm);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) bytes[i] = binaryString.charCodeAt(i);
-            const buffer = new ArrayBuffer(44 + bytes.length);
-            const view = new DataView(buffer);
-            const writeString = (offset, string) => { for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i)); };
-            writeString(0, 'RIFF'); view.setUint32(4, 36 + bytes.length, true); writeString(8, 'WAVE'); writeString(12, 'fmt ');
-            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true); view.setUint16(34, 16, true); writeString(36, 'data'); view.setUint32(40, bytes.length, true);
-            for (let i = 0; i < bytes.length; i++) view.setUint8(44 + i, bytes[i]);
-            return new Blob([buffer], { type: 'audio/wav' });
+        async function fetchTTSAudio(text) {
+            // Retorna um objeto compatível com a interface esperada
+            return {
+                play: () => speakText(text),
+                pause: () => window.speechSynthesis.cancel()
+            };
         }
 
         window.showDashboard = function() {
@@ -634,8 +730,12 @@
                     if (btn.classList.contains('playing')) return;
                     btn.classList.add('playing');
                     const audio = await fetchTTSAudio(item.w || item);
-                    if (audio) { audio.currentTime = 0; audio.play(); audio.onended = () => btn.classList.remove('playing'); }
-                    else btn.classList.remove('playing');
+                    if (audio) { 
+                        await audio.play(); 
+                        btn.classList.remove('playing');
+                    } else {
+                        btn.classList.remove('playing');
+                    }
                 };
                 grid.appendChild(btn);
             });
@@ -713,25 +813,32 @@
             if (currentStreak >= STREAK_GOAL) {
                 area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
-                        <div class="text-6xl mb-4">📸</div>
+                        <div class="text-6xl mb-4">🏆</div>
                         <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
                         <p class="text-stone-500 mb-8">Tire um print e envie para o seu teacher para mostrar que você arrasou!</p>
                         <button class="action-button px-8" onclick="showDashboard()">Voltar ao Menu</button>
-                        <button class="secondary-button mt-4" onclick="currentStreak=0; currentShuffledData=shuffle([...currentShuffledData]); renderScramble()">Jogar Novamente</button>
+                        <button class="secondary-button mt-4" onclick="currentStreak=0; currentIdx=0; currentShuffledData=shuffle([...currentShuffledData]); renderScramble()">Jogar Novamente</button>
                     </div>
                 `;
                 return;
             }
 
             const item = currentShuffledData[currentIdx % currentShuffledData.length];
+            const totalSentences = currentShuffledData.length;
+            const currentSentence = (currentIdx % totalSentences) + 1;
             scrambleResult = [];
             const shuffled = shuffle([...item.words]);
             area.innerHTML = `
-                <div class="scramble-dropzone mb-8" id="scramble-res">Clique nas palavras...</div>
-                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full font-bold text-sm">
+                        Frase ${currentSentence} / ${totalSentences}
+                    </span>
+                </div>
+                <div id="scramble-fb" class="hidden p-4 rounded-xl mb-6 text-center font-bold"></div>
+                <div class="scramble-dropzone mb-6" id="scramble-res">Clique nas palavras para formar a frase...</div>
+                <div class="flex flex-wrap justify-center gap-3 mb-6">
                     ${shuffled.map(w => `<button class="scramble-word" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}
                 </div>
-                <div id="scramble-fb" class="hidden p-4 rounded-xl mb-4"></div>
                 <button class="action-button w-full hidden" id="scramble-next" onclick="window.nextRound(renderScramble)">Próxima Frase</button>
             `;
         }
@@ -763,26 +870,34 @@
             if (currentStreak >= STREAK_GOAL) {
                  area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
-                        <div class="text-6xl mb-4">🎉</div>
+                        <div class="text-6xl mb-4">🏆</div>
                         <h2 class="text-3xl font-bold text-stone-800 mb-2">Excelente!</h2>
                         <p class="text-stone-500 mb-8">Você completou o streak de 5 ditados.</p>
                         <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
-                        <button class="secondary-button mt-4" onclick="currentStreak=0; currentShuffledData=shuffle([...currentShuffledData]); renderDictation()">Reiniciar</button>
+                        <button class="secondary-button mt-4" onclick="currentStreak=0; currentIdx=0; currentShuffledData=shuffle([...currentShuffledData]); renderDictation()">Reiniciar</button>
                     </div>
                 `;
                 return;
             }
 
             const item = currentShuffledData[currentIdx % currentShuffledData.length];
+            const totalItems = currentShuffledData.length;
+            const currentItem = (currentIdx % totalItems) + 1;
             area.innerHTML = `
-                <div class="flex flex-col items-center gap-6 mt-8">
-                    <button id="dict-play" class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center hover:bg-indigo-200 transition-colors shadow-lg" onclick="playDictation('${item}')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+                <div class="flex flex-col items-center gap-6 mt-4">
+                    <div class="text-center mb-2">
+                        <span class="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full font-bold text-sm">
+                            Palavra ${currentItem} / ${totalItems}
+                        </span>
+                    </div>
+                    <p class="text-stone-500 text-sm mb-2">Clique no botão para ouvir e digite o que você ouviu</p>
+                    <button id="dict-play" class="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center hover:from-indigo-200 hover:to-purple-200 transition-all shadow-lg transform hover:scale-105" onclick="playDictation('${item}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
                     </button>
-                    <input type="text" id="dict-input" class="dictation-input" placeholder="?" autocomplete="off">
-                    <button class="action-button" onclick="checkDictation('${item}')">Verificar</button>
-                    <div id="dict-fb" class="hidden p-3 rounded-lg font-bold text-lg mt-2"></div>
-                    <button class="secondary-button hidden" id="dict-next" onclick="window.nextRound(renderDictation)">Próximo</button>
+                    <input type="text" id="dict-input" class="dictation-input" placeholder="Digite aqui..." autocomplete="off" onkeypress="if(event.key==='Enter')checkDictation('${item}')">
+                    <button class="action-button max-w-xs" onclick="checkDictation('${item}')">Verificar</button>
+                    <div id="dict-fb" class="hidden p-4 rounded-xl font-bold text-lg"></div>
+                    <button class="secondary-button hidden" id="dict-next" onclick="window.nextRound(renderDictation)">Próxima Palavra</button>
                 </div>
             `;
         }
@@ -792,9 +907,8 @@
              btn.classList.add('animate-pulse');
              const audio = await fetchTTSAudio(text);
              if (audio) { 
-                 audio.currentTime = 0; 
-                 audio.play(); 
-                 audio.onended = () => btn.classList.remove('animate-pulse'); 
+                 await audio.play(); 
+                 btn.classList.remove('animate-pulse'); 
              } else {
                  btn.classList.remove('animate-pulse'); 
              }
