@@ -16,11 +16,18 @@
         .text-primary { color: #8671d1; }
 
         /* UI BUTTONS */
-        .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1rem; border-radius: 0.75rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; }
+        .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1.25rem; border-radius: 0.5rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-flex; align-items: center; justify-content: center; font-size: 0.875rem; white-space: nowrap; }
+        .action-button-sm { background-color: #F1D24B; color: #44403c; padding: 0.35rem 0.5rem; border-radius: 0.375rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; white-space: nowrap; }
+        .action-button-sm:hover:not(:disabled) { background-color: #eab308; transform: translateY(-2px); }
+        .action-button-sm:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
         .action-button:hover:not(:disabled) { background-color: #eab308; transform: translateY(-2px); }
         .action-button:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
 
-        .secondary-button { background-color: #44403c; color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
+        .secondary-button { background-color: #44403c; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; font-size: 0.875rem; }
+        .secondary-button-sm { background-color: #44403c; color: white; padding: 0.3rem 0.5rem; border-radius: 0.25rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; font-size: 0.55rem; }
+        .secondary-button-sm:hover { background-color: #292524; transform: translateY(-1px); }
+        .back-button { background-color: #44403c; color: white; padding: 0.5rem 0.75rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .back-button:hover { background-color: #292524; transform: translateY(-1px); }
         .secondary-button:hover { background-color: #292524; transform: translateY(-1px); }
 
         /* CARDS */
@@ -35,7 +42,8 @@
         .lock-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(68,64,60,0.9); padding: 1rem; border-radius: 50%; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
         /* LISTENING */
-        .listening-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 0.5rem; margin-top: 1rem; }
+        .listening-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 0.5rem; margin-top: 0.25rem; }
+        .listening-grid-wide { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 0.5rem; margin-top: 0.25rem; }
         .number-btn { background: white; border: 2px solid #e2e8f0; border-radius: 0.75rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 55px; }
         .number-btn:hover { border-color: #8671d1; transform: translateY(-2px); }
         .number-btn span.main-text { font-size: 1.1rem; font-weight: 800; }
@@ -68,18 +76,17 @@
             .chunks-cell-pt { border-bottom: 2px solid #e2e8f0; padding-top: 0.5rem; }
         }
 
-        /* CROSSWORD */
-        .crossword-grid { display: inline-grid; gap: 2px; background: #44403c; padding: 2px; border-radius: 0.5rem; }
-        .crossword-cell { width: 36px; height: 36px; background: white; position: relative; display: flex; align-items: center; justify-content: center; }
-        .crossword-cell-empty { width: 36px; height: 36px; background: #44403c; }
-        .crossword-num { position: absolute; top: 1px; left: 2px; font-size: 9px; color: #64748b; font-weight: 600; }
-        .crossword-input { width: 100%; height: 100%; text-align: center; font-size: 18px; font-weight: 700; border: none; outline: none; text-transform: uppercase; background: transparent; }
-        .crossword-input:focus { background: #f0e6ff; }
-        .crossword-hints { text-align: left; max-width: 280px; }
+        /* WORD SEARCH */
+        .wordsearch-grid { display: inline-grid; gap: 1px; background: #44403c; padding: 2px; border-radius: 0.5rem; user-select: none; }
+        .wordsearch-cell { width: 32px; height: 32px; background: white; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.15s; text-transform: uppercase; }
+        .wordsearch-cell:hover { background: #f0e6ff; }
+        .wordsearch-cell.selected { background: #8671d1; color: white; }
+        .wordsearch-cell.found { background: #F1D24B; color: #44403c; }
+        .wordsearch-words { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; max-width: 320px; }
+        .wordsearch-word { padding: 0.25rem 0.75rem; background: #f5f5f4; border-radius: 1rem; font-size: 0.85rem; font-weight: 600; color: #44403c; border: 2px solid #e2e8f0; }
+        .wordsearch-word.found { background: #F1D24B; border-color: #F1D24B; text-decoration: line-through; }
         @media (max-width: 640px) {
-            .crossword-cell, .crossword-cell-empty { width: 32px; height: 32px; }
-            .crossword-input { font-size: 16px; }
-            .crossword-grid { gap: 1px; padding: 1px; }
+            .wordsearch-cell { width: 28px; height: 28px; font-size: 14px; }
         }
 
         /* SCRAMBLE */
@@ -147,8 +154,8 @@
 
         /* QUIZ UI */
         .option-button { background-color: white; border: 2px solid #e2e8f0; color: #44403c; text-align: left; padding: 1rem; border-radius: 0.75rem; width: 100%; transition: all 0.2s; cursor: pointer; display: flex; align-items: center; gap: 1rem; }
-        .option-button:hover:not(:disabled) { border-color: #8671d1; background-color: #f8fafc; }
-        .option-prefix { width: 2.2rem; height: 2.2rem; background: #f3f0ff; color: #8671d1; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #e0d7f7; }
+        .option-button:hover:not(:disabled) { border-color: #F1D24B; background-color: #fffbeb; }
+        .option-prefix { width: 2.2rem; height: 2.2rem; background: #fef9c3; color: #a16207; font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #fde047; }
 
         .help-btn { position: absolute; top: 1rem; right: 1.5rem; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: white; border: 2px solid #e2e8f0; color: #8671d1; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; pointer-events: none; transition: 0.3s; }
@@ -181,25 +188,29 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                     BAIXAR CP
                 </a>
+                <button onclick="document.getElementById('instructions-modal').classList.add('active')" class="inline-flex items-center gap-2 px-4 py-3 bg-[#F1D24B] border border-[#F1D24B] rounded-xl text-xs font-black text-stone-700 hover:bg-[#eab308] shadow-sm transition-all whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    INSTRUÇÕES
+                </button>
             </div>
             <div id="level-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
         </div>
 
         <div id="generator-view" class="hidden w-full">
             <div class="bg-white p-6 rounded-2xl shadow-xl max-w-2xl mx-auto">
-                <button class="secondary-button mb-4 flex items-center gap-2" onclick="showDashboard()">
+                <button class="back-button mb-4 flex items-center gap-2" onclick="showDashboard()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
                     Voltar ao Menu
                 </button>
                 <h2 class="text-xl font-bold text-stone-800 mb-4 text-center" id="current-hw-display"></h2>
                 <div id="quiz-streak-bar" class="streak-container"></div>
                 <div id="feedback-alert" class="hidden p-3 mb-6 rounded-lg text-white font-semibold text-center"></div>
-                <div class="challenge-box mb-6 border-l-4 border-indigo-400 p-6 bg-slate-50">
+                <div class="challenge-box mb-6  p-6 bg-yellow-50">
                     <p id="main-question" class="text-lg font-bold text-slate-800"></p>
                 </div>
                 <div id="options-container" class="space-y-3"></div>
                 <div id="rationale-display" class="hidden mt-6">
-                    <div id="rationale-content" class="p-4 bg-green-50 text-green-900 rounded-lg mb-4 text-sm border-l-4 border-green-400"></div>
+                    <div id="rationale-content" class="p-4 bg-green-50 text-green-900 rounded-lg mb-4 text-sm "></div>
                     <button class="action-button w-full" onclick="loadNextQuestion()">Próximo Exercício</button>
                 </div>
             </div>
@@ -207,7 +218,7 @@
 
         <div id="study-view" class="hidden w-full">
             <div class="study-container max-w-4xl mx-auto text-center">
-                 <button class="secondary-button mb-4 flex items-center gap-2" onclick="showDashboard()">
+                 <button class="back-button mb-4 flex items-center gap-2" onclick="showDashboard()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
                     Voltar ao Menu
                  </button>
@@ -234,13 +245,101 @@
         </div>
     </div>
 
+    <!-- INSTRUCTIONS POPUP -->
+    <div id="instructions-modal" class="modal-overlay" onclick="if(event.target === this) this.classList.remove('active')">
+        <div class="modal-content" style="max-width: 500px;">
+            <h3 class="text-xl font-black text-stone-800 mb-5 text-center">Como Funcionam os Modos de Estudo</h3>
+            <div class="space-y-2 text-left max-h-[60vh] overflow-y-auto pr-2">
+                <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
+                    <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
+                        <span class="font-bold text-stone-800">FLASHCARDS</span>
+                        <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Cartões de memorização! Clique no cartão para virar e ver a tradução/resposta. Use as setas ou clique para avançar. Ideal para memorizar vocabulário e expressões.</div>
+                </div>
+                <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
+                    <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
+                        <span class="font-bold text-stone-800">LISTENING</span>
+                        <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Pratique sua compreensão auditiva! Ouça o áudio e escolha a opção correta. Use fones de ouvido para captar melhor os detalhes da pronúncia.</div>
+                </div>
+                <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
+                    <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
+                        <span class="font-bold text-stone-800">CHUNKS</span>
+                        <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Monte a frase correta! Arraste ou clique nas palavras na ordem certa para formar a frase em inglês. Ajuda a internalizar estruturas gramaticais.</div>
+                </div>
+                <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
+                    <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
+                        <span class="font-bold text-stone-800">HOMEWORK</span>
+                        <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Quiz de múltipla escolha! Responda 10 perguntas sobre o conteúdo da aula. Complete 5 acertos seguidos (streak) para finalizar com sucesso.</div>
+                </div>
+                <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
+                    <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
+                        <span class="font-bold text-stone-800">FORCA</span>
+                        <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Jogo da forca! Adivinhe a palavra letra por letra. Você tem 6 tentativas antes de perder. Complete 5 palavras seguidas para finalizar.</div>
+                </div>
+                <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
+                    <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
+                        <span class="font-bold text-stone-800">CAÇA-PALAVRAS</span>
+                        <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Caça-palavras! Encontre as palavras escondidas na grade clicando nas letras. Complete 2 puzzles seguidos para finalizar com sucesso.</div>
+                </div>
+            </div>
+            <button class="action-button w-full mt-6" onclick="document.getElementById('instructions-modal').classList.remove('active')">Entendi!</button>
+        </div>
+    </div>
+    <style>
+        .accordion-item.open .accordion-content { display: block; }
+        .accordion-item.open .accordion-arrow { transform: rotate(180deg); }
+    </style>
+
     <script>
         const audioCache = new Map();
+
+        function playCorrectSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.frequency.value = 523;
+                oscillator.type = 'sine';
+                gainNode.gain.value = 0.15;
+                oscillator.start();
+                setTimeout(() => { oscillator.frequency.value = 659; }, 100);
+                setTimeout(() => { oscillator.frequency.value = 784; }, 200);
+                oscillator.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        function playIncorrectSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.frequency.value = 200;
+                oscillator.type = 'square';
+                gainNode.gain.value = 0.1;
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.25);
+            } catch(e) {}
+        }
 
         let currentStreak = 0;
         let quizStreak = 0;
         const STREAK_GOAL = 5;
-        const CROSSWORD_STREAK_GOAL = 2;
+        const WORDSEARCH_STREAK_GOAL = 2;
         let currentAulaId = 0; 
 
         // --- APP DATA ---
@@ -686,11 +785,11 @@
                 else if (aula.specialMode === 'mistake') studyLabel = 'DETETIVE';
                 else if (aula.specialMode === 'scramble') studyLabel = 'SCRAMBLE';
 
-                const sBtn = studyLabel ? `<button class="secondary-button text-xs" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
-                const tBtn = (aula.id === 23) ? `<button class="secondary-button text-xs" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
-                const dBtn = (aula.thirdBtn === 'dictation') ? `<button class="secondary-button text-xs" onclick="openDictation(${aula.id})">DICTATION</button>` : '';
-                const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button text-xs" onclick="openHangman(${aula.id})">HANGMAN</button>` : '';
-                const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button text-xs" onclick="openCrossword(${aula.id})">CROSSWORD</button>` : '';
+                const sBtn = studyLabel ? `<button class="secondary-button-sm" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
+                const tBtn = (aula.id === 23) ? `<button class="secondary-button-sm" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
+                const dBtn = (aula.thirdBtn === 'dictation') ? `<button class="secondary-button-sm" onclick="openDictation(${aula.id})">DITADO</button>` : '';
+                const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button-sm" onclick="openHangman(${aula.id})">FORCA</button>` : '';
+                const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button-sm" onclick="openWordSearch(${aula.id})">CAÇA-PALAVRAS</button>` : '';
 
                 return `
                 <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
@@ -704,9 +803,9 @@
                         <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
                         <p class="text-stone-500 text-sm mb-6">${aula.hasHomework ? 'Pratique as estruturas aprendidas em aula.' : 'Sem homework disponível.'}</p>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1">
+                    <div class="flex flex-wrap gap-1.5">
                         ${sBtn} ${tBtn} ${dBtn} ${hBtn} ${cBtn}
-                        <button class="action-button text-xs uppercase text-center" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
+                        <button class="action-button-sm uppercase" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
                     </div>
                 </div>`
             }).join('');
@@ -743,8 +842,8 @@
 
             const container = document.getElementById('options-container');
             container.innerHTML = currentQuestion.options.map((opt, i) => 
-                `<button class="option-button w-full border-2 border-slate-200 p-4 rounded-xl font-bold text-left hover:border-indigo-400 transition-all flex items-center" onclick="submitAnswer(${idxToBool(opt.isCorrect)}, ${i}, '${(currentQuestion.rationale || "").replace(/'/g, "\\'")}')">
-                    <span class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mr-3 flex-shrink-0 text-sm border border-indigo-100">${String.fromCharCode(65+i)}</span>
+                `<button class="option-button w-full border-2 border-slate-200 p-4 rounded-xl font-bold text-left hover:border-yellow-400 transition-all flex items-center" onclick="submitAnswer(${idxToBool(opt.isCorrect)}, ${i}, '${(currentQuestion.rationale || "").replace(/'/g, "\\'")}')">
+                    <span class="w-8 h-8 rounded-full bg-yellow-50 text-amber-700 flex items-center justify-center font-bold mr-3 flex-shrink-0 text-sm border border-yellow-300">${String.fromCharCode(65+i)}</span>
                     <span>${opt.text}</span>
                 </button>`
             ).join('');
@@ -758,18 +857,21 @@
             const alert = document.getElementById('feedback-alert');
 
             if (correct) {
+                playCorrectSound();
                 alert.textContent = "Muito bem!";
                 alert.className = `p-3 mb-6 rounded-lg text-green-900 font-semibold text-center bg-green-100 border border-green-300`;
                 quizStreak++;
+                document.getElementById('rationale-content').textContent = rationale;
+                document.getElementById('rationale-display').classList.remove('hidden');
             } else {
+                playIncorrectSound();
                 alert.textContent = "Que pena! O streak reiniciou.";
                 alert.className = `p-3 mb-6 rounded-lg text-red-900 font-semibold text-center bg-red-100 border border-red-300`;
                 quizStreak = 0;
+                document.getElementById('rationale-display').classList.add('hidden');
             }
             renderQuizStreak();
 
-            document.getElementById('rationale-content').textContent = rationale;
-            document.getElementById('rationale-display').classList.remove('hidden');
             document.querySelectorAll('.option-button').forEach((btn, i) => {
                 btn.disabled = true;
                 if (i === idx) {
@@ -817,7 +919,8 @@
                 renderFlashcards();
             } else if (aula.specialMode === 'listening') {
                 instrArea.textContent = "Toque no item para ouvir.";
-                renderListeningBoard(aula.items);
+                const useWideGrid = [5, 7].includes(id);
+                renderListeningBoard(aula.items, useWideGrid);
             } else if (aula.specialMode === 'chunks') {
                 titleArea.textContent = "CHUNKS OF LANGUAGE";
                 instrArea.textContent = "Clique no olho para revelar.";
@@ -847,7 +950,7 @@
              isSpellingMode = gamesData[id].isSpelling || false;
              document.getElementById('dashboard-view').classList.add('hidden');
              document.getElementById('study-view').classList.remove('hidden');
-             document.getElementById('study-title').textContent = "Dictation Mode";
+             document.getElementById('study-title').textContent = "Ditado";
              document.getElementById('study-instruction').textContent = isSpellingMode 
                  ? "Ouça as letras e escreva a palavra soletrada."
                  : "Ouça o áudio e escreva o que ouvir (números ou extenso).";
@@ -908,7 +1011,7 @@
             currentHangmanList = hangmanWordLists[moduleId] || hangmanWordLists[6];
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
-            document.getElementById('study-title').textContent = "Hangman";
+            document.getElementById('study-title').textContent = "Forca";
             document.getElementById('study-instruction').textContent = "Adivinhe a palavra letra por letra!";
             currentStreak = 0;
             renderStreakBar();
@@ -933,7 +1036,7 @@
                     <div class="flex flex-col items-center justify-center py-10">
                         <div class="text-6xl mb-4">🏆</div>
                         <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
-                        <p class="text-stone-500 mb-8">Você acertou ${STREAK_GOAL} palavras seguidas no Hangman!</p>
+                        <p class="text-stone-500 mb-8">Você acertou ${STREAK_GOAL} palavras seguidas na Forca!</p>
                         <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
                         <button class="secondary-button mt-4" onclick="currentStreak=0; startNewHangman()">Jogar Novamente</button>
                     </div>`;
@@ -956,24 +1059,28 @@
             }).join('');
 
             area.innerHTML = `
-                <div class="flex flex-col items-center gap-6">
-                    <svg width="200" height="200" viewBox="0 0 200 200" class="bg-white rounded-xl p-4">
-                        <line x1="40" y1="180" x2="160" y2="180" stroke="#44403c" stroke-width="4"/>
-                        <line x1="60" y1="180" x2="60" y2="20" stroke="#44403c" stroke-width="4"/>
-                        <line x1="60" y1="20" x2="120" y2="20" stroke="#44403c" stroke-width="4"/>
-                        <line x1="120" y1="20" x2="120" y2="40" stroke="#44403c" stroke-width="4"/>
-                        ${hangmanWrong >= 1 ? '<circle cx="120" cy="55" r="15" stroke="#8671d1" stroke-width="3" fill="none"/>' : ''}
-                        ${hangmanWrong >= 2 ? '<line x1="120" y1="70" x2="120" y2="110" stroke="#8671d1" stroke-width="3"/>' : ''}
-                        ${hangmanWrong >= 3 ? '<line x1="120" y1="80" x2="100" y2="100" stroke="#8671d1" stroke-width="3"/>' : ''}
-                        ${hangmanWrong >= 4 ? '<line x1="120" y1="80" x2="140" y2="100" stroke="#8671d1" stroke-width="3"/>' : ''}
-                        ${hangmanWrong >= 5 ? '<line x1="120" y1="110" x2="100" y2="140" stroke="#8671d1" stroke-width="3"/>' : ''}
-                        ${hangmanWrong >= 6 ? '<line x1="120" y1="110" x2="140" y2="140" stroke="#8671d1" stroke-width="3"/>' : ''}
-                    </svg>
-                    <div class="text-4xl font-bold tracking-widest text-stone-800">${wordDisplay}</div>
-                    <div class="bg-amber-100 text-amber-800 px-4 py-2 rounded-lg text-sm font-medium">💡 Dica: ${hangmanHint}</div>
-                    <div class="text-sm text-stone-500">Erros: ${hangmanWrong}/${hangmanMaxWrong}</div>
-                    <div class="flex flex-wrap justify-center max-w-xs">${keyboard}</div>
-                    <div id="hangman-result"></div>
+                <div class="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-4 sm:gap-8">
+                    <div class="flex flex-col items-center gap-3">
+                        <svg width="160" height="160" viewBox="0 0 200 200" class="bg-white rounded-xl p-3">
+                            <line x1="40" y1="180" x2="160" y2="180" stroke="#44403c" stroke-width="4"/>
+                            <line x1="60" y1="180" x2="60" y2="20" stroke="#44403c" stroke-width="4"/>
+                            <line x1="60" y1="20" x2="120" y2="20" stroke="#44403c" stroke-width="4"/>
+                            <line x1="120" y1="20" x2="120" y2="40" stroke="#44403c" stroke-width="4"/>
+                            ${hangmanWrong >= 1 ? '<circle cx="120" cy="55" r="15" stroke="#8671d1" stroke-width="3" fill="none"/>' : ''}
+                            ${hangmanWrong >= 2 ? '<line x1="120" y1="70" x2="120" y2="110" stroke="#8671d1" stroke-width="3"/>' : ''}
+                            ${hangmanWrong >= 3 ? '<line x1="120" y1="80" x2="100" y2="100" stroke="#8671d1" stroke-width="3"/>' : ''}
+                            ${hangmanWrong >= 4 ? '<line x1="120" y1="80" x2="140" y2="100" stroke="#8671d1" stroke-width="3"/>' : ''}
+                            ${hangmanWrong >= 5 ? '<line x1="120" y1="110" x2="100" y2="140" stroke="#8671d1" stroke-width="3"/>' : ''}
+                            ${hangmanWrong >= 6 ? '<line x1="120" y1="110" x2="140" y2="140" stroke="#8671d1" stroke-width="3"/>' : ''}
+                        </svg>
+                        <div class="text-3xl font-bold tracking-widest text-stone-800">${wordDisplay}</div>
+                        <div class="bg-amber-100 text-amber-800 px-3 py-1.5 rounded-lg text-sm font-medium">💡 ${hangmanHint}</div>
+                        <div class="text-sm text-stone-500">Erros: ${hangmanWrong}/${hangmanMaxWrong}</div>
+                    </div>
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="grid grid-cols-7 gap-1">${keyboard}</div>
+                        <div id="hangman-result"></div>
+                    </div>
                 </div>
             `;
         }
@@ -1002,225 +1109,343 @@
             } else if (hangmanWrong >= hangmanMaxWrong) {
                 currentStreak = 0;
                 renderStreakBar();
-                resultDiv.innerHTML = `<div class="text-red-600 font-bold text-lg mb-2">Game Over! A palavra era: ${hangmanWord}</div>
+                resultDiv.innerHTML = `<div class="text-red-600 font-bold text-lg mb-2">Game Over! Tente outra palavra.</div>
                     <button class="action-button" onclick="startNewHangman()">Tentar Novamente</button>`;
             }
         }
 
-        // CROSSWORD GAME
-        const crosswordData = {
-            12: [ // Countries - 5 puzzles
-                { words: [
-                    {word: "CHINA", hint: "País mais populoso", row: 0, col: 0, dir: "across"},
-                    {word: "CUBA", hint: "Ilha do Caribe", row: 0, col: 0, dir: "down"},
-                    {word: "BRAZIL", hint: "País do carnaval", row: 2, col: 0, dir: "across"},
-                    {word: "IRAN", hint: "País do Oriente Médio", row: 1, col: 2, dir: "down"}
-                ]},
-                { words: [
-                    {word: "PERU", hint: "País do Machu Picchu", row: 0, col: 0, dir: "across"},
-                    {word: "PORTUGAL", hint: "País de Lisboa", row: 0, col: 0, dir: "down"},
-                    {word: "RUSSIA", hint: "Maior país do mundo", row: 2, col: 1, dir: "across"}
-                ]},
-                { words: [
-                    {word: "JAPAN", hint: "País do sushi", row: 0, col: 0, dir: "across"},
-                    {word: "JAMAICA", hint: "Ilha do reggae", row: 0, col: 0, dir: "down"},
-                    {word: "MEXICO", hint: "País das tacos", row: 2, col: 1, dir: "across"}
-                ]},
-                { words: [
-                    {word: "EGYPT", hint: "País das pirâmides", row: 0, col: 0, dir: "across"},
-                    {word: "ENGLAND", hint: "País da rainha", row: 0, col: 0, dir: "down"},
-                    {word: "GERMANY", hint: "País da cerveja", row: 2, col: 1, dir: "across"}
-                ]},
-                { words: [
-                    {word: "INDIA", hint: "País do curry", row: 0, col: 0, dir: "across"},
-                    {word: "ITALY", hint: "País da pizza", row: 0, col: 0, dir: "down"},
-                    {word: "SPAIN", hint: "País do flamenco", row: 2, col: 2, dir: "across"}
-                ]}
+        // WORD SEARCH GAME
+        const wordSearchData = {
+            12: [ // Countries
+                { words: ["CHINA", "BRAZIL", "JAPAN", "MEXICO", "EGYPT"] },
+                { words: ["INDIA", "ITALY", "SPAIN", "RUSSIA", "PERU"] },
+                { words: ["ENGLAND", "GERMANY", "FRANCE", "CUBA", "IRAN"] }
             ],
-            14: [ // Family Members - 5 puzzles
-                { words: [
-                    {word: "SON", hint: "Filho em inglês", row: 0, col: 0, dir: "across"},
-                    {word: "SISTER", hint: "Irmã em inglês", row: 0, col: 0, dir: "down"},
-                    {word: "UNCLE", hint: "Tio em inglês", row: 2, col: 1, dir: "across"},
-                    {word: "AUNT", hint: "Tia em inglês", row: 2, col: 1, dir: "down"}
-                ]},
-                { words: [
-                    {word: "DAD", hint: "Pai informal", row: 0, col: 0, dir: "across"},
-                    {word: "DAUGHTER", hint: "Filha em inglês", row: 0, col: 0, dir: "down"},
-                    {word: "GRANDMA", hint: "Avó em inglês", row: 2, col: 1, dir: "across"}
-                ]},
-                { words: [
-                    {word: "MOM", hint: "Mãe informal", row: 0, col: 0, dir: "across"},
-                    {word: "MOTHER", hint: "Mãe formal", row: 0, col: 0, dir: "down"},
-                    {word: "HUSBAND", hint: "Marido em inglês", row: 2, col: 2, dir: "across"}
-                ]},
-                { words: [
-                    {word: "WIFE", hint: "Esposa em inglês", row: 0, col: 0, dir: "across"},
-                    {word: "WOMAN", hint: "Mulher em inglês", row: 0, col: 0, dir: "down"},
-                    {word: "NEPHEW", hint: "Sobrinho em inglês", row: 2, col: 1, dir: "across"}
-                ]},
-                { words: [
-                    {word: "BABY", hint: "Bebê em inglês", row: 0, col: 0, dir: "across"},
-                    {word: "BROTHER", hint: "Irmão em inglês", row: 0, col: 0, dir: "down"},
-                    {word: "COUSIN", hint: "Primo em inglês", row: 2, col: 2, dir: "across"}
-                ]}
+            14: [ // Family Members
+                { words: ["SON", "SISTER", "UNCLE", "AUNT", "DAD"] },
+                { words: ["MOM", "BROTHER", "COUSIN", "WIFE", "BABY"] },
+                { words: ["DAUGHTER", "GRANDMA", "HUSBAND", "NEPHEW", "MOTHER"] }
             ]
         };
-        let currentCrosswordList = [];
-        let currentCrosswordIdx = 0;
-        let currentCrossword = null;
-        let crosswordStreak = 0;
+        let currentWordSearchList = [];
+        let currentWordSearch = null;
+        let wordSearchStreak = 0;
+        let wsGrid = [];
+        let wsWords = [];
+        let wsFoundWords = [];
+        let wsSelectedCells = [];
+        let wsIsSelecting = false;
+        let wsTimer = null;
+        let wsTimeLeft = 120;
+        const WS_TIME_LIMIT = 120;
 
-        window.openCrossword = function(moduleId) {
-            currentCrosswordList = crosswordData[moduleId] || [];
-            currentCrosswordIdx = Math.floor(Math.random() * currentCrosswordList.length);
-            currentCrossword = currentCrosswordList[currentCrosswordIdx];
-            crosswordStreak = 0;
+        function generateWordSearchGrid(words, size = 10) {
+            const grid = Array(size).fill(null).map(() => Array(size).fill(''));
+            const directions = [
+                {dr: 0, dc: 1},   // right
+                {dr: 1, dc: 0},   // down
+                {dr: 1, dc: 1},   // diagonal down-right
+                {dr: 0, dc: -1},  // left
+                {dr: -1, dc: 0},  // up
+                {dr: -1, dc: -1}, // diagonal up-left
+                {dr: 1, dc: -1},  // diagonal down-left
+                {dr: -1, dc: 1}   // diagonal up-right
+            ];
+            
+            const shuffledWords = [...words].sort(() => Math.random() - 0.5);
+            
+            for (const word of shuffledWords) {
+                let placed = false;
+                let attempts = 0;
+                while (!placed && attempts < 100) {
+                    const dir = directions[Math.floor(Math.random() * directions.length)];
+                    const startR = Math.floor(Math.random() * size);
+                    const startC = Math.floor(Math.random() * size);
+                    
+                    let canPlace = true;
+                    const cells = [];
+                    
+                    for (let i = 0; i < word.length; i++) {
+                        const r = startR + dir.dr * i;
+                        const c = startC + dir.dc * i;
+                        if (r < 0 || r >= size || c < 0 || c >= size) {
+                            canPlace = false;
+                            break;
+                        }
+                        if (grid[r][c] !== '' && grid[r][c] !== word[i]) {
+                            canPlace = false;
+                            break;
+                        }
+                        cells.push({r, c, letter: word[i]});
+                    }
+                    
+                    if (canPlace) {
+                        cells.forEach(cell => grid[cell.r][cell.c] = cell.letter);
+                        placed = true;
+                    }
+                    attempts++;
+                }
+            }
+            
+            // Fill empty cells with random letters
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            for (let r = 0; r < size; r++) {
+                for (let c = 0; c < size; c++) {
+                    if (grid[r][c] === '') {
+                        grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+                    }
+                }
+            }
+            
+            return grid;
+        }
+
+        window.openWordSearch = function(moduleId) {
+            currentWordSearchList = wordSearchData[moduleId] || [];
+            wordSearchStreak = 0;
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
-            document.getElementById('study-title').textContent = "Crossword";
-            document.getElementById('study-instruction').textContent = "Preencha as palavras cruzadas!";
-            startNewCrossword();
+            document.getElementById('study-title').textContent = "Caça-Palavras";
+            document.getElementById('study-instruction').textContent = "Encontre as palavras escondidas!";
+            startNewWordSearch();
         }
 
-        function startNewCrossword() {
-            currentCrosswordIdx = Math.floor(Math.random() * currentCrosswordList.length);
-            currentCrossword = currentCrosswordList[currentCrosswordIdx];
-            crosswordAnswers = {};
-            renderCrosswordStreakBar();
-            renderCrossword();
+        function startNewWordSearch() {
+            if (wsTimer) clearInterval(wsTimer);
+            const puzzleIdx = Math.floor(Math.random() * currentWordSearchList.length);
+            currentWordSearch = currentWordSearchList[puzzleIdx];
+            wsWords = [...currentWordSearch.words];
+            wsFoundWords = [];
+            wsSelectedCells = [];
+            wsGrid = generateWordSearchGrid(wsWords, 10);
+            wsTimeLeft = WS_TIME_LIMIT;
+            renderWordSearchStreakBar();
+            renderWordSearch();
+            wsTimer = setInterval(() => {
+                wsTimeLeft--;
+                updateWsTimer();
+                if (wsTimeLeft <= 0) {
+                    clearInterval(wsTimer);
+                    wsTimer = null;
+                    wordSearchStreak = 0;
+                    renderWordSearchStreakBar();
+                    document.getElementById('wordsearch-result').innerHTML = `
+                        <div class="text-red-600 font-bold text-lg mb-4">Tempo esgotado!</div>
+                        <button class="action-button" onclick="startNewWordSearch()">Tentar Novamente</button>`;
+                }
+            }, 1000);
         }
 
-        function renderCrosswordStreakBar() {
+        function playTimerBeep() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.frequency.value = 800;
+                oscillator.type = 'square';
+                gainNode.gain.value = 0.1;
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.1);
+            } catch(e) {}
+        }
+
+        function updateWsTimer() {
+            const timerEl = document.getElementById('ws-timer');
+            if (timerEl) {
+                const isLow = wsTimeLeft <= 15;
+                const bgColor = isLow ? 'bg-red-500' : 'bg-yellow-400';
+                const textColor = isLow ? 'text-white' : 'text-stone-800';
+                timerEl.className = `${bgColor} ${textColor} px-4 py-2 rounded-lg font-bold text-lg`;
+                timerEl.textContent = `TEMPO RESTANTE: ${wsTimeLeft}s`;
+                if (isLow && wsTimeLeft > 0) {
+                    playTimerBeep();
+                }
+            }
+        }
+
+        function renderWordSearchStreakBar() {
             const container = document.getElementById('streak-bar-container');
             container.classList.remove('hidden');
-            const progress = Math.min(crosswordStreak, CROSSWORD_STREAK_GOAL);
-            const percentage = (progress / CROSSWORD_STREAK_GOAL) * 100;
-            const isComplete = crosswordStreak >= CROSSWORD_STREAK_GOAL;
+            const progress = Math.min(wordSearchStreak, WORDSEARCH_STREAK_GOAL);
+            const percentage = (progress / WORDSEARCH_STREAK_GOAL) * 100;
+            const isComplete = wordSearchStreak >= WORDSEARCH_STREAK_GOAL;
             container.innerHTML = `
                 <div class="streak-bar-bg">
                     <div class="streak-bar-fill ${isComplete ? 'complete' : ''}" style="width: ${percentage}%"></div>
                 </div>
                 <p class="text-sm text-stone-500 mt-2 text-center">
-                    ${isComplete ? '🎉 Streak completo! Tire um print!' : `Complete ${CROSSWORD_STREAK_GOAL} puzzles seguidos: ${progress}/${CROSSWORD_STREAK_GOAL}`}
+                    ${isComplete ? '🎉 Streak completo! Tire um print!' : `Complete ${WORDSEARCH_STREAK_GOAL} puzzles seguidos: ${progress}/${WORDSEARCH_STREAK_GOAL}`}
                 </p>`;
         }
 
-        function renderCrossword() {
+        function renderWordSearch() {
             const area = document.getElementById('study-content-area');
-            const words = currentCrossword.words;
+            const size = wsGrid.length;
             
-            // Calculate grid size
-            let maxRow = 0, maxCol = 0;
-            words.forEach(w => {
-                if (w.dir === 'across') {
-                    maxRow = Math.max(maxRow, w.row);
-                    maxCol = Math.max(maxCol, w.col + w.word.length - 1);
-                } else {
-                    maxRow = Math.max(maxRow, w.row + w.word.length - 1);
-                    maxCol = Math.max(maxCol, w.col);
-                }
-            });
-            
-            // Create grid
-            const grid = Array(maxRow + 1).fill(null).map(() => Array(maxCol + 1).fill(null));
-            const cellNumbers = Array(maxRow + 1).fill(null).map(() => Array(maxCol + 1).fill(''));
-            
-            words.forEach((w, idx) => {
-                for (let i = 0; i < w.word.length; i++) {
-                    const r = w.dir === 'down' ? w.row + i : w.row;
-                    const c = w.dir === 'across' ? w.col + i : w.col;
-                    grid[r][c] = {letter: w.word[i], wordIdx: idx, pos: i};
-                    if (i === 0) cellNumbers[r][c] = idx + 1;
-                }
-            });
-            
-            // Render grid
-            let gridHtml = `<div class="crossword-grid" style="grid-template-columns: repeat(${maxCol + 1}, 1fr)">`;
-            for (let r = 0; r <= maxRow; r++) {
-                for (let c = 0; c <= maxCol; c++) {
-                    if (grid[r][c]) {
-                        const num = cellNumbers[r][c];
-                        gridHtml += `<div class="crossword-cell">
-                            ${num ? `<span class="crossword-num">${num}</span>` : ''}
-                            <input type="text" maxlength="1" class="crossword-input" data-row="${r}" data-col="${c}" data-letter="${grid[r][c].letter}" onkeyup="checkCrosswordCell(this, event)">
-                        </div>`;
-                    } else {
-                        gridHtml += '<div class="crossword-cell-empty"></div>';
-                    }
+            let gridHtml = `<div class="wordsearch-grid" style="grid-template-columns: repeat(${size}, 1fr)">`;
+            for (let r = 0; r < size; r++) {
+                for (let c = 0; c < size; c++) {
+                    gridHtml += `<div class="wordsearch-cell" data-row="${r}" data-col="${c}" 
+                        onmousedown="wsStartSelect(${r},${c})" 
+                        onmouseenter="wsContinueSelect(${r},${c})"
+                        ontouchstart="wsStartSelect(${r},${c}); event.preventDefault();"
+                        ontouchmove="wsTouchMove(event)">${wsGrid[r][c]}</div>`;
                 }
             }
             gridHtml += '</div>';
             
-            // Render hints
-            let hintsHtml = '<div class="crossword-hints"><div class="mb-4"><h4 class="font-bold text-stone-700 mb-2">Horizontal (→)</h4>';
-            words.filter(w => w.dir === 'across').forEach((w, i) => {
-                const num = words.indexOf(w) + 1;
-                hintsHtml += `<p class="text-sm text-stone-600 mb-1"><span class="font-bold">${num}.</span> ${w.hint}</p>`;
+            let wordsHtml = '<div class="wordsearch-words mt-4">';
+            wsWords.forEach(word => {
+                const foundClass = wsFoundWords.includes(word) ? 'found' : '';
+                wordsHtml += `<span class="wordsearch-word ${foundClass}" data-word="${word}">${word}</span>`;
             });
-            hintsHtml += '</div><div><h4 class="font-bold text-stone-700 mb-2">Vertical (↓)</h4>';
-            words.filter(w => w.dir === 'down').forEach((w, i) => {
-                const num = words.indexOf(w) + 1;
-                hintsHtml += `<p class="text-sm text-stone-600 mb-1"><span class="font-bold">${num}.</span> ${w.hint}</p>`;
-            });
-            hintsHtml += '</div></div>';
+            wordsHtml += '</div>';
             
             area.innerHTML = `
-                <div class="flex flex-col lg:flex-row gap-6 items-start justify-center">
+                <div class="flex flex-col items-center">
+                    <div id="ws-timer" class="bg-yellow-400 text-stone-800 px-4 py-2 rounded-lg font-bold text-lg mb-4">TEMPO RESTANTE: ${wsTimeLeft}s</div>
                     ${gridHtml}
-                    ${hintsHtml}
+                    ${wordsHtml}
                 </div>
-                <div class="flex gap-4 mt-6 justify-center">
-                    <button class="action-button" onclick="checkCrossword()">Verificar</button>
-                </div>
-                <div id="crossword-result" class="mt-4 text-center"></div>
+                <div id="wordsearch-result" class="mt-4 text-center"></div>
             `;
+            
+            document.addEventListener('mouseup', wsEndSelect);
+            document.addEventListener('touchend', wsEndSelect);
         }
 
-        window.checkCrosswordCell = function(input, event) {
-            input.value = input.value.toUpperCase();
-            if (event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
-                const inputs = document.querySelectorAll('.crossword-input');
-                const idx = Array.from(inputs).indexOf(input);
-                if (idx < inputs.length - 1) inputs[idx + 1].focus();
+        window.wsStartSelect = function(r, c) {
+            wsIsSelecting = true;
+            wsSelectedCells = [{r, c}];
+            updateWsSelection();
+        }
+
+        window.wsContinueSelect = function(r, c) {
+            if (!wsIsSelecting) return;
+            const last = wsSelectedCells[wsSelectedCells.length - 1];
+            if (last.r === r && last.c === c) return;
+            
+            if (wsSelectedCells.length === 1) {
+                wsSelectedCells.push({r, c});
+            } else {
+                const first = wsSelectedCells[0];
+                const dr = Math.sign(wsSelectedCells[1].r - first.r);
+                const dc = Math.sign(wsSelectedCells[1].c - first.c);
+                const newDr = Math.sign(r - first.r);
+                const newDc = Math.sign(c - first.c);
+                
+                if ((dr === 0 && dc === 0) || (newDr === dr && newDc === dc) || (newDr === 0 && newDc === 0)) {
+                    const dist = Math.max(Math.abs(r - first.r), Math.abs(c - first.c));
+                    const actualDr = dist > 0 ? (r - first.r) / dist : 0;
+                    const actualDc = dist > 0 ? (c - first.c) / dist : 0;
+                    
+                    wsSelectedCells = [];
+                    for (let i = 0; i <= dist; i++) {
+                        wsSelectedCells.push({
+                            r: first.r + Math.round(actualDr * i),
+                            c: first.c + Math.round(actualDc * i)
+                        });
+                    }
+                }
+            }
+            updateWsSelection();
+        }
+
+        window.wsTouchMove = function(event) {
+            const touch = event.touches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (element && element.classList.contains('wordsearch-cell')) {
+                const r = parseInt(element.dataset.row);
+                const c = parseInt(element.dataset.col);
+                wsContinueSelect(r, c);
             }
         }
 
-        window.checkCrossword = function() {
-            const inputs = document.querySelectorAll('.crossword-input');
-            let allCorrect = true;
-            inputs.forEach(inp => {
-                const correct = inp.dataset.letter.toUpperCase();
-                const val = inp.value.toUpperCase();
-                if (val === correct) {
-                    inp.classList.remove('bg-red-100');
-                    inp.classList.add('bg-green-100');
-                } else {
-                    inp.classList.remove('bg-green-100');
-                    inp.classList.add('bg-red-100');
-                    allCorrect = false;
-                }
+        window.wsEndSelect = function() {
+            if (!wsIsSelecting) return;
+            wsIsSelecting = false;
+            
+            if (wsSelectedCells.length < 2) {
+                wsSelectedCells = [];
+                updateWsSelection();
+                return;
+            }
+            
+            let selectedWord = '';
+            wsSelectedCells.forEach(cell => {
+                selectedWord += wsGrid[cell.r][cell.c];
             });
-            const resultDiv = document.getElementById('crossword-result');
-            if (allCorrect) {
-                crosswordStreak++;
-                renderCrosswordStreakBar();
-                if (crosswordStreak >= CROSSWORD_STREAK_GOAL) {
-                    document.getElementById('study-content-area').innerHTML = `
-                        <div class="flex flex-col items-center justify-center py-10">
-                            <div class="text-6xl mb-4">🏆</div>
-                            <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
-                            <p class="text-stone-500 mb-8">Você completou ${CROSSWORD_STREAK_GOAL} crosswords seguidos!</p>
-                            <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
-                            <button class="secondary-button mt-4" onclick="crosswordStreak=0; startNewCrossword()">Jogar Novamente</button>
-                        </div>`;
-                } else {
-                    resultDiv.innerHTML = `<div class="text-green-600 font-bold text-lg mb-4">🎉 Parabéns! Crossword completo!</div>
-                        <button class="action-button" onclick="startNewCrossword()">Próximo Crossword</button>`;
+            
+            const reversedWord = selectedWord.split('').reverse().join('');
+            
+            let foundWord = null;
+            if (wsWords.includes(selectedWord) && !wsFoundWords.includes(selectedWord)) {
+                foundWord = selectedWord;
+            } else if (wsWords.includes(reversedWord) && !wsFoundWords.includes(reversedWord)) {
+                foundWord = reversedWord;
+            }
+            
+            if (foundWord) {
+                wsFoundWords.push(foundWord);
+                wsSelectedCells.forEach(cell => {
+                    const cellEl = document.querySelector(`.wordsearch-cell[data-row="${cell.r}"][data-col="${cell.c}"]`);
+                    if (cellEl) cellEl.classList.add('found');
+                });
+                const wordEl = document.querySelector(`.wordsearch-word[data-word="${foundWord}"]`);
+                if (wordEl) wordEl.classList.add('found');
+                
+                if (wsFoundWords.length === wsWords.length) {
+                    clearInterval(wsTimer);
+                    wsTimer = null;
+                    wordSearchStreak++;
+                    renderWordSearchStreakBar();
+                    
+                    setTimeout(() => {
+                        if (wordSearchStreak >= WORDSEARCH_STREAK_GOAL) {
+                            document.getElementById('study-content-area').innerHTML = `
+                                <div class="flex flex-col items-center justify-center py-10">
+                                    <div class="text-6xl mb-4">🏆</div>
+                                    <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
+                                    <p class="text-stone-500 mb-8">Você completou ${WORDSEARCH_STREAK_GOAL} caça-palavras seguidos!</p>
+                                    <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
+                                    <button class="secondary-button mt-4" onclick="wordSearchStreak=0; startNewWordSearch()">Jogar Novamente</button>
+                                </div>`;
+                        } else {
+                            document.getElementById('wordsearch-result').innerHTML = `
+                                <div class="text-green-600 font-bold text-lg mb-4">🎉 Parabéns! Todas as palavras encontradas!</div>
+                                <button class="action-button" onclick="startNewWordSearch()">Próximo Caça-Palavras</button>`;
+                        }
+                    }, 500);
                 }
             } else {
-                resultDiv.innerHTML = '<div class="text-amber-600 font-medium">Algumas letras estão incorretas. Tente novamente!</div>';
+                // Wrong selection - lose streak and restart
+                clearInterval(wsTimer);
+                wsTimer = null;
+                wordSearchStreak = 0;
+                renderWordSearchStreakBar();
+                document.getElementById('wordsearch-result').innerHTML = `
+                    <div class="text-red-600 font-bold text-lg mb-4">Palavra incorreta! Streak perdido.</div>
+                    <button class="action-button" onclick="startNewWordSearch()">Tentar Novamente</button>`;
             }
+            
+            wsSelectedCells = [];
+            updateWsSelection();
+        }
+
+        function updateWsSelection() {
+            document.querySelectorAll('.wordsearch-cell').forEach(cell => {
+                if (!cell.classList.contains('found')) {
+                    cell.classList.remove('selected');
+                }
+            });
+            wsSelectedCells.forEach(cell => {
+                const cellEl = document.querySelector(`.wordsearch-cell[data-row="${cell.r}"][data-col="${cell.c}"]`);
+                if (cellEl && !cellEl.classList.contains('found')) {
+                    cellEl.classList.add('selected');
+                }
+            });
         }
 
         window.toggleChunk = function(index) {
@@ -1232,7 +1457,7 @@
         function renderStreakBar() {
             const container = document.getElementById('streak-bar-container');
             const title = document.getElementById('study-title').textContent;
-            if (title.includes("Dictation") || title.includes("Scramble") || title.includes("Hangman") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
+            if (title.includes("Ditado") || title.includes("Scramble") || title.includes("Forca") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
                 container.classList.remove('hidden');
                 const progress = Math.min(currentStreak, STREAK_GOAL);
                 const percentage = (progress / STREAK_GOAL) * 100;
@@ -1269,10 +1494,11 @@
                 </div>`).join('')}</div>`;
         }
 
-        async function renderListeningBoard(items) {
+        async function renderListeningBoard(items, useWideGrid = false) {
             const area = document.getElementById('study-content-area');
-            area.innerHTML = `<div class="listening-grid"></div>`;
-            const grid = area.querySelector('.listening-grid');
+            const gridClass = useWideGrid ? 'listening-grid-wide' : 'listening-grid';
+            area.innerHTML = `<div class="${gridClass}"></div>`;
+            const grid = area.querySelector('.' + gridClass);
             items.forEach((item, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'number-btn';
@@ -1475,7 +1701,6 @@
                             Palavra ${currentItem} / ${totalItems}
                         </span>
                     </div>
-                    <p class="text-stone-500 text-sm mb-2">Clique no botão para ouvir e digite o que você ouviu</p>
                     <button id="dict-play" class="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center hover:from-indigo-200 hover:to-purple-200 transition-all shadow-lg transform hover:scale-105" onclick="playDictation('${item}')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
                     </button>
