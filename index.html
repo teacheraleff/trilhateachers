@@ -66,7 +66,9 @@
         .chunks-cell { padding: 0.75rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; font-weight: 500; font-size: 0.9rem; word-break: break-word; }
         .chunks-cell-en { color: #1e1b4b; background-color: #f8fafc; }
         .chunks-cell-pt { color: #64748b; justify-content: space-between; }
-        .chunk-input { flex: 1; padding: 0.4rem 0.6rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.85rem; outline: none; transition: 0.2s; }
+        .chunk-input { flex: 1; padding: 0.4rem 0.6rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.85rem; outline: none; transition: 0.2s; min-width: 0; }
+        .chunk-check-btn { flex-shrink: 0; padding: 0.4rem 0.6rem; margin-left: 0.5rem; border-radius: 0.5rem; background: #8671d1; color: white; font-size: 0.75rem; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
+        .chunk-check-btn:hover { background: #7161b8; }
         .chunk-input:focus { border-color: #8671d1; }
         .chunk-input.correct { border-color: #22c55e; background: #f0fdf4; color: #166534; }
         .chunk-input.wrong { border-color: #ef4444; background: #fef2f2; }
@@ -201,20 +203,20 @@
         </header>
 
         <div id="dashboard-view" class="w-full">
-            <div class="max-w-xl mx-auto mb-6 flex gap-3 items-center">
-                <div class="relative flex-1">
+            <div class="max-w-xl mx-auto mb-6 flex gap-3 items-center overflow-x-auto pb-2" style="-webkit-overflow-scrolling: touch;">
+                <div class="relative flex-1 min-w-[150px]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a8a29e" stroke-width="2" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     <input type="text" id="search-input" placeholder="Pesquisar aula..." class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-primary focus:outline-none text-stone-700 font-medium" oninput="filterModules(this.value)">
                 </div>
-                <a href="#" target="_blank" class="inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
+                <a href="#" target="_blank" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                     BAIXAR CP
                 </a>
-                <button onclick="document.getElementById('instructions-modal').classList.add('active')" class="inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
+                <button onclick="document.getElementById('instructions-modal').classList.add('active')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     INSTRUÇÕES
                 </button>
-                <button onclick="document.getElementById('journey-modal').classList.add('active')" class="inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
+                <button onclick="document.getElementById('journey-modal').classList.add('active')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     JORNADA
                 </button>
@@ -1653,7 +1655,7 @@
                 </div>
                 <div class="chunks-cell chunks-cell-pt">
                     <input type="text" id="chunk-input-${index}" class="chunk-input" placeholder="Digite a tradução..." data-answer="${item.pt.replace(/"/g, '&quot;')}" onkeypress="if(event.key==='Enter')checkChunk(${index})">
-                    <button onclick="checkChunk(${index})" class="p-1 ml-1 rounded bg-primary text-white hover:bg-primary/80 transition text-xs px-2">OK</button>
+                    <button onclick="checkChunk(${index})" class="chunk-check-btn">OK</button>
                 </div>`).join('')}</div>`;
         }
 
