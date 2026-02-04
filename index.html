@@ -16,7 +16,7 @@
         .text-primary { color: #8671d1; }
 
         /* UI BUTTONS */
-        .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1rem; border-radius: 0.75rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .action-button { background-color: #F1D24B; color: #44403c; padding: 0.75rem 1rem; border-radius: 0.75rem; font-weight: 700; cursor: pointer; width: 100%; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center; }
         .action-button:hover:not(:disabled) { background-color: #eab308; transform: translateY(-2px); }
         .action-button:disabled { background-color: #e5e7eb; color: #9ca3af; cursor: not-allowed; box-shadow: none; }
 
@@ -240,6 +240,7 @@
         let currentStreak = 0;
         let quizStreak = 0;
         const STREAK_GOAL = 5;
+        const CROSSWORD_STREAK_GOAL = 2;
         let currentAulaId = 0; 
 
         // --- APP DATA ---
@@ -625,11 +626,11 @@
                 else if (aula.specialMode === 'mistake') studyLabel = 'DETETIVE';
                 else if (aula.specialMode === 'scramble') studyLabel = 'SCRAMBLE';
 
-                const sBtn = studyLabel ? `<button class="secondary-button flex-1 text-xs" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
-                const tBtn = (aula.id === 23) ? `<button class="secondary-button flex-1 text-xs" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
-                const dBtn = (aula.thirdBtn === 'dictation') ? `<button class="secondary-button flex-1 text-xs" onclick="openDictation(${aula.id})">DICTATION</button>` : '';
-                const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button flex-1 text-xs" onclick="openHangman(${aula.id})">HANGMAN</button>` : '';
-                const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button flex-1 text-xs" onclick="openCrossword(${aula.id})">CROSSWORD</button>` : '';
+                const sBtn = studyLabel ? `<button class="secondary-button text-xs" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
+                const tBtn = (aula.id === 23) ? `<button class="secondary-button text-xs" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
+                const dBtn = (aula.thirdBtn === 'dictation') ? `<button class="secondary-button text-xs" onclick="openDictation(${aula.id})">DICTATION</button>` : '';
+                const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button text-xs" onclick="openHangman(${aula.id})">HANGMAN</button>` : '';
+                const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button text-xs" onclick="openCrossword(${aula.id})">CROSSWORD</button>` : '';
 
                 return `
                 <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
@@ -643,9 +644,9 @@
                         <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
                         <p class="text-stone-500 text-sm mb-6">${aula.hasHomework ? 'Pratique as estruturas aprendidas em aula.' : 'Sem homework disponível.'}</p>
                     </div>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1">
                         ${sBtn} ${tBtn} ${dBtn} ${hBtn} ${cBtn}
-                        <button class="action-button flex-1 text-xs uppercase" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
+                        <button class="action-button text-xs uppercase text-center" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
                     </div>
                 </div>`
             }).join('');
@@ -799,7 +800,7 @@
 
         // HANGMAN GAME
         const hangmanWordLists = {
-            6: [ // Spelling
+            6: [ // Spelling - 10 palavras
                 {word: "CAR", hint: "Veículo com 4 rodas"},
                 {word: "DOG", hint: "Melhor amigo do homem"},
                 {word: "CAT", hint: "Animal que mia"},
@@ -809,19 +810,9 @@
                 {word: "PEN", hint: "Usamos para escrever"},
                 {word: "RED", hint: "Cor do coração"},
                 {word: "BOX", hint: "Caixa em inglês"},
-                {word: "CUP", hint: "Usamos para beber café"},
-                {word: "BOOK", hint: "Objeto de leitura"},
-                {word: "TREE", hint: "Planta grande com folhas"},
-                {word: "FISH", hint: "Animal que nada"},
-                {word: "BIRD", hint: "Animal que voa"},
-                {word: "HAND", hint: "Parte do corpo com 5 dedos"},
-                {word: "STAR", hint: "Brilha no céu à noite"},
-                {word: "MOON", hint: "Satélite da Terra"},
-                {word: "BALL", hint: "Objeto redondo para jogar"},
-                {word: "CAKE", hint: "Doce de aniversário"},
-                {word: "MILK", hint: "Bebida branca da vaca"}
+                {word: "CUP", hint: "Usamos para beber café"}
             ],
-            23: [ // Months and Holidays
+            23: [ // Months and Holidays - 10 palavras
                 {word: "JANUARY", hint: "Primeiro mês do ano"},
                 {word: "FEBRUARY", hint: "Mês do carnaval"},
                 {word: "MARCH", hint: "Terceiro mês do ano"},
@@ -830,35 +821,20 @@
                 {word: "JUNE", hint: "Mês das festas juninas"},
                 {word: "JULY", hint: "Mês das férias de inverno"},
                 {word: "AUGUST", hint: "Mês dos pais"},
-                {word: "SEPTEMBER", hint: "Mês da primavera"},
-                {word: "OCTOBER", hint: "Mês das crianças"},
-                {word: "NOVEMBER", hint: "Mês da Black Friday"},
-                {word: "DECEMBER", hint: "Mês do Natal"},
                 {word: "CHRISTMAS", hint: "Feriado em 25 de dezembro"},
-                {word: "EASTER", hint: "Feriado do coelhinho"},
-                {word: "HALLOWEEN", hint: "Dia das bruxas"}
+                {word: "EASTER", hint: "Feriado do coelhinho"}
             ],
-            26: [ // Foods and Fruits
+            26: [ // Foods and Fruits - 10 palavras
                 {word: "APPLE", hint: "Fruta vermelha ou verde"},
                 {word: "BANANA", hint: "Fruta amarela e comprida"},
                 {word: "ORANGE", hint: "Fruta cítrica laranja"},
                 {word: "GRAPE", hint: "Fruta pequena usada para vinho"},
                 {word: "LEMON", hint: "Fruta azeda e amarela"},
-                {word: "MANGO", hint: "Fruta tropical doce"},
                 {word: "BREAD", hint: "Alimento feito de farinha"},
                 {word: "CHEESE", hint: "Derivado do leite"},
-                {word: "CHICKEN", hint: "Carne de ave"},
                 {word: "RICE", hint: "Grão branco do almoço"},
-                {word: "BEANS", hint: "Acompanha o arroz"},
-                {word: "PASTA", hint: "Macarrão em inglês"},
                 {word: "PIZZA", hint: "Comida italiana redonda"},
-                {word: "SALAD", hint: "Prato com verduras"},
-                {word: "JUICE", hint: "Bebida de frutas"},
-                {word: "WATER", hint: "Líquido essencial"},
-                {word: "COFFEE", hint: "Bebida quente da manhã"},
-                {word: "BUTTER", hint: "Passa no pão"},
-                {word: "SUGAR", hint: "Adoça o café"},
-                {word: "SALT", hint: "Tempero branco"}
+                {word: "JUICE", hint: "Bebida de frutas"}
             ]
         };
         let currentHangmanList = [];
@@ -890,6 +866,20 @@
 
         function renderHangman() {
             const area = document.getElementById('study-content-area');
+            renderStreakBar();
+
+            if (currentStreak >= STREAK_GOAL) {
+                area.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-10">
+                        <div class="text-6xl mb-4">🏆</div>
+                        <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
+                        <p class="text-stone-500 mb-8">Você acertou ${STREAK_GOAL} palavras seguidas no Hangman!</p>
+                        <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
+                        <button class="secondary-button mt-4" onclick="currentStreak=0; startNewHangman()">Jogar Novamente</button>
+                    </div>`;
+                return;
+            }
+
             const wordDisplay = hangmanWord.split('').map(letter => 
                 hangmanGuessed.includes(letter) ? letter : '_'
             ).join(' ');
@@ -931,6 +921,9 @@
         window.guessLetter = function(letter) {
             if (hangmanGuessed.includes(letter)) return;
             hangmanGuessed.push(letter);
+            
+            // Ler a letra em voz alta
+            speakText(letter.toLowerCase());
 
             if (!hangmanWord.includes(letter)) {
                 hangmanWrong++;
@@ -956,37 +949,101 @@
 
         // CROSSWORD GAME
         const crosswordData = {
-            12: { // Countries and Nationalities
-                words: [
-                    {word: "BRAZIL", hint: "País do carnaval", row: 0, col: 0, dir: "across"},
-                    {word: "JAPAN", hint: "País do sushi", row: 0, col: 0, dir: "down"},
-                    {word: "ITALY", hint: "País da pizza", row: 2, col: 4, dir: "down"},
-                    {word: "SPAIN", hint: "País do flamenco", row: 4, col: 1, dir: "across"},
-                    {word: "CHINA", hint: "País mais populoso", row: 6, col: 0, dir: "across"}
-                ]
-            },
-            14: { // Family Members
-                words: [
-                    {word: "MOTHER", hint: "Mãe em inglês", row: 0, col: 0, dir: "across"},
-                    {word: "FATHER", hint: "Pai em inglês", row: 0, col: 0, dir: "down"},
-                    {word: "SISTER", hint: "Irmã em inglês", row: 2, col: 3, dir: "across"},
-                    {word: "SON", hint: "Filho em inglês", row: 4, col: 1, dir: "across"},
-                    {word: "AUNT", hint: "Tia em inglês", row: 4, col: 5, dir: "down"}
-                ]
-            }
+            12: [ // Countries - 5 puzzles
+                { words: [
+                    {word: "CHINA", hint: "País mais populoso", row: 0, col: 0, dir: "across"},
+                    {word: "CUBA", hint: "Ilha do Caribe", row: 0, col: 0, dir: "down"},
+                    {word: "BRAZIL", hint: "País do carnaval", row: 2, col: 0, dir: "across"},
+                    {word: "IRAN", hint: "País do Oriente Médio", row: 1, col: 2, dir: "down"}
+                ]},
+                { words: [
+                    {word: "PERU", hint: "País do Machu Picchu", row: 0, col: 0, dir: "across"},
+                    {word: "PORTUGAL", hint: "País de Lisboa", row: 0, col: 0, dir: "down"},
+                    {word: "RUSSIA", hint: "Maior país do mundo", row: 2, col: 1, dir: "across"}
+                ]},
+                { words: [
+                    {word: "JAPAN", hint: "País do sushi", row: 0, col: 0, dir: "across"},
+                    {word: "JAMAICA", hint: "Ilha do reggae", row: 0, col: 0, dir: "down"},
+                    {word: "MEXICO", hint: "País das tacos", row: 2, col: 1, dir: "across"}
+                ]},
+                { words: [
+                    {word: "EGYPT", hint: "País das pirâmides", row: 0, col: 0, dir: "across"},
+                    {word: "ENGLAND", hint: "País da rainha", row: 0, col: 0, dir: "down"},
+                    {word: "GERMANY", hint: "País da cerveja", row: 2, col: 1, dir: "across"}
+                ]},
+                { words: [
+                    {word: "INDIA", hint: "País do curry", row: 0, col: 0, dir: "across"},
+                    {word: "ITALY", hint: "País da pizza", row: 0, col: 0, dir: "down"},
+                    {word: "SPAIN", hint: "País do flamenco", row: 2, col: 2, dir: "across"}
+                ]}
+            ],
+            14: [ // Family Members - 5 puzzles
+                { words: [
+                    {word: "SON", hint: "Filho em inglês", row: 0, col: 0, dir: "across"},
+                    {word: "SISTER", hint: "Irmã em inglês", row: 0, col: 0, dir: "down"},
+                    {word: "UNCLE", hint: "Tio em inglês", row: 2, col: 1, dir: "across"},
+                    {word: "AUNT", hint: "Tia em inglês", row: 2, col: 1, dir: "down"}
+                ]},
+                { words: [
+                    {word: "DAD", hint: "Pai informal", row: 0, col: 0, dir: "across"},
+                    {word: "DAUGHTER", hint: "Filha em inglês", row: 0, col: 0, dir: "down"},
+                    {word: "GRANDMA", hint: "Avó em inglês", row: 2, col: 1, dir: "across"}
+                ]},
+                { words: [
+                    {word: "MOM", hint: "Mãe informal", row: 0, col: 0, dir: "across"},
+                    {word: "MOTHER", hint: "Mãe formal", row: 0, col: 0, dir: "down"},
+                    {word: "HUSBAND", hint: "Marido em inglês", row: 2, col: 2, dir: "across"}
+                ]},
+                { words: [
+                    {word: "WIFE", hint: "Esposa em inglês", row: 0, col: 0, dir: "across"},
+                    {word: "WOMAN", hint: "Mulher em inglês", row: 0, col: 0, dir: "down"},
+                    {word: "NEPHEW", hint: "Sobrinho em inglês", row: 2, col: 1, dir: "across"}
+                ]},
+                { words: [
+                    {word: "BABY", hint: "Bebê em inglês", row: 0, col: 0, dir: "across"},
+                    {word: "BROTHER", hint: "Irmão em inglês", row: 0, col: 0, dir: "down"},
+                    {word: "COUSIN", hint: "Primo em inglês", row: 2, col: 2, dir: "across"}
+                ]}
+            ]
         };
+        let currentCrosswordList = [];
+        let currentCrosswordIdx = 0;
         let currentCrossword = null;
-        let crosswordAnswers = {};
+        let crosswordStreak = 0;
 
         window.openCrossword = function(moduleId) {
-            currentCrossword = crosswordData[moduleId];
-            crosswordAnswers = {};
+            currentCrosswordList = crosswordData[moduleId] || [];
+            currentCrosswordIdx = Math.floor(Math.random() * currentCrosswordList.length);
+            currentCrossword = currentCrosswordList[currentCrosswordIdx];
+            crosswordStreak = 0;
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
             document.getElementById('study-title').textContent = "Crossword";
             document.getElementById('study-instruction').textContent = "Preencha as palavras cruzadas!";
-            document.getElementById('streak-bar-container').classList.add('hidden');
+            startNewCrossword();
+        }
+
+        function startNewCrossword() {
+            currentCrosswordIdx = Math.floor(Math.random() * currentCrosswordList.length);
+            currentCrossword = currentCrosswordList[currentCrosswordIdx];
+            crosswordAnswers = {};
+            renderCrosswordStreakBar();
             renderCrossword();
+        }
+
+        function renderCrosswordStreakBar() {
+            const container = document.getElementById('streak-bar-container');
+            container.classList.remove('hidden');
+            const progress = Math.min(crosswordStreak, CROSSWORD_STREAK_GOAL);
+            const percentage = (progress / CROSSWORD_STREAK_GOAL) * 100;
+            const isComplete = crosswordStreak >= CROSSWORD_STREAK_GOAL;
+            container.innerHTML = `
+                <div class="streak-bar-bg">
+                    <div class="streak-bar-fill ${isComplete ? 'complete' : ''}" style="width: ${percentage}%"></div>
+                </div>
+                <p class="text-sm text-stone-500 mt-2 text-center">
+                    ${isComplete ? '🎉 Streak completo! Tire um print!' : `Complete ${CROSSWORD_STREAK_GOAL} puzzles seguidos: ${progress}/${CROSSWORD_STREAK_GOAL}`}
+                </p>`;
         }
 
         function renderCrossword() {
@@ -1086,7 +1143,21 @@
             });
             const resultDiv = document.getElementById('crossword-result');
             if (allCorrect) {
-                resultDiv.innerHTML = '<div class="text-green-600 font-bold text-lg">🎉 Parabéns! Você completou o crossword!</div>';
+                crosswordStreak++;
+                renderCrosswordStreakBar();
+                if (crosswordStreak >= CROSSWORD_STREAK_GOAL) {
+                    document.getElementById('study-content-area').innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-10">
+                            <div class="text-6xl mb-4">🏆</div>
+                            <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
+                            <p class="text-stone-500 mb-8">Você completou ${CROSSWORD_STREAK_GOAL} crosswords seguidos!</p>
+                            <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
+                            <button class="secondary-button mt-4" onclick="crosswordStreak=0; startNewCrossword()">Jogar Novamente</button>
+                        </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="text-green-600 font-bold text-lg mb-4">🎉 Parabéns! Crossword completo!</div>
+                        <button class="action-button" onclick="startNewCrossword()">Próximo Crossword</button>`;
+                }
             } else {
                 resultDiv.innerHTML = '<div class="text-amber-600 font-medium">Algumas letras estão incorretas. Tente novamente!</div>';
             }
