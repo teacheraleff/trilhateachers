@@ -40,6 +40,7 @@
         .number-btn:hover { border-color: #8671d1; transform: translateY(-2px); }
         .number-btn span.main-text { font-size: 1.1rem; font-weight: 800; }
         .number-btn span.sub-text { font-size: 0.6rem; font-weight: 600; color: #8671d1; text-transform: uppercase; }
+        .number-btn span.phonetic-text { font-size: 0.75rem; font-weight: 500; color: #78716c; font-style: italic; }
         .number-btn.playing { border-color: #F1D24B; background-color: #fffbeb; animation: pulse 1s infinite; }
 
         /* FLASHCARDS */
@@ -115,11 +116,6 @@
         .dictation-input.wrong { border-color: #ef4444; background: #fee2e2; }
 
         /* GENERAL UI */
-        #hm-shortcuts-container { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-bottom: 2rem; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 1rem; }
-        .hm-box { width: 54px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 0.4rem; font-size: 0.65rem; font-weight: 800; transition: all 0.2s; cursor: pointer; border: 1px solid #e2e8f0; background: white; }
-        .hm-box-active { color: #8671d1; border-color: #8671d1; }
-        .hm-box-active:hover { background: #f3f0ff; transform: translateY(-2px); }
-        .hm-box-locked { background: #f1f5f9; color: #cbd5e1; cursor: not-allowed; border-color: #e2e8f0; }
 
         .streak-container { display: flex; justify-content: center; gap: 5px; margin-bottom: 1rem; }
         .streak-bar-wrapper { width: 100%; max-width: 300px; margin: 0 auto; }
@@ -151,23 +147,28 @@
             <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
             <h1 class="text-3xl font-bold text-stone-800 tracking-tight mb-3">Central de Estudos - Starter 1</h1>
             <p class="text-stone-500 font-medium px-4 leading-relaxed max-w-2xl mx-auto">Material didático exclusivo focado em reforçar a acurácia estrutural e a confiança na comunicação.</p>
-
-            <div class="mt-6 flex justify-center">
-                <a href="#" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-stone-200 rounded-full text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                    BAIXAR CONTEÚDO PROGRAMÁTICO
-                </a>
-            </div>
         </header>
 
         <div id="dashboard-view" class="w-full">
-            <div id="hm-shortcuts-container"></div>
+            <div class="max-w-xl mx-auto mb-6 flex gap-3 items-center">
+                <div class="relative flex-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a8a29e" stroke-width="2" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="text" id="search-input" placeholder="Pesquisar aula..." class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-primary focus:outline-none text-stone-700 font-medium" oninput="filterModules(this.value)">
+                </div>
+                <a href="#" target="_blank" class="inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    BAIXAR CP
+                </a>
+            </div>
             <div id="level-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
         </div>
 
         <div id="generator-view" class="hidden w-full">
-            <button class="secondary-button mb-4" onclick="showDashboard()">Voltar</button>
             <div class="bg-white p-6 rounded-2xl shadow-xl max-w-2xl mx-auto">
+                <button class="secondary-button mb-4 flex items-center gap-2" onclick="showDashboard()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                    Voltar ao Menu
+                </button>
                 <h2 class="text-xl font-bold text-stone-800 mb-4 text-center" id="current-hw-display"></h2>
                 <div id="quiz-streak-bar" class="streak-container"></div>
                 <div id="feedback-alert" class="hidden p-3 mb-6 rounded-lg text-white font-semibold text-center"></div>
@@ -229,14 +230,27 @@
                 {n: "6", w: "Six"}, {n: "7", w: "Seven"}, {n: "8", w: "Eight"}, {n: "9", w: "Nine"}, {n: "10", w: "Ten"},
                 {n: "11", w: "Eleven"}, {n: "12", w: "Twelve"}, {n: "13", w: "Thirteen"}, {n: "14", w: "Fourteen"}, {n: "15", w: "Fifteen"},
                 {n: "16", w: "Sixteen"}, {n: "17", w: "Seventeen"}, {n: "18", w: "Eighteen"}, {n: "19", w: "Nineteen"}, {n: "20", w: "Twenty"},
-                {n: "22", w: "Twenty-two"}, {n: "30", w: "Thirty"}, {n: "35", w: "Thirty-five"}, {n: "40", w: "Forty"}, {n: "48", w: "Forty-eight"},
-                {n: "50", w: "Fifty"}, {n: "51", w: "Fifty-one"}, {n: "60", w: "Sixty"}, {n: "64", w: "Sixty-four"}, {n: "70", w: "Seventy"},
-                {n: "77", w: "Seventy-seven"}, {n: "80", w: "Eighty"}, {n: "86", w: "Eighty-six"}, {n: "90", w: "Ninety"}, {n: "99", w: "Ninety-nine"}
+                {n: "21", w: "Twenty-one"}, {n: "23", w: "Twenty-three"}, {n: "25", w: "Twenty-five"}, {n: "27", w: "Twenty-seven"}, {n: "29", w: "Twenty-nine"},
+                {n: "30", w: "Thirty"}, {n: "32", w: "Thirty-two"}, {n: "34", w: "Thirty-four"}, {n: "36", w: "Thirty-six"}, {n: "38", w: "Thirty-eight"},
+                {n: "40", w: "Forty"}, {n: "41", w: "Forty-one"}, {n: "43", w: "Forty-three"}, {n: "45", w: "Forty-five"}, {n: "47", w: "Forty-seven"},
+                {n: "50", w: "Fifty"}, {n: "52", w: "Fifty-two"}, {n: "54", w: "Fifty-four"}, {n: "56", w: "Fifty-six"}, {n: "58", w: "Fifty-eight"},
+                {n: "60", w: "Sixty"}, {n: "62", w: "Sixty-two"}, {n: "65", w: "Sixty-five"}, {n: "67", w: "Sixty-seven"}, {n: "69", w: "Sixty-nine"},
+                {n: "70", w: "Seventy"}, {n: "71", w: "Seventy-one"}, {n: "73", w: "Seventy-three"}, {n: "75", w: "Seventy-five"}, {n: "78", w: "Seventy-eight"},
+                {n: "80", w: "Eighty"}, {n: "82", w: "Eighty-two"}, {n: "84", w: "Eighty-four"}, {n: "87", w: "Eighty-seven"}, {n: "89", w: "Eighty-nine"},
+                {n: "90", w: "Ninety"}, {n: "91", w: "Ninety-one"}, {n: "93", w: "Ninety-three"}, {n: "96", w: "Ninety-six"}, {n: "99", w: "Ninety-nine"}
             ]},
             { id: 5, name: "Numbers pt. 2", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [
                 {n: "100", w: "One hundred"}, {n: "150", w: "One hundred and fifty"}, {n: "200", w: "Two hundred"}, {n: "300", w: "Three hundred"}, {n: "325", w: "Three hundred and twenty-five"}, {n: "400", w: "Four hundred"}, {n: "500", w: "Five hundred"}, {n: "505", w: "Five hundred and five"}, {n: "600", w: "Six hundred"}, {n: "700", w: "Seven hundred"}, {n: "800", w: "Eight hundred"}, {n: "900", w: "Nine hundred"}, {n: "1,000", w: "One thousand"}, {n: "1,200", w: "One thousand two hundred"}, {n: "2,000", w: "Two thousand"}, {n: "4,000", w: "Four thousand"}, {n: "5,500", w: "Five thousand five hundred"}, {n: "10,000", w: "Ten thousand"}, {n: "10,500", w: "Ten thousand five hundred"}, {n: "20,000", w: "Twenty thousand"}, {n: "30,000", w: "Thirty thousand"}, {n: "40,000", w: "Forty thousand"}, {n: "45,300", w: "Forty-five thousand three hundred"}, {n: "50,000", w: "Fifty thousand"}, {n: "60,000", w: "Sixty thousand"}, {n: "70,000", w: "Seventy thousand"}, {n: "80,000", w: "Eighty thousand"}, {n: "90,000", w: "Ninety thousand"}
             ]},
-            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"].map(l => ({n: l, w: l, p: `/${l.toLowerCase()}/`})) },
+            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [
+                {n: "A", w: "ay", p: "/eɪ/"}, {n: "B", w: "bee", p: "/biː/"}, {n: "C", w: "cee", p: "/siː/"}, {n: "D", w: "dee", p: "/diː/"},
+                {n: "E", w: "ee", p: "/iː/"}, {n: "F", w: "ef", p: "/ɛf/"}, {n: "G", w: "gee", p: "/dʒiː/"}, {n: "H", w: "aitch", p: "/eɪtʃ/"},
+                {n: "I", w: "eye", p: "/aɪ/"}, {n: "J", w: "jay", p: "/dʒeɪ/"}, {n: "K", w: "kay", p: "/keɪ/"}, {n: "L", w: "el", p: "/ɛl/"},
+                {n: "M", w: "em", p: "/ɛm/"}, {n: "N", w: "en", p: "/ɛn/"}, {n: "O", w: "oh", p: "/oʊ/"}, {n: "P", w: "pee", p: "/piː/"},
+                {n: "Q", w: "cue", p: "/kjuː/"}, {n: "R", w: "ar", p: "/ɑːr/"}, {n: "S", w: "ess", p: "/ɛs/"}, {n: "T", w: "tee", p: "/tiː/"},
+                {n: "U", w: "you", p: "/juː/"}, {n: "V", w: "vee", p: "/viː/"}, {n: "W", w: "double you", p: "/ˈdʌbəljuː/"}, {n: "X", w: "ex", p: "/ɛks/"},
+                {n: "Y", w: "why", p: "/waɪ/"}, {n: "Z", w: "zee", p: "/ziː/"}
+            ] },
             { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"40th",w:"Fortieth"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"63rd",w:"Sixty-third"},{n:"70th",w:"Seventieth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"}] },
             { id: 8, name: "Basic Verbs", hasHomework: true, thirdBtn: 'dictation' },
             { id: 9, name: "Basic Adjectives", hasHomework: true, thirdBtn: 'dictation' },
@@ -277,11 +291,11 @@
                 { front: "Orgulhoso(a)", back: "Proud" }
             ],
             12: [
-                { front: "BR", back: "Brazil / Brazilian" }, { front: "US", back: "USA / American" },
-                { front: "GB", back: "England / British" }, { front: "FR", back: "France / French" },
-                { front: "ES", back: "Spain / Spanish" }, { front: "IT", back: "Italy / Italian" },
-                { front: "JP", back: "Japan / Japanese" }, { front: "CN", back: "China / Chinese" },
-                { front: "DE", back: "Germany / German" }, { front: "PT", back: "Portugal / Portuguese" }
+                { front: "🇧🇷", back: "Brazil / Brazilian" }, { front: "🇺🇸", back: "USA / American" },
+                { front: "🇬🇧", back: "England / British" }, { front: "🇫🇷", back: "France / French" },
+                { front: "🇪🇸", back: "Spain / Spanish" }, { front: "🇮🇹", back: "Italy / Italian" },
+                { front: "🇯🇵", back: "Japan / Japanese" }, { front: "🇨🇳", back: "China / Chinese" },
+                { front: "🇩🇪", back: "Germany / German" }, { front: "🇵🇹", back: "Portugal / Portuguese" }
             ],
             23: [
                 { front: "Natal", back: "Christmas" }, { front: "Ano Novo", back: "New Year's Day" }, 
@@ -514,7 +528,6 @@
 
         window.showDashboard = function() {
             document.getElementById('dashboard-view').classList.remove('hidden');
-            document.getElementById('hm-shortcuts-container').classList.remove('hidden');
             document.getElementById('generator-view').classList.add('hidden');
             document.getElementById('study-view').classList.add('hidden');
         };
@@ -524,15 +537,21 @@
             if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        function renderDashboard() {
-            const shortcuts = document.getElementById('hm-shortcuts-container');
-            shortcuts.innerHTML = aulaNames.map(aula => {
-                const label = `HM ${String(aula.id).padStart(2, '0')}`;
-                return aula.hasHomework 
-                    ? `<div class="hm-box hm-box-active" onclick="scrollToModule(${aula.id})">${label}</div>`
-                    : `<div class="hm-box hm-box-locked"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>`;
-            }).join('');
+        window.filterModules = function(query) {
+            const cards = document.querySelectorAll('#level-cards-container > div');
+            const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            cards.forEach(card => {
+                const title = card.querySelector('.font-bold')?.textContent || '';
+                const normalizedTitle = title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                if (normalizedTitle.includes(normalizedQuery) || normalizedQuery === '') {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
 
+        function renderDashboard() {
             const container = document.getElementById('level-cards-container');
             container.innerHTML = aulaNames.map(aula => {
                 let studyLabel = '';
@@ -570,7 +589,6 @@
             currentAulaId = id; 
             const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden'); 
             document.getElementById('generator-view').classList.remove('hidden');
             document.getElementById('current-hw-display').textContent = "Homework: " + aulaNames.find(a => a.id===id).name;
             quizStreak = 0; renderQuizStreak(); loadNextQuestion();
@@ -635,15 +653,24 @@
         };
 
         function renderQuizStreak() {
-            let dots = '';
-            for(let i=0; i<STREAK_GOAL; i++) dots += `<div class="streak-dot ${i < quizStreak ? 'active' : ''}"></div>`;
-            document.getElementById('quiz-streak-bar').innerHTML = dots;
+            const progress = Math.min(quizStreak, STREAK_GOAL);
+            const percentage = (progress / STREAK_GOAL) * 100;
+            const isComplete = quizStreak >= STREAK_GOAL;
+            document.getElementById('quiz-streak-bar').innerHTML = `
+                <div class="streak-bar-wrapper">
+                    <div class="streak-label text-center">
+                        ${isComplete ? '🎉 Streak completo! Tire um print!' : `Complete ${STREAK_GOAL} acertos seguidos: ${progress}/${STREAK_GOAL}`}
+                    </div>
+                    <div class="streak-bar-bg">
+                        <div class="streak-bar-fill" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+            `;
         }
 
         window.openStudy = function(id) {
             const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
             document.getElementById('study-view').classList.remove('hidden');
             const titleArea = document.getElementById('study-title');
             const instrArea = document.getElementById('study-instruction');
@@ -682,7 +709,6 @@
         window.openFlashcards = function(id) {
             const aula = aulaNames.find(a => a.id === id);
             document.getElementById('dashboard-view').classList.add('hidden');
-            document.getElementById('hm-shortcuts-container').classList.add('hidden'); // HIDE SHORTCUTS
             document.getElementById('study-view').classList.remove('hidden');
             document.getElementById('study-title').textContent = "Flashcards: Holidays";
             currentFlashcardIdx = 0; currentShuffledCards = shuffle([...flashcardsData[id]]); renderFlashcards();
@@ -691,7 +717,6 @@
         window.openDictation = function(id) {
              const aula = aulaNames.find(a => a.id === id);
              document.getElementById('dashboard-view').classList.add('hidden');
-             document.getElementById('hm-shortcuts-container').classList.add('hidden');
              document.getElementById('study-view').classList.remove('hidden');
              document.getElementById('study-title').textContent = "Dictation Mode";
              document.getElementById('study-instruction').textContent = "Ouça o áudio e escreva o que ouvir (números ou extenso).";
@@ -733,7 +758,12 @@
         function renderChunksGrid(data) {
             const area = document.getElementById('study-content-area');
             area.innerHTML = `<div class="chunks-grid shadow-lg">${data.map((item, index) => `
-                <div class="chunks-cell chunks-cell-en">${item.en}</div>
+                <div class="chunks-cell chunks-cell-en">
+                    <button onclick="speakText('${item.en.replace(/'/g, "\\'")}')" class="p-1 mr-2 rounded-full hover:bg-primary/10 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    </button>
+                    <span>${item.en}</span>
+                </div>
                 <div class="chunks-cell chunks-cell-pt"><span id="chunk-pt-${index}" class="translation-hidden">${item.pt}</span>
                     <button onclick="toggleChunk(${index})" class="p-1 ml-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
                 </div>`).join('')}</div>`;
@@ -746,7 +776,8 @@
             items.forEach((item, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'number-btn';
-                btn.innerHTML = `<span class="main-text">${item.n || item}</span><span class="sub-text">${item.w || ''}</span>`;
+                const phonetic = item.p ? `<span class="phonetic-text">${item.p}</span>` : '';
+                btn.innerHTML = `<span class="main-text">${item.n || item}</span>${phonetic}<span class="sub-text">${item.w || ''}</span>`;
                 btn.onclick = async () => {
                     if (btn.classList.contains('playing')) return;
                     btn.classList.add('playing');
@@ -994,6 +1025,14 @@
 
         window.checkDictation = function(correct) {
             const input = document.getElementById('dict-input');
+            const verifyBtn = document.querySelector('#study-content-area .action-button');
+            
+            // Prevent multiple clicks
+            if (verifyBtn.disabled) return;
+            verifyBtn.disabled = true;
+            verifyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            input.disabled = true;
+            
             const val = input.value.toLowerCase().trim();
             const fb = document.getElementById('dict-fb');
 
@@ -1005,7 +1044,7 @@
                 currentStreak++;
             } else {
                 input.classList.add('wrong');
-                fb.innerHTML = `Incorreto. A resposta era <strong>${correct}</strong> <button class="underline ml-2" onclick="renderDictation()">Tentar outra</button>`;
+                fb.innerHTML = `Incorreto! Tente outra. <button class="underline ml-2" onclick="renderDictation()">Próxima</button>`;
                 fb.className = "p-3 rounded-lg font-bold text-lg mt-2 bg-red-100 text-red-700 block";
                 currentStreak = 0; 
                 // Don't show next button - streak must restart
