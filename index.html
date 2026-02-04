@@ -53,7 +53,7 @@
         .number-btn.playing { border-color: #F1D24B; background-color: #fffbeb; animation: pulse 1s infinite; }
 
         /* FLASHCARDS */
-        .flashcard-container { perspective: 1000px; width: 100%; max-width: 400px; height: 300px; margin: 1rem auto; cursor: pointer; }
+        .flashcard-container { perspective: 1000px; width: 100%; max-width: 400px; height: 300px; margin: 0.5rem auto; cursor: pointer; }
         .flashcard { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped { transform: rotateY(180deg); }
         .flashcard-front, .flashcard-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 1.5rem; padding: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
@@ -959,7 +959,7 @@
                     </div>
                     <div class="flex flex-wrap gap-1.5">
                         ${sBtn} ${tBtn} ${dBtn} ${hBtn} ${cBtn}
-                        <button class="action-button-sm uppercase" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
+                        <button class="action-button-sm uppercase" ${(!aula.hasHomework || aula.id > 10) ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
                     </div>
                 </div>`
             }).join('');
@@ -1362,10 +1362,13 @@
             return grid;
         }
 
+        let usedWordSearchIndices = [];
+
         window.openWordSearch = function(moduleId) {
             currentStudyMode = 'wordsearch';
             currentWordSearchList = wordSearchData[moduleId] || [];
             wordSearchStreak = 0;
+            usedWordSearchIndices = [];
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
             document.getElementById('study-title').textContent = "Caça-Palavras";
@@ -1375,7 +1378,20 @@
 
         function startNewWordSearch() {
             if (wsTimer) clearInterval(wsTimer);
-            const puzzleIdx = Math.floor(Math.random() * currentWordSearchList.length);
+            
+            // Get available indices (not used yet)
+            let availableIndices = [];
+            for (let i = 0; i < currentWordSearchList.length; i++) {
+                if (!usedWordSearchIndices.includes(i)) availableIndices.push(i);
+            }
+            // If all used, reset the list
+            if (availableIndices.length === 0) {
+                usedWordSearchIndices = [];
+                availableIndices = currentWordSearchList.map((_, i) => i);
+            }
+            
+            const puzzleIdx = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+            usedWordSearchIndices.push(puzzleIdx);
             currentWordSearch = currentWordSearchList[puzzleIdx];
             wsWords = [...currentWordSearch.words];
             wsFoundWords = [];
@@ -1583,15 +1599,6 @@
                         }
                     }, 500);
                 }
-            } else {
-                // Wrong selection - lose streak and restart
-                clearInterval(wsTimer);
-                wsTimer = null;
-                wordSearchStreak = 0;
-                renderWordSearchStreakBar();
-                document.getElementById('wordsearch-result').innerHTML = `
-                    <div class="text-red-600 font-bold text-lg mb-4">Palavra incorreta! Streak perdido.</div>
-                    <button class="action-button" onclick="startNewWordSearch()">Tentar Novamente</button>`;
             }
             
             wsSelectedCells = [];
@@ -1817,9 +1824,10 @@
         }
 
         window.pickWord = function(btn, w, full) {
-            speakText(w);
+            const decodedWord = w.replace(/&#39;/g, "'");
+            speakText(decodedWord);
             const idx = btn.getAttribute('data-idx');
-            scrambleResult.push({ word: w, idx: idx });
+            scrambleResult.push({ word: decodedWord, idx: idx });
             btn.style.visibility = 'hidden';
             updateScrambleResult(full);
         };
@@ -1833,6 +1841,7 @@
 
         function updateScrambleResult(full) {
             const resArea = document.getElementById('scramble-res');
+            const decodedFull = full.replace(/&#39;/g, "'");
             if (scrambleResult.length === 0) {
                 resArea.innerHTML = '<span class="text-stone-400">Clique nas palavras para formar a frase...</span>';
                 return;
@@ -1841,10 +1850,10 @@
                 `<button class="scramble-word-selected" onclick="unpickWord('${item.idx}', '${full.replace(/'/g, "&#39;")}')">${item.word}</button>`
             ).join('');
             
-            if (scrambleResult.length === full.split(' ').length) {
+            if (scrambleResult.length === decodedFull.split(' ').length) {
                 const fb = document.getElementById('scramble-fb');
                 const resultText = scrambleResult.map(i => i.word).join(' ');
-                if (resultText.toLowerCase() === full.toLowerCase()) { 
+                if (resultText.toLowerCase() === decodedFull.toLowerCase()) { 
                     currentStreak++; 
                     renderStreakBar(); 
                     fb.innerHTML = `<span class="text-sm">Perfect! Frase correta.</span>`;
@@ -1898,12 +1907,32 @@
             `;
         }
 
+        function timeToWords(timeStr) {
+            const match = timeStr.match(/^(\d{1,2}):(\d{2})$/);
+            if (!match) return timeStr;
+            const h = parseInt(match[1], 10);
+            const m = parseInt(match[2], 10);
+            const hourWords = ['twelve', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+            const hourWord = hourWords[h % 12];
+            if (m === 0) return `${hourWord} o'clock`;
+            if (m === 15) return `quarter past ${hourWord}`;
+            if (m === 30) return `half past ${hourWord}`;
+            if (m === 45) {
+                const nextHour = hourWords[(h + 1) % 12];
+                return `quarter to ${nextHour}`;
+            }
+            const minWord = m < 10 ? `oh ${['zero','one','two','three','four','five','six','seven','eight','nine'][m]}` : m.toString();
+            return `${hourWord} ${minWord}`;
+        }
+
         window.playDictation = async function(text) {
              const btn = document.getElementById('dict-play');
              btn.classList.add('animate-pulse');
              
+             // Convert time format to spoken words
+             const spokenText = text.includes(':') ? timeToWords(text) : text;
+             
              if (isSpellingMode) {
-                 // Soletrar a palavra letra por letra
                  const letters = text.split('');
                  for (let i = 0; i < letters.length; i++) {
                      await speakText(letters[i].toLowerCase());
@@ -1913,7 +1942,7 @@
                  }
                  btn.classList.remove('animate-pulse');
              } else {
-                 const audio = await fetchTTSAudio(text);
+                 const audio = await fetchTTSAudio(spokenText);
                  if (audio) { 
                      await audio.play(); 
                      btn.classList.remove('animate-pulse'); 
@@ -1944,6 +1973,20 @@
             if (reverseNumberMap[correct] && val === reverseNumberMap[correct]) return true;
             // For letters (A, B, C...) accept lowercase
             if (correct.length === 1 && val === correct) return true;
+            // For time formats - normalize and compare
+            if (correct.includes(':')) {
+                const normalizeTime = (t) => {
+                    t = t.replace(/[hH]/, ':').replace(/\s+/g, '');
+                    const match = t.match(/^(\d{1,2}):?(\d{2})?$/);
+                    if (match) {
+                        const h = parseInt(match[1], 10);
+                        const m = match[2] ? parseInt(match[2], 10) : 0;
+                        return `${h}:${m.toString().padStart(2, '0')}`;
+                    }
+                    return t;
+                };
+                if (normalizeTime(val) === normalizeTime(correct)) return true;
+            }
             return false;
         }
 
