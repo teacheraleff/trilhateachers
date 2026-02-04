@@ -35,11 +35,11 @@
         .lock-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(68,64,60,0.9); padding: 1rem; border-radius: 50%; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
         /* LISTENING */
-        .listening-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .number-btn { background: white; border: 2px solid #e2e8f0; border-radius: 1rem; padding: 1rem; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80px; }
+        .listening-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 0.5rem; margin-top: 1rem; }
+        .number-btn { background: white; border: 2px solid #e2e8f0; border-radius: 0.75rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 55px; }
         .number-btn:hover { border-color: #8671d1; transform: translateY(-2px); }
-        .number-btn span.main-text { font-size: 1.5rem; font-weight: 800; }
-        .number-btn span.sub-text { font-size: 0.7rem; font-weight: 600; color: #8671d1; text-transform: uppercase; }
+        .number-btn span.main-text { font-size: 1.1rem; font-weight: 800; }
+        .number-btn span.sub-text { font-size: 0.6rem; font-weight: 600; color: #8671d1; text-transform: uppercase; }
         .number-btn.playing { border-color: #F1D24B; background-color: #fffbeb; animation: pulse 1s infinite; }
 
         /* FLASHCARDS */
@@ -97,7 +97,7 @@
         .mistake-word.wrong-choice { background: #fee2e2; border-color: #ef4444; text-decoration: line-through; }
 
         /* DICTATION */
-        .dictation-input { font-size: 2rem; text-align: center; border: 3px solid #e2e8f0; border-radius: 1rem; width: 220px; padding: 0.5rem; outline: none; transition: 0.2s; }
+        .dictation-input { font-size: 1.25rem; text-align: center; border: 3px solid #e2e8f0; border-radius: 1rem; width: 220px; padding: 0.5rem; outline: none; transition: 0.2s; }
         .dictation-input:focus { border-color: #8671d1; }
         .dictation-input.correct { border-color: #22c55e; background: #dcfce7; }
         .dictation-input.wrong { border-color: #ef4444; background: #fee2e2; }
@@ -110,8 +110,10 @@
         .hm-box-locked { background: #f1f5f9; color: #cbd5e1; cursor: not-allowed; border-color: #e2e8f0; }
 
         .streak-container { display: flex; justify-content: center; gap: 5px; margin-bottom: 1rem; }
-        .streak-dot { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; transition: all 0.3s ease; }
-        .streak-dot.active { background: #F1D24B; transform: scale(1.2); }
+        .streak-bar-wrapper { width: 100%; max-width: 300px; margin: 0 auto; }
+        .streak-bar-bg { width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
+        .streak-bar-fill { height: 100%; background: linear-gradient(90deg, #F1D24B, #f59e0b); border-radius: 6px; transition: width 0.4s ease; }
+        .streak-label { font-size: 0.75rem; font-weight: 700; color: #78716c; margin-bottom: 0.25rem; }
 
         /* QUIZ UI */
         .option-button { background-color: white; border: 2px solid #e2e8f0; color: #44403c; text-align: left; padding: 1rem; border-radius: 0.75rem; width: 100%; transition: all 0.2s; cursor: pointer; display: flex; align-items: center; gap: 1rem; }
@@ -176,8 +178,8 @@
             <div class="study-container max-w-4xl mx-auto text-center">
                  <h2 class="text-2xl font-bold text-stone-800 mb-2" id="study-title"></h2>
                  <p class="text-stone-500 mb-4 italic text-sm" id="study-instruction"></p>
-                 <div id="streak-bar-container" class="hidden mb-6"></div>
-                 <div id="preloading-status" class="text-xs text-primary font-bold mb-4 h-4"></div>
+                 <div id="streak-bar-container" class="hidden mb-0"></div>
+                 <div id="preloading-status" class="text-xs text-primary font-bold mb-1 h-4"></div>
                  <div id="study-content-area" class="py-4"></div>
             </div>
         </div>
@@ -263,11 +265,11 @@
                 { front: "Orgulhoso(a)", back: "Proud" }
             ],
             12: [
-                { front: "🇧🇷", back: "Brazil / Brazilian" }, { front: "🇺🇸", back: "USA / American" },
-                { front: "🇬🇧", back: "England / British" }, { front: "🇫🇷", back: "France / French" },
-                { front: "🇪🇸", back: "Spain / Spanish" }, { front: "🇮🇹", back: "Italy / Italian" },
-                { front: "🇯🇵", back: "Japan / Japanese" }, { front: "🇨🇳", back: "China / Chinese" },
-                { front: "🇩🇪", back: "Germany / German" }, { front: "🇵🇹", back: "Portugal / Portuguese" }
+                { front: "BR", back: "Brazil / Brazilian" }, { front: "US", back: "USA / American" },
+                { front: "GB", back: "England / British" }, { front: "FR", back: "France / French" },
+                { front: "ES", back: "Spain / Spanish" }, { front: "IT", back: "Italy / Italian" },
+                { front: "JP", back: "Japan / Japanese" }, { front: "CN", back: "China / Chinese" },
+                { front: "DE", back: "Germany / German" }, { front: "PT", back: "Portugal / Portuguese" }
             ],
             23: [
                 { front: "Natal", back: "Christmas" }, { front: "Ano Novo", back: "New Year's Day" }, 
@@ -698,12 +700,19 @@
             const container = document.getElementById('streak-bar-container');
             if (document.getElementById('study-title').textContent.includes("Dictation") || document.getElementById('study-title').textContent.includes("Scramble") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
                 container.classList.remove('hidden');
-                let dots = '';
-                for(let i=0; i<STREAK_GOAL; i++) {
-                    const activeClass = i < currentStreak ? 'active' : '';
-                    dots += `<div class="streak-dot ${activeClass}"></div>`;
-                }
-                container.innerHTML = `<span class="text-sm font-bold text-stone-400 mr-2">STREAK:</span> ${dots}`;
+                const progress = Math.min(currentStreak, STREAK_GOAL);
+                const percentage = (progress / STREAK_GOAL) * 100;
+                const isComplete = currentStreak >= STREAK_GOAL;
+                container.innerHTML = `
+                    <div class="streak-bar-wrapper">
+                        <div class="streak-label text-center">
+                            ${isComplete ? '🎉 Streak completo! Tire um print!' : `Complete ${STREAK_GOAL} acertos seguidos: ${progress}/${STREAK_GOAL}`}
+                        </div>
+                        <div class="streak-bar-bg">
+                            <div class="streak-bar-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
             } else {
                 container.classList.add('hidden');
             }
@@ -844,6 +853,8 @@
         }
 
         window.pickWord = function(btn, w, full) {
+            // Read the word aloud when clicked
+            speakText(w);
             scrambleResult.push(w); document.getElementById('scramble-res').textContent = scrambleResult.join(' '); btn.style.visibility = 'hidden';
             if (scrambleResult.length === full.split(' ').length) {
                 const fb = document.getElementById('scramble-fb');
@@ -884,8 +895,8 @@
             const totalItems = currentShuffledData.length;
             const currentItem = (currentIdx % totalItems) + 1;
             area.innerHTML = `
-                <div class="flex flex-col items-center gap-6 mt-4">
-                    <div class="text-center mb-2">
+                <div class="flex flex-col items-center gap-4">
+                    <div class="text-center">
                         <span class="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full font-bold text-sm">
                             Palavra ${currentItem} / ${totalItems}
                         </span>
@@ -914,12 +925,36 @@
              }
         }
 
+        // Number mappings for dictation (extenso <-> numeral)
+        const numberMap = {
+            'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
+            'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10',
+            'eleven': '11', 'twelve': '12', 'thirteen': '13', 'fourteen': '14', 'fifteen': '15',
+            'sixteen': '16', 'seventeen': '17', 'eighteen': '18', 'nineteen': '19', 'twenty': '20',
+            'first': '1st', 'second': '2nd', 'third': '3rd', 'fourth': '4th', 'fifth': '5th',
+            'sixth': '6th', 'seventh': '7th', 'eighth': '8th', 'ninth': '9th', 'tenth': '10th'
+        };
+        const reverseNumberMap = Object.fromEntries(Object.entries(numberMap).map(([k, v]) => [v, k]));
+
+        function normalizeAnswer(val, correct) {
+            val = val.toLowerCase().trim();
+            correct = correct.toLowerCase().trim();
+            if (val === correct) return true;
+            // Check if user typed number instead of word
+            if (numberMap[correct] && val === numberMap[correct]) return true;
+            // Check if user typed word instead of number
+            if (reverseNumberMap[correct] && val === reverseNumberMap[correct]) return true;
+            // For letters (A, B, C...) accept lowercase
+            if (correct.length === 1 && val === correct) return true;
+            return false;
+        }
+
         window.checkDictation = function(correct) {
             const input = document.getElementById('dict-input');
             const val = input.value.toLowerCase().trim();
             const fb = document.getElementById('dict-fb');
 
-            if (val === correct.toLowerCase()) {
+            if (normalizeAnswer(val, correct)) {
                 input.classList.add('correct');
                 fb.textContent = "Correto!";
                 fb.className = "p-3 rounded-lg font-bold text-lg mt-2 bg-green-100 text-green-700 block";
@@ -927,10 +962,10 @@
                 currentStreak++;
             } else {
                 input.classList.add('wrong');
-                fb.innerHTML = `Incorreto. A resposta era <strong>${correct}</strong>`;
+                fb.innerHTML = `Incorreto. A resposta era <strong>${correct}</strong> <button class="underline ml-2" onclick="renderDictation()">Tentar outra</button>`;
                 fb.className = "p-3 rounded-lg font-bold text-lg mt-2 bg-red-100 text-red-700 block";
                 currentStreak = 0; 
-                document.getElementById('dict-next').classList.remove('hidden');
+                // Don't show next button - streak must restart
             }
             renderStreakBar();
         }
