@@ -54,11 +54,33 @@
         /* CHUNKS */
         .chunks-grid { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid #e2e8f0; border-radius: 1rem; overflow: hidden; background: white; text-align: left; }
         .chunks-header { background: #44403c; color: white; padding: 1rem; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
-        .chunks-cell { padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; font-weight: 500; }
+        .chunks-cell { padding: 0.75rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; font-weight: 500; font-size: 0.9rem; word-break: break-word; }
         .chunks-cell-en { color: #1e1b4b; background-color: #f8fafc; }
         .chunks-cell-pt { color: #64748b; justify-content: space-between; }
         .translation-hidden { filter: blur(5px); opacity: 0.3; transition: 0.3s; user-select: none; } 
         .translation-visible { filter: blur(0); opacity: 1; user-select: text; }
+        @media (max-width: 640px) {
+            .chunks-grid { grid-template-columns: 1fr; }
+            .chunks-header:last-of-type { display: none; }
+            .chunks-header:first-of-type::after { content: " / Traduções"; }
+            .chunks-cell { padding: 0.875rem; font-size: 0.95rem; }
+            .chunks-cell-en { border-bottom: none; border-right: none; padding-bottom: 0.5rem; }
+            .chunks-cell-pt { border-bottom: 2px solid #e2e8f0; padding-top: 0.5rem; }
+        }
+
+        /* CROSSWORD */
+        .crossword-grid { display: inline-grid; gap: 2px; background: #44403c; padding: 2px; border-radius: 0.5rem; }
+        .crossword-cell { width: 36px; height: 36px; background: white; position: relative; display: flex; align-items: center; justify-content: center; }
+        .crossword-cell-empty { width: 36px; height: 36px; background: #44403c; }
+        .crossword-num { position: absolute; top: 1px; left: 2px; font-size: 9px; color: #64748b; font-weight: 600; }
+        .crossword-input { width: 100%; height: 100%; text-align: center; font-size: 18px; font-weight: 700; border: none; outline: none; text-transform: uppercase; background: transparent; }
+        .crossword-input:focus { background: #f0e6ff; }
+        .crossword-hints { text-align: left; max-width: 280px; }
+        @media (max-width: 640px) {
+            .crossword-cell, .crossword-cell-empty { width: 32px; height: 32px; }
+            .crossword-input { font-size: 16px; }
+            .crossword-grid { gap: 1px; padding: 1px; }
+        }
 
         /* SCRAMBLE */
         .scramble-dropzone {
@@ -251,7 +273,7 @@
                 {n: "U", w: "you", p: "/juː/"}, {n: "V", w: "vee", p: "/viː/"}, {n: "W", w: "double you", p: "/ˈdʌbəljuː/"}, {n: "X", w: "ex", p: "/ɛks/"},
                 {n: "Y", w: "why", p: "/waɪ/"}, {n: "Z", w: "zee", p: "/ziː/"}
             ] },
-            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"40th",w:"Fortieth"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"63rd",w:"Sixty-third"},{n:"70th",w:"Seventieth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"}] },
+            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"16th",w:"Sixteenth"},{n:"17th",w:"Seventeenth"},{n:"18th",w:"Eighteenth"},{n:"19th",w:"Nineteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"23rd",w:"Twenty-third"},{n:"24th",w:"Twenty-fourth"},{n:"25th",w:"Twenty-fifth"},{n:"26th",w:"Twenty-sixth"},{n:"27th",w:"Twenty-seventh"},{n:"28th",w:"Twenty-eighth"},{n:"29th",w:"Twenty-ninth"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"32nd",w:"Thirty-second"},{n:"33rd",w:"Thirty-third"},{n:"34th",w:"Thirty-fourth"},{n:"35th",w:"Thirty-fifth"},{n:"40th",w:"Fortieth"},{n:"41st",w:"Forty-first"},{n:"42nd",w:"Forty-second"},{n:"43rd",w:"Forty-third"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"51st",w:"Fifty-first"},{n:"52nd",w:"Fifty-second"},{n:"53rd",w:"Fifty-third"},{n:"55th",w:"Fifty-fifth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"61st",w:"Sixty-first"},{n:"62nd",w:"Sixty-second"},{n:"63rd",w:"Sixty-third"},{n:"65th",w:"Sixty-fifth"},{n:"70th",w:"Seventieth"},{n:"71st",w:"Seventy-first"},{n:"72nd",w:"Seventy-second"},{n:"73rd",w:"Seventy-third"},{n:"75th",w:"Seventy-fifth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"81st",w:"Eighty-first"},{n:"82nd",w:"Eighty-second"},{n:"83rd",w:"Eighty-third"},{n:"85th",w:"Eighty-fifth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"},{n:"91st",w:"Ninety-first"},{n:"92nd",w:"Ninety-second"},{n:"93rd",w:"Ninety-third"},{n:"95th",w:"Ninety-fifth"},{n:"99th",w:"Ninety-ninth"},{n:"100th",w:"One hundredth"}] },
             { id: 8, name: "Basic Verbs", hasHomework: true, thirdBtn: 'dictation' },
             { id: 9, name: "Basic Adjectives", hasHomework: true, thirdBtn: 'dictation' },
             { id: 10, name: "Demonstrative Pronouns", hasHomework: true, specialMode: 'scramble' },
@@ -263,7 +285,7 @@
             { id: 16, name: "Can e Can't", hasHomework: true, specialMode: 'scramble' },
             { id: 17, name: "Midterm Test Correction", hasHomework: false },
             { id: 18, name: "Simple Present pt. 1", hasHomework: true, specialMode: 'scramble' },
-            { id: 19, name: "Simple Present pt. 2", hasHomework: true },
+            { id: 19, name: "Simple Present pt. 2", hasHomework: true, specialMode: 'scramble' },
             { id: 20, name: "Object Pronouns", hasHomework: true, specialMode: 'scramble' },
             { id: 21, name: "Likes and Dislikes", hasHomework: true },
             { id: 22, name: "Free Time Activities", hasHomework: true },
@@ -288,7 +310,10 @@
                 { front: "Feliz", back: "Happy" }, { front: "Triste", back: "Sad" }, { front: "Bravo(a)", back: "Angry" },
                 { front: "Cansado(a)", back: "Tired" }, { front: "Animado(a)", back: "Excited" }, { front: "Nervoso(a)", back: "Nervous" },
                 { front: "Assustado(a)", back: "Scared" }, { front: "Entediado(a)", back: "Bored" }, { front: "Confuso(a)", back: "Confused" },
-                { front: "Orgulhoso(a)", back: "Proud" }
+                { front: "Orgulhoso(a)", back: "Proud" }, { front: "Preocupado(a)", back: "Worried" }, { front: "Surpreso(a)", back: "Surprised" },
+                { front: "Envergonhado(a)", back: "Embarrassed" }, { front: "Frustrado(a)", back: "Frustrated" }, { front: "Aliviado(a)", back: "Relieved" },
+                { front: "Solitário(a)", back: "Lonely" }, { front: "Grato(a)", back: "Grateful" }, { front: "Ciumento(a)", back: "Jealous" },
+                { front: "Calmo(a)", back: "Calm" }, { front: "Ansioso(a)", back: "Anxious" }
             ],
             12: [
                 { front: "🇧🇷", back: "Brazil / Brazilian" }, { front: "🇺🇸", back: "USA / American" },
@@ -305,17 +330,38 @@
                 { front: "Dia dos Namorados", back: "Valentine's Day" }, { front: "Halloween", back: "Halloween" }
             ],
             26: [
-                { front: "🍎", back: "Apple" }, { front: "🍌", back: "Banana" }, { front: "🍕", back: "Pizza" }, 
-                { front: "🥦", back: "Broccoli" }, { front: "🥕", back: "Carrot" }, { front: "🥩", back: "Steak" }, 
-                { front: "🍚", back: "Rice" }, { front: "🍦", back: "Ice cream" }, { front: "🍞", back: "Bread" },
-                { front: "🧀", back: "Cheese" }
+                { front: "🍎", back: "Apple" }, { front: "🍌", back: "Banana" }, { front: "🍊", back: "Orange" },
+                { front: "🍇", back: "Grapes" }, { front: "🍓", back: "Strawberry" }, { front: "🍑", back: "Peach" },
+                { front: "🍒", back: "Cherry" }, { front: "🍍", back: "Pineapple" }, { front: "🥭", back: "Mango" },
+                { front: "🍉", back: "Watermelon" }, { front: "🍋", back: "Lemon" }, { front: "🍈", back: "Melon" },
+                { front: "🥝", back: "Kiwi" }, { front: "🫐", back: "Blueberry" }, { front: "🍐", back: "Pear" },
+                { front: "🥥", back: "Coconut" }, { front: "🍅", back: "Tomato" }, { front: "🥑", back: "Avocado" },
+                { front: "🫒", back: "Olive" }, { front: "🍏", back: "Green Apple" }, { front: "🥒", back: "Cucumber" },
+                { front: "🍕", back: "Pizza" }, { front: "🥦", back: "Broccoli" }, { front: "🥕", back: "Carrot" },
+                { front: "🥩", back: "Steak" }, { front: "🍚", back: "Rice" }, { front: "🍦", back: "Ice cream" },
+                { front: "🍞", back: "Bread" }, { front: "🧀", back: "Cheese" }, { front: "🥬", back: "Lettuce" }
             ],
             28: [
-                { front: "08:00", back: "Eight o'clock" }, { front: "08:30", back: "Half past eight" },
-                { front: "09:15", back: "Nine fifteen / Quarter past nine" }, { front: "10:45", back: "Ten forty-five / Quarter to eleven" },
-                { front: "12:00", back: "Twelve o'clock / Noon" }, { front: "00:00", back: "Midnight" },
-                { front: "03:30", back: "Three thirty / Half past three" }, { front: "06:45", back: "Six forty-five / Quarter to seven" },
-                { front: "11:15", back: "Eleven fifteen" }, { front: "07:00", back: "Seven o'clock" }
+                { front: "08:00", back: "Eight o'clock" },
+                { front: "08:30", back: "Eight thirty / Half past eight" },
+                { front: "09:15", back: "Nine fifteen / Quarter past nine" },
+                { front: "09:45", back: "Nine forty-five / Quarter to ten / Fifteen to ten" },
+                { front: "10:20", back: "Ten twenty / Twenty past ten / Forty to eleven" },
+                { front: "10:40", back: "Ten forty / Twenty to eleven / Forty past ten" },
+                { front: "11:05", back: "Eleven oh five / Five past eleven" },
+                { front: "11:55", back: "Eleven fifty-five / Five to twelve" },
+                { front: "12:00", back: "Twelve o'clock / Noon / Midday" },
+                { front: "00:00", back: "Twelve o'clock / Midnight" },
+                { front: "03:30", back: "Three thirty / Half past three" },
+                { front: "03:20", back: "Three twenty / Twenty past three / Forty to four" },
+                { front: "04:10", back: "Four ten / Ten past four / Fifty to five" },
+                { front: "05:25", back: "Five twenty-five / Twenty-five past five / Thirty-five to six" },
+                { front: "06:35", back: "Six thirty-five / Thirty-five past six / Twenty-five to seven" },
+                { front: "06:45", back: "Six forty-five / Quarter to seven / Fifteen to seven" },
+                { front: "07:00", back: "Seven o'clock" },
+                { front: "07:50", back: "Seven fifty / Ten to eight / Fifty past seven" },
+                { front: "02:15", back: "Two fifteen / Quarter past two / Fifteen past two" },
+                { front: "01:30", back: "One thirty / Half past one" }
             ]
         };
 
@@ -360,6 +406,19 @@
                 { full: "he plays soccer on weekends", words: ["he", "plays", "soccer", "on", "weekends"] },
                 { full: "we eat breakfast together", words: ["we", "eat", "breakfast", "together"] }
             ],
+            // Simple Present pt. 2 - negativas e interrogativas (module 19)
+            19: [
+                { full: "I don't like coffee", words: ["I", "don't", "like", "coffee"] },
+                { full: "she doesn't work here", words: ["she", "doesn't", "work", "here"] },
+                { full: "they don't speak French", words: ["they", "don't", "speak", "French"] },
+                { full: "he doesn't have a car", words: ["he", "doesn't", "have", "a", "car"] },
+                { full: "we don't eat meat", words: ["we", "don't", "eat", "meat"] },
+                { full: "do you like pizza", words: ["do", "you", "like", "pizza"] },
+                { full: "does she live here", words: ["does", "she", "live", "here"] },
+                { full: "do they study English", words: ["do", "they", "study", "English"] },
+                { full: "does he play guitar", words: ["does", "he", "play", "guitar"] },
+                { full: "do we need help", words: ["do", "we", "need", "help"] }
+            ],
             // Object Pronouns (module 20)
             20: [
                 { full: "help me please", words: ["help", "me", "please"] },
@@ -387,7 +446,7 @@
             // Dictation data
             4: { dictation: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"] },
             5: { dictation: ["eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"] },
-            6: { dictation: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] },
+            6: { dictation: ["CAR", "DOG", "CAT", "BUS", "SUN", "HAT", "PEN", "RED", "BOX", "CUP", "BOOK", "TREE", "FISH", "BIRD", "HAND", "STAR", "MOON", "BALL", "CAKE", "MILK"], isSpelling: true },
             7: { dictation: ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"] },
             8: { dictation: ["run", "walk", "eat", "drink", "sleep", "work", "play", "read", "write", "speak"] },
             9: { dictation: ["happy", "sad", "big", "small", "hot", "cold", "fast", "slow", "good", "bad"] },
@@ -494,7 +553,12 @@
             return new Promise((resolve) => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
+                    // Evita que "I" seja lido como "capital I"
+                    let processedText = text;
+                    if (text === "I") {
+                        processedText = "i";
+                    }
+                    const utterance = new SpeechSynthesisUtterance(processedText);
                     utterance.lang = 'en-US';
                     utterance.rate = 0.9;
                     utterance.pitch = 1;
@@ -564,6 +628,8 @@
                 const sBtn = studyLabel ? `<button class="secondary-button flex-1 text-xs" onclick="openStudy(${aula.id})">${studyLabel}</button>` : '';
                 const tBtn = (aula.id === 23) ? `<button class="secondary-button flex-1 text-xs" onclick="openFlashcards(23)">FLASHCARDS</button>` : '';
                 const dBtn = (aula.thirdBtn === 'dictation') ? `<button class="secondary-button flex-1 text-xs" onclick="openDictation(${aula.id})">DICTATION</button>` : '';
+                const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button flex-1 text-xs" onclick="openHangman(${aula.id})">HANGMAN</button>` : '';
+                const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button flex-1 text-xs" onclick="openCrossword(${aula.id})">CROSSWORD</button>` : '';
 
                 return `
                 <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
@@ -577,8 +643,8 @@
                         <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
                         <p class="text-stone-500 text-sm mb-6">${aula.hasHomework ? 'Pratique as estruturas aprendidas em aula.' : 'Sem homework disponível.'}</p>
                     </div>
-                    <div class="flex flex-nowrap gap-2">
-                        ${sBtn} ${tBtn} ${dBtn}
+                    <div class="flex flex-wrap gap-2">
+                        ${sBtn} ${tBtn} ${dBtn} ${hBtn} ${cBtn}
                         <button class="action-button flex-1 text-xs uppercase" ${!aula.hasHomework ? 'disabled' : `onclick="openPractice(${aula.id})"`}>HOMEWORK</button>
                     </div>
                 </div>`
@@ -714,17 +780,316 @@
             currentFlashcardIdx = 0; currentShuffledCards = shuffle([...flashcardsData[id]]); renderFlashcards();
         }
 
+        let isSpellingMode = false;
         window.openDictation = function(id) {
              const aula = aulaNames.find(a => a.id === id);
+             isSpellingMode = gamesData[id].isSpelling || false;
              document.getElementById('dashboard-view').classList.add('hidden');
              document.getElementById('study-view').classList.remove('hidden');
              document.getElementById('study-title').textContent = "Dictation Mode";
-             document.getElementById('study-instruction').textContent = "Ouça o áudio e escreva o que ouvir (números ou extenso).";
+             document.getElementById('study-instruction').textContent = isSpellingMode 
+                 ? "Ouça as letras e escreva a palavra soletrada."
+                 : "Ouça o áudio e escreva o que ouvir (números ou extenso).";
              currentShuffledData = shuffle([...gamesData[id].dictation]);
              currentIdx = 0;
              currentStreak = 0; // Reset Streak
              renderStreakBar(); // Initial render
              renderDictation();
+        }
+
+        // HANGMAN GAME
+        const hangmanWordLists = {
+            6: [ // Spelling
+                {word: "CAR", hint: "Veículo com 4 rodas"},
+                {word: "DOG", hint: "Melhor amigo do homem"},
+                {word: "CAT", hint: "Animal que mia"},
+                {word: "BUS", hint: "Transporte público"},
+                {word: "SUN", hint: "Estrela que ilumina o dia"},
+                {word: "HAT", hint: "Acessório para a cabeça"},
+                {word: "PEN", hint: "Usamos para escrever"},
+                {word: "RED", hint: "Cor do coração"},
+                {word: "BOX", hint: "Caixa em inglês"},
+                {word: "CUP", hint: "Usamos para beber café"},
+                {word: "BOOK", hint: "Objeto de leitura"},
+                {word: "TREE", hint: "Planta grande com folhas"},
+                {word: "FISH", hint: "Animal que nada"},
+                {word: "BIRD", hint: "Animal que voa"},
+                {word: "HAND", hint: "Parte do corpo com 5 dedos"},
+                {word: "STAR", hint: "Brilha no céu à noite"},
+                {word: "MOON", hint: "Satélite da Terra"},
+                {word: "BALL", hint: "Objeto redondo para jogar"},
+                {word: "CAKE", hint: "Doce de aniversário"},
+                {word: "MILK", hint: "Bebida branca da vaca"}
+            ],
+            23: [ // Months and Holidays
+                {word: "JANUARY", hint: "Primeiro mês do ano"},
+                {word: "FEBRUARY", hint: "Mês do carnaval"},
+                {word: "MARCH", hint: "Terceiro mês do ano"},
+                {word: "APRIL", hint: "Mês da Páscoa"},
+                {word: "MAY", hint: "Mês das mães"},
+                {word: "JUNE", hint: "Mês das festas juninas"},
+                {word: "JULY", hint: "Mês das férias de inverno"},
+                {word: "AUGUST", hint: "Mês dos pais"},
+                {word: "SEPTEMBER", hint: "Mês da primavera"},
+                {word: "OCTOBER", hint: "Mês das crianças"},
+                {word: "NOVEMBER", hint: "Mês da Black Friday"},
+                {word: "DECEMBER", hint: "Mês do Natal"},
+                {word: "CHRISTMAS", hint: "Feriado em 25 de dezembro"},
+                {word: "EASTER", hint: "Feriado do coelhinho"},
+                {word: "HALLOWEEN", hint: "Dia das bruxas"}
+            ],
+            26: [ // Foods and Fruits
+                {word: "APPLE", hint: "Fruta vermelha ou verde"},
+                {word: "BANANA", hint: "Fruta amarela e comprida"},
+                {word: "ORANGE", hint: "Fruta cítrica laranja"},
+                {word: "GRAPE", hint: "Fruta pequena usada para vinho"},
+                {word: "LEMON", hint: "Fruta azeda e amarela"},
+                {word: "MANGO", hint: "Fruta tropical doce"},
+                {word: "BREAD", hint: "Alimento feito de farinha"},
+                {word: "CHEESE", hint: "Derivado do leite"},
+                {word: "CHICKEN", hint: "Carne de ave"},
+                {word: "RICE", hint: "Grão branco do almoço"},
+                {word: "BEANS", hint: "Acompanha o arroz"},
+                {word: "PASTA", hint: "Macarrão em inglês"},
+                {word: "PIZZA", hint: "Comida italiana redonda"},
+                {word: "SALAD", hint: "Prato com verduras"},
+                {word: "JUICE", hint: "Bebida de frutas"},
+                {word: "WATER", hint: "Líquido essencial"},
+                {word: "COFFEE", hint: "Bebida quente da manhã"},
+                {word: "BUTTER", hint: "Passa no pão"},
+                {word: "SUGAR", hint: "Adoça o café"},
+                {word: "SALT", hint: "Tempero branco"}
+            ]
+        };
+        let currentHangmanList = [];
+        let hangmanWord = "";
+        let hangmanHint = "";
+        let hangmanGuessed = [];
+        let hangmanWrong = 0;
+        const hangmanMaxWrong = 6;
+
+        window.openHangman = function(moduleId) {
+            currentHangmanList = hangmanWordLists[moduleId] || hangmanWordLists[6];
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('study-view').classList.remove('hidden');
+            document.getElementById('study-title').textContent = "Hangman";
+            document.getElementById('study-instruction').textContent = "Adivinhe a palavra letra por letra!";
+            currentStreak = 0;
+            renderStreakBar();
+            startNewHangman();
+        }
+
+        function startNewHangman() {
+            const item = currentHangmanList[Math.floor(Math.random() * currentHangmanList.length)];
+            hangmanWord = item.word;
+            hangmanHint = item.hint;
+            hangmanGuessed = [];
+            hangmanWrong = 0;
+            renderHangman();
+        }
+
+        function renderHangman() {
+            const area = document.getElementById('study-content-area');
+            const wordDisplay = hangmanWord.split('').map(letter => 
+                hangmanGuessed.includes(letter) ? letter : '_'
+            ).join(' ');
+            
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            const keyboard = alphabet.map(letter => {
+                const used = hangmanGuessed.includes(letter);
+                const isWrong = used && !hangmanWord.includes(letter);
+                const isCorrect = used && hangmanWord.includes(letter);
+                return `<button 
+                    class="w-9 h-9 m-0.5 rounded-lg font-bold text-sm transition ${used ? (isCorrect ? 'bg-green-500 text-white' : 'bg-red-400 text-white opacity-50') : 'bg-white border-2 border-stone-200 hover:border-primary hover:bg-primary/5'}"
+                    ${used ? 'disabled' : `onclick="guessLetter('${letter}')"`}
+                >${letter}</button>`;
+            }).join('');
+
+            area.innerHTML = `
+                <div class="flex flex-col items-center gap-6">
+                    <svg width="200" height="200" viewBox="0 0 200 200" class="bg-white rounded-xl p-4">
+                        <line x1="40" y1="180" x2="160" y2="180" stroke="#44403c" stroke-width="4"/>
+                        <line x1="60" y1="180" x2="60" y2="20" stroke="#44403c" stroke-width="4"/>
+                        <line x1="60" y1="20" x2="120" y2="20" stroke="#44403c" stroke-width="4"/>
+                        <line x1="120" y1="20" x2="120" y2="40" stroke="#44403c" stroke-width="4"/>
+                        ${hangmanWrong >= 1 ? '<circle cx="120" cy="55" r="15" stroke="#8671d1" stroke-width="3" fill="none"/>' : ''}
+                        ${hangmanWrong >= 2 ? '<line x1="120" y1="70" x2="120" y2="110" stroke="#8671d1" stroke-width="3"/>' : ''}
+                        ${hangmanWrong >= 3 ? '<line x1="120" y1="80" x2="100" y2="100" stroke="#8671d1" stroke-width="3"/>' : ''}
+                        ${hangmanWrong >= 4 ? '<line x1="120" y1="80" x2="140" y2="100" stroke="#8671d1" stroke-width="3"/>' : ''}
+                        ${hangmanWrong >= 5 ? '<line x1="120" y1="110" x2="100" y2="140" stroke="#8671d1" stroke-width="3"/>' : ''}
+                        ${hangmanWrong >= 6 ? '<line x1="120" y1="110" x2="140" y2="140" stroke="#8671d1" stroke-width="3"/>' : ''}
+                    </svg>
+                    <div class="text-4xl font-bold tracking-widest text-stone-800">${wordDisplay}</div>
+                    <div class="bg-amber-100 text-amber-800 px-4 py-2 rounded-lg text-sm font-medium">💡 Dica: ${hangmanHint}</div>
+                    <div class="text-sm text-stone-500">Erros: ${hangmanWrong}/${hangmanMaxWrong}</div>
+                    <div class="flex flex-wrap justify-center max-w-xs">${keyboard}</div>
+                    <div id="hangman-result"></div>
+                </div>
+            `;
+        }
+
+        window.guessLetter = function(letter) {
+            if (hangmanGuessed.includes(letter)) return;
+            hangmanGuessed.push(letter);
+
+            if (!hangmanWord.includes(letter)) {
+                hangmanWrong++;
+            }
+
+            renderHangman();
+
+            const allRevealed = hangmanWord.split('').every(l => hangmanGuessed.includes(l));
+            const resultDiv = document.getElementById('hangman-result');
+
+            if (allRevealed) {
+                currentStreak++;
+                renderStreakBar();
+                resultDiv.innerHTML = `<div class="text-green-600 font-bold text-lg mb-2">Parabéns! Você acertou!</div>
+                    <button class="action-button" onclick="startNewHangman()">Próxima Palavra</button>`;
+            } else if (hangmanWrong >= hangmanMaxWrong) {
+                currentStreak = 0;
+                renderStreakBar();
+                resultDiv.innerHTML = `<div class="text-red-600 font-bold text-lg mb-2">Game Over! A palavra era: ${hangmanWord}</div>
+                    <button class="action-button" onclick="startNewHangman()">Tentar Novamente</button>`;
+            }
+        }
+
+        // CROSSWORD GAME
+        const crosswordData = {
+            12: { // Countries and Nationalities
+                words: [
+                    {word: "BRAZIL", hint: "País do carnaval", row: 0, col: 0, dir: "across"},
+                    {word: "JAPAN", hint: "País do sushi", row: 0, col: 0, dir: "down"},
+                    {word: "ITALY", hint: "País da pizza", row: 2, col: 4, dir: "down"},
+                    {word: "SPAIN", hint: "País do flamenco", row: 4, col: 1, dir: "across"},
+                    {word: "CHINA", hint: "País mais populoso", row: 6, col: 0, dir: "across"}
+                ]
+            },
+            14: { // Family Members
+                words: [
+                    {word: "MOTHER", hint: "Mãe em inglês", row: 0, col: 0, dir: "across"},
+                    {word: "FATHER", hint: "Pai em inglês", row: 0, col: 0, dir: "down"},
+                    {word: "SISTER", hint: "Irmã em inglês", row: 2, col: 3, dir: "across"},
+                    {word: "SON", hint: "Filho em inglês", row: 4, col: 1, dir: "across"},
+                    {word: "AUNT", hint: "Tia em inglês", row: 4, col: 5, dir: "down"}
+                ]
+            }
+        };
+        let currentCrossword = null;
+        let crosswordAnswers = {};
+
+        window.openCrossword = function(moduleId) {
+            currentCrossword = crosswordData[moduleId];
+            crosswordAnswers = {};
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('study-view').classList.remove('hidden');
+            document.getElementById('study-title').textContent = "Crossword";
+            document.getElementById('study-instruction').textContent = "Preencha as palavras cruzadas!";
+            document.getElementById('streak-bar-container').classList.add('hidden');
+            renderCrossword();
+        }
+
+        function renderCrossword() {
+            const area = document.getElementById('study-content-area');
+            const words = currentCrossword.words;
+            
+            // Calculate grid size
+            let maxRow = 0, maxCol = 0;
+            words.forEach(w => {
+                if (w.dir === 'across') {
+                    maxRow = Math.max(maxRow, w.row);
+                    maxCol = Math.max(maxCol, w.col + w.word.length - 1);
+                } else {
+                    maxRow = Math.max(maxRow, w.row + w.word.length - 1);
+                    maxCol = Math.max(maxCol, w.col);
+                }
+            });
+            
+            // Create grid
+            const grid = Array(maxRow + 1).fill(null).map(() => Array(maxCol + 1).fill(null));
+            const cellNumbers = Array(maxRow + 1).fill(null).map(() => Array(maxCol + 1).fill(''));
+            
+            words.forEach((w, idx) => {
+                for (let i = 0; i < w.word.length; i++) {
+                    const r = w.dir === 'down' ? w.row + i : w.row;
+                    const c = w.dir === 'across' ? w.col + i : w.col;
+                    grid[r][c] = {letter: w.word[i], wordIdx: idx, pos: i};
+                    if (i === 0) cellNumbers[r][c] = idx + 1;
+                }
+            });
+            
+            // Render grid
+            let gridHtml = `<div class="crossword-grid" style="grid-template-columns: repeat(${maxCol + 1}, 1fr)">`;
+            for (let r = 0; r <= maxRow; r++) {
+                for (let c = 0; c <= maxCol; c++) {
+                    if (grid[r][c]) {
+                        const num = cellNumbers[r][c];
+                        gridHtml += `<div class="crossword-cell">
+                            ${num ? `<span class="crossword-num">${num}</span>` : ''}
+                            <input type="text" maxlength="1" class="crossword-input" data-row="${r}" data-col="${c}" data-letter="${grid[r][c].letter}" onkeyup="checkCrosswordCell(this, event)">
+                        </div>`;
+                    } else {
+                        gridHtml += '<div class="crossword-cell-empty"></div>';
+                    }
+                }
+            }
+            gridHtml += '</div>';
+            
+            // Render hints
+            let hintsHtml = '<div class="crossword-hints"><div class="mb-4"><h4 class="font-bold text-stone-700 mb-2">Horizontal (→)</h4>';
+            words.filter(w => w.dir === 'across').forEach((w, i) => {
+                const num = words.indexOf(w) + 1;
+                hintsHtml += `<p class="text-sm text-stone-600 mb-1"><span class="font-bold">${num}.</span> ${w.hint}</p>`;
+            });
+            hintsHtml += '</div><div><h4 class="font-bold text-stone-700 mb-2">Vertical (↓)</h4>';
+            words.filter(w => w.dir === 'down').forEach((w, i) => {
+                const num = words.indexOf(w) + 1;
+                hintsHtml += `<p class="text-sm text-stone-600 mb-1"><span class="font-bold">${num}.</span> ${w.hint}</p>`;
+            });
+            hintsHtml += '</div></div>';
+            
+            area.innerHTML = `
+                <div class="flex flex-col lg:flex-row gap-6 items-start justify-center">
+                    ${gridHtml}
+                    ${hintsHtml}
+                </div>
+                <div class="flex gap-4 mt-6 justify-center">
+                    <button class="action-button" onclick="checkCrossword()">Verificar</button>
+                </div>
+                <div id="crossword-result" class="mt-4 text-center"></div>
+            `;
+        }
+
+        window.checkCrosswordCell = function(input, event) {
+            input.value = input.value.toUpperCase();
+            if (event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
+                const inputs = document.querySelectorAll('.crossword-input');
+                const idx = Array.from(inputs).indexOf(input);
+                if (idx < inputs.length - 1) inputs[idx + 1].focus();
+            }
+        }
+
+        window.checkCrossword = function() {
+            const inputs = document.querySelectorAll('.crossword-input');
+            let allCorrect = true;
+            inputs.forEach(inp => {
+                const correct = inp.dataset.letter.toUpperCase();
+                const val = inp.value.toUpperCase();
+                if (val === correct) {
+                    inp.classList.remove('bg-red-100');
+                    inp.classList.add('bg-green-100');
+                } else {
+                    inp.classList.remove('bg-green-100');
+                    inp.classList.add('bg-red-100');
+                    allCorrect = false;
+                }
+            });
+            const resultDiv = document.getElementById('crossword-result');
+            if (allCorrect) {
+                resultDiv.innerHTML = '<div class="text-green-600 font-bold text-lg">🎉 Parabéns! Você completou o crossword!</div>';
+            } else {
+                resultDiv.innerHTML = '<div class="text-amber-600 font-medium">Algumas letras estão incorretas. Tente novamente!</div>';
+            }
         }
 
         window.toggleChunk = function(index) {
@@ -735,7 +1100,8 @@
 
         function renderStreakBar() {
             const container = document.getElementById('streak-bar-container');
-            if (document.getElementById('study-title').textContent.includes("Dictation") || document.getElementById('study-title').textContent.includes("Scramble") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
+            const title = document.getElementById('study-title').textContent;
+            if (title.includes("Dictation") || title.includes("Scramble") || title.includes("Hangman") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
                 container.classList.remove('hidden');
                 const progress = Math.min(currentStreak, STREAK_GOAL);
                 const percentage = (progress / STREAK_GOAL) * 100;
@@ -757,7 +1123,10 @@
 
         function renderChunksGrid(data) {
             const area = document.getElementById('study-content-area');
-            area.innerHTML = `<div class="chunks-grid shadow-lg">${data.map((item, index) => `
+            area.innerHTML = `<div class="chunks-grid shadow-lg">
+                <div class="chunks-header">Chunks</div>
+                <div class="chunks-header">Traduções</div>
+                ${data.map((item, index) => `
                 <div class="chunks-cell chunks-cell-en">
                     <button onclick="speakText('${item.en.replace(/'/g, "\\'")}')" class="p-1 mr-2 rounded-full hover:bg-primary/10 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
@@ -898,7 +1267,7 @@
                 <div id="scramble-fb" class="hidden p-4 rounded-xl mb-6 text-center font-bold"></div>
                 <div class="scramble-dropzone mb-6 flex flex-wrap justify-center gap-2 min-h-[60px]" id="scramble-res"><span class="text-stone-400">Clique nas palavras para formar a frase...</span></div>
                 <div class="flex flex-wrap justify-center gap-3 mb-6" id="scramble-words">
-                    ${shuffled.map((w, i) => `<button class="scramble-word" data-idx="${i}" onclick="pickWord(this, '${w}', '${item.full}')">${w}</button>`).join('')}
+                    ${shuffled.map((w, i) => `<button class="scramble-word" data-idx="${i}" onclick="pickWord(this, '${w.replace(/'/g, "&#39;")}', '${item.full.replace(/'/g, "&#39;")}')">${w}</button>`).join('')}
                 </div>
                 <button class="action-button w-full hidden" id="scramble-next" onclick="window.nextRound(renderScramble)">Próxima Frase</button>
             `;
@@ -926,7 +1295,7 @@
                 return;
             }
             resArea.innerHTML = scrambleResult.map(item => 
-                `<button class="scramble-word-selected" onclick="unpickWord('${item.idx}', '${full}')">${item.word}</button>`
+                `<button class="scramble-word-selected" onclick="unpickWord('${item.idx}', '${full.replace(/'/g, "&#39;")}')">${item.word}</button>`
             ).join('');
             
             if (scrambleResult.length === full.split(' ').length) {
@@ -935,14 +1304,14 @@
                 if (resultText.toLowerCase() === full.toLowerCase()) { 
                     currentStreak++; 
                     renderStreakBar(); 
-                    fb.textContent = "Perfect! Frase correta.";
+                    fb.innerHTML = `<span class="text-sm">Perfect! Frase correta.</span>`;
                     fb.className = "p-4 rounded-xl bg-green-100 text-green-800 block mb-4";
                     document.getElementById('scramble-next').classList.remove('hidden');
                     resArea.querySelectorAll('button').forEach(b => b.onclick = null);
                 } else { 
                     currentStreak = 0; 
                     renderStreakBar(); 
-                    fb.innerHTML = `Errou! Tente de novo. <button class="underline ml-2" onclick="renderScramble()">Reset</button>`;
+                    fb.innerHTML = `Errou! Tente de novo. <button class="text-xs opacity-70 underline ml-2" onclick="renderScramble()">reset</button>`;
                     fb.className = "p-4 rounded-xl bg-red-100 text-red-800 block mb-4";
                 }
             }
@@ -990,12 +1359,25 @@
         window.playDictation = async function(text) {
              const btn = document.getElementById('dict-play');
              btn.classList.add('animate-pulse');
-             const audio = await fetchTTSAudio(text);
-             if (audio) { 
-                 await audio.play(); 
-                 btn.classList.remove('animate-pulse'); 
+             
+             if (isSpellingMode) {
+                 // Soletrar a palavra letra por letra
+                 const letters = text.split('');
+                 for (let i = 0; i < letters.length; i++) {
+                     await speakText(letters[i].toLowerCase());
+                     if (i < letters.length - 1) {
+                         await new Promise(resolve => setTimeout(resolve, 400));
+                     }
+                 }
+                 btn.classList.remove('animate-pulse');
              } else {
-                 btn.classList.remove('animate-pulse'); 
+                 const audio = await fetchTTSAudio(text);
+                 if (audio) { 
+                     await audio.play(); 
+                     btn.classList.remove('animate-pulse'); 
+                 } else {
+                     btn.classList.remove('animate-pulse'); 
+                 }
              }
         }
 
@@ -1044,7 +1426,7 @@
                 currentStreak++;
             } else {
                 input.classList.add('wrong');
-                fb.innerHTML = `Incorreto! Tente outra. <button class="underline ml-2" onclick="renderDictation()">Próxima</button>`;
+                fb.innerHTML = `Incorreto! Tente outra. <button class="text-xs opacity-70 underline ml-2" onclick="currentIdx++; renderDictation()">próxima</button>`;
                 fb.className = "p-3 rounded-lg font-bold text-lg mt-2 bg-red-100 text-red-700 block";
                 currentStreak = 0; 
                 // Don't show next button - streak must restart
