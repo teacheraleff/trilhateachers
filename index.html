@@ -15,7 +15,7 @@
         :root { --primary: #8671d1; --secondary: #F1D24B; }
         body { font-family: 'DM Sans', sans-serif; background-color: #f4f7f9; min-height: 100vh; margin: 0; scroll-behavior: smooth; }
         #main-wrapper { width: 100%; margin: 0 auto; padding: 0; position: relative; }
-        #dashboard-view, #generator-view, #study-view { padding: 0 1.5rem; max-width: 1200px; margin: 0 auto; }
+        #dashboard-view, #generator-view, #study-view { padding: 0 1.5rem; max-width: 1200px; margin: 0 auto; padding-top: 1.5rem; }
         .bg-primary\/10 { background-color: rgba(134, 113, 209, 0.1); }
         .text-primary { color: #8671d1; }
 
@@ -274,186 +274,150 @@
     </div>
 
     <!-- JOURNEY MAP SCREEN -->
-    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%); display: flex; align-items: flex-start; justify-content: center; z-index: 10000; overflow-y: auto;">
-        <div style="padding: 2rem 1.5rem; width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%;">
-            <div style="max-width: 360px; width: 100%;">
-                <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 90px; margin: 0 auto 0.75rem;">
-                    <p style="font-size: 0.85rem; color: #78716c; font-weight: 500;">Olá, <strong id="journey-user-name" style="color: #44403c;"></strong></p>
-                    <div style="font-size: 0.6rem; font-weight: 700; color: #8671d1; text-transform: uppercase; letter-spacing: 2px; margin-top: 0.5rem;">Sua Trilha</div>
-                    <h2 style="font-size: 1.4rem; font-weight: 900; color: #1c1917; margin-top: 0.15rem;" data-testid="text-journey-title">Jornada SLAP</h2>
-                    <p style="font-size: 0.7rem; color: #a8a29e; margin-top: 0.25rem;">Selecione seu nível para começar</p>
-                </div>
-
-                <div class="jmap-trail">
-                    <div class="jmap-line"></div>
-
-                    <div class="jmap-node jmap-left jmap-current" onclick="enterLevel('starter1')" data-testid="button-level-starter1">
-                        <div class="jmap-circle jmap-circle-active pulse-glow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-right-align">
-                            <span class="jmap-name">Starter 1</span>
-                            <span class="jmap-sublevel">Iniciante</span>
-                            <span class="jmap-badge-active">Selecionar</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-starter2">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-left-align">
-                            <span class="jmap-name">Starter 2</span>
-                            <span class="jmap-sublevel">Básico</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-left jmap-locked" data-testid="button-level-freshman1">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-right-align">
-                            <span class="jmap-name">Freshman 1</span>
-                            <span class="jmap-sublevel">Pré-intermediário</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-freshman2">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-left-align">
-                            <span class="jmap-name">Freshman 2</span>
-                            <span class="jmap-sublevel">Pré-intermediário</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-left jmap-locked" data-testid="button-level-sophomore1">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-right-align">
-                            <span class="jmap-name">Sophomore 1</span>
-                            <span class="jmap-sublevel">Intermediário</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-sophomore2">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-left-align">
-                            <span class="jmap-name">Sophomore 2</span>
-                            <span class="jmap-sublevel">Intermediário</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-left jmap-locked" data-testid="button-level-senior1">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-right-align">
-                            <span class="jmap-name">Senior 1</span>
-                            <span class="jmap-sublevel">Avançado</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-senior2">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <div class="jmap-label jmap-label-left-align">
-                            <span class="jmap-name">Senior 2</span>
-                            <span class="jmap-sublevel">Avançado</span>
-                        </div>
-                    </div>
-
-                    <div class="jmap-node jmap-center jmap-locked" data-testid="button-level-acc">
-                        <div class="jmap-circle jmap-circle-trophy">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                        </div>
-                        <div class="jmap-label" style="align-items: center; margin-top: 0.25rem;">
-                            <span class="jmap-name">ACC</span>
-                            <span class="jmap-sublevel">Conversação Avançada</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="secondary-button w-full" style="font-size: 0.75rem; margin-top: 1.25rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
+    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; overflow: hidden;">
+        <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem;">
+            <div style="text-align: center; margin-bottom: 0.75rem;">
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 70px; margin: 0 auto 0.4rem;">
+                <p style="font-size: 0.75rem; color: #78716c; font-weight: 500;">Olá, <strong id="journey-user-name" style="color: #44403c;"></strong></p>
+                <h2 style="font-size: 1.1rem; font-weight: 900; color: #1c1917; margin-top: 0.1rem;" data-testid="text-journey-title">Jornada SLAP</h2>
+                <p style="font-size: 0.65rem; color: #a8a29e; margin-top: 0.15rem;">Selecione seu nível para começar</p>
             </div>
+
+            <div class="jmap-snake">
+                <svg class="jmap-snake-line" viewBox="0 0 800 340" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 80 55 H 720 V 170 H 80 V 285 H 720" stroke="#c4b5fd" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+                </svg>
+
+                <div class="jmap-row">
+                    <div class="jmap-snode jmap-current" onclick="enterLevel('starter1')" data-testid="button-level-starter1">
+                        <div class="jmap-circle jmap-circle-active pulse-glow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                        <span class="jmap-name">Starter 1</span>
+                        <span class="jmap-sublevel">Iniciante</span>
+                        <span class="jmap-badge-active">Selecionar</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-starter2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Starter 2</span>
+                        <span class="jmap-sublevel">Básico</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-freshman1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Freshman 1</span>
+                        <span class="jmap-sublevel">Pré-intermediário</span>
+                    </div>
+                </div>
+
+                <div class="jmap-row jmap-row-reverse">
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-sophomore1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Sophomore 1</span>
+                        <span class="jmap-sublevel">Intermediário</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-freshman2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Freshman 2</span>
+                        <span class="jmap-sublevel">Pré-intermediário</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-sophomore2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Sophomore 2</span>
+                        <span class="jmap-sublevel">Intermediário</span>
+                    </div>
+                </div>
+
+                <div class="jmap-row">
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-senior1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Senior 1</span>
+                        <span class="jmap-sublevel">Avançado</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-senior2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Senior 2</span>
+                        <span class="jmap-sublevel">Avançado</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-acc">
+                        <div class="jmap-circle jmap-circle-trophy">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        </div>
+                        <span class="jmap-name">ACC</span>
+                        <span class="jmap-sublevel">Conversação Avançada</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="secondary-button" style="font-size: 0.7rem; margin-top: 0.75rem; padding: 0.5rem 2rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
         </div>
     </div>
     <style>
-        .jmap-trail {
+        .jmap-snake {
             position: relative;
-            padding: 1rem 0 0.5rem;
-        }
-        .jmap-line {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            transform: translateX(-50%);
-            background: repeating-linear-gradient(to bottom, #c4b5fd 0px, #c4b5fd 6px, transparent 6px, transparent 12px);
-            z-index: 0;
-        }
-        .jmap-node {
-            position: relative;
+            width: 100%;
+            max-width: 600px;
             display: flex;
-            align-items: center;
-            gap: 0.65rem;
-            padding: 0.25rem 0;
-            z-index: 1;
+            flex-direction: column;
+            gap: 0.5rem;
         }
-        .jmap-node.jmap-current {
+        .jmap-snake-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .jmap-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            padding: 0.5rem 0;
+        }
+        .jmap-row-reverse {
+            flex-direction: row-reverse;
+        }
+        .jmap-snode {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.2rem;
+            flex: 1;
+            min-width: 0;
+        }
+        .jmap-snode.jmap-current {
             cursor: pointer;
         }
-        .jmap-node.jmap-left {
-            margin-right: 50%;
-            flex-direction: row-reverse;
-            padding-right: 0;
-        }
-        .jmap-label-right-align {
-            text-align: right;
-            align-items: flex-end;
-            flex: 1;
-        }
-        .jmap-node.jmap-left .jmap-circle {
-            margin-right: -22px;
-        }
-        .jmap-node.jmap-right {
-            margin-left: 50%;
-            padding-left: 0;
-        }
-        .jmap-label-left-align {
-            text-align: left;
-            align-items: flex-start;
-            flex: 1;
-        }
-        .jmap-node.jmap-right .jmap-circle {
-            margin-left: -22px;
-        }
-        .jmap-node.jmap-center {
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            padding-top: 0.5rem;
+        .jmap-snode.jmap-current:hover .jmap-circle {
+            transform: scale(1.1);
         }
         .jmap-circle {
-            width: 46px;
-            height: 46px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            position: relative;
             transition: transform 0.2s;
-        }
-        .jmap-node.jmap-current:hover .jmap-circle {
-            transform: scale(1.08);
         }
         .jmap-circle-active {
             background: linear-gradient(135deg, #8671d1, #a78bfa);
@@ -470,39 +434,40 @@
             color: white;
             border: 2px solid #F1D24B;
         }
-        .jmap-label {
-            display: flex;
-            flex-direction: column;
-        }
         .jmap-name {
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: #44403c;
             line-height: 1.2;
             font-family: 'DM Sans', sans-serif;
         }
-        .jmap-node.jmap-locked .jmap-name {
+        .jmap-snode.jmap-locked .jmap-name {
             color: #a8a29e;
         }
         .jmap-sublevel {
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             color: #78716c;
             font-weight: 500;
         }
-        .jmap-node.jmap-locked .jmap-sublevel {
+        .jmap-snode.jmap-locked .jmap-sublevel {
             color: #c7c5c2;
         }
         .jmap-badge-active {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             font-weight: 800;
             color: white;
             background: linear-gradient(135deg, #8671d1, #a78bfa);
-            padding: 0.1rem 0.5rem;
+            padding: 0.1rem 0.45rem;
             border-radius: 1rem;
-            margin-top: 0.2rem;
+            margin-top: 0.1rem;
             display: inline-block;
-            width: fit-content;
             letter-spacing: 0.3px;
+        }
+        @media (max-width: 480px) {
+            .jmap-circle { width: 36px; height: 36px; }
+            .jmap-name { font-size: 0.65rem; }
+            .jmap-sublevel { font-size: 0.5rem; }
+            .jmap-snake { max-width: 340px; }
         }
     </style>
 
@@ -2200,6 +2165,23 @@
                 {q: "Escolha a resposta correta: — Is he a doctor?", options: [{text:"Yes, he are", isCorrect:false}, {text:"Yes, he is", isCorrect:true}, {text:"Yes, he am", isCorrect:false}, {text:"Yes, he do", isCorrect:false}], rationale: "He + is."},
                 {q: "Complete: 'You ____ very smart.'", options: [{text:"is", isCorrect:false}, {text:"am", isCorrect:false}, {text:"are", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "You + are."},
                 {q: "Escolha a negativa correta: 'They ____ at school today.'", options: [{text:"isn't", isCorrect:false}, {text:"aren't", isCorrect:true}, {text:"am not", isCorrect:false}, {text:"doesn't", isCorrect:false}], rationale: "They + aren't (are not)."}
+            ],
+            12: [ // AULA 11: COUNTRIES AND NATIONALITIES (15 perguntas)
+                {q: "Complete a pergunta: 'Where ____ you from?'", options: [{text:"is", isCorrect:false}, {text:"do", isCorrect:false}, {text:"are", isCorrect:true}, {text:"does", isCorrect:false}], rationale: "'Where are you from?' é a forma correta para perguntar de onde alguém é."},
+                {q: "Escolha a resposta correta: — Where are you from?", options: [{text:"I from Brazil", isCorrect:false}, {text:"I am from Brazil", isCorrect:true}, {text:"I is from Brazil", isCorrect:false}, {text:"Me from Brazil", isCorrect:false}], rationale: "'I am from Brazil' usa o verb to be corretamente."},
+                {q: "Complete: 'She is from Japan. She is ____.'", options: [{text:"Japanish", isCorrect:false}, {text:"Japanian", isCorrect:false}, {text:"Japanese", isCorrect:true}, {text:"Japanes", isCorrect:false}], rationale: "A nacionalidade do Japão é Japanese."},
+                {q: "Qual é a nacionalidade de quem é da França?", options: [{text:"Franch", isCorrect:false}, {text:"French", isCorrect:true}, {text:"Francian", isCorrect:false}, {text:"Frenchy", isCorrect:false}], rationale: "France = French."},
+                {q: "Complete: 'He is from Italy. He is ____.'", options: [{text:"Italish", isCorrect:false}, {text:"Italiano", isCorrect:false}, {text:"Italian", isCorrect:true}, {text:"Italyan", isCorrect:false}], rationale: "Italy = Italian."},
+                {q: "Complete a frase: 'I live ____ Brazil.'", options: [{text:"on", isCorrect:false}, {text:"at", isCorrect:false}, {text:"in", isCorrect:true}, {text:"to", isCorrect:false}], rationale: "Usamos 'in' com países e cidades: I live in Brazil."},
+                {q: "Escolha a frase correta:", options: [{text:"She live in Spain", isCorrect:false}, {text:"She lives in Spain", isCorrect:true}, {text:"She living in Spain", isCorrect:false}, {text:"She is live in Spain", isCorrect:false}], rationale: "'She lives' usa o verbo no presente simples com 's' para terceira pessoa."},
+                {q: "Complete: 'They are from Germany. They are ____.'", options: [{text:"Germanish", isCorrect:false}, {text:"Germanic", isCorrect:false}, {text:"Germanian", isCorrect:false}, {text:"German", isCorrect:true}], rationale: "Germany = German."},
+                {q: "Qual é a nacionalidade de quem é dos Estados Unidos?", options: [{text:"United Statian", isCorrect:false}, {text:"American", isCorrect:true}, {text:"Statish", isCorrect:false}, {text:"US", isCorrect:false}], rationale: "Quem é dos Estados Unidos (USA) é American."},
+                {q: "Complete: 'We ____ Brazilian. We live in Brazil.'", options: [{text:"is", isCorrect:false}, {text:"am", isCorrect:false}, {text:"are", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "We + are."},
+                {q: "Escolha a resposta correta: — Where does she live?", options: [{text:"She live in Portugal", isCorrect:false}, {text:"She lives in Portugal", isCorrect:true}, {text:"She living Portugal", isCorrect:false}, {text:"She is live Portugal", isCorrect:false}], rationale: "'She lives in Portugal' é a forma correta no presente simples."},
+                {q: "Complete: 'He is from England. He is ____.'", options: [{text:"English", isCorrect:false}, {text:"Englandian", isCorrect:false}, {text:"British", isCorrect:true}, {text:"Englander", isCorrect:false}], rationale: "Quem é da Inglaterra (England) é British."},
+                {q: "Escolha a pergunta correta para saber onde alguém mora:", options: [{text:"Where you live?", isCorrect:false}, {text:"Where do you live?", isCorrect:true}, {text:"Where are you live?", isCorrect:false}, {text:"Where is you live?", isCorrect:false}], rationale: "'Where do you live?' é a pergunta correta com o auxiliar 'do'."},
+                {q: "Complete: 'I am ____. I am from China.'", options: [{text:"Chinish", isCorrect:false}, {text:"Chinian", isCorrect:false}, {text:"Chinese", isCorrect:true}, {text:"Chines", isCorrect:false}], rationale: "China = Chinese."},
+                {q: "Escolha a frase correta sobre nacionalidade:", options: [{text:"He is Spanish. He is from Spain.", isCorrect:true}, {text:"He is Spain. He is from Spanish.", isCorrect:false}, {text:"He is Spainish. He is from Spain.", isCorrect:false}, {text:"He is Spanich. He is from Spain.", isCorrect:false}], rationale: "Spain = Spanish. O país é Spain e a nacionalidade é Spanish."}
             ]
         };
 
