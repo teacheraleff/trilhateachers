@@ -80,10 +80,10 @@
         @media (max-width: 640px) {
             .chunks-grid { grid-template-columns: 1fr; }
             .chunks-header:last-of-type { display: none; }
-            .chunks-header:first-of-type::after { content: " / Traduções"; }
+            .chunks-header:first-of-type::after { content: " / English"; }
             .chunks-cell { padding: 0.875rem; font-size: 0.95rem; }
-            .chunks-cell-en { border-bottom: none; border-right: none; padding-bottom: 0.5rem; }
-            .chunks-cell-pt { border-bottom: 2px solid #e2e8f0; padding-top: 0.5rem; }
+            .chunks-cell-pt { border-bottom: none; border-right: none; padding-bottom: 0.5rem; }
+            .chunks-cell-en { border-bottom: 2px solid #e2e8f0; padding-top: 0.5rem; }
         }
 
         /* WORD SEARCH */
@@ -274,91 +274,237 @@
     </div>
 
     <!-- JOURNEY MAP SCREEN -->
-    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f4f7f9 0%, #ede9fe 50%, #fef9c3 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; overflow-y: auto;">
-        <div style="padding: 1.5rem; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100%;">
-            <div style="max-width: 420px; width: 100%;">
+    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%); display: flex; align-items: flex-start; justify-content: center; z-index: 10000; overflow-y: auto;">
+        <div style="padding: 2rem 1.5rem; width: 100%; display: flex; flex-direction: column; align-items: center; min-height: 100%;">
+            <div style="max-width: 360px; width: 100%;">
                 <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 100px; margin: 0 auto 0.75rem;">
+                    <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 90px; margin: 0 auto 0.75rem;">
                     <p style="font-size: 0.85rem; color: #78716c; font-weight: 500;">Olá, <strong id="journey-user-name" style="color: #44403c;"></strong></p>
-                    <h2 style="font-size: 1.5rem; font-weight: 900; color: #1c1917; margin-top: 0.2rem;" data-testid="text-journey-title">Sua Jornada</h2>
-                    <p style="font-size: 0.7rem; color: #a8a29e; margin-top: 0.25rem;">Selecione seu nível para começar a estudar</p>
+                    <div style="font-size: 0.6rem; font-weight: 700; color: #8671d1; text-transform: uppercase; letter-spacing: 2px; margin-top: 0.5rem;">Sua Trilha</div>
+                    <h2 style="font-size: 1.4rem; font-weight: 900; color: #1c1917; margin-top: 0.15rem;" data-testid="text-journey-title">Jornada SLAP</h2>
+                    <p style="font-size: 0.7rem; color: #a8a29e; margin-top: 0.25rem;">Selecione seu nível para começar</p>
                 </div>
 
-                <div style="background: white; border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; cursor: pointer; border: 2px solid #8671d1; background: #f5f3ff;" onclick="enterLevel('starter1')" data-testid="button-level-starter1">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #8671d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">1</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #1c1917;">Starter 1</span>
-                                <span style="font-size: 0.6rem; color: #78716c;">Iniciante</span>
-                                <span style="font-size: 0.5rem; font-weight: 700; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.05rem 0.35rem; border-radius: 1rem; width: fit-content; margin-top: 0.15rem;">Disponível</span>
-                            </div>
+                <div class="jmap-trail">
+                    <div class="jmap-line"></div>
+
+                    <div class="jmap-node jmap-left jmap-current" onclick="enterLevel('starter1')" data-testid="button-level-starter1">
+                        <div class="jmap-circle jmap-circle-active pulse-glow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">2</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Starter 2</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Básico</span>
-                            </div>
+                        <div class="jmap-label jmap-label-right-align">
+                            <span class="jmap-name">Starter 1</span>
+                            <span class="jmap-sublevel">Iniciante</span>
+                            <span class="jmap-badge-active">Selecionar</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">3</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Freshman 1</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Pré-intermediário</span>
-                            </div>
+                    </div>
+
+                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-starter2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">4</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Freshman 2</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Pré-intermediário</span>
-                            </div>
+                        <div class="jmap-label jmap-label-left-align">
+                            <span class="jmap-name">Starter 2</span>
+                            <span class="jmap-sublevel">Básico</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">5</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Sophomore 1</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Intermediário</span>
-                            </div>
+                    </div>
+
+                    <div class="jmap-node jmap-left jmap-locked" data-testid="button-level-freshman1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">6</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Sophomore 2</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Intermediário</span>
-                            </div>
+                        <div class="jmap-label jmap-label-right-align">
+                            <span class="jmap-name">Freshman 1</span>
+                            <span class="jmap-sublevel">Pré-intermediário</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">7</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Senior 1</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Avançado</span>
-                            </div>
+                    </div>
+
+                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-freshman2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #d6d3d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;">8</div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">Senior 2</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Avançado</span>
-                            </div>
+                        <div class="jmap-label jmap-label-left-align">
+                            <span class="jmap-name">Freshman 2</span>
+                            <span class="jmap-sublevel">Pré-intermediário</span>
                         </div>
-                        <div style="grid-column: span 2; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.65rem 0.75rem; border-radius: 0.75rem; border: 2px solid #e7e5e4; opacity: 0.55; max-width: 220px; margin: 0 auto; width: 100%;">
-                            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #F1D24B, #f59e0b); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                            </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <span style="font-weight: 800; font-size: 0.8rem; color: #a8a29e;">ACC</span>
-                                <span style="font-size: 0.6rem; color: #d6d3d1;">Conversação</span>
-                            </div>
+                    </div>
+
+                    <div class="jmap-node jmap-left jmap-locked" data-testid="button-level-sophomore1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <div class="jmap-label jmap-label-right-align">
+                            <span class="jmap-name">Sophomore 1</span>
+                            <span class="jmap-sublevel">Intermediário</span>
+                        </div>
+                    </div>
+
+                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-sophomore2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <div class="jmap-label jmap-label-left-align">
+                            <span class="jmap-name">Sophomore 2</span>
+                            <span class="jmap-sublevel">Intermediário</span>
+                        </div>
+                    </div>
+
+                    <div class="jmap-node jmap-left jmap-locked" data-testid="button-level-senior1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <div class="jmap-label jmap-label-right-align">
+                            <span class="jmap-name">Senior 1</span>
+                            <span class="jmap-sublevel">Avançado</span>
+                        </div>
+                    </div>
+
+                    <div class="jmap-node jmap-right jmap-locked" data-testid="button-level-senior2">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <div class="jmap-label jmap-label-left-align">
+                            <span class="jmap-name">Senior 2</span>
+                            <span class="jmap-sublevel">Avançado</span>
+                        </div>
+                    </div>
+
+                    <div class="jmap-node jmap-center jmap-locked" data-testid="button-level-acc">
+                        <div class="jmap-circle jmap-circle-trophy">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        </div>
+                        <div class="jmap-label" style="align-items: center; margin-top: 0.25rem;">
+                            <span class="jmap-name">ACC</span>
+                            <span class="jmap-sublevel">Conversação Avançada</span>
                         </div>
                     </div>
                 </div>
 
-                <button class="secondary-button w-full" style="font-size: 0.75rem; margin-top: 1rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
+                <button class="secondary-button w-full" style="font-size: 0.75rem; margin-top: 1.25rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
             </div>
         </div>
     </div>
+    <style>
+        .jmap-trail {
+            position: relative;
+            padding: 1rem 0 0.5rem;
+        }
+        .jmap-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            transform: translateX(-50%);
+            background: repeating-linear-gradient(to bottom, #c4b5fd 0px, #c4b5fd 6px, transparent 6px, transparent 12px);
+            z-index: 0;
+        }
+        .jmap-node {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.25rem 0;
+            z-index: 1;
+        }
+        .jmap-node.jmap-current {
+            cursor: pointer;
+        }
+        .jmap-node.jmap-left {
+            margin-right: 50%;
+            flex-direction: row-reverse;
+            padding-right: 0;
+        }
+        .jmap-label-right-align {
+            text-align: right;
+            align-items: flex-end;
+            flex: 1;
+        }
+        .jmap-node.jmap-left .jmap-circle {
+            margin-right: -22px;
+        }
+        .jmap-node.jmap-right {
+            margin-left: 50%;
+            padding-left: 0;
+        }
+        .jmap-label-left-align {
+            text-align: left;
+            align-items: flex-start;
+            flex: 1;
+        }
+        .jmap-node.jmap-right .jmap-circle {
+            margin-left: -22px;
+        }
+        .jmap-node.jmap-center {
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding-top: 0.5rem;
+        }
+        .jmap-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .jmap-node.jmap-current:hover .jmap-circle {
+            transform: scale(1.08);
+        }
+        .jmap-circle-active {
+            background: linear-gradient(135deg, #8671d1, #a78bfa);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(134,113,209,0.2), 0 4px 15px rgba(134,113,209,0.4);
+        }
+        .jmap-circle-locked {
+            background: #ede9fe;
+            color: #a8a29e;
+            border: 2px dashed #d4d0ec;
+        }
+        .jmap-circle-trophy {
+            background: linear-gradient(135deg, #F1D24B, #f59e0b);
+            color: white;
+            border: 2px solid #F1D24B;
+        }
+        .jmap-label {
+            display: flex;
+            flex-direction: column;
+        }
+        .jmap-name {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #44403c;
+            line-height: 1.2;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .jmap-node.jmap-locked .jmap-name {
+            color: #a8a29e;
+        }
+        .jmap-sublevel {
+            font-size: 0.65rem;
+            color: #78716c;
+            font-weight: 500;
+        }
+        .jmap-node.jmap-locked .jmap-sublevel {
+            color: #c7c5c2;
+        }
+        .jmap-badge-active {
+            font-size: 0.55rem;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, #8671d1, #a78bfa);
+            padding: 0.1rem 0.5rem;
+            border-radius: 1rem;
+            margin-top: 0.2rem;
+            display: inline-block;
+            width: fit-content;
+            letter-spacing: 0.3px;
+        }
+    </style>
 
     <!-- GRADES MODAL -->
     <div id="grades-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20000; align-items: center; justify-content: center; padding: 1rem;">
@@ -528,6 +674,16 @@
         <nav class="app-sidebar" id="app-sidebar" data-testid="nav-sidebar">
             <div style="padding: 1.25rem 1rem 0.75rem; text-align: center;">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 80px; margin: 0 auto 0.75rem;">
+                <div style="position: relative; width: 64px; height: 64px; margin: 0 auto 0.5rem; cursor: pointer;" onclick="document.getElementById('avatar-upload-input').click()" data-testid="button-avatar-upload">
+                    <div id="sidebar-avatar" style="width: 64px; height: 64px; border-radius: 50%; background: #ede9fe; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 3px solid #8671d1;">
+                        <svg id="sidebar-avatar-placeholder" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <img id="sidebar-avatar-img" src="" alt="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    </div>
+                    <div style="position: absolute; bottom: -2px; right: -2px; width: 22px; height: 22px; background: #8671d1; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                    <input type="file" id="avatar-upload-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)" data-testid="input-avatar-file">
+                </div>
                 <p style="font-size: 0.75rem; color: #a8a29e; font-weight: 500;">Bem-vindo,</p>
                 <p style="font-size: 0.95rem; font-weight: 800; color: #1c1917;" id="sidebar-user-name" data-testid="text-sidebar-username"></p>
             </div>
@@ -561,8 +717,8 @@
                 </a>
             </div>
 
-            <div style="padding: 0.75rem 1rem; border-top: 1px solid #e7e5e4;">
-                <button onclick="handleLogout()" class="sidebar-item" style="color: #ef4444;" data-testid="button-sidebar-logout">
+            <div style="padding: 0.75rem 1rem; border-top: 1px solid #e7e5e4; display: flex; justify-content: center;">
+                <button onclick="handleLogout()" class="sidebar-item" style="color: #ef4444; justify-content: center;" data-testid="button-sidebar-logout">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                     Sair da Conta
                 </button>
@@ -592,7 +748,7 @@
 
         <!-- MAIN CONTENT AREA -->
         <div class="app-content">
-            <header class="py-8 mb-10 text-center relative" style="background: #F1D24B;">
+            <header id="main-header" class="py-8 mb-10 text-center relative" style="background: #F1D24B;">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
                 <h1 class="text-3xl font-bold text-stone-800 tracking-tight mb-3">Portal do Aluno - Starter 1</h1>
                 <p class="text-stone-700 font-medium px-4 leading-relaxed max-w-2xl mx-auto mb-4">Material didático exclusivo focado em reforçar a acurácia estrutural e a confiança na comunicação.</p>
@@ -697,7 +853,7 @@
                         <span class="font-bold text-stone-800">HOMEWORK</span>
                         <svg class="accordion-arrow w-5 h-5 text-stone-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
-                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Quiz de múltipla escolha! Responda 10 perguntas sobre o conteúdo da aula. Complete 5 acertos seguidos (streak) para finalizar com sucesso.</div>
+                    <div class="accordion-content hidden p-3 bg-white text-stone-600 text-sm border-t border-yellow-200">Quiz de múltipla escolha! Responda perguntas sobre o conteúdo da aula. Complete 10 acertos seguidos (streak) para finalizar com sucesso.</div>
                 </div>
                 <div class="accordion-item rounded-lg border border-yellow-300 overflow-hidden">
                     <button class="accordion-header w-full p-3 bg-yellow-50 flex items-center justify-between cursor-pointer hover:bg-yellow-100 transition-all" onclick="this.parentElement.classList.toggle('open')">
@@ -1066,6 +1222,66 @@
             }
         }
 
+        async function handleAvatarUpload(event) {
+            var file = event.target.files[0];
+            if (!file || !currentUser || !firebaseDb) return;
+            if (!file.type.startsWith('image/')) return;
+            if (file.size > 500 * 1024) {
+                alert('A imagem deve ter no máximo 500KB. Tente uma foto menor.');
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = async function(e) {
+                var canvas = document.createElement('canvas');
+                var img = new Image();
+                img.onload = async function() {
+                    var size = 200;
+                    canvas.width = size;
+                    canvas.height = size;
+                    var ctx = canvas.getContext('2d');
+                    var sx = 0, sy = 0, sw = img.width, sh = img.height;
+                    if (sw > sh) { sx = (sw - sh) / 2; sw = sh; }
+                    else { sy = (sh - sw) / 2; sh = sw; }
+                    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size);
+                    var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    try {
+                        await firebaseDb.collection('users').doc(currentUser.uid).update({ profilePhoto: dataUrl });
+                        setAvatarImage(dataUrl);
+                    } catch(err) {
+                        console.error('Erro ao salvar foto:', err);
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        function setAvatarImage(url) {
+            var imgEl = document.getElementById('sidebar-avatar-img');
+            var placeholder = document.getElementById('sidebar-avatar-placeholder');
+            if (url) {
+                imgEl.src = url;
+                imgEl.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                imgEl.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+        }
+
+        async function loadUserAvatar() {
+            if (!firebaseDb || !currentUser) return;
+            try {
+                var doc = await firebaseDb.collection('users').doc(currentUser.uid).get();
+                if (doc.exists && doc.data().profilePhoto) {
+                    setAvatarImage(doc.data().profilePhoto);
+                }
+            } catch(e) {
+                console.warn('Erro ao carregar foto:', e);
+            }
+        }
+
         async function openGradesModal() {
             var modal = document.getElementById('grades-modal');
             modal.style.display = 'flex';
@@ -1081,19 +1297,22 @@
                     var g = doc.exists ? doc.data() : {};
                     var fields = ['midterm', 'listening', 'grammar', 'oral', 'attendance', 'participation'];
                     var maxVals = { midterm: 20, listening: 20, grammar: 20, oral: 20, attendance: 10, participation: 10 };
-                    document.querySelector('[data-testid="text-grade-midterm"]').textContent = (g.midterm !== undefined ? g.midterm : '--') + ' / 20';
-                    document.querySelector('[data-testid="text-grade-listening"]').textContent = (g.listening !== undefined ? g.listening : '--') + ' / 20';
-                    document.querySelector('[data-testid="text-grade-grammar"]').textContent = (g.grammar !== undefined ? g.grammar : '--') + ' / 20';
-                    document.querySelector('[data-testid="text-grade-oral"]').textContent = (g.oral !== undefined ? g.oral : '--') + ' / 20';
-                    document.querySelector('[data-testid="text-grade-attendance"]').textContent = (g.attendance !== undefined ? g.attendance : '--') + ' / 10';
-                    document.querySelector('[data-testid="text-grade-participation"]').textContent = (g.participation !== undefined ? g.participation : '--') + ' / 10';
+                    function gradeDisplay(val, max) {
+                        return (val !== undefined && val !== null && val !== '' ? val : '--') + ' / ' + max;
+                    }
+                    document.querySelector('[data-testid="text-grade-midterm"]').textContent = gradeDisplay(g.midterm, 20);
+                    document.querySelector('[data-testid="text-grade-listening"]').textContent = gradeDisplay(g.listening, 20);
+                    document.querySelector('[data-testid="text-grade-grammar"]').textContent = gradeDisplay(g.grammar, 20);
+                    document.querySelector('[data-testid="text-grade-oral"]').textContent = gradeDisplay(g.oral, 20);
+                    document.querySelector('[data-testid="text-grade-attendance"]').textContent = gradeDisplay(g.attendance, 10);
+                    document.querySelector('[data-testid="text-grade-participation"]').textContent = gradeDisplay(g.participation, 10);
                     var allFilled = true;
                     var total = 0;
                     fields.forEach(function(f) {
                         if (g[f] === undefined || g[f] === null || g[f] === '') {
                             allFilled = false;
                         } else {
-                            total += parseFloat(g[f]) || 0;
+                            total += parseFloat(g[f]);
                         }
                     });
                     if (allFilled) {
@@ -1155,8 +1374,11 @@
             }
         }
 
-        function searchStudents() {
+        async function searchStudents() {
             var query = document.getElementById('teacher-search-input').value.toLowerCase().trim();
+            if (allStudentsCache.length === 0) {
+                await loadAllStudents();
+            }
             if (!query) {
                 renderStudentsList(allStudentsCache);
                 return;
@@ -1274,13 +1496,19 @@
             fb.textContent = 'Salvando...';
             fb.style.color = '#78716c';
             try {
+                function parseGradeVal(id) {
+                    var v = document.getElementById(id).value.trim();
+                    if (v === '') return null;
+                    var n = parseFloat(v);
+                    return isNaN(n) ? null : n;
+                }
                 var grades = {
-                    midterm: parseFloat(document.getElementById('grade-midterm').value) || 0,
-                    listening: parseFloat(document.getElementById('grade-listening').value) || 0,
-                    grammar: parseFloat(document.getElementById('grade-grammar').value) || 0,
-                    oral: parseFloat(document.getElementById('grade-oral').value) || 0,
-                    attendance: parseFloat(document.getElementById('grade-attendance').value) || 0,
-                    participation: parseFloat(document.getElementById('grade-participation').value) || 0,
+                    midterm: parseGradeVal('grade-midterm'),
+                    listening: parseGradeVal('grade-listening'),
+                    grammar: parseGradeVal('grade-grammar'),
+                    oral: parseGradeVal('grade-oral'),
+                    attendance: parseGradeVal('grade-attendance'),
+                    participation: parseGradeVal('grade-participation'),
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 await firebaseDb.collection('users').doc(selectedStudentUid).collection('grades').doc('current').set(grades);
@@ -1446,6 +1674,7 @@
                 document.getElementById('sidebar-user-name').textContent = firstName;
                 renderDashboard();
                 loadStudentLinks();
+                loadUserAvatar();
             }
         }
 
@@ -1531,7 +1760,7 @@
 
         let currentStreak = 0;
         let quizStreak = 0;
-        const STREAK_GOAL = 5;
+        const STREAK_GOAL = 10;
         const WORDSEARCH_STREAK_GOAL = 2;
         let currentAulaId = 0;
         let currentStudyMode = '';
@@ -1572,13 +1801,13 @@
         const helpTexts = {
             flashcards: { title: "Como estudar com os Flashcards", text: "Toque no cartão para virar e ver a tradução em inglês. Use as setas para navegar entre os cartões. Clique no ícone de som para ouvir a pronúncia." },
             listening: { title: "Como estudar com o Listening", text: "Toque em cada item para ouvir como se pronuncia em inglês. Pratique repetindo em voz alta!" },
-            chunks: { title: "Como estudar com os Chunks", text: "Digite a tradução em português de cada chunk e clique OK. Se acertar, fica verde. Se errar, fica vermelho - tente de novo!" },
+            chunks: { title: "Como estudar com os Chunks", text: "Leia a frase em português e digite a tradução em inglês. Se acertar, fica verde e o áudio fica disponível! Complete todos os chunks para finalizar a missão." },
             dictation: { title: "Como estudar com o Ditado", text: "Ouça o áudio e escreva exatamente o que ouviu. Pode ser o número ou a palavra por extenso. Acerte 5 seguidas para completar!" },
             scramble: { title: "Como estudar com o Scramble", text: "As palavras estão embaralhadas. Toque nelas na ordem correta para formar a frase. Acerte 5 seguidas para completar!" },
             mistake: { title: "Como estudar com o Mistake", text: "Uma das palavras está errada. Encontre e clique nela! Acerte 5 seguidas para completar!" },
             hangman: { title: "Como estudar com a Forca", text: "Adivinhe a palavra letra por letra. Cada erro desenha uma parte do boneco. Se completar o desenho, você perde!" },
             wordsearch: { title: "Como estudar com o Caça-Palavras", text: "Encontre as palavras escondidas no grid. Elas podem estar na horizontal, vertical ou diagonal. Você tem 2 minutos!" },
-            homework: { title: "Como estudar com o Homework", text: "Responda as questões corretamente. Leia a explicação quando acertar. Acerte 5 seguidas para completar a missão!" }
+            homework: { title: "Como estudar com o Homework", text: "Responda as questões corretamente. Leia a explicação quando acertar. Acerte 10 seguidas para completar a missão!" }
         };
 
         function showHelpModal() {
@@ -1800,9 +2029,9 @@
             28: { dictation: ["08:00", "12:30", "03:15", "06:45", "09:00", "10:30", "02:00", "07:15", "11:45", "04:30"] }
         };
 
-        // --- REAL HOMEWORK QUESTIONS (10 PER MODULE) ---
+        // --- REAL HOMEWORK QUESTIONS (15 PER MODULE, 10 RANDOMLY SELECTED) ---
         const quizData = {
-            2: [ // AULA 01: FEELINGS + VERB TO BE
+            2: [ // AULA 01: FEELINGS + VERB TO BE (15 perguntas)
                 {q: "Complete a frase com a opção correta: After a long day, I am ____.", options: [{text:"happy", isCorrect:false}, {text:"tired", isCorrect:true}, {text:"excited", isCorrect:false}, {text:"relaxed", isCorrect:false}], rationale: "Após um longo dia, você fica cansado (tired)."},
                 {q: "Escolha a frase mais natural em inglês:", options: [{text:"I am feel sad", isCorrect:false}, {text:"I feel sad", isCorrect:true}, {text:"I feeling sad", isCorrect:false}, {text:"I am sad feel", isCorrect:false}], rationale: "'I feel sad' é a forma correta."},
                 {q: "Escolha o significado correto: 'She is angry.'", options: [{text:"Ela está cansada", isCorrect:false}, {text:"Ela está feliz", isCorrect:false}, {text:"Ela está brava", isCorrect:true}, {text:"Ela está animada", isCorrect:false}], rationale: "Angry = brava/irritada."},
@@ -1812,9 +2041,14 @@
                 {q: "Qual opção NÃO é um sentimento?", options: [{text:"nervous", isCorrect:false}, {text:"tired", isCorrect:false}, {text:"smile", isCorrect:true}, {text:"angry", isCorrect:false}], rationale: "Smile (sorriso) é uma ação, não um sentimento."},
                 {q: "Escolha a ordem mais natural das palavras:", options: [{text:"I am now angry", isCorrect:false}, {text:"I angry am now", isCorrect:false}, {text:"I now am angry", isCorrect:false}, {text:"I am angry now", isCorrect:true}], rationale: "A ordem padrão é Sujeito + Verbo + Adjetivo + Tempo."},
                 {q: "Depois de uma boa notícia, você normalmente se sente:", options: [{text:"tired", isCorrect:false}, {text:"happy", isCorrect:true}, {text:"angry", isCorrect:false}, {text:"scared", isCorrect:false}], rationale: "Boas notícias trazem felicidade (happy)."},
-                {q: "Depois de uma discussão ruim, você normalmente se sente:", options: [{text:"happy", isCorrect:false}, {text:"relaxed", isCorrect:false}, {text:"angry", isCorrect:true}, {text:"excited", isCorrect:false}], rationale: "Discussões ruins causam raiva (angry)."}
+                {q: "Depois de uma discussão ruim, você normalmente se sente:", options: [{text:"happy", isCorrect:false}, {text:"relaxed", isCorrect:false}, {text:"angry", isCorrect:true}, {text:"excited", isCorrect:false}], rationale: "Discussões ruins causam raiva (angry)."},
+                {q: "Escolha o significado correto: 'He is nervous.'", options: [{text:"Ele está feliz", isCorrect:false}, {text:"Ele está nervoso", isCorrect:true}, {text:"Ele está cansado", isCorrect:false}, {text:"Ele está triste", isCorrect:false}], rationale: "Nervous = nervoso."},
+                {q: "Complete: 'She ____ very excited about the trip.'", options: [{text:"are", isCorrect:false}, {text:"is", isCorrect:true}, {text:"am", isCorrect:false}, {text:"be", isCorrect:false}], rationale: "She + is."},
+                {q: "Qual é o oposto de scared?", options: [{text:"angry", isCorrect:false}, {text:"brave", isCorrect:true}, {text:"sad", isCorrect:false}, {text:"tired", isCorrect:false}], rationale: "Scared (com medo) x Brave (corajoso)."},
+                {q: "Complete: 'We ____ happy to be here.'", options: [{text:"is", isCorrect:false}, {text:"am", isCorrect:false}, {text:"are", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "We + are."},
+                {q: "Escolha o sentimento correto: Quando você ganha um presente, você fica ____.", options: [{text:"angry", isCorrect:false}, {text:"scared", isCorrect:false}, {text:"happy", isCorrect:true}, {text:"nervous", isCorrect:false}], rationale: "Ganhar presente nos deixa feliz (happy)."}
             ],
-            3: [ // AULA 02: NAMES & GREETINGS
+            3: [ // AULA 02: NAMES & GREETINGS (15 perguntas)
                 {q: "Você está saindo da aula. O que você diz?", options: [{text:"Hi!", isCorrect:false}, {text:"Good morning!", isCorrect:false}, {text:"Have a good night", isCorrect:true}, {text:"What's up?", isCorrect:false}], rationale: "Ao sair, desejamos boa noite."},
                 {q: "Complete a frase: '____ name is Daniela.'", options: [{text:"I", isCorrect:false}, {text:"My", isCorrect:true}, {text:"He", isCorrect:false}, {text:"You", isCorrect:false}], rationale: "My (meu/minha) é o possessivo correto."},
                 {q: "Escolha a frase correta:", options: [{text:"My name Daniela", isCorrect:false}, {text:"My name is Daniela", isCorrect:true}, {text:"My is name Daniela", isCorrect:false}, {text:"Name is my Daniela", isCorrect:false}], rationale: "A estrutura é My name + is + Nome."},
@@ -1824,9 +2058,14 @@
                 {q: "'Hi, I'm Paulo' significa:", options: [{text:"Oi, eu sou Paulo", isCorrect:true}, {text:"Oi, qual é seu nome?", isCorrect:false}, {text:"Tchau, Paulo", isCorrect:false}, {text:"Prazer, Paulo", isCorrect:false}], rationale: "Tradução direta de apresentação."},
                 {q: "Qual cumprimento é mais informal?", options: [{text:"Good evening", isCorrect:false}, {text:"Hello", isCorrect:false}, {text:"Hi", isCorrect:true}, {text:"Good afternoon", isCorrect:false}], rationale: "Hi é o mais informal."},
                 {q: "Pergunta: What's your name?", options: [{text:"Hi!", isCorrect:false}, {text:"My name is Laura", isCorrect:true}, {text:"Nice to meet you", isCorrect:false}, {text:"Goodbye", isCorrect:false}], rationale: "Resposta direta à pergunta."},
-                {q: "Quando normalmente dizemos 'Goodbye'?", options: [{text:"Quando chegamos", isCorrect:false}, {text:"Quando nos apresentamos", isCorrect:false}, {text:"Quando vamos embora", isCorrect:true}, {text:"Quando encontramos alguém", isCorrect:false}], rationale: "Goodbye é despedida."}
+                {q: "Quando normalmente dizemos 'Goodbye'?", options: [{text:"Quando chegamos", isCorrect:false}, {text:"Quando nos apresentamos", isCorrect:false}, {text:"Quando vamos embora", isCorrect:true}, {text:"Quando encontramos alguém", isCorrect:false}], rationale: "Goodbye é despedida."},
+                {q: "Qual é a forma correta de dizer 'Boa tarde' em inglês?", options: [{text:"Good morning", isCorrect:false}, {text:"Good afternoon", isCorrect:true}, {text:"Good evening", isCorrect:false}, {text:"Good night", isCorrect:false}], rationale: "Good afternoon = Boa tarde."},
+                {q: "Complete: 'See you ____!' (até mais tarde)", options: [{text:"after", isCorrect:false}, {text:"later", isCorrect:true}, {text:"before", isCorrect:false}, {text:"next", isCorrect:false}], rationale: "See you later = Até mais tarde."},
+                {q: "Qual é a diferença entre 'Good evening' e 'Good night'?", options: [{text:"São iguais", isCorrect:false}, {text:"Evening é chegada, Night é despedida", isCorrect:true}, {text:"Night é chegada, Evening é despedida", isCorrect:false}, {text:"Nenhuma das opções", isCorrect:false}], rationale: "Good evening = cumprimento ao chegar à noite. Good night = despedida."},
+                {q: "'How are you?' é usado para:", options: [{text:"Pedir o nome", isCorrect:false}, {text:"Se despedir", isCorrect:false}, {text:"Perguntar como a pessoa está", isCorrect:true}, {text:"Pedir a idade", isCorrect:false}], rationale: "How are you = Como você está?"},
+                {q: "Escolha a resposta correta para 'How are you?':", options: [{text:"My name is Ana", isCorrect:false}, {text:"I'm fine, thanks", isCorrect:true}, {text:"Goodbye", isCorrect:false}, {text:"Nice to meet you", isCorrect:false}], rationale: "I'm fine, thanks é a resposta natural."}
             ],
-            4: [ // AULA 03: NUMBERS
+            4: [ // AULA 03: NUMBERS (15 perguntas)
                 {q: "Escolha o número correto: 'Eight'", options: [{text:"6", isCorrect:false}, {text:"7", isCorrect:false}, {text:"8", isCorrect:true}, {text:"9", isCorrect:false}], rationale: "Eight = 8."},
                 {q: "Complete a frase: 'I have ____ cousins.'", options: [{text:"two", isCorrect:true}, {text:"second", isCorrect:false}, {text:"twice", isCorrect:false}, {text:"double", isCorrect:false}], rationale: "Usa-se número cardinal para quantidade."},
                 {q: "O que vem depois de nine?", options: [{text:"eight", isCorrect:false}, {text:"ten", isCorrect:true}, {text:"eleven", isCorrect:false}, {text:"twelve", isCorrect:false}], rationale: "9, 10 (Ten)."},
@@ -1836,9 +2075,14 @@
                 {q: "Four plus five is:", options: [{text:"eight", isCorrect:false}, {text:"nine", isCorrect:true}, {text:"ten", isCorrect:false}, {text:"eleven", isCorrect:false}], rationale: "4 + 5 = 9 (Nine)."},
                 {q: "Escolha a frase mais natural em inglês:", options: [{text:"I have 30 years", isCorrect:false}, {text:"I am 30 years", isCorrect:false}, {text:"I am 30 years old", isCorrect:true}, {text:"I have 30 old", isCorrect:false}], rationale: "Em inglês, 'somos' a idade (I am), não 'temos'."},
                 {q: "Escolha a grafia correta:", options: [{text:"for", isCorrect:false}, {text:"fore", isCorrect:false}, {text:"four", isCorrect:true}, {text:"fower", isCorrect:false}], rationale: "Quatro = Four."},
-                {q: "Escolha a frase correta:", options: [{text:"I have two car", isCorrect:false}, {text:"I have two cars", isCorrect:true}, {text:"I have cars two", isCorrect:false}, {text:"I have two car's", isCorrect:false}], rationale: "Número + Substantivo Plural."}
+                {q: "Escolha a frase correta:", options: [{text:"I have two car", isCorrect:false}, {text:"I have two cars", isCorrect:true}, {text:"I have cars two", isCorrect:false}, {text:"I have two car's", isCorrect:false}], rationale: "Número + Substantivo Plural."},
+                {q: "Escolha a grafia correta do número 3:", options: [{text:"tree", isCorrect:false}, {text:"three", isCorrect:true}, {text:"thre", isCorrect:false}, {text:"trhee", isCorrect:false}], rationale: "Três = Three."},
+                {q: "Seven plus three is:", options: [{text:"nine", isCorrect:false}, {text:"eleven", isCorrect:false}, {text:"ten", isCorrect:true}, {text:"eight", isCorrect:false}], rationale: "7 + 3 = 10 (Ten)."},
+                {q: "Qual é o número correto: 'Fifteen'?", options: [{text:"50", isCorrect:false}, {text:"5", isCorrect:false}, {text:"15", isCorrect:true}, {text:"14", isCorrect:false}], rationale: "Fifteen = 15."},
+                {q: "Complete: 'There are ____ months in a year.' (12)", options: [{text:"twelve", isCorrect:true}, {text:"twenty", isCorrect:false}, {text:"ten", isCorrect:false}, {text:"eleven", isCorrect:false}], rationale: "Um ano tem 12 (twelve) meses."},
+                {q: "Escolha a grafia correta do número 6:", options: [{text:"seis", isCorrect:false}, {text:"siks", isCorrect:false}, {text:"six", isCorrect:true}, {text:"siz", isCorrect:false}], rationale: "Seis = Six."}
             ],
-            5: [ // AULA 04: NUMBERS (CONTEXTO REAL)
+            5: [ // AULA 04: NUMBERS (CONTEXTO REAL) (15 perguntas)
                 {q: "Como normalmente falamos um número de telefone em inglês?", options: [{text:"In big numbers", isCorrect:false}, {text:"As one long number", isCorrect:false}, {text:"Digit by digit", isCorrect:true}, {text:"Using ordinal numbers", isCorrect:false}], rationale: "Telefones são ditos dígito a dígito."},
                 {q: "Escolha a forma mais natural de dizer 358:", options: [{text:"Three five eight", isCorrect:false}, {text:"Three hundred fifty-eight", isCorrect:true}, {text:"Thirty five eight", isCorrect:false}, {text:"Three hundred eight", isCorrect:false}], rationale: "Centenas + dezenas."},
                 {q: "Como normalmente dizemos o ano 2015 de forma formal?", options: [{text:"Two thousand and fifteen", isCorrect:true}, {text:"Twenty fifteen", isCorrect:false}, {text:"Two zero one five", isCorrect:false}, {text:"Two thousand five", isCorrect:false}], rationale: "Forma formal usa 'two thousand and...'."},
@@ -1848,9 +2092,14 @@
                 {q: "Que número vem depois de thirty-nine?", options: [{text:"thirty-ten", isCorrect:false}, {text:"forty", isCorrect:true}, {text:"fourteen", isCorrect:false}, {text:"forty-one", isCorrect:false}], rationale: "39 -> 40 (Forty)."},
                 {q: "Escolha a frase correta:", options: [{text:"The price is 20 dollars and 50", isCorrect:false}, {text:"The price is twenty dollars fifty", isCorrect:false}, {text:"The price is twenty dollars and fifty cents", isCorrect:true}, {text:"The price is twenty fifty", isCorrect:false}], rationale: "Forma completa e correta de preço."},
                 {q: "Como normalmente falamos números de apartamento?", options: [{text:"Using ordinal numbers", isCorrect:false}, {text:"Digit by digit", isCorrect:true}, {text:"Using letters", isCorrect:false}, {text:"Using plural numbers", isCorrect:false}], rationale: "Como telefones e endereços."},
-                {q: "Escolha a grafia correta:", options: [{text:"Fourty", isCorrect:false}, {text:"Forty", isCorrect:true}, {text:"Fourti", isCorrect:false}, {text:"Fourtee", isCorrect:false}], rationale: "Quarenta se escreve Forty (sem o 'u')."}
+                {q: "Escolha a grafia correta:", options: [{text:"Fourty", isCorrect:false}, {text:"Forty", isCorrect:true}, {text:"Fourti", isCorrect:false}, {text:"Fourtee", isCorrect:false}], rationale: "Quarenta se escreve Forty (sem o 'u')."},
+                {q: "Como dizemos o número 0 em um telefone?", options: [{text:"zero", isCorrect:false}, {text:"oh", isCorrect:true}, {text:"null", isCorrect:false}, {text:"none", isCorrect:false}], rationale: "Em telefones, 0 é dito como 'oh'."},
+                {q: "Escolha a forma correta de dizer $50.00:", options: [{text:"Five zero dollars", isCorrect:false}, {text:"Fifty dollars", isCorrect:true}, {text:"Five ten dollars", isCorrect:false}, {text:"Fivety dollars", isCorrect:false}], rationale: "50 = Fifty."},
+                {q: "Como dizemos o ano 1990?", options: [{text:"One nine nine zero", isCorrect:false}, {text:"Nineteen ninety", isCorrect:true}, {text:"One thousand nine hundred ninety", isCorrect:false}, {text:"Nineteen nine zero", isCorrect:false}], rationale: "Anos antigos: dezenove + noventa."},
+                {q: "Complete: 'The temperature is ____ degrees.' (100)", options: [{text:"one hundred", isCorrect:true}, {text:"ten zero", isCorrect:false}, {text:"hundred one", isCorrect:false}, {text:"a ten", isCorrect:false}], rationale: "100 = One hundred."},
+                {q: "Como se diz R$ 3,50 em inglês?", options: [{text:"Three fifty", isCorrect:true}, {text:"Three and fifty", isCorrect:false}, {text:"Thirty five", isCorrect:false}, {text:"Three five zero", isCorrect:false}], rationale: "Preços curtos: Three fifty."}
             ],
-            6: [ // AULA 05: SPELLING & PERSONAL INFORMATION
+            6: [ // AULA 05: SPELLING & PERSONAL INFORMATION (15 perguntas)
                 {q: "Alguém pergunta: 'How do you spell your last name?' O que você responde?", options: [{text:"I am Silva", isCorrect:false}, {text:"Silva", isCorrect:false}, {text:"S-I-L-V-A", isCorrect:true}, {text:"My name is Silva", isCorrect:false}], rationale: "Soletrar = dizer letra por letra."},
                 {q: "Escolha a grafia correta do nome: 'Maria'", options: [{text:"M-E-R-I-A", isCorrect:false}, {text:"M-A-R-I-A", isCorrect:true}, {text:"M-A-R-E-A", isCorrect:false}, {text:"M-E-R-E-A", isCorrect:false}], rationale: "A soletração correta."},
                 {q: "Como dizemos o símbolo @ em inglês?", options: [{text:"at", isCorrect:true}, {text:"on", isCorrect:false}, {text:"in", isCorrect:false}, {text:"to", isCorrect:false}], rationale: "@ = at."},
@@ -1860,9 +2109,14 @@
                 {q: "Complete a frase: 'My name is Jacob. It has ____ letters.'", options: [{text:"five", isCorrect:true}, {text:"fifth", isCorrect:false}, {text:"fiveth", isCorrect:false}, {text:"fifteenth", isCorrect:false}], rationale: "J-A-C-O-B = 5 letras."},
                 {q: "Quando soletramos informações, normalmente:", options: [{text:"falamos rápido", isCorrect:false}, {text:"usamos números ordinais", isCorrect:false}, {text:"dizemos cada letra claramente", isCorrect:true}, {text:"traduzimos a palavra", isCorrect:false}], rationale: "Clareza é essencial ao soletrar."},
                 {q: "Escolha a abreviação correta de 'Speaking Like a Pro':", options: [{text:"SPARK", isCorrect:false}, {text:"SELIAPR", isCorrect:false}, {text:"SLP", isCorrect:false}, {text:"SLAP", isCorrect:true}], rationale: "SLAP = Speaking Like A Pro."},
-                {q: "Qual pergunta gera a resposta 'M-A-R-I-A'?", options: [{text:"Can you spell your name for me?", isCorrect:true}, {text:"Can you spell your last name for me?", isCorrect:false}, {text:"How are you?", isCorrect:false}, {text:"Can you spell your middle name for me?", isCorrect:false}], rationale: "A resposta é a soletração do primeiro nome."}
+                {q: "Qual pergunta gera a resposta 'M-A-R-I-A'?", options: [{text:"Can you spell your name for me?", isCorrect:true}, {text:"Can you spell your last name for me?", isCorrect:false}, {text:"How are you?", isCorrect:false}, {text:"Can you spell your middle name for me?", isCorrect:false}], rationale: "A resposta é a soletração do primeiro nome."},
+                {q: "Como dizemos o ponto (.) em um email?", options: [{text:"point", isCorrect:false}, {text:"dot", isCorrect:true}, {text:"period", isCorrect:false}, {text:"stop", isCorrect:false}], rationale: "Em emails e sites, . = dot."},
+                {q: "Escolha a soletração correta de 'Lucas':", options: [{text:"L-U-K-A-S", isCorrect:false}, {text:"L-U-C-A-S", isCorrect:true}, {text:"L-O-C-A-S", isCorrect:false}, {text:"L-U-C-A-Z", isCorrect:false}], rationale: "Lucas = L-U-C-A-S."},
+                {q: "Complete: 'What is your ____?' — 'It's lucas@email.com'", options: [{text:"name", isCorrect:false}, {text:"phone", isCorrect:false}, {text:"email", isCorrect:true}, {text:"address", isCorrect:false}], rationale: "A resposta é um email."},
+                {q: "Como dizemos a letra W em inglês?", options: [{text:"we", isCorrect:false}, {text:"double u", isCorrect:true}, {text:"wee", isCorrect:false}, {text:"vu", isCorrect:false}], rationale: "W = double u."},
+                {q: "Qual letra do alfabeto em inglês se pronuncia parecido com 'ar'?", options: [{text:"A", isCorrect:false}, {text:"H", isCorrect:false}, {text:"R", isCorrect:true}, {text:"E", isCorrect:false}], rationale: "R em inglês soa como 'ar'."}
             ],
-            7: [ // AULA 06: ORDINAL NUMBERS
+            7: [ // AULA 06: ORDINAL NUMBERS (15 perguntas)
                 {q: "Escolha o número ordinal de 1:", options: [{text:"one", isCorrect:false}, {text:"first", isCorrect:true}, {text:"once", isCorrect:false}, {text:"oneth", isCorrect:false}], rationale: "1º = first."},
                 {q: "Qual é o ordinal de 2?", options: [{text:"two", isCorrect:false}, {text:"second", isCorrect:true}, {text:"twoth", isCorrect:false}, {text:"twelve", isCorrect:false}], rationale: "2º = second."},
                 {q: "Complete a frase: 'I live on the ____ floor.' (3)", options: [{text:"three", isCorrect:false}, {text:"third", isCorrect:true}, {text:"thirteen", isCorrect:false}, {text:"thirty", isCorrect:false}], rationale: "3º andar = third floor."},
@@ -1872,9 +2126,14 @@
                 {q: "Complete a frase: 'This is my ____ day at SLAP.' (1)", options: [{text:"one", isCorrect:false}, {text:"first", isCorrect:true}, {text:"once", isCorrect:false}, {text:"oneth", isCorrect:false}], rationale: "1º = first."},
                 {q: "Qual é o ordinal de 6?", options: [{text:"six", isCorrect:false}, {text:"sixth", isCorrect:true}, {text:"sixt", isCorrect:false}, {text:"sixteen", isCorrect:false}], rationale: "6º = sixth."},
                 {q: "Complete a frase: 'The meeting is on the ____ of June.' (2)", options: [{text:"two", isCorrect:false}, {text:"second", isCorrect:true}, {text:"twelve", isCorrect:false}, {text:"twenty", isCorrect:false}], rationale: "2º = second."},
-                {q: "Quando usamos números ordinais?", options: [{text:"Para falar de quantidade", isCorrect:false}, {text:"Para falar de ordem", isCorrect:true}, {text:"Para falar de cor", isCorrect:false}, {text:"Para falar de preço", isCorrect:false}], rationale: "Ordinais indicam posição/ordem."}
+                {q: "Quando usamos números ordinais?", options: [{text:"Para falar de quantidade", isCorrect:false}, {text:"Para falar de ordem", isCorrect:true}, {text:"Para falar de cor", isCorrect:false}, {text:"Para falar de preço", isCorrect:false}], rationale: "Ordinais indicam posição/ordem."},
+                {q: "Qual é o ordinal de 10?", options: [{text:"ten", isCorrect:false}, {text:"tenth", isCorrect:true}, {text:"tenfth", isCorrect:false}, {text:"teen", isCorrect:false}], rationale: "10º = tenth."},
+                {q: "Complete: 'She finished in ____ place.' (7)", options: [{text:"seven", isCorrect:false}, {text:"seventh", isCorrect:true}, {text:"seventeenth", isCorrect:false}, {text:"seventy", isCorrect:false}], rationale: "7º = seventh."},
+                {q: "Qual é o ordinal de 9?", options: [{text:"nineth", isCorrect:false}, {text:"ninth", isCorrect:true}, {text:"ninethy", isCorrect:false}, {text:"nine", isCorrect:false}], rationale: "9º = ninth (sem o 'e')."},
+                {q: "Complete: 'Today is my ____ birthday.' (8)", options: [{text:"eight", isCorrect:false}, {text:"eighth", isCorrect:true}, {text:"eighty", isCorrect:false}, {text:"eightth", isCorrect:false}], rationale: "8º = eighth."},
+                {q: "Qual é o padrão da maioria dos ordinais?", options: [{text:"Adicionar -st", isCorrect:false}, {text:"Adicionar -th", isCorrect:true}, {text:"Adicionar -nd", isCorrect:false}, {text:"Adicionar -rd", isCorrect:false}], rationale: "A maioria dos ordinais termina em -th (fourth, fifth, sixth...)."}
             ],
-            8: [ // AULA 07: BASIC VERBS (SIMPLE PRESENT)
+            8: [ // AULA 07: BASIC VERBS (SIMPLE PRESENT) (15 perguntas)
                 {q: "Complete a frase: 'I ____ breakfast in the morning.'", options: [{text:"eats", isCorrect:false}, {text:"eat", isCorrect:true}, {text:"eating", isCorrect:false}, {text:"ate", isCorrect:false}], rationale: "Com 'I' usamos o verbo na forma base."},
                 {q: "Complete a frase: 'She ____ water every day.'", options: [{text:"drink", isCorrect:false}, {text:"drinks", isCorrect:true}, {text:"drinking", isCorrect:false}, {text:"drank", isCorrect:false}], rationale: "Com 'she' adicionamos -s ao verbo."},
                 {q: "Complete a frase: 'They ____ soccer on weekends.'", options: [{text:"plays", isCorrect:false}, {text:"play", isCorrect:true}, {text:"playing", isCorrect:false}, {text:"played", isCorrect:false}], rationale: "Com 'they' usamos o verbo na forma base."},
@@ -1884,9 +2143,14 @@
                 {q: "Escolha a frase correta:", options: [{text:"I write emails", isCorrect:true}, {text:"I writes emails", isCorrect:false}, {text:"I writing emails", isCorrect:false}, {text:"I wrote emails every day", isCorrect:false}], rationale: "Com 'I' usamos o verbo na forma base."},
                 {q: "Complete a frase: 'He ____ his homework at night.'", options: [{text:"do", isCorrect:false}, {text:"does", isCorrect:true}, {text:"doing", isCorrect:false}, {text:"did", isCorrect:false}], rationale: "Com 'he' o verbo 'do' vira 'does'."},
                 {q: "Complete a frase: 'She ____ a book before bed.'", options: [{text:"read", isCorrect:false}, {text:"reads", isCorrect:true}, {text:"reading", isCorrect:false}, {text:"readed", isCorrect:false}], rationale: "Com 'she' adicionamos -s ao verbo."},
-                {q: "Escolha a frase correta:", options: [{text:"They drink coffee", isCorrect:true}, {text:"They drinks coffee", isCorrect:false}, {text:"They drinking coffee", isCorrect:false}, {text:"They drank coffee every day", isCorrect:false}], rationale: "Com 'they' usamos o verbo na forma base."}
+                {q: "Escolha a frase correta:", options: [{text:"They drink coffee", isCorrect:true}, {text:"They drinks coffee", isCorrect:false}, {text:"They drinking coffee", isCorrect:false}, {text:"They drank coffee every day", isCorrect:false}], rationale: "Com 'they' usamos o verbo na forma base."},
+                {q: "Complete: 'He ____ TV after dinner.'", options: [{text:"watch", isCorrect:false}, {text:"watches", isCorrect:true}, {text:"watching", isCorrect:false}, {text:"watched", isCorrect:false}], rationale: "Com 'he' + verbo terminado em -ch, adicionamos -es."},
+                {q: "Complete: 'I ____ to school by bus.'", options: [{text:"goes", isCorrect:false}, {text:"go", isCorrect:true}, {text:"going", isCorrect:false}, {text:"went", isCorrect:false}], rationale: "Com 'I' usamos o verbo na forma base."},
+                {q: "Complete: 'She ____ English and Portuguese.'", options: [{text:"speak", isCorrect:false}, {text:"speaks", isCorrect:true}, {text:"speaking", isCorrect:false}, {text:"spoke", isCorrect:false}], rationale: "Com 'she' adicionamos -s ao verbo."},
+                {q: "Complete: 'We ____ dinner at 7 PM.'", options: [{text:"has", isCorrect:false}, {text:"have", isCorrect:true}, {text:"having", isCorrect:false}, {text:"had", isCorrect:false}], rationale: "Com 'we' usamos 'have' (forma base)."},
+                {q: "Complete: 'He ____ to work every day.'", options: [{text:"go", isCorrect:false}, {text:"goes", isCorrect:true}, {text:"going", isCorrect:false}, {text:"went", isCorrect:false}], rationale: "Com 'he' + verbo 'go', adicionamos -es: goes."}
             ],
-            9: [ // AULA 08: BASIC ADJECTIVES
+            9: [ // AULA 08: BASIC ADJECTIVES (15 perguntas)
                 {q: "Escolha o oposto de big:", options: [{text:"tall", isCorrect:false}, {text:"small", isCorrect:true}, {text:"old", isCorrect:false}, {text:"good", isCorrect:false}], rationale: "Big (grande) x Small (pequeno)."},
                 {q: "Escolha a frase correta:", options: [{text:"The house is big", isCorrect:true}, {text:"The house big is", isCorrect:false}, {text:"Big the house is", isCorrect:false}, {text:"House is the big", isCorrect:false}], rationale: "Ordem: Sujeito + is + adjetivo."},
                 {q: "Escolha o oposto de tall:", options: [{text:"big", isCorrect:false}, {text:"old", isCorrect:false}, {text:"short", isCorrect:true}, {text:"small", isCorrect:false}], rationale: "Tall (alto) x Short (baixo)."},
@@ -1896,9 +2160,14 @@
                 {q: "Escolha a frase correta:", options: [{text:"The dog is small", isCorrect:true}, {text:"The dog small is", isCorrect:false}, {text:"Small is the dog", isCorrect:false}, {text:"Dog is small the", isCorrect:false}], rationale: "Ordem: Sujeito + is + adjetivo."},
                 {q: "Complete a frase: 'The building is ____.' (not short)", options: [{text:"tall", isCorrect:true}, {text:"small", isCorrect:false}, {text:"young", isCorrect:false}, {text:"bad", isCorrect:false}], rationale: "Short (baixo) x Tall (alto)."},
                 {q: "Escolha o oposto de good:", options: [{text:"big", isCorrect:false}, {text:"old", isCorrect:false}, {text:"bad", isCorrect:true}, {text:"small", isCorrect:false}], rationale: "Good (bom) x Bad (ruim)."},
-                {q: "Qual opção é um adjetivo?", options: [{text:"run", isCorrect:false}, {text:"eat", isCorrect:false}, {text:"old", isCorrect:true}, {text:"speak", isCorrect:false}], rationale: "Old é adjetivo, os outros são verbos."}
+                {q: "Qual opção é um adjetivo?", options: [{text:"run", isCorrect:false}, {text:"eat", isCorrect:false}, {text:"old", isCorrect:true}, {text:"speak", isCorrect:false}], rationale: "Old é adjetivo, os outros são verbos."},
+                {q: "Escolha o oposto de new:", options: [{text:"big", isCorrect:false}, {text:"old", isCorrect:true}, {text:"bad", isCorrect:false}, {text:"short", isCorrect:false}], rationale: "New (novo) x Old (velho)."},
+                {q: "Complete: 'The food is ____.' (tasty)", options: [{text:"bad", isCorrect:false}, {text:"good", isCorrect:true}, {text:"old", isCorrect:false}, {text:"tall", isCorrect:false}], rationale: "Comida gostosa = good."},
+                {q: "Escolha o oposto de hot:", options: [{text:"warm", isCorrect:false}, {text:"cold", isCorrect:true}, {text:"big", isCorrect:false}, {text:"small", isCorrect:false}], rationale: "Hot (quente) x Cold (frio)."},
+                {q: "Complete: 'The movie is very ____.' (interesting)", options: [{text:"bad", isCorrect:false}, {text:"short", isCorrect:false}, {text:"good", isCorrect:true}, {text:"old", isCorrect:false}], rationale: "Filme interessante = good."},
+                {q: "Onde fica o adjetivo em inglês?", options: [{text:"Depois do substantivo", isCorrect:false}, {text:"Antes do substantivo ou depois do verbo to be", isCorrect:true}, {text:"No final da frase sempre", isCorrect:false}, {text:"Antes do verbo", isCorrect:false}], rationale: "Adjetivos vêm antes do substantivo (big house) ou após to be (is big)."}
             ],
-            10: [ // AULA 09: DEMONSTRATIVE PRONOUNS
+            10: [ // AULA 09: DEMONSTRATIVE PRONOUNS (15 perguntas)
                 {q: "Complete a frase: '____ is my phone.' (perto, singular)", options: [{text:"that", isCorrect:false}, {text:"these", isCorrect:false}, {text:"this", isCorrect:true}, {text:"those", isCorrect:false}], rationale: "This = perto + singular."},
                 {q: "Complete a frase: '____ are my keys.' (perto, plural)", options: [{text:"this", isCorrect:false}, {text:"that", isCorrect:false}, {text:"those", isCorrect:false}, {text:"these", isCorrect:true}], rationale: "These = perto + plural."},
                 {q: "Complete a frase: '____ is my house over there.' (longe, singular)", options: [{text:"this", isCorrect:false}, {text:"these", isCorrect:false}, {text:"that", isCorrect:true}, {text:"those", isCorrect:false}], rationale: "That = longe + singular."},
@@ -1908,9 +2177,14 @@
                 {q: "Complete a frase: '____ cars over there are expensive.'", options: [{text:"this", isCorrect:false}, {text:"that", isCorrect:false}, {text:"these", isCorrect:false}, {text:"those", isCorrect:true}], rationale: "Those = longe + plural."},
                 {q: "Qual opção é plural?", options: [{text:"this", isCorrect:false}, {text:"that", isCorrect:false}, {text:"these", isCorrect:true}, {text:"thises", isCorrect:false}], rationale: "These é a forma plural de this."},
                 {q: "Escolha a frase correta:", options: [{text:"That are my shoes", isCorrect:false}, {text:"Those are my shoes", isCorrect:true}, {text:"Those is my shoes", isCorrect:false}, {text:"That is my shoes", isCorrect:false}], rationale: "Those (plural) + are."},
-                {q: "Quando usamos this?", options: [{text:"Para algo longe e plural", isCorrect:false}, {text:"Para algo perto e singular", isCorrect:true}, {text:"Para algo longe e singular", isCorrect:false}, {text:"Para algo perto e plural", isCorrect:false}], rationale: "This = perto + singular."}
+                {q: "Quando usamos this?", options: [{text:"Para algo longe e plural", isCorrect:false}, {text:"Para algo perto e singular", isCorrect:true}, {text:"Para algo longe e singular", isCorrect:false}, {text:"Para algo perto e plural", isCorrect:false}], rationale: "This = perto + singular."},
+                {q: "Complete: '____ dog over there is cute.' (longe, singular)", options: [{text:"this", isCorrect:false}, {text:"these", isCorrect:false}, {text:"that", isCorrect:true}, {text:"those", isCorrect:false}], rationale: "That = longe + singular."},
+                {q: "Complete: '____ cookies here are delicious.' (perto, plural)", options: [{text:"this", isCorrect:false}, {text:"that", isCorrect:false}, {text:"those", isCorrect:false}, {text:"these", isCorrect:true}], rationale: "These = perto + plural."},
+                {q: "Qual é o plural de 'that'?", options: [{text:"thats", isCorrect:false}, {text:"these", isCorrect:false}, {text:"those", isCorrect:true}, {text:"thoses", isCorrect:false}], rationale: "That (singular longe) -> Those (plural longe)."},
+                {q: "Escolha a frase correta:", options: [{text:"This is a good idea", isCorrect:true}, {text:"These is a good idea", isCorrect:false}, {text:"This are a good idea", isCorrect:false}, {text:"That are a good idea", isCorrect:false}], rationale: "This (singular) + is."},
+                {q: "Complete: 'Look at ____ stars in the sky!' (longe, plural)", options: [{text:"this", isCorrect:false}, {text:"that", isCorrect:false}, {text:"these", isCorrect:false}, {text:"those", isCorrect:true}], rationale: "Those = longe + plural."}
             ],
-            11: [ // AULA 10: VERB TO BE
+            11: [ // AULA 10: VERB TO BE (15 perguntas)
                 {q: "Complete a frase: 'I ____ tired.'", options: [{text:"is", isCorrect:false}, {text:"are", isCorrect:false}, {text:"am", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "I + am."},
                 {q: "Complete a frase: 'She ____ a teacher.'", options: [{text:"am", isCorrect:false}, {text:"are", isCorrect:false}, {text:"is", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "She + is."},
                 {q: "Complete a frase: 'They ____ at home.'", options: [{text:"is", isCorrect:false}, {text:"am", isCorrect:false}, {text:"be", isCorrect:false}, {text:"are", isCorrect:true}], rationale: "They + are."},
@@ -1920,16 +2194,31 @@
                 {q: "Complete a pergunta: '____ you married?'", options: [{text:"am", isCorrect:false}, {text:"is", isCorrect:false}, {text:"are", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "You + are."},
                 {q: "Escolha a resposta correta: — Are they friends?", options: [{text:"Yes, they is", isCorrect:false}, {text:"Yes, they are", isCorrect:true}, {text:"Yes, they am", isCorrect:false}, {text:"Yes, they be", isCorrect:false}], rationale: "They + are."},
                 {q: "Escolha a forma negativa correta: 'She ____ happy.'", options: [{text:"isn't", isCorrect:true}, {text:"aren't", isCorrect:false}, {text:"am not", isCorrect:false}, {text:"don't", isCorrect:false}], rationale: "She + isn't (is not)."},
-                {q: "Escolha a frase correta:", options: [{text:"We is ready", isCorrect:false}, {text:"We am ready", isCorrect:false}, {text:"We are ready", isCorrect:true}, {text:"We be ready", isCorrect:false}], rationale: "We + are."}
+                {q: "Escolha a frase correta:", options: [{text:"We is ready", isCorrect:false}, {text:"We am ready", isCorrect:false}, {text:"We are ready", isCorrect:true}, {text:"We be ready", isCorrect:false}], rationale: "We + are."},
+                {q: "Complete a negativa: 'I ____ from Japan.'", options: [{text:"isn't", isCorrect:false}, {text:"aren't", isCorrect:false}, {text:"am not", isCorrect:true}, {text:"don't", isCorrect:false}], rationale: "I + am not."},
+                {q: "Complete a pergunta: '____ she your sister?'", options: [{text:"Am", isCorrect:false}, {text:"Is", isCorrect:true}, {text:"Are", isCorrect:false}, {text:"Be", isCorrect:false}], rationale: "She + is -> Is she...?"},
+                {q: "Escolha a resposta correta: — Is he a doctor?", options: [{text:"Yes, he are", isCorrect:false}, {text:"Yes, he is", isCorrect:true}, {text:"Yes, he am", isCorrect:false}, {text:"Yes, he do", isCorrect:false}], rationale: "He + is."},
+                {q: "Complete: 'You ____ very smart.'", options: [{text:"is", isCorrect:false}, {text:"am", isCorrect:false}, {text:"are", isCorrect:true}, {text:"be", isCorrect:false}], rationale: "You + are."},
+                {q: "Escolha a negativa correta: 'They ____ at school today.'", options: [{text:"isn't", isCorrect:false}, {text:"aren't", isCorrect:true}, {text:"am not", isCorrect:false}, {text:"doesn't", isCorrect:false}], rationale: "They + aren't (are not)."}
             ]
         };
 
         // Fallback generator for other modules to ensure 10 questions exist
-        function getQuizDataForModule(id) {
-            if (quizData[id]) return quizData[id];
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
 
-            // Generic fallback questions based on module name
-            const modName = aulaNames.find(a => a.id === id).name;
+        function getQuizDataForModule(id) {
+            if (quizData[id]) {
+                const shuffled = shuffleArray(quizData[id]);
+                return shuffled.slice(0, 10);
+            }
+
             const generic = [];
             for(let i=0; i<10; i++) {
                 generic.push({
@@ -1999,6 +2288,7 @@
 
         window.showDashboard = function() {
             if (wsTimer) { clearInterval(wsTimer); wsTimer = null; }
+            document.getElementById('main-header').classList.remove('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('generator-view').classList.add('hidden');
             document.getElementById('study-view').classList.add('hidden');
@@ -2042,15 +2332,12 @@
 
                 let allStreaks = [];
                 if (aula.hasHomework && aula.id <= 10) allStreaks.push({ label: 'Homework', done: isStreakDone(aula.id, 'homework') });
-                if (aula.specialMode === 'flashcards') allStreaks.push({ label: 'Flashcards', done: isStreakDone(aula.id, 'flashcards') });
-                if (aula.specialMode === 'listening') allStreaks.push({ label: 'Listening', done: isStreakDone(aula.id, 'listening') });
                 if (aula.specialMode === 'chunks') allStreaks.push({ label: 'Chunks', done: isStreakDone(aula.id, 'chunks') });
                 if (aula.specialMode === 'scramble') allStreaks.push({ label: 'Scramble', done: isStreakDone(aula.id, 'scramble') });
                 if (aula.specialMode === 'mistake') allStreaks.push({ label: 'Detetive', done: isStreakDone(aula.id, 'mistake') });
                 if (aula.thirdBtn === 'dictation') allStreaks.push({ label: 'Ditado', done: isStreakDone(aula.id, 'dictation') });
                 if ([6, 23, 26].includes(aula.id)) allStreaks.push({ label: 'Forca', done: isStreakDone(aula.id, 'hangman') });
                 if ([12, 14].includes(aula.id)) allStreaks.push({ label: 'Caça-Palavras', done: isStreakDone(aula.id, 'wordsearch') });
-                if (aula.id === 23 && !allStreaks.find(s => s.label === 'Flashcards')) allStreaks.push({ label: 'Flashcards', done: isStreakDone(23, 'flashcards') });
                 const streakHtml = allStreaks.length > 0 ? `<div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem;">${allStreaks.map(s => s.done
                     ? `<span style="font-size: 0.6rem; font-weight: 700; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.1rem 0.4rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 0.2rem;" data-testid="streak-done-${s.label}"><svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='#16a34a' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg> ${s.label}</span>`
                     : `<span style="font-size: 0.6rem; font-weight: 700; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.1rem 0.4rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 0.2rem;" data-testid="streak-pending-${s.label}"><svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='#dc2626' stroke-width='2'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg> ${s.label}</span>`
@@ -2081,6 +2368,7 @@
             currentAulaId = id; 
             currentStudyMode = 'homework';
             const aula = aulaNames.find(a => a.id === id);
+            document.getElementById('main-header').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('generator-view').classList.remove('hidden');
             document.getElementById('current-hw-display').textContent = "Homework: " + aulaNames.find(a => a.id===id).name;
@@ -2167,6 +2455,7 @@
 
         window.openStudy = function(id) {
             const aula = aulaNames.find(a => a.id === id);
+            document.getElementById('main-header').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
             const titleArea = document.getElementById('study-title');
@@ -2212,6 +2501,7 @@
         window.openFlashcards = function(id) {
             const aula = aulaNames.find(a => a.id === id);
             currentStudyMode = 'flashcards';
+            document.getElementById('main-header').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
             document.getElementById('study-title').textContent = "Flashcards: Holidays";
@@ -2226,6 +2516,7 @@
              currentStudyMode = 'dictation';
              isSpellingMode = gamesData[id].isSpelling || false;
              isNumberComboMode = gamesData[id].isNumberCombo || false;
+             document.getElementById('main-header').classList.add('hidden');
              document.getElementById('dashboard-view').classList.add('hidden');
              document.getElementById('study-view').classList.remove('hidden');
              document.getElementById('study-title').textContent = "Ditado";
@@ -2286,6 +2577,7 @@
         window.openHangman = function(moduleId) {
             currentStudyMode = 'hangman';
             currentHangmanList = hangmanWordLists[moduleId] || hangmanWordLists[6];
+            document.getElementById('main-header').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
             document.getElementById('study-title').textContent = "Forca";
@@ -2485,6 +2777,7 @@
             currentWordSearchList = wordSearchData[moduleId] || [];
             wordSearchStreak = 0;
             usedWordSearchIndices = [];
+            document.getElementById('main-header').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('study-view').classList.remove('hidden');
             document.getElementById('study-title').textContent = "Caça-Palavras";
@@ -2742,18 +3035,21 @@
             text.classList.toggle('translation-visible');
         }
 
-        function renderStreakBar() {
+        function renderStreakBar(customGoal, customProgress) {
             const container = document.getElementById('streak-bar-container');
             const title = document.getElementById('study-title').textContent;
-            if (title.includes("Ditado") || title.includes("Scramble") || title.includes("Forca") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
+            const isChunks = title.includes("CHUNKS");
+            if (isChunks || title.includes("Ditado") || title.includes("Scramble") || title.includes("Forca") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
                 container.classList.remove('hidden');
-                const progress = Math.min(currentStreak, STREAK_GOAL);
-                const percentage = (progress / STREAK_GOAL) * 100;
-                const isComplete = currentStreak >= STREAK_GOAL;
+                const goal = customGoal || STREAK_GOAL;
+                const prog = customProgress !== undefined ? customProgress : currentStreak;
+                const progress = Math.min(prog, goal);
+                const percentage = (progress / goal) * 100;
+                const isComplete = prog >= goal;
                 container.innerHTML = `
                     <div class="streak-bar-wrapper">
                         <div class="streak-label text-center">
-                            ${isComplete ? '<svg class="inline w-5 h-5 mr-1 text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Streak completo! Tire um print!' : `Complete ${STREAK_GOAL} acertos seguidos: ${progress}/${STREAK_GOAL}`}
+                            ${isComplete ? '<svg class="inline w-5 h-5 mr-1 text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Streak completo! Tire um print!' : (isChunks ? `Complete todos os chunks: ${progress}/${goal}` : `Complete ${goal} acertos seguidos: ${progress}/${goal}`)}
                         </div>
                         <div class="streak-bar-bg">
                             <div class="streak-bar-fill" style="width: ${percentage}%"></div>
@@ -2765,21 +3061,27 @@
             }
         }
 
+        let chunksCorrectCount = 0;
+        let chunksTotalCount = 0;
+
         function renderChunksGrid(data) {
             const area = document.getElementById('study-content-area');
+            chunksCorrectCount = 0;
+            chunksTotalCount = data.length;
+            renderStreakBar(chunksTotalCount, chunksCorrectCount);
             area.innerHTML = `<div class="chunks-grid shadow-lg">
-                <div class="chunks-header">Chunks</div>
-                <div class="chunks-header">Traduções</div>
+                <div class="chunks-header">Português</div>
+                <div class="chunks-header">English</div>
                 ${data.map((item, index) => `
+                <div class="chunks-cell chunks-cell-pt">
+                    <span>${item.pt}</span>
+                </div>
                 <div class="chunks-cell chunks-cell-en">
-                    <button onclick="speakText('${item.en.replace(/'/g, "\\'")}')" class="p-1 mr-2 rounded-full hover:bg-primary/10 transition">
+                    <input type="text" id="chunk-input-${index}" class="chunk-input" placeholder="Type in English..." data-answer="${item.en.replace(/"/g, '&quot;')}" onkeypress="if(event.key==='Enter')checkChunk(${index})" data-testid="input-chunk-${index}">
+                    <button onclick="checkChunk(${index})" class="chunk-check-btn" data-testid="button-chunk-ok-${index}">OK</button>
+                    <button id="chunk-audio-${index}" onclick="speakText('${item.en.replace(/'/g, "\\'")}')" class="p-1 rounded-full hover:bg-primary/10 transition" style="display:none;" data-testid="button-chunk-audio-${index}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                     </button>
-                    <span>${item.en}</span>
-                </div>
-                <div class="chunks-cell chunks-cell-pt">
-                    <input type="text" id="chunk-input-${index}" class="chunk-input" placeholder="Digite a tradução..." data-answer="${item.pt.replace(/"/g, '&quot;')}" onkeypress="if(event.key==='Enter')checkChunk(${index})">
-                    <button onclick="checkChunk(${index})" class="chunk-check-btn">OK</button>
                 </div>`).join('')}</div>`;
         }
 
@@ -2797,6 +3099,12 @@
                 input.value = answer;
                 input.disabled = true;
                 playCorrectSound();
+                document.getElementById('chunk-audio-' + index).style.display = 'inline-flex';
+                chunksCorrectCount++;
+                renderStreakBar(chunksTotalCount, chunksCorrectCount);
+                if (chunksCorrectCount >= chunksTotalCount) {
+                    markStreakDone(currentAulaId, 'chunks');
+                }
             } else {
                 input.classList.remove('correct');
                 input.classList.add('wrong');
