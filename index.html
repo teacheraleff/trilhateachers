@@ -404,15 +404,23 @@
                 align-items: center;
                 gap: 3rem;
                 padding: 2rem;
+                max-width: 1100px;
+                margin: 0 auto;
             }
             .jmap-info {
                 text-align: left;
                 margin-bottom: 0;
                 flex-shrink: 0;
-                min-width: 200px;
+                min-width: 220px;
+                max-width: 250px;
+                align-self: center;
             }
             .jmap-info img {
                 margin: 0 0 0.6rem 0 !important;
+            }
+            .jmap-trail-area {
+                flex: 1;
+                min-width: 0;
             }
             .jmap-logout-desktop {
                 display: inline-block;
@@ -535,9 +543,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
             <div style="text-align: center; margin-bottom: 1rem;">
-                <div style="width: 48px; height: 48px; background: #ede9fe; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                </div>
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 70px; margin: 0 auto 0.75rem;">
                 <h3 style="font-size: 1.15rem; font-weight: 800; color: #1c1917; font-family: 'DM Sans', sans-serif;">Minhas Notas</h3>
                 <p style="font-size: 0.7rem; color: #78716c; margin-top: 0.25rem;" id="grades-level-label">Starter 1</p>
             </div>
@@ -694,7 +700,7 @@
 
         <!-- SIDEBAR -->
         <nav class="app-sidebar" id="app-sidebar" data-testid="nav-sidebar">
-            <div style="padding: 1.25rem 1rem 0.75rem; text-align: center;">
+            <div style="padding: 2rem 1rem 0.75rem; text-align: center;">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 80px; margin: 0 auto 0.75rem;">
                 <div style="position: relative; width: 64px; height: 64px; margin: 0 auto 0.5rem; cursor: pointer;" onclick="document.getElementById('avatar-upload-input').click()" data-testid="button-avatar-upload">
                     <div id="sidebar-avatar" style="width: 64px; height: 64px; border-radius: 50%; background: #ede9fe; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 3px solid #8671d1;">
@@ -1884,7 +1890,7 @@
             { id: 20, name: "Object Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine me, you, him, her, us, them nas frases." },
             { id: 21, name: "Likes and Dislikes", hasHomework: true, desc: "Expresse gostos e preferências em inglês." },
             { id: 22, name: "Free Time Activities", hasHomework: true, desc: "Vocabulário de atividades de lazer e tempo livre." },
-            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', desc: "Aprenda os meses do ano e feriados.", items: [{n:"Janeiro",w:"January"},{n:"Fevereiro",w:"February"},{n:"Março",w:"March"},{n:"Abril",w:"April"},{n:"Maio",w:"May"},{n:"Junho",w:"June"},{n:"Julho",w:"July"},{n:"Agosto",w:"August"},{n:"Setembro",w:"September"},{n:"Outubro",w:"October"},{n:"Novembro",w:"November"},{n:"Dezembro",w:"December"},{n:"Natal",w:"Christmas"},{n:"Ano Novo",w:"New Year's Day"},{n:"Páscoa",w:"Easter"},{n:"Dia das Mães",w:"Mother's Day"},{n:"Dia dos Pais",w:"Father's Day"},{n:"Dia das Crianças",w:"Children's Day"},{n:"Carnaval",w:"Carnival"},{n:"Ação de Graças",w:"Thanksgiving"},{n:"Dia dos Namorados",w:"Valentine's Day"},{n:"Halloween",w:"Halloween"}] },
+            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', desc: "Aprenda os meses do ano e feriados.", items: [{n:"January",w:"Janeiro"},{n:"February",w:"Fevereiro"},{n:"March",w:"Março"},{n:"April",w:"Abril"},{n:"May",w:"Maio"},{n:"June",w:"Junho"},{n:"July",w:"Julho"},{n:"August",w:"Agosto"},{n:"September",w:"Setembro"},{n:"October",w:"Outubro"},{n:"November",w:"Novembro"},{n:"December",w:"Dezembro"},{n:"Christmas",w:"Natal"},{n:"New Year's Day",w:"Ano Novo"},{n:"Easter",w:"Páscoa"},{n:"Mother's Day",w:"Dia das Mães"},{n:"Father's Day",w:"Dia dos Pais"},{n:"Children's Day",w:"Dia das Crianças"},{n:"Carnival",w:"Carnaval"},{n:"Thanksgiving",w:"Ação de Graças"},{n:"Valentine's Day",w:"Dia dos Namorados"},{n:"Halloween",w:"Halloween"}] },
             { id: 24, name: "Possessive Adjectives", hasHomework: true, specialMode: 'scramble', desc: "Pratique my, your, his, her, our, their." },
             { id: 25, name: "Possessive Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine mine, yours, his, hers, ours, theirs." },
             { id: 26, name: "Foods and Fruits", hasHomework: true, specialMode: 'flashcards', desc: "Vocabulário de comidas e frutas em inglês." },
@@ -3194,7 +3200,7 @@
                 btn.onclick = async () => {
                     if (btn.classList.contains('playing')) return;
                     btn.classList.add('playing');
-                    const audio = await fetchTTSAudio(item.w || item);
+                    const audio = await fetchTTSAudio(item.n || item.w || item);
                     if (audio) { 
                         await audio.play(); 
                         btn.classList.remove('playing');
