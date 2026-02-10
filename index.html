@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SLAP | Central de Estudos - Starter 1</title>
+    <title>SLAP | Portal do Aluno - Starter 1</title>
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749543469/SLAP_FAVICON_AMARELO_coilvj.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -193,6 +193,21 @@
         .student-card:hover { border-color: #8671d1; background: #faf5ff; }
         .student-approved { color: #16a34a; }
         .student-pending { color: #f59e0b; }
+
+        /* SIDEBAR */
+        .app-sidebar { position: fixed; top: 0; left: 0; width: 260px; height: 100vh; background: white; border-right: 1px solid #e7e5e4; z-index: 900; display: flex; flex-direction: column; transition: transform 0.3s ease; }
+        .app-sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 899; }
+        .app-content { margin-left: 260px; transition: margin-left 0.3s ease; }
+        .sidebar-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 1rem; border-radius: 0.5rem; font-size: 0.8rem; font-weight: 600; color: #57534e; cursor: pointer; transition: 0.15s; border: none; background: none; width: 100%; text-align: left; text-decoration: none; font-family: 'DM Sans', sans-serif; }
+        .sidebar-item:hover { background: #f5f3ff; color: #8671d1; }
+        .sidebar-toggle { display: none; position: fixed; top: 0.75rem; left: 0.75rem; z-index: 901; background: white; border: 1px solid #e7e5e4; border-radius: 0.5rem; padding: 0.4rem; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        @media (max-width: 768px) {
+            .app-sidebar { transform: translateX(-100%); }
+            .app-sidebar.open { transform: translateX(0); }
+            .app-sidebar-overlay.open { display: block; }
+            .app-content { margin-left: 0; }
+            .sidebar-toggle { display: flex; }
+        }
     </style>
 </head>
 <body>
@@ -202,7 +217,7 @@
         <div class="login-card">
             <div class="text-center mb-6">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-4">
-                <h2 class="text-xl font-bold text-stone-800">Central de Estudos</h2>
+                <h2 class="text-xl font-bold text-stone-800">Portal do Aluno</h2>
                 <p class="text-stone-500 text-sm mt-1">Faça login para acessar seus estudos</p>
             </div>
 
@@ -409,6 +424,29 @@
                 </div>
             </div>
 
+            <div style="background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); margin-bottom: 1rem;">
+                <h3 style="font-size: 0.9rem; font-weight: 800; color: #1c1917; font-family: 'DM Sans', sans-serif; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    Links para Alunos
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div>
+                        <label style="font-size: 0.7rem; font-weight: 700; color: #78716c; margin-bottom: 0.2rem; display: block;">Link do CP (Baixar CP)</label>
+                        <div style="display: flex; gap: 0.4rem;">
+                            <input type="text" id="teacher-cp-link" placeholder="Cole o link do CP aqui..." style="flex: 1; padding: 0.5rem 0.75rem; border: 2px solid #e7e5e4; border-radius: 0.5rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif; outline: none;" data-testid="input-teacher-cp-link">
+                        </div>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.7rem; font-weight: 700; color: #78716c; margin-bottom: 0.2rem; display: block;">Link das Aulas Gravadas</label>
+                        <div style="display: flex; gap: 0.4rem;">
+                            <input type="text" id="teacher-recorded-link" placeholder="Cole o link das aulas gravadas aqui..." style="flex: 1; padding: 0.5rem 0.75rem; border: 2px solid #e7e5e4; border-radius: 0.5rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif; outline: none;" data-testid="input-teacher-recorded-link">
+                        </div>
+                    </div>
+                    <button onclick="saveTeacherLinks()" style="background: #8671d1; color: white; border: none; border-radius: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 0.25rem;" data-testid="button-save-links">Salvar Links</button>
+                    <p id="links-save-feedback" style="display: none; font-size: 0.7rem; text-align: center; margin-top: 0.25rem;"></p>
+                </div>
+            </div>
+
             <div id="teacher-student-detail" style="display: none; background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); margin-bottom: 1rem;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
                     <div>
@@ -480,60 +518,90 @@
 
     <!-- MAIN APP CONTENT -->
     <div id="main-wrapper" class="hidden">
-        <header class="py-8 mb-10 text-center relative" style="background: #F1D24B;">
-            <div class="absolute top-3 left-3 z-50">
-                <div id="user-info-badge" class="user-badge" data-testid="text-user-info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    <span id="user-display-name" data-testid="text-username"></span>
-                    <button class="logout-btn" onclick="handleLogout()" data-testid="button-logout">SAIR</button>
-                </div>
-            </div>
-            <button class="help-btn" style="background: white; color: #44403c;" onclick="document.getElementById('rules-modal').classList.add('active')">?</button>
 
-            <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
-            <h1 class="text-3xl font-bold text-stone-800 tracking-tight mb-3">Central de Estudos - Starter 1</h1>
-            <p class="text-stone-700 font-medium px-4 leading-relaxed max-w-2xl mx-auto mb-4">Material didático exclusivo focado em reforçar a acurácia estrutural e a confiança na comunicação.</p>
-            <div class="flex items-center justify-center gap-3">
-                <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Siga o SLAP nas redes</span>
-                <div class="flex gap-2">
-                    <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </a>
-                    <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                    </a>
-                    <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                    </a>
-                    <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </a>
-                </div>
+        <!-- SIDEBAR -->
+        <nav class="app-sidebar" id="app-sidebar" data-testid="nav-sidebar">
+            <div style="padding: 1.25rem 1rem 0.75rem;">
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 80px; margin-bottom: 0.75rem;">
+                <p style="font-size: 0.75rem; color: #a8a29e; font-weight: 500;">Bem-vindo,</p>
+                <p style="font-size: 0.95rem; font-weight: 800; color: #1c1917;" id="sidebar-user-name" data-testid="text-sidebar-username"></p>
             </div>
-        </header>
+
+            <div style="padding: 0.5rem 0.75rem; flex: 1; display: flex; flex-direction: column; gap: 0.15rem;">
+                <p style="font-size: 0.6rem; font-weight: 700; color: #a8a29e; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.5rem 1rem 0.25rem;">Menu</p>
+
+                <a href="#" id="sidebar-cp-link" target="_blank" class="sidebar-item" data-testid="link-sidebar-cp">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    Baixar CP
+                </a>
+
+                <button onclick="openGradesModal(); closeSidebar();" class="sidebar-item" data-testid="button-sidebar-grades">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    Minhas Notas
+                </button>
+
+                <button onclick="document.getElementById('journey-modal').classList.add('active'); closeSidebar();" class="sidebar-item" data-testid="button-sidebar-journey">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Jornada
+                </button>
+
+                <button onclick="document.getElementById('rules-modal').classList.add('active'); closeSidebar();" class="sidebar-item" data-testid="button-sidebar-rules">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Manual de Regras
+                </button>
+
+                <a href="#" id="sidebar-recorded-link" target="_blank" class="sidebar-item" data-testid="link-sidebar-recorded">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    Aulas Gravadas
+                </a>
+            </div>
+
+            <div style="padding: 0.75rem 1rem; border-top: 1px solid #e7e5e4;">
+                <button onclick="handleLogout()" class="sidebar-item" style="color: #ef4444;" data-testid="button-sidebar-logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Sair da Conta
+                </button>
+            </div>
+        </nav>
+        <div class="app-sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+        <!-- MOBILE SIDEBAR TOGGLE -->
+        <button class="sidebar-toggle" id="sidebar-toggle-btn" onclick="toggleSidebar()" data-testid="button-toggle-sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#44403c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="app-content">
+            <header class="py-8 mb-10 text-center relative" style="background: #F1D24B;">
+                <button class="help-btn" style="background: white; color: #44403c;" onclick="document.getElementById('rules-modal').classList.add('active')">?</button>
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
+                <h1 class="text-3xl font-bold text-stone-800 tracking-tight mb-3">Portal do Aluno - Starter 1</h1>
+                <p class="text-stone-700 font-medium px-4 leading-relaxed max-w-2xl mx-auto mb-4">Material didático exclusivo focado em reforçar a acurácia estrutural e a confiança na comunicação.</p>
+                <div class="flex items-center justify-center gap-3">
+                    <span class="text-xs font-bold text-stone-600 uppercase tracking-wide">Siga o SLAP nas redes</span>
+                    <div class="flex gap-2">
+                        <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                        </a>
+                        <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                        </a>
+                        <a href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#44403c"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </header>
 
         <div id="dashboard-view" class="w-full">
-            <div class="max-w-xl mx-auto mb-6 flex gap-3 items-center overflow-x-auto pb-2" style="-webkit-overflow-scrolling: touch;">
-                <div class="relative flex-1 min-w-[150px]">
+            <div class="max-w-xl mx-auto mb-6">
+                <div class="relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a8a29e" stroke-width="2" class="absolute left-3 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     <input type="text" id="search-input" placeholder="Pesquisar aula..." class="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-stone-200 focus:border-primary focus:outline-none text-stone-700 font-medium" oninput="filterModules(this.value)">
                 </div>
-                <a href="#" target="_blank" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                    BAIXAR CP
-                </a>
-                <button onclick="document.getElementById('instructions-modal').classList.add('active')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                    INSTRUÇÕES
-                </button>
-                <button onclick="document.getElementById('journey-modal').classList.add('active')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    JORNADA
-                </button>
-                <button onclick="openGradesModal()" data-testid="button-open-grades" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                    MINHAS NOTAS
-                </button>
             </div>
             <div id="level-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
         </div>
@@ -579,6 +647,7 @@
                  <div id="study-content-area" class="py-4"></div>
             </div>
         </div>
+        </div><!-- close app-content -->
     </div>
 
     <!-- RULES POPUP -->
@@ -653,92 +722,202 @@
 
     <!-- JOURNEY MODAL -->
     <div id="journey-modal" class="modal-overlay" onclick="if(event.target === this) this.classList.remove('active')">
-        <div class="modal-content" style="max-width: 420px;">
-            <h3 class="text-xl font-black text-stone-800 mb-5 text-center">Sua Jornada no SLAP</h3>
-            <div class="journey-grid">
-                <div class="journey-step current">
-                    <div class="journey-icon">1</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Starter 1</span>
-                        <span class="journey-level">Iniciante</span>
-                        <span class="journey-badge">Você está aqui!</span>
+        <div class="modal-content" style="max-width: 400px; padding: 1.5rem; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%);">
+            <div style="text-align: center; margin-bottom: 1.2rem;">
+                <div style="font-size: 0.65rem; font-weight: 700; color: #8671d1; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.25rem;">Sua Trilha</div>
+                <h3 style="font-size: 1.3rem; font-weight: 900; color: #44403c; margin: 0;">Jornada SLAP</h3>
+            </div>
+            <div class="journey-trail" data-testid="journey-trail">
+                <div class="trail-node current" data-testid="trail-node-1">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle pulse-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Starter 1</span>
+                        <span class="trail-level">Iniciante</span>
+                        <span class="trail-badge-current">Você está aqui</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">2</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Starter 2</span>
-                        <span class="journey-level">Básico</span>
+                <div class="trail-node locked" data-testid="trail-node-2">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Starter 2</span>
+                        <span class="trail-level">Básico</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">3</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Freshman 1</span>
-                        <span class="journey-level">Pré-intermediário</span>
+                <div class="trail-node locked" data-testid="trail-node-3">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Freshman 1</span>
+                        <span class="trail-level">Pré-intermediário</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">4</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Freshman 2</span>
-                        <span class="journey-level">Pré-intermediário</span>
+                <div class="trail-node locked" data-testid="trail-node-4">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Freshman 2</span>
+                        <span class="trail-level">Pré-intermediário</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">5</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Sophomore 1</span>
-                        <span class="journey-level">Intermediário</span>
+                <div class="trail-node locked" data-testid="trail-node-5">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Sophomore 1</span>
+                        <span class="trail-level">Intermediário</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">6</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Sophomore 2</span>
-                        <span class="journey-level">Intermediário</span>
+                <div class="trail-node locked" data-testid="trail-node-6">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Sophomore 2</span>
+                        <span class="trail-level">Intermediário</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">7</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Senior 1</span>
-                        <span class="journey-level">Avançado</span>
+                <div class="trail-node locked" data-testid="trail-node-7">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Senior 1</span>
+                        <span class="trail-level">Avançado</span>
                     </div>
                 </div>
-                <div class="journey-step locked">
-                    <div class="journey-icon">8</div>
-                    <div class="journey-info">
-                        <span class="journey-name">Senior 2</span>
-                        <span class="journey-level">Avançado</span>
+                <div class="trail-node locked" data-testid="trail-node-8">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">Senior 2</span>
+                        <span class="trail-level">Avançado</span>
                     </div>
                 </div>
-                <div class="journey-step locked final" style="grid-column: span 2; justify-self: center; width: 100%; max-width: 180px;">
-                    <div class="journey-icon">9</div>
-                    <div class="journey-info">
-                        <span class="journey-name">ACC</span>
-                        <span class="journey-level">Conversação</span>
+                <div class="trail-node locked final" data-testid="trail-node-9">
+                    <div class="trail-connector"></div>
+                    <div class="trail-circle trail-trophy">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    </div>
+                    <div class="trail-info">
+                        <span class="trail-name">ACC</span>
+                        <span class="trail-level">Conversação Avançada</span>
                     </div>
                 </div>
             </div>
-            <button class="action-button w-full mt-5" onclick="document.getElementById('journey-modal').classList.remove('active')">Fechar</button>
+            <button class="action-button w-full mt-4" onclick="document.getElementById('journey-modal').classList.remove('active')" data-testid="button-close-journey">Fechar</button>
         </div>
     </div>
     <style>
-        .journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-        .journey-step { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; border-radius: 0.75rem; transition: 0.2s; background: #f5f5f4; position: relative; }
-        .journey-step.current { background: #fef9c3; border: 2px solid #F1D24B; }
-        .journey-step.current[onclick] { background: #ede9fe; border-color: #8671d1; }
-        .journey-step.current[onclick]:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(134,113,209,0.3); background: #e0d7fa; }
-        .journey-step.locked { opacity: 0.5; cursor: not-allowed; }
-        .journey-step.locked::after { content: ''; position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") no-repeat center; }
-        .journey-icon { width: 36px; height: 36px; border-radius: 50%; background: #8671d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0; }
-        .journey-step.locked .journey-icon { background: #a8a29e; }
-        .journey-step.current .journey-icon { background: #F1D24B; color: #44403c; }
-        .journey-info { display: flex; flex-direction: column; }
-        .journey-name { font-weight: 700; color: #44403c; font-size: 0.85rem; }
-        .journey-level { font-size: 0.7rem; color: #78716c; font-weight: 500; }
-        .journey-badge { font-size: 0.6rem; font-weight: 800; color: #8671d1; background: white; padding: 0.1rem 0.4rem; border-radius: 1rem; margin-top: 0.15rem; display: inline-block; width: fit-content; border: 1px solid #e2e8f0; }
+        .journey-trail {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .trail-node {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            position: relative;
+            gap: 0.85rem;
+        }
+        .trail-node:nth-child(odd) { flex-direction: row; padding-left: 2rem; }
+        .trail-node:nth-child(even) { flex-direction: row-reverse; padding-right: 2rem; text-align: right; }
+        .trail-node:nth-child(even) .trail-info { align-items: flex-end; }
+        .trail-connector {
+            position: absolute;
+            width: 3px;
+            background: repeating-linear-gradient(to bottom, #d4d0ec 0px, #d4d0ec 5px, transparent 5px, transparent 10px);
+            top: -0.5rem;
+            bottom: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+        .trail-node:first-child .trail-connector { display: none; }
+        .trail-node:not(:first-child) .trail-connector { top: -0.5rem; bottom: -0.5rem; height: auto; }
+        .trail-node:last-child .trail-connector { bottom: 50%; }
+        .trail-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 2;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .trail-node.current .trail-circle {
+            background: linear-gradient(135deg, #8671d1, #a78bfa);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(134,113,209,0.2), 0 4px 15px rgba(134,113,209,0.4);
+        }
+        .trail-node.locked .trail-circle {
+            background: #e7e5e4;
+            color: #a8a29e;
+            border: 2px dashed #d6d3d1;
+        }
+        .trail-node.final .trail-circle.trail-trophy {
+            background: linear-gradient(135deg, #F1D24B, #f59e0b);
+            color: white;
+            border: 2px solid #F1D24B;
+        }
+        .trail-info {
+            display: flex;
+            flex-direction: column;
+            z-index: 2;
+        }
+        .trail-name {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #44403c;
+        }
+        .trail-node.locked .trail-name { color: #a8a29e; }
+        .trail-level {
+            font-size: 0.7rem;
+            color: #78716c;
+            font-weight: 500;
+        }
+        .trail-node.locked .trail-level { color: #c7c5c2; }
+        .trail-badge-current {
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: white;
+            background: linear-gradient(135deg, #8671d1, #a78bfa);
+            padding: 0.15rem 0.5rem;
+            border-radius: 1rem;
+            margin-top: 0.2rem;
+            display: inline-block;
+            width: fit-content;
+            letter-spacing: 0.3px;
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(134,113,209,0.2), 0 4px 15px rgba(134,113,209,0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(134,113,209,0.1), 0 4px 20px rgba(134,113,209,0.5); }
+        }
     </style>
 
     <!-- HELP MODAL -->
@@ -897,6 +1076,41 @@
             allStudentsCache = [];
             selectedStudentUid = null;
             document.getElementById('teacher-student-detail').style.display = 'none';
+            loadTeacherLinks();
+        }
+
+        async function loadTeacherLinks() {
+            try {
+                var doc = await firebaseDb.collection('settings').doc('links').get();
+                var data = doc.exists ? doc.data() : {};
+                document.getElementById('teacher-cp-link').value = data.cpLink || '';
+                document.getElementById('teacher-recorded-link').value = data.recordedLink || '';
+            } catch(e) {
+                console.warn('Erro ao carregar links:', e);
+            }
+        }
+
+        async function saveTeacherLinks() {
+            var fb = document.getElementById('links-save-feedback');
+            fb.style.display = 'block';
+            fb.textContent = 'Salvando...';
+            fb.style.color = '#78716c';
+            try {
+                var cpLink = document.getElementById('teacher-cp-link').value.trim();
+                var recordedLink = document.getElementById('teacher-recorded-link').value.trim();
+                await firebaseDb.collection('settings').doc('links').set({
+                    cpLink: cpLink,
+                    recordedLink: recordedLink,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                fb.textContent = 'Links salvos com sucesso!';
+                fb.style.color = '#16a34a';
+                setTimeout(function() { fb.style.display = 'none'; }, 2000);
+            } catch(e) {
+                console.error('Erro ao salvar links:', e);
+                fb.textContent = 'Erro ao salvar. Tente novamente.';
+                fb.style.color = '#ef4444';
+            }
         }
 
         async function loadAllStudents() {
@@ -1113,6 +1327,29 @@
             }
         }
 
+        async function loadStudentLinks() {
+            if (!firebaseDb) return;
+            try {
+                var doc = await firebaseDb.collection('settings').doc('links').get();
+                var data = doc.exists ? doc.data() : {};
+                var cpEl = document.getElementById('sidebar-cp-link');
+                if (cpEl) cpEl.href = data.cpLink || '#';
+                var recordedEl = document.getElementById('sidebar-recorded-link');
+                if (recordedEl) recordedEl.href = data.recordedLink || '#';
+            } catch(e) {
+                console.warn('Erro ao carregar links:', e);
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('app-sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
+        function closeSidebar() {
+            document.getElementById('app-sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+
         function showScreen(screen) {
             var screens = ['login-screen', 'pending-screen', 'journey-map-screen', 'main-wrapper', 'teacher-screen'];
             screens.forEach(function(id) {
@@ -1141,8 +1378,10 @@
             if (level === 'starter1') {
                 showScreen('app');
                 const displayName = currentUser.displayName || currentUser.email.split('@')[0];
-                document.getElementById('user-display-name').textContent = displayName;
+                const firstName = displayName.split(' ')[0];
+                document.getElementById('sidebar-user-name').textContent = firstName;
                 renderDashboard();
+                loadStudentLinks();
             }
         }
 
@@ -1737,18 +1976,21 @@
                 const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button-sm" onclick="openHangman(${aula.id})">FORCA</button>` : '';
                 const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button-sm" onclick="openWordSearch(${aula.id})">CAÇA-PALAVRAS</button>` : '';
 
-                let streakBadges = [];
-                if (aula.hasHomework && aula.id <= 10 && isStreakDone(aula.id, 'homework')) streakBadges.push('Homework');
-                if (aula.specialMode === 'flashcards' && isStreakDone(aula.id, 'flashcards')) streakBadges.push('Flashcards');
-                if (aula.specialMode === 'listening' && isStreakDone(aula.id, 'listening')) streakBadges.push('Listening');
-                if (aula.specialMode === 'chunks' && isStreakDone(aula.id, 'chunks')) streakBadges.push('Chunks');
-                if (aula.specialMode === 'scramble' && isStreakDone(aula.id, 'scramble')) streakBadges.push('Scramble');
-                if (aula.specialMode === 'mistake' && isStreakDone(aula.id, 'mistake')) streakBadges.push('Detetive');
-                if (aula.thirdBtn === 'dictation' && isStreakDone(aula.id, 'dictation')) streakBadges.push('Ditado');
-                if ([6, 23, 26].includes(aula.id) && isStreakDone(aula.id, 'hangman')) streakBadges.push('Forca');
-                if ([12, 14].includes(aula.id) && isStreakDone(aula.id, 'wordsearch')) streakBadges.push('Caça-Palavras');
-                if (aula.id === 23 && isStreakDone(23, 'flashcards')) { if (!streakBadges.includes('Flashcards')) streakBadges.push('Flashcards'); }
-                const streakHtml = streakBadges.length > 0 ? `<div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem;">${streakBadges.map(b => `<span style="font-size: 0.6rem; font-weight: 700; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.1rem 0.4rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 0.2rem;"><svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='#16a34a' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg> ${b}</span>`).join('')}</div>` : '';
+                let allStreaks = [];
+                if (aula.hasHomework && aula.id <= 10) allStreaks.push({ label: 'Homework', done: isStreakDone(aula.id, 'homework') });
+                if (aula.specialMode === 'flashcards') allStreaks.push({ label: 'Flashcards', done: isStreakDone(aula.id, 'flashcards') });
+                if (aula.specialMode === 'listening') allStreaks.push({ label: 'Listening', done: isStreakDone(aula.id, 'listening') });
+                if (aula.specialMode === 'chunks') allStreaks.push({ label: 'Chunks', done: isStreakDone(aula.id, 'chunks') });
+                if (aula.specialMode === 'scramble') allStreaks.push({ label: 'Scramble', done: isStreakDone(aula.id, 'scramble') });
+                if (aula.specialMode === 'mistake') allStreaks.push({ label: 'Detetive', done: isStreakDone(aula.id, 'mistake') });
+                if (aula.thirdBtn === 'dictation') allStreaks.push({ label: 'Ditado', done: isStreakDone(aula.id, 'dictation') });
+                if ([6, 23, 26].includes(aula.id)) allStreaks.push({ label: 'Forca', done: isStreakDone(aula.id, 'hangman') });
+                if ([12, 14].includes(aula.id)) allStreaks.push({ label: 'Caça-Palavras', done: isStreakDone(aula.id, 'wordsearch') });
+                if (aula.id === 23 && !allStreaks.find(s => s.label === 'Flashcards')) allStreaks.push({ label: 'Flashcards', done: isStreakDone(23, 'flashcards') });
+                const streakHtml = allStreaks.length > 0 ? `<div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem;">${allStreaks.map(s => s.done
+                    ? `<span style="font-size: 0.6rem; font-weight: 700; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.1rem 0.4rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 0.2rem;" data-testid="streak-done-${s.label}"><svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='#16a34a' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg> ${s.label}</span>`
+                    : `<span style="font-size: 0.6rem; font-weight: 700; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.1rem 0.4rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 0.2rem;" data-testid="streak-pending-${s.label}"><svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='#dc2626' stroke-width='2'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg> ${s.label}</span>`
+                ).join('')}</div>` : '';
 
                 return `
                 <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
