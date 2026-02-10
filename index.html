@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <style>
         :root { --primary: #8671d1; --secondary: #F1D24B; }
@@ -233,6 +234,106 @@
                 <p id="register-error" class="login-error" data-testid="text-register-error"></p>
                 <button type="submit" id="register-submit-btn" class="action-button w-full mt-4" data-testid="button-register-submit">CRIAR CONTA</button>
             </form>
+        </div>
+    </div>
+
+    <!-- PENDING APPROVAL SCREEN -->
+    <div id="pending-screen" class="hidden">
+        <div class="login-card" style="text-align: center;">
+            <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-4">
+            <div style="width: 64px; height: 64px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h2 class="text-xl font-bold text-stone-800 mb-2" data-testid="text-pending-title">Cadastro Recebido!</h2>
+            <p class="text-stone-600 text-sm mb-1" data-testid="text-pending-message">Sua conta foi criada com sucesso.</p>
+            <p class="text-stone-600 text-sm mb-4">Aguarde a <strong>aprovação do professor</strong> para acessar a plataforma.</p>
+            <p class="text-stone-400 text-xs mb-4" id="pending-user-email" data-testid="text-pending-email"></p>
+            <button class="secondary-button w-full" onclick="handleLogout()" data-testid="button-pending-logout">SAIR E VOLTAR</button>
+        </div>
+    </div>
+
+    <!-- JOURNEY MAP SCREEN -->
+    <div id="journey-map-screen" class="hidden">
+        <div style="min-height: 100vh; background: linear-gradient(135deg, #f4f7f9 0%, #ede9fe 50%, #fef9c3 100%); display: flex; align-items: center; justify-content: center; padding: 1.5rem;">
+            <div style="max-width: 480px; width: 100%;">
+                <div class="text-center mb-6">
+                    <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-3">
+                    <p class="text-stone-500 text-sm font-medium">Olá, <strong id="journey-user-name" class="text-stone-700"></strong></p>
+                    <h2 class="text-2xl font-black text-stone-800 mt-1" data-testid="text-journey-title">Sua Jornada</h2>
+                    <p class="text-stone-500 text-xs mt-1">Selecione seu nível para começar a estudar</p>
+                </div>
+
+                <div style="background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+                    <div class="journey-grid">
+                        <div class="journey-step current" style="cursor: pointer; border: 2px solid #8671d1;" onclick="enterLevel('starter1')" data-testid="button-level-starter1">
+                            <div class="journey-icon" style="background: #8671d1;">1</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Starter 1</span>
+                                <span class="journey-level">Iniciante</span>
+                                <span class="journey-badge" style="color: #16a34a; border-color: #bbf7d0; background: #f0fdf4;">Disponível</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">2</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Starter 2</span>
+                                <span class="journey-level">Básico</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">3</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Freshman 1</span>
+                                <span class="journey-level">Pré-intermediário</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">4</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Freshman 2</span>
+                                <span class="journey-level">Pré-intermediário</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">5</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Sophomore 1</span>
+                                <span class="journey-level">Intermediário</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">6</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Sophomore 2</span>
+                                <span class="journey-level">Intermediário</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">7</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Senior 1</span>
+                                <span class="journey-level">Avançado</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked">
+                            <div class="journey-icon">8</div>
+                            <div class="journey-info">
+                                <span class="journey-name">Senior 2</span>
+                                <span class="journey-level">Avançado</span>
+                            </div>
+                        </div>
+                        <div class="journey-step locked" style="grid-column: span 2; justify-self: center; width: 100%; max-width: 200px;">
+                            <div class="journey-icon">9</div>
+                            <div class="journey-info">
+                                <span class="journey-name">ACC</span>
+                                <span class="journey-level">Conversação</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="secondary-button w-full mt-4" style="font-size: 0.75rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
+            </div>
         </div>
     </div>
 
@@ -480,9 +581,12 @@
     </div>
     <style>
         .journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-        .journey-step { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; border-radius: 0.75rem; transition: 0.2s; background: #f5f5f4; }
+        .journey-step { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem; border-radius: 0.75rem; transition: 0.2s; background: #f5f5f4; position: relative; }
         .journey-step.current { background: #fef9c3; border: 2px solid #F1D24B; }
-        .journey-step.locked { opacity: 0.5; }
+        .journey-step.current[onclick] { background: #ede9fe; border-color: #8671d1; }
+        .journey-step.current[onclick]:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(134,113,209,0.3); background: #e0d7fa; }
+        .journey-step.locked { opacity: 0.5; cursor: not-allowed; }
+        .journey-step.locked::after { content: ''; position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") no-repeat center; }
         .journey-icon { width: 36px; height: 36px; border-radius: 50%; background: #8671d1; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0; }
         .journey-step.locked .journey-icon { background: #a8a29e; }
         .journey-step.current .journey-icon { background: #F1D24B; color: #44403c; }
@@ -505,6 +609,7 @@
         // ===== FIREBASE AUTH =====
         let firebaseApp = null;
         let firebaseAuth = null;
+        let firebaseDb = null;
         let currentUser = null;
 
         async function initFirebase() {
@@ -517,6 +622,7 @@
                 }
                 firebaseApp = firebase.initializeApp(config);
                 firebaseAuth = firebase.auth();
+                firebaseDb = firebase.firestore();
                 return true;
             } catch (e) {
                 console.warn('Could not load Firebase config:', e);
@@ -545,8 +651,15 @@
                 'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres.',
                 'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde.',
                 'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
+                'auth/operation-not-allowed': 'Login por email/senha não está ativado. Ative em Firebase Console > Authentication > Sign-in method.',
+                'auth/admin-restricted-operation': 'Cadastro não permitido. Ative Email/Senha em Firebase Console > Authentication > Sign-in method.',
+                'auth/configuration-not-found': 'Configuração do Firebase não encontrada. Verifique o projeto no Firebase Console.',
+                'auth/internal-error': 'Erro interno. Verifique se Email/Senha está ativado no Firebase Console.',
+                'auth/missing-password': 'Digite uma senha.',
+                'auth/missing-email': 'Digite um email.',
             };
-            return messages[code] || 'Ocorreu um erro. Tente novamente.';
+            console.log('Firebase auth error code:', code);
+            return messages[code] || 'Erro: ' + (code || 'desconhecido') + '. Verifique as configurações do Firebase.';
         }
 
         async function handleLogin(e) {
@@ -581,6 +694,12 @@
             try {
                 const cred = await firebaseAuth.createUserWithEmailAndPassword(email, password);
                 await cred.user.updateProfile({ displayName: name });
+                await firebaseDb.collection('users').doc(cred.user.uid).set({
+                    name: name,
+                    email: email,
+                    approved: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
             } catch (err) {
                 errorEl.textContent = getFirebaseErrorMessage(err.code);
                 errorEl.style.display = 'block';
@@ -595,17 +714,59 @@
             }
         }
 
-        function onAuthStateChanged(user) {
-            currentUser = user;
-            if (user) {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('main-wrapper').classList.remove('hidden');
-                const displayName = user.displayName || user.email.split('@')[0];
+        function showScreen(screen) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('pending-screen').classList.add('hidden');
+            document.getElementById('journey-map-screen').classList.add('hidden');
+            document.getElementById('main-wrapper').classList.add('hidden');
+            if (screen === 'login') document.getElementById('login-screen').classList.remove('hidden');
+            if (screen === 'pending') document.getElementById('pending-screen').classList.remove('hidden');
+            if (screen === 'journey') document.getElementById('journey-map-screen').classList.remove('hidden');
+            if (screen === 'app') document.getElementById('main-wrapper').classList.remove('hidden');
+        }
+
+        function enterLevel(level) {
+            if (level === 'starter1') {
+                showScreen('app');
+                const displayName = currentUser.displayName || currentUser.email.split('@')[0];
                 document.getElementById('user-display-name').textContent = displayName;
                 renderDashboard();
+            }
+        }
+
+        async function checkUserApproval(user) {
+            try {
+                const doc = await firebaseDb.collection('users').doc(user.uid).get();
+                if (!doc.exists) {
+                    await firebaseDb.collection('users').doc(user.uid).set({
+                        name: user.displayName || user.email.split('@')[0],
+                        email: user.email,
+                        approved: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    return false;
+                }
+                return doc.data().approved === true;
+            } catch (e) {
+                console.error('Erro ao verificar aprovação:', e);
+                return false;
+            }
+        }
+
+        async function onAuthStateChanged(user) {
+            currentUser = user;
+            if (user) {
+                const approved = await checkUserApproval(user);
+                if (approved) {
+                    const displayName = user.displayName || user.email.split('@')[0];
+                    document.getElementById('journey-user-name').textContent = displayName;
+                    showScreen('journey');
+                } else {
+                    document.getElementById('pending-user-email').textContent = user.email;
+                    showScreen('pending');
+                }
             } else {
-                document.getElementById('login-screen').classList.remove('hidden');
-                document.getElementById('main-wrapper').classList.add('hidden');
+                showScreen('login');
                 document.getElementById('login-submit-btn').disabled = false;
                 document.getElementById('login-submit-btn').textContent = 'ENTRAR';
                 document.getElementById('register-submit-btn').disabled = false;
@@ -2240,8 +2401,7 @@
             if (firebaseReady) {
                 firebaseAuth.onAuthStateChanged(onAuthStateChanged);
             } else {
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('main-wrapper').classList.remove('hidden');
+                showScreen('app');
                 document.getElementById('user-info-badge').style.display = 'none';
                 renderDashboard();
             }
