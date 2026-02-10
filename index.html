@@ -265,13 +265,7 @@
                 <div class="text-center mb-6">
                     <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-3">
                     <p class="text-stone-500 text-sm font-medium">Olá, <strong id="journey-user-name" class="text-stone-700"></strong></p>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.25rem;">
-                        <h2 class="text-2xl font-black text-stone-800" data-testid="text-journey-title">Sua Jornada</h2>
-                        <button onclick="openGradesModal()" data-testid="button-open-grades" style="background: #8671d1; color: white; border: none; border-radius: 0.5rem; padding: 0.3rem 0.75rem; font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 0.3rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                            Minhas Notas
-                        </button>
-                    </div>
+                    <h2 class="text-2xl font-black text-stone-800" data-testid="text-journey-title" style="margin-top: 0.25rem;">Sua Jornada</h2>
                     <p class="text-stone-500 text-xs mt-1">Selecione seu nível para começar a estudar</p>
                 </div>
 
@@ -535,6 +529,10 @@
                 <button onclick="document.getElementById('journey-modal').classList.add('active')" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     JORNADA
+                </button>
+                <button onclick="openGradesModal()" data-testid="button-open-grades" class="flex-shrink-0 inline-flex items-center gap-2 px-4 py-3 bg-white border border-stone-200 rounded-xl text-xs font-black text-stone-500 hover:text-[#8671d1] hover:border-[#8671d1] shadow-sm transition-all whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    MINHAS NOTAS
                 </button>
             </div>
             <div id="level-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-20"></div>
