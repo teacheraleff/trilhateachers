@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqfi22uz0/image/upload/v1749543469/SLAP_FAVICON_AMARELO_coilvj.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
     <style>
         :root { --primary: #8671d1; --secondary: #F1D24B; }
@@ -171,13 +173,79 @@
         .modal-overlay.active .modal-content { transform: scale(1); }
 
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* LOGIN SCREEN */
+        #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f4f7f9 0%, #e8e0f3 100%); }
+        .login-card { background: white; border-radius: 1.5rem; padding: 2.5rem; max-width: 400px; width: 90%; box-shadow: 0 20px 60px rgba(134,113,209,0.15); }
+        .login-input { width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.75rem; font-size: 1rem; font-family: 'DM Sans', sans-serif; outline: none; transition: 0.2s; box-sizing: border-box; }
+        .login-input:focus { border-color: #8671d1; }
+        .login-error { color: #ef4444; font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; display: none; }
+        .login-tabs { display: flex; border-radius: 0.75rem; overflow: hidden; border: 2px solid #e2e8f0; margin-bottom: 1.5rem; }
+        .login-tab { flex: 1; padding: 0.65rem; text-align: center; font-weight: 700; font-size: 0.875rem; cursor: pointer; transition: 0.2s; background: white; color: #78716c; }
+        .login-tab.active { background: #8671d1; color: white; }
+        .user-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: white; border: 1px solid #e2e8f0; padding: 0.35rem 0.75rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 600; color: #44403c; }
+        .logout-btn { background: none; border: none; color: #ef4444; font-weight: 700; font-size: 0.7rem; cursor: pointer; padding: 0.2rem 0.4rem; border-radius: 0.25rem; }
+        .logout-btn:hover { background: #fef2f2; }
     </style>
 </head>
 <body>
 
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="text-center mb-6">
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-4">
+                <h2 class="text-xl font-bold text-stone-800">Central de Estudos</h2>
+                <p class="text-stone-500 text-sm mt-1">Faça login para acessar seus estudos</p>
+            </div>
+
+            <div class="login-tabs" data-testid="login-tabs">
+                <div class="login-tab active" data-testid="tab-login" onclick="switchLoginTab('login')">ENTRAR</div>
+                <div class="login-tab" data-testid="tab-register" onclick="switchLoginTab('register')">CADASTRAR</div>
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="mb-3">
+                    <label class="block text-sm font-bold text-stone-600 mb-1">Email</label>
+                    <input type="email" id="login-email" class="login-input" placeholder="seu@email.com" required data-testid="input-login-email">
+                </div>
+                <div class="mb-1">
+                    <label class="block text-sm font-bold text-stone-600 mb-1">Senha</label>
+                    <input type="password" id="login-password" class="login-input" placeholder="Sua senha" required minlength="6" data-testid="input-login-password">
+                </div>
+                <p id="login-error" class="login-error" data-testid="text-login-error"></p>
+                <button type="submit" id="login-submit-btn" class="action-button w-full mt-4" data-testid="button-login-submit">ENTRAR</button>
+            </form>
+
+            <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+                <div class="mb-3">
+                    <label class="block text-sm font-bold text-stone-600 mb-1">Nome completo</label>
+                    <input type="text" id="register-name" class="login-input" placeholder="Seu nome" required data-testid="input-register-name">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-bold text-stone-600 mb-1">Email</label>
+                    <input type="email" id="register-email" class="login-input" placeholder="seu@email.com" required data-testid="input-register-email">
+                </div>
+                <div class="mb-1">
+                    <label class="block text-sm font-bold text-stone-600 mb-1">Senha</label>
+                    <input type="password" id="register-password" class="login-input" placeholder="Mínimo 6 caracteres" required minlength="6" data-testid="input-register-password">
+                </div>
+                <p id="register-error" class="login-error" data-testid="text-register-error"></p>
+                <button type="submit" id="register-submit-btn" class="action-button w-full mt-4" data-testid="button-register-submit">CRIAR CONTA</button>
+            </form>
+        </div>
+    </div>
+
     <!-- MAIN APP CONTENT -->
-    <div id="main-wrapper">
+    <div id="main-wrapper" class="hidden">
         <header class="py-8 mb-10 text-center relative" style="background: #F1D24B;">
+            <div class="absolute top-3 left-3 z-50">
+                <div id="user-info-badge" class="user-badge" data-testid="text-user-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span id="user-display-name" data-testid="text-username"></span>
+                    <button class="logout-btn" onclick="handleLogout()" data-testid="button-logout">SAIR</button>
+                </div>
+            </div>
             <button class="help-btn" style="background: white; color: #44403c;" onclick="document.getElementById('rules-modal').classList.add('active')">?</button>
 
             <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-32 h-auto mx-auto mb-6">
@@ -434,6 +502,117 @@
     </div>
 
     <script>
+        // ===== FIREBASE AUTH =====
+        let firebaseApp = null;
+        let firebaseAuth = null;
+        let currentUser = null;
+
+        async function initFirebase() {
+            try {
+                const res = await fetch('/api/firebase-config');
+                const config = await res.json();
+                if (!config.apiKey) {
+                    console.warn('Firebase config not available');
+                    return false;
+                }
+                firebaseApp = firebase.initializeApp(config);
+                firebaseAuth = firebase.auth();
+                return true;
+            } catch (e) {
+                console.warn('Could not load Firebase config:', e);
+                return false;
+            }
+        }
+
+        function switchLoginTab(tab) {
+            const tabs = document.querySelectorAll('.login-tab');
+            tabs[0].classList.toggle('active', tab === 'login');
+            tabs[1].classList.toggle('active', tab === 'register');
+            document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('register-error').style.display = 'none';
+        }
+
+        function getFirebaseErrorMessage(code) {
+            const messages = {
+                'auth/invalid-email': 'Email inválido.',
+                'auth/user-disabled': 'Esta conta foi desativada.',
+                'auth/user-not-found': 'Email não cadastrado.',
+                'auth/wrong-password': 'Senha incorreta.',
+                'auth/invalid-credential': 'Email ou senha incorretos.',
+                'auth/email-already-in-use': 'Este email já está cadastrado.',
+                'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres.',
+                'auth/too-many-requests': 'Muitas tentativas. Tente novamente mais tarde.',
+                'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
+            };
+            return messages[code] || 'Ocorreu um erro. Tente novamente.';
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            const btn = document.getElementById('login-submit-btn');
+            errorEl.style.display = 'none';
+            btn.disabled = true;
+            btn.textContent = 'ENTRANDO...';
+            try {
+                await firebaseAuth.signInWithEmailAndPassword(email, password);
+            } catch (err) {
+                errorEl.textContent = getFirebaseErrorMessage(err.code);
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'ENTRAR';
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const errorEl = document.getElementById('register-error');
+            const btn = document.getElementById('register-submit-btn');
+            errorEl.style.display = 'none';
+            btn.disabled = true;
+            btn.textContent = 'CRIANDO...';
+            try {
+                const cred = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+                await cred.user.updateProfile({ displayName: name });
+            } catch (err) {
+                errorEl.textContent = getFirebaseErrorMessage(err.code);
+                errorEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'CRIAR CONTA';
+            }
+        }
+
+        function handleLogout() {
+            if (firebaseAuth) {
+                firebaseAuth.signOut();
+            }
+        }
+
+        function onAuthStateChanged(user) {
+            currentUser = user;
+            if (user) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-wrapper').classList.remove('hidden');
+                const displayName = user.displayName || user.email.split('@')[0];
+                document.getElementById('user-display-name').textContent = displayName;
+                renderDashboard();
+            } else {
+                document.getElementById('login-screen').classList.remove('hidden');
+                document.getElementById('main-wrapper').classList.add('hidden');
+                document.getElementById('login-submit-btn').disabled = false;
+                document.getElementById('login-submit-btn').textContent = 'ENTRAR';
+                document.getElementById('register-submit-btn').disabled = false;
+                document.getElementById('register-submit-btn').textContent = 'CRIAR CONTA';
+            }
+        }
+
         const audioCache = new Map();
 
         function playCorrectSound() {
@@ -497,10 +676,10 @@
 
         // --- APP DATA ---
         const aulaNames = [
-            { id: 1, name: "Open House", hasHomework: false },
-            { id: 2, name: "Feelings", hasHomework: true, specialMode: 'flashcards' },
-            { id: 3, name: "Names & Greetings", hasHomework: true, specialMode: 'chunks' },
-            { id: 4, name: "Numbers pt. 1", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [
+            { id: 1, name: "Open House", hasHomework: false, desc: "Aula introdutória do curso." },
+            { id: 2, name: "Feelings", hasHomework: true, specialMode: 'flashcards', desc: "Pratique vocabulário de sentimentos e emoções." },
+            { id: 3, name: "Names & Greetings", hasHomework: true, specialMode: 'chunks', desc: "Treine apresentações e cumprimentos em inglês." },
+            { id: 4, name: "Numbers pt. 1", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', desc: "Pratique os números de 1 a 99.", items: [
                 {n: "1", w: "One"}, {n: "2", w: "Two"}, {n: "3", w: "Three"}, {n: "4", w: "Four"}, {n: "5", w: "Five"},
                 {n: "6", w: "Six"}, {n: "7", w: "Seven"}, {n: "8", w: "Eight"}, {n: "9", w: "Nine"}, {n: "10", w: "Ten"},
                 {n: "11", w: "Eleven"}, {n: "12", w: "Twelve"}, {n: "13", w: "Thirteen"}, {n: "14", w: "Fourteen"}, {n: "15", w: "Fifteen"},
@@ -514,10 +693,10 @@
                 {n: "80", w: "Eighty"}, {n: "82", w: "Eighty-two"}, {n: "84", w: "Eighty-four"}, {n: "87", w: "Eighty-seven"}, {n: "89", w: "Eighty-nine"},
                 {n: "90", w: "Ninety"}, {n: "91", w: "Ninety-one"}, {n: "93", w: "Ninety-three"}, {n: "96", w: "Ninety-six"}, {n: "99", w: "Ninety-nine"}
             ]},
-            { id: 5, name: "Numbers pt. 2", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [
+            { id: 5, name: "Numbers pt. 2", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', desc: "Pratique números grandes: centenas, milhares e além.", items: [
                 {n: "100", w: "One hundred"}, {n: "150", w: "One hundred and fifty"}, {n: "200", w: "Two hundred"}, {n: "300", w: "Three hundred"}, {n: "325", w: "Three hundred and twenty-five"}, {n: "400", w: "Four hundred"}, {n: "500", w: "Five hundred"}, {n: "505", w: "Five hundred and five"}, {n: "600", w: "Six hundred"}, {n: "700", w: "Seven hundred"}, {n: "800", w: "Eight hundred"}, {n: "900", w: "Nine hundred"}, {n: "1,000", w: "One thousand"}, {n: "1,200", w: "One thousand two hundred"}, {n: "2,000", w: "Two thousand"}, {n: "4,000", w: "Four thousand"}, {n: "5,500", w: "Five thousand five hundred"}, {n: "10,000", w: "Ten thousand"}, {n: "10,500", w: "Ten thousand five hundred"}, {n: "20,000", w: "Twenty thousand"}, {n: "30,000", w: "Thirty thousand"}, {n: "40,000", w: "Forty thousand"}, {n: "45,300", w: "Forty-five thousand three hundred"}, {n: "50,000", w: "Fifty thousand"}, {n: "60,000", w: "Sixty thousand"}, {n: "70,000", w: "Seventy thousand"}, {n: "80,000", w: "Eighty thousand"}, {n: "90,000", w: "Ninety thousand"}
             ]},
-            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [
+            { id: 6, name: "Spelling", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', desc: "Aprenda a soletrar e pronunciar as letras do alfabeto.", items: [
                 {n: "A", w: "ay", p: "/eɪ/"}, {n: "B", w: "bee", p: "/biː/"}, {n: "C", w: "cee", p: "/siː/"}, {n: "D", w: "dee", p: "/diː/"},
                 {n: "E", w: "ee", p: "/iː/"}, {n: "F", w: "ef", p: "/ɛf/"}, {n: "G", w: "gee", p: "/dʒiː/"}, {n: "H", w: "aitch", p: "/eɪtʃ/"},
                 {n: "I", w: "eye", p: "/aɪ/"}, {n: "J", w: "jay", p: "/dʒeɪ/"}, {n: "K", w: "kay", p: "/keɪ/"}, {n: "L", w: "el", p: "/ɛl/"},
@@ -526,36 +705,36 @@
                 {n: "U", w: "you", p: "/juː/"}, {n: "V", w: "vee", p: "/viː/"}, {n: "W", w: "double you", p: "/ˈdʌbəljuː/"}, {n: "X", w: "ex", p: "/ɛks/"},
                 {n: "Y", w: "why", p: "/waɪ/"}, {n: "Z", w: "zee", p: "/ziː/"}
             ] },
-            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"16th",w:"Sixteenth"},{n:"17th",w:"Seventeenth"},{n:"18th",w:"Eighteenth"},{n:"19th",w:"Nineteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"23rd",w:"Twenty-third"},{n:"24th",w:"Twenty-fourth"},{n:"25th",w:"Twenty-fifth"},{n:"26th",w:"Twenty-sixth"},{n:"27th",w:"Twenty-seventh"},{n:"28th",w:"Twenty-eighth"},{n:"29th",w:"Twenty-ninth"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"32nd",w:"Thirty-second"},{n:"33rd",w:"Thirty-third"},{n:"34th",w:"Thirty-fourth"},{n:"35th",w:"Thirty-fifth"},{n:"40th",w:"Fortieth"},{n:"41st",w:"Forty-first"},{n:"42nd",w:"Forty-second"},{n:"43rd",w:"Forty-third"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"51st",w:"Fifty-first"},{n:"52nd",w:"Fifty-second"},{n:"53rd",w:"Fifty-third"},{n:"55th",w:"Fifty-fifth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"61st",w:"Sixty-first"},{n:"62nd",w:"Sixty-second"},{n:"63rd",w:"Sixty-third"},{n:"65th",w:"Sixty-fifth"},{n:"70th",w:"Seventieth"},{n:"71st",w:"Seventy-first"},{n:"72nd",w:"Seventy-second"},{n:"73rd",w:"Seventy-third"},{n:"75th",w:"Seventy-fifth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"81st",w:"Eighty-first"},{n:"82nd",w:"Eighty-second"},{n:"83rd",w:"Eighty-third"},{n:"85th",w:"Eighty-fifth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"},{n:"91st",w:"Ninety-first"},{n:"92nd",w:"Ninety-second"},{n:"93rd",w:"Ninety-third"},{n:"95th",w:"Ninety-fifth"},{n:"99th",w:"Ninety-ninth"},{n:"100th",w:"One hundredth"}] },
-            { id: 8, name: "Basic Verbs", hasHomework: true, thirdBtn: 'dictation' },
-            { id: 9, name: "Basic Adjectives", hasHomework: true, thirdBtn: 'dictation' },
-            { id: 10, name: "Demonstrative Pronouns", hasHomework: true, specialMode: 'scramble' },
-            { id: 11, name: "Verb to be", hasHomework: true },
-            { id: 12, name: "Countries and Nationalities", hasHomework: true, specialMode: 'flashcards' },
-            { id: 13, name: "Neighborhood", hasHomework: true },
-            { id: 14, name: "Family Members", hasHomework: true },
-            { id: 15, name: "Midterm Test", hasHomework: false },
-            { id: 16, name: "Can e Can't", hasHomework: true, specialMode: 'scramble' },
-            { id: 17, name: "Midterm Test Correction", hasHomework: false },
-            { id: 18, name: "Simple Present pt. 1", hasHomework: true, specialMode: 'scramble' },
-            { id: 19, name: "Simple Present pt. 2", hasHomework: true, specialMode: 'scramble' },
-            { id: 20, name: "Object Pronouns", hasHomework: true, specialMode: 'scramble' },
-            { id: 21, name: "Likes and Dislikes", hasHomework: true },
-            { id: 22, name: "Free Time Activities", hasHomework: true },
-            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', items: [{n:"Jan",w:"January"},{n:"Feb",w:"February"},{n:"Mar",w:"March"},{n:"Apr",w:"April"},{n:"May",w:"May"},{n:"Jun",w:"June"},{n:"Jul",w:"July"},{n:"Aug",w:"August"},{n:"Sep",w:"September"},{n:"Oct",w:"October"},{n:"Nov",w:"November"},{n:"Dec",w:"December"}] },
-            { id: 24, name: "Possessive Adjectives", hasHomework: true, specialMode: 'scramble' },
-            { id: 25, name: "Possessive Pronouns", hasHomework: true, specialMode: 'scramble' },
-            { id: 26, name: "Foods and Fruits", hasHomework: true, specialMode: 'flashcards' },
-            { id: 27, name: "Presentation", hasHomework: false },
-            { id: 28, name: "Hours", hasHomework: true, specialMode: 'flashcards', thirdBtn: 'dictation' },
-            { id: 29, name: "Kahoot Review", hasHomework: false },
-            { id: 30, name: "Listening Test", hasHomework: false },
-            { id: 31, name: "Grammar Test", hasHomework: false },
-            { id: 32, name: "GT e LT Review", hasHomework: false },
-            { id: 33, name: "OT Review", hasHomework: false },
-            { id: 34, name: "Oral Test Day 1", hasHomework: false },
-            { id: 35, name: "Oral Test Day 2", hasHomework: false },
-            { id: 36, name: "General Feedback", hasHomework: false }
+            { id: 7, name: "Ordinal Numbers", hasHomework: true, specialMode: 'listening', thirdBtn: 'dictation', desc: "Treine os números ordinais: first, second, third...", items: [{n:"1st",w:"First"},{n:"2nd",w:"Second"},{n:"3rd",w:"Third"},{n:"4th",w:"Fourth"},{n:"5th",w:"Fifth"},{n:"6th",w:"Sixth"},{n:"7th",w:"Seventh"},{n:"8th",w:"Eighth"},{n:"9th",w:"Ninth"},{n:"10th",w:"Tenth"},{n:"11th",w:"Eleventh"},{n:"12th",w:"Twelfth"},{n:"13th",w:"Thirteenth"},{n:"14th",w:"Fourteenth"},{n:"15th",w:"Fifteenth"},{n:"16th",w:"Sixteenth"},{n:"17th",w:"Seventeenth"},{n:"18th",w:"Eighteenth"},{n:"19th",w:"Nineteenth"},{n:"20th",w:"Twentieth"},{n:"21st",w:"Twenty-first"},{n:"22nd",w:"Twenty-second"},{n:"23rd",w:"Twenty-third"},{n:"24th",w:"Twenty-fourth"},{n:"25th",w:"Twenty-fifth"},{n:"26th",w:"Twenty-sixth"},{n:"27th",w:"Twenty-seventh"},{n:"28th",w:"Twenty-eighth"},{n:"29th",w:"Twenty-ninth"},{n:"30th",w:"Thirtieth"},{n:"31st",w:"Thirty-first"},{n:"32nd",w:"Thirty-second"},{n:"33rd",w:"Thirty-third"},{n:"34th",w:"Thirty-fourth"},{n:"35th",w:"Thirty-fifth"},{n:"40th",w:"Fortieth"},{n:"41st",w:"Forty-first"},{n:"42nd",w:"Forty-second"},{n:"43rd",w:"Forty-third"},{n:"45th",w:"Forty-fifth"},{n:"50th",w:"Fiftieth"},{n:"51st",w:"Fifty-first"},{n:"52nd",w:"Fifty-second"},{n:"53rd",w:"Fifty-third"},{n:"55th",w:"Fifty-fifth"},{n:"58th",w:"Fifty-eighth"},{n:"60th",w:"Sixtieth"},{n:"61st",w:"Sixty-first"},{n:"62nd",w:"Sixty-second"},{n:"63rd",w:"Sixty-third"},{n:"65th",w:"Sixty-fifth"},{n:"70th",w:"Seventieth"},{n:"71st",w:"Seventy-first"},{n:"72nd",w:"Seventy-second"},{n:"73rd",w:"Seventy-third"},{n:"75th",w:"Seventy-fifth"},{n:"77th",w:"Seventy-seventh"},{n:"80th",w:"Eightieth"},{n:"81st",w:"Eighty-first"},{n:"82nd",w:"Eighty-second"},{n:"83rd",w:"Eighty-third"},{n:"85th",w:"Eighty-fifth"},{n:"89th",w:"Eighty-ninth"},{n:"90th",w:"Ninetieth"},{n:"91st",w:"Ninety-first"},{n:"92nd",w:"Ninety-second"},{n:"93rd",w:"Ninety-third"},{n:"95th",w:"Ninety-fifth"},{n:"99th",w:"Ninety-ninth"},{n:"100th",w:"One hundredth"}] },
+            { id: 8, name: "Basic Verbs", hasHomework: true, thirdBtn: 'dictation', desc: "Pratique os verbos mais usados no dia a dia." },
+            { id: 9, name: "Basic Adjectives", hasHomework: true, thirdBtn: 'dictation', desc: "Aprenda adjetivos para descrever pessoas e coisas." },
+            { id: 10, name: "Demonstrative Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine this, that, these e those nas frases." },
+            { id: 11, name: "Verb to be", hasHomework: true, desc: "Domine o verbo to be: am, is e are." },
+            { id: 12, name: "Countries and Nationalities", hasHomework: true, specialMode: 'flashcards', desc: "Aprenda países e nacionalidades em inglês." },
+            { id: 13, name: "Neighborhood", hasHomework: true, desc: "Vocabulário de lugares e locais do bairro." },
+            { id: 14, name: "Family Members", hasHomework: true, desc: "Pratique os nomes dos membros da família." },
+            { id: 15, name: "Midterm Test", hasHomework: false, desc: "Prova intermediária do módulo." },
+            { id: 16, name: "Can e Can't", hasHomework: true, specialMode: 'scramble', desc: "Pratique frases com can e can't (habilidades)." },
+            { id: 17, name: "Midterm Test Correction", hasHomework: false, desc: "Correção da prova intermediária." },
+            { id: 18, name: "Simple Present pt. 1", hasHomework: true, specialMode: 'scramble', desc: "Monte frases no presente simples." },
+            { id: 19, name: "Simple Present pt. 2", hasHomework: true, specialMode: 'scramble', desc: "Continue praticando o presente simples." },
+            { id: 20, name: "Object Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine me, you, him, her, us, them nas frases." },
+            { id: 21, name: "Likes and Dislikes", hasHomework: true, desc: "Expresse gostos e preferências em inglês." },
+            { id: 22, name: "Free Time Activities", hasHomework: true, desc: "Vocabulário de atividades de lazer e tempo livre." },
+            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', desc: "Aprenda os meses do ano e feriados.", items: [{n:"Jan",w:"January"},{n:"Feb",w:"February"},{n:"Mar",w:"March"},{n:"Apr",w:"April"},{n:"May",w:"May"},{n:"Jun",w:"June"},{n:"Jul",w:"July"},{n:"Aug",w:"August"},{n:"Sep",w:"September"},{n:"Oct",w:"October"},{n:"Nov",w:"November"},{n:"Dec",w:"December"}] },
+            { id: 24, name: "Possessive Adjectives", hasHomework: true, specialMode: 'scramble', desc: "Pratique my, your, his, her, our, their." },
+            { id: 25, name: "Possessive Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine mine, yours, his, hers, ours, theirs." },
+            { id: 26, name: "Foods and Fruits", hasHomework: true, specialMode: 'flashcards', desc: "Vocabulário de comidas e frutas em inglês." },
+            { id: 27, name: "Presentation", hasHomework: false, desc: "Aula de apresentação oral." },
+            { id: 28, name: "Hours", hasHomework: true, specialMode: 'flashcards', thirdBtn: 'dictation', desc: "Aprenda a dizer as horas em inglês." },
+            { id: 29, name: "Kahoot Review", hasHomework: false, desc: "Revisão interativa com Kahoot." },
+            { id: 30, name: "Listening Test", hasHomework: false, desc: "Prova de compreensão auditiva." },
+            { id: 31, name: "Grammar Test", hasHomework: false, desc: "Prova de gramática do módulo." },
+            { id: 32, name: "GT e LT Review", hasHomework: false, desc: "Revisão das provas de gramática e listening." },
+            { id: 33, name: "OT Review", hasHomework: false, desc: "Revisão para a prova oral." },
+            { id: 34, name: "Oral Test Day 1", hasHomework: false, desc: "Primeiro dia da prova oral." },
+            { id: 35, name: "Oral Test Day 2", hasHomework: false, desc: "Segundo dia da prova oral." },
+            { id: 36, name: "General Feedback", hasHomework: false, desc: "Feedback geral do módulo." }
         ];
 
         const flashcardsData = {
@@ -697,8 +876,8 @@
                 { full: "the house is ours", words: ["the", "house", "is", "ours"] }
             ],
             // Dictation data
-            4: { dictation: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"] },
-            5: { dictation: ["eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"] },
+            4: { dictation: ["one two three", "four five six", "seven eight nine", "ten one five", "three six nine", "two four eight", "five seven ten", "one four seven", "six eight two", "three five one", "nine two six", "four seven three", "eight ten five", "two nine four", "seven one eight"], isNumberCombo: true },
+            5: { dictation: ["eleven twelve thirteen", "fourteen fifteen sixteen", "seventeen eighteen nineteen", "twenty eleven fourteen", "thirteen sixteen nineteen", "twelve fifteen eighteen", "seventeen twenty eleven", "fourteen thirteen twelve", "nineteen sixteen fifteen", "eighteen eleven twenty", "twelve seventeen fourteen", "fifteen nineteen thirteen", "sixteen eighteen twelve", "twenty thirteen seventeen", "eleven fifteen nineteen"], isNumberCombo: true },
             6: { dictation: ["CAR", "DOG", "CAT", "BUS", "SUN", "HAT", "PEN", "RED", "BOX", "CUP", "BOOK", "TREE", "FISH", "BIRD", "HAND", "STAR", "MOON", "BALL", "CAKE", "MILK"], isSpelling: true },
             7: { dictation: ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"] },
             8: { dictation: ["run", "walk", "eat", "drink", "sleep", "work", "play", "read", "write", "speak"] },
@@ -955,7 +1134,7 @@
                     <div>
                         <span class="module-tag">STARTER 1 - HW AULA ${String(aula.id).padStart(2, '0')}</span>
                         <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
-                        <p class="text-stone-500 text-sm mb-6">${aula.hasHomework ? 'Pratique as estruturas aprendidas em aula.' : 'Sem homework disponível.'}</p>
+                        <p class="text-stone-500 text-sm mb-6">${aula.desc}</p>
                     </div>
                     <div class="flex flex-wrap gap-1.5">
                         ${sBtn} ${tBtn} ${dBtn} ${hBtn} ${cBtn}
@@ -1107,10 +1286,12 @@
         }
 
         let isSpellingMode = false;
+        let isNumberComboMode = false;
         window.openDictation = function(id) {
              const aula = aulaNames.find(a => a.id === id);
              currentStudyMode = 'dictation';
              isSpellingMode = gamesData[id].isSpelling || false;
+             isNumberComboMode = gamesData[id].isNumberCombo || false;
              document.getElementById('dashboard-view').classList.add('hidden');
              document.getElementById('study-view').classList.remove('hidden');
              document.getElementById('study-title').textContent = "Ditado";
@@ -1893,13 +2074,14 @@
                 <div class="flex flex-col items-center gap-4">
                     <div class="text-center">
                         <span class="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full font-bold text-sm">
-                            Palavra ${currentItem} / ${totalItems}
+                            ${isNumberComboMode ? 'Sequência' : 'Palavra'} ${currentItem} / ${totalItems}
                         </span>
                     </div>
                     <button id="dict-play" class="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center hover:from-indigo-200 hover:to-purple-200 transition-all shadow-lg transform hover:scale-105" onclick="playDictation('${item}')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
                     </button>
-                    <input type="text" id="dict-input" class="dictation-input" placeholder="Digite aqui..." autocomplete="off" onkeypress="if(event.key==='Enter')checkDictation('${item}')">
+                    ${isNumberComboMode ? '<p class="text-sm text-stone-400">Ex: one two three ou 1 2 3</p>' : ''}
+                    <input type="text" id="dict-input" class="dictation-input" ${isNumberComboMode ? 'style="width:320px"' : ''} placeholder="${isNumberComboMode ? 'Ex: one two three' : 'Digite aqui...'}" autocomplete="off" onkeypress="if(event.key==='Enter')checkDictation('${item}')">
                     <button class="action-button max-w-xs" onclick="checkDictation('${item}')">Verificar</button>
                     <div id="dict-fb" class="hidden p-4 rounded-xl font-bold text-lg"></div>
                     <button class="secondary-button hidden" id="dict-next" onclick="window.nextRound(renderDictation)">Próxima Palavra</button>
@@ -1941,6 +2123,16 @@
                      }
                  }
                  btn.classList.remove('animate-pulse');
+             } else if (isNumberComboMode) {
+                 const numbers = text.split(' ');
+                 for (let i = 0; i < numbers.length; i++) {
+                     const audio = await fetchTTSAudio(numbers[i]);
+                     if (audio) await audio.play();
+                     if (i < numbers.length - 1) {
+                         await new Promise(resolve => setTimeout(resolve, 600));
+                     }
+                 }
+                 btn.classList.remove('animate-pulse');
              } else {
                  const audio = await fetchTTSAudio(spokenText);
                  if (audio) { 
@@ -1964,13 +2156,28 @@
         const reverseNumberMap = Object.fromEntries(Object.entries(numberMap).map(([k, v]) => [v, k]));
 
         function normalizeAnswer(val, correct) {
-            val = val.toLowerCase().trim();
+            val = val.toLowerCase().trim().replace(/\s+/g, ' ');
             correct = correct.toLowerCase().trim();
             if (val === correct) return true;
             // Check if user typed number instead of word
             if (numberMap[correct] && val === numberMap[correct]) return true;
             // Check if user typed word instead of number
             if (reverseNumberMap[correct] && val === reverseNumberMap[correct]) return true;
+            // Handle multi-number combos (e.g. "one two three" vs "1 2 3" or mixed)
+            if (correct.includes(' ')) {
+                const correctParts = correct.split(' ');
+                const valParts = val.split(' ');
+                if (correctParts.length === valParts.length) {
+                    const allMatch = correctParts.every((cp, i) => {
+                        const vp = valParts[i];
+                        if (vp === cp) return true;
+                        if (numberMap[cp] && vp === numberMap[cp]) return true;
+                        if (reverseNumberMap[cp] && vp === reverseNumberMap[cp]) return true;
+                        return false;
+                    });
+                    if (allMatch) return true;
+                }
+            }
             // For letters (A, B, C...) accept lowercase
             if (correct.length === 1 && val === correct) return true;
             // For time formats - normalize and compare
@@ -2028,10 +2235,16 @@
         function scrollToModule(id) { document.getElementById(`module-${id}`).scrollIntoView({ behavior: 'smooth', block: 'center' }); }
         window.scrollToModule = scrollToModule;
 
-        window.onload = function() { 
-            // Bypass login for now as requested
-            document.getElementById('main-wrapper').classList.remove('hidden'); 
-            renderDashboard(); 
+        window.onload = async function() { 
+            const firebaseReady = await initFirebase();
+            if (firebaseReady) {
+                firebaseAuth.onAuthStateChanged(onAuthStateChanged);
+            } else {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-wrapper').classList.remove('hidden');
+                document.getElementById('user-info-badge').style.display = 'none';
+                renderDashboard();
+            }
         };
     </script>
 </body>
