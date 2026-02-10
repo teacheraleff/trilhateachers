@@ -614,18 +614,27 @@
 
         async function initFirebase() {
             try {
-                const res = await fetch('/api/firebase-config');
-                const config = await res.json();
-                if (!config.apiKey) {
-                    console.warn('Firebase config not available');
-                    return false;
+                let config = null;
+                try {
+                    const res = await fetch('/api/firebase-config');
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.apiKey) config = data;
+                    }
+                } catch (e) {}
+                if (!config) {
+                    config = {
+                        apiKey: "AIzaSyDlleaDp-GKGDgn6A1oFG8THsMPsz1if1E",
+                        authDomain: "starter1-ff48b.firebaseapp.com",
+                        projectId: "starter1-ff48b"
+                    };
                 }
                 firebaseApp = firebase.initializeApp(config);
                 firebaseAuth = firebase.auth();
                 firebaseDb = firebase.firestore();
                 return true;
             } catch (e) {
-                console.warn('Could not load Firebase config:', e);
+                console.error('Could not initialize Firebase:', e);
                 return false;
             }
         }
