@@ -47,7 +47,7 @@
 
         /* LISTENING */
         .listening-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 0.5rem; margin-top: 0.25rem; }
-        .listening-grid-wide { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 0.5rem; margin-top: 0.25rem; }
+        .listening-grid-wide { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.5rem; margin-top: 0.25rem; }
         .number-btn { background: white; border: 2px solid #e2e8f0; border-radius: 0.75rem; padding: 0.5rem; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 55px; }
         .number-btn:hover { border-color: #8671d1; transform: translateY(-2px); }
         .number-btn span.main-text { font-size: 1.1rem; font-weight: 800; }
@@ -274,7 +274,7 @@
     </div>
 
     <!-- JOURNEY MAP SCREEN -->
-    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; overflow: hidden;">
+    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; overflow: auto;">
         <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem;">
             <div style="text-align: center; margin-bottom: 1.25rem;">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 100px; margin: 0 auto 0.6rem;">
@@ -314,19 +314,19 @@
                 </div>
 
                 <div class="jmap-row jmap-row-reverse">
-                    <div class="jmap-snode jmap-locked" data-testid="button-level-sophomore1">
-                        <div class="jmap-circle jmap-circle-locked">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                        </div>
-                        <span class="jmap-name">Sophomore 1</span>
-                        <span class="jmap-sublevel">Intermediário</span>
-                    </div>
                     <div class="jmap-snode jmap-locked" data-testid="button-level-freshman2">
                         <div class="jmap-circle jmap-circle-locked">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                         </div>
                         <span class="jmap-name">Freshman 2</span>
                         <span class="jmap-sublevel">Pré-intermediário</span>
+                    </div>
+                    <div class="jmap-snode jmap-locked" data-testid="button-level-sophomore1">
+                        <div class="jmap-circle jmap-circle-locked">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <span class="jmap-name">Sophomore 1</span>
+                        <span class="jmap-sublevel">Intermediário</span>
                     </div>
                     <div class="jmap-snode jmap-locked" data-testid="button-level-sophomore2">
                         <div class="jmap-circle jmap-circle-locked">
@@ -689,13 +689,13 @@
             <div style="padding: 0.75rem 1rem; border-top: 1px solid #e7e5e4; text-align: center;">
                 <span style="font-size: 0.6rem; font-weight: 700; color: #a8a29e; text-transform: uppercase; letter-spacing: 1px;">Siga o SLAP</span>
                 <div style="display: flex; justify-content: center; gap: 0.4rem; margin-top: 0.4rem;">
-                    <a href="#" target="_blank" style="width: 30px; height: 30px; border-radius: 50%; background: #f5f3ff; display: flex; align-items: center; justify-content: center;" data-testid="link-social-instagram">
+                    <a href="https://www.instagram.com/slapingles" target="_blank" style="width: 30px; height: 30px; border-radius: 50%; background: #f5f3ff; display: flex; align-items: center; justify-content: center;" data-testid="link-social-instagram">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#8671d1"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </a>
-                    <a href="#" target="_blank" style="width: 30px; height: 30px; border-radius: 50%; background: #f5f3ff; display: flex; align-items: center; justify-content: center;" data-testid="link-social-tiktok">
+                    <a href="https://www.tiktok.com/@slapingles" target="_blank" style="width: 30px; height: 30px; border-radius: 50%; background: #f5f3ff; display: flex; align-items: center; justify-content: center;" data-testid="link-social-tiktok">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#8671d1"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                     </a>
-                    <a href="#" target="_blank" style="width: 30px; height: 30px; border-radius: 50%; background: #f5f3ff; display: flex; align-items: center; justify-content: center;" data-testid="link-social-youtube">
+                    <a href="https://www.youtube.com/@slapingles" target="_blank" style="width: 30px; height: 30px; border-radius: 50%; background: #f5f3ff; display: flex; align-items: center; justify-content: center;" data-testid="link-social-youtube">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#8671d1"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
                 </div>
@@ -1724,6 +1724,7 @@
         let quizStreak = 0;
         const STREAK_GOAL = 10;
         const SCRAMBLE_STREAK_GOAL = 7;
+        const HANGMAN_STREAK_GOAL = 3;
         const WORDSEARCH_STREAK_GOAL = 2;
         let currentAulaId = 0;
         let currentStudyMode = '';
@@ -1828,7 +1829,7 @@
             { id: 20, name: "Object Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine me, you, him, her, us, them nas frases." },
             { id: 21, name: "Likes and Dislikes", hasHomework: true, desc: "Expresse gostos e preferências em inglês." },
             { id: 22, name: "Free Time Activities", hasHomework: true, desc: "Vocabulário de atividades de lazer e tempo livre." },
-            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', desc: "Aprenda os meses do ano e feriados.", items: [{n:"Jan",w:"January"},{n:"Feb",w:"February"},{n:"Mar",w:"March"},{n:"Apr",w:"April"},{n:"May",w:"May"},{n:"Jun",w:"June"},{n:"Jul",w:"July"},{n:"Aug",w:"August"},{n:"Sep",w:"September"},{n:"Oct",w:"October"},{n:"Nov",w:"November"},{n:"Dec",w:"December"},{n:"25/12",w:"Christmas"},{n:"01/01",w:"New Year's Day"},{n:"Páscoa",w:"Easter"},{n:"Dia das Mães",w:"Mother's Day"},{n:"Dia dos Pais",w:"Father's Day"},{n:"Dia das Crianças",w:"Children's Day"},{n:"Carnaval",w:"Carnival"},{n:"Ação de Graças",w:"Thanksgiving"},{n:"14/02",w:"Valentine's Day"},{n:"31/10",w:"Halloween"}] },
+            { id: 23, name: "Months and Holidays", hasHomework: true, specialMode: 'listening', thirdBtn: 'flashcards', desc: "Aprenda os meses do ano e feriados.", items: [{n:"Janeiro",w:"January"},{n:"Fevereiro",w:"February"},{n:"Março",w:"March"},{n:"Abril",w:"April"},{n:"Maio",w:"May"},{n:"Junho",w:"June"},{n:"Julho",w:"July"},{n:"Agosto",w:"August"},{n:"Setembro",w:"September"},{n:"Outubro",w:"October"},{n:"Novembro",w:"November"},{n:"Dezembro",w:"December"},{n:"Natal",w:"Christmas"},{n:"Ano Novo",w:"New Year's Day"},{n:"Páscoa",w:"Easter"},{n:"Dia das Mães",w:"Mother's Day"},{n:"Dia dos Pais",w:"Father's Day"},{n:"Dia das Crianças",w:"Children's Day"},{n:"Carnaval",w:"Carnival"},{n:"Ação de Graças",w:"Thanksgiving"},{n:"Dia dos Namorados",w:"Valentine's Day"},{n:"Halloween",w:"Halloween"}] },
             { id: 24, name: "Possessive Adjectives", hasHomework: true, specialMode: 'scramble', desc: "Pratique my, your, his, her, our, their." },
             { id: 25, name: "Possessive Pronouns", hasHomework: true, specialMode: 'scramble', desc: "Treine mine, yours, his, hers, ours, theirs." },
             { id: 26, name: "Foods and Fruits", hasHomework: true, specialMode: 'flashcards', desc: "Vocabulário de comidas e frutas em inglês." },
@@ -2458,7 +2459,7 @@
             } else if (aula.specialMode === 'listening') {
                 currentStudyMode = 'listening';
                 instrArea.textContent = "";
-                const useWideGrid = [5, 7].includes(id);
+                const useWideGrid = [5, 7, 23].includes(id);
                 renderListeningBoard(aula.items, useWideGrid);
             } else if (aula.specialMode === 'chunks') {
                 currentStudyMode = 'chunks';
@@ -2580,13 +2581,13 @@
             const area = document.getElementById('study-content-area');
             renderStreakBar();
 
-            if (currentStreak >= STREAK_GOAL) {
+            if (currentStreak >= HANGMAN_STREAK_GOAL) {
                 markStreakDone(currentAulaId, 'hangman');
                 area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
                         <div class="mb-4"><svg class="w-20 h-20 mx-auto text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14a2 2 0 0 1 2 2v2a5 5 0 0 1-4.4 4.96 5.5 5.5 0 0 1-5.1 3.04 5.5 5.5 0 0 1-5.1-3.04A5 5 0 0 1 3 7V5a2 2 0 0 1 2-2zm0 2v2a3 3 0 0 0 2.1 2.86 5.48 5.48 0 0 1-.1-1.14V7a1 1 0 1 1 2 0v1.72c0 1.28.56 2.43 1.47 3.22A3.5 3.5 0 0 0 12 9.72V7a1 1 0 1 1 2 0v2.72a3.5 3.5 0 0 0 1.53 2.22A3.48 3.48 0 0 0 17 8.72V7a1 1 0 1 1 2 0v1.72c0 .39-.03.77-.1 1.14A3 3 0 0 0 21 7V5H5zm2 14h10v2H7v-2zm1-3h8a1 1 0 0 1 1 1v1H7v-1a1 1 0 0 1 1-1z"/></svg></div>
                         <h2 class="text-3xl font-bold text-stone-800 mb-2">Missão Cumprida!</h2>
-                        <p class="text-stone-500 mb-8">Você acertou ${STREAK_GOAL} palavras seguidas na Forca!</p>
+                        <p class="text-stone-500 mb-8">Você acertou ${HANGMAN_STREAK_GOAL} palavras seguidas na Forca!</p>
                         <button class="action-button px-8" onclick="showDashboard()">Voltar</button>
                         <button class="secondary-button mt-4" onclick="currentStreak=0; startNewHangman()">Jogar Novamente</button>
                     </div>`;
@@ -3022,7 +3023,8 @@
             if (isChunks || title.includes("Ditado") || title.includes("Scramble") || title.includes("Forca") || document.getElementById('study-instruction').textContent.includes("Ordene")) {
                 container.classList.remove('hidden');
                 const isScramble = title.includes("Scramble") || document.getElementById('study-instruction').textContent.includes("Ordene");
-                const goal = customGoal || (isScramble ? SCRAMBLE_STREAK_GOAL : STREAK_GOAL);
+                const isHangman = title.includes("Forca");
+                const goal = customGoal || (isScramble ? SCRAMBLE_STREAK_GOAL : isHangman ? HANGMAN_STREAK_GOAL : STREAK_GOAL);
                 const prog = customProgress !== undefined ? customProgress : currentStreak;
                 const progress = Math.min(prog, goal);
                 const percentage = (progress / goal) * 100;
@@ -3383,10 +3385,32 @@
         };
         const reverseNumberMap = Object.fromEntries(Object.entries(numberMap).map(([k, v]) => [v, k]));
 
+        const contractionMap = {
+            "what's": "what is", "that's": "that is", "it's": "it is", "he's": "he is", "she's": "she is",
+            "here's": "here is", "there's": "there is", "where's": "where is", "who's": "who is", "how's": "how is",
+            "i'm": "i am", "you're": "you are", "we're": "we are", "they're": "they are",
+            "i've": "i have", "you've": "you have", "we've": "we have", "they've": "they have",
+            "i'll": "i will", "you'll": "you will", "he'll": "he will", "she'll": "she will", "we'll": "we will", "they'll": "they will", "it'll": "it will",
+            "i'd": "i would", "you'd": "you would", "he'd": "he would", "she'd": "she would", "we'd": "we would", "they'd": "they would",
+            "isn't": "is not", "aren't": "are not", "wasn't": "was not", "weren't": "were not",
+            "don't": "do not", "doesn't": "does not", "didn't": "did not",
+            "can't": "cannot", "couldn't": "could not", "won't": "will not", "wouldn't": "would not",
+            "shouldn't": "should not", "hasn't": "has not", "haven't": "have not", "hadn't": "had not",
+            "let's": "let us"
+        };
+        function expandContractions(text) {
+            let result = text.toLowerCase();
+            for (const [contraction, expanded] of Object.entries(contractionMap)) {
+                result = result.replace(new RegExp(contraction.replace("'", "[''']"), 'gi'), expanded);
+            }
+            return result.trim().replace(/\s+/g, ' ');
+        }
+
         function normalizeAnswer(val, correct) {
             val = val.toLowerCase().trim().replace(/\s+/g, ' ');
             correct = correct.toLowerCase().trim();
             if (val === correct) return true;
+            if (expandContractions(val) === expandContractions(correct)) return true;
             // Check if user typed number instead of word
             if (numberMap[correct] && val === numberMap[correct]) return true;
             // Check if user typed word instead of number
