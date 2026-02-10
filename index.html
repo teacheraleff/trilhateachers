@@ -275,14 +275,16 @@
 
     <!-- JOURNEY MAP SCREEN -->
     <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #f5f3ff 0%, #fefce8 50%, #f5f3ff 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; overflow: auto;">
-        <div style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem;">
-            <div style="text-align: center; margin-bottom: 1.25rem;">
+        <div class="jmap-layout">
+            <div class="jmap-info">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" style="width: 100px; margin: 0 auto 0.6rem;">
                 <p style="font-size: 0.9rem; color: #78716c; font-weight: 500;">Olá, <strong id="journey-user-name" style="color: #44403c;"></strong></p>
                 <h2 style="font-size: 1.5rem; font-weight: 900; color: #1c1917; margin-top: 0.15rem;" data-testid="text-journey-title">Jornada SLAP</h2>
                 <p style="font-size: 0.8rem; color: #a8a29e; margin-top: 0.2rem;">Selecione seu nível para começar</p>
+                <button class="secondary-button jmap-logout-desktop" onclick="handleLogout()" data-testid="button-journey-logout-desktop">SAIR DA CONTA</button>
             </div>
 
+            <div class="jmap-trail-area">
             <div class="jmap-snake">
                 <svg class="jmap-snake-line" viewBox="0 0 800 340" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M 80 55 H 720 V 170 H 80 V 285 H 720" stroke="#c4b5fd" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
@@ -361,11 +363,64 @@
                     </div>
                 </div>
             </div>
-
-            <button class="secondary-button" style="font-size: 0.8rem; margin-top: 1.25rem; padding: 0.6rem 2.5rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
+            <button class="secondary-button jmap-logout-mobile" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
+            </div>
         </div>
     </div>
     <style>
+        .jmap-layout {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .jmap-info {
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+        .jmap-trail-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .jmap-logout-desktop {
+            display: none;
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            padding: 0.6rem 2.5rem;
+        }
+        .jmap-logout-mobile {
+            font-size: 0.8rem;
+            margin-top: 1.25rem;
+            padding: 0.6rem 2.5rem;
+        }
+        @media (min-width: 900px) {
+            .jmap-layout {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 3rem;
+                padding: 2rem;
+            }
+            .jmap-info {
+                text-align: left;
+                margin-bottom: 0;
+                flex-shrink: 0;
+                min-width: 200px;
+            }
+            .jmap-info img {
+                margin: 0 0 0.6rem 0 !important;
+            }
+            .jmap-logout-desktop {
+                display: inline-block;
+            }
+            .jmap-logout-mobile {
+                display: none;
+            }
+        }
         .jmap-snake {
             position: relative;
             width: 100%;
@@ -3046,26 +3101,54 @@
 
         let chunksCorrectCount = 0;
         let chunksTotalCount = 0;
+        var chunksAnswersCache = {};
 
-        function renderChunksGrid(data) {
+        async function loadChunksAnswers(aulaId) {
+            if (!currentUser) return {};
+            try {
+                const doc = await firebaseDb.collection('users').doc(currentUser.uid).collection('chunksAnswers').doc(String(aulaId)).get();
+                if (doc.exists) return doc.data() || {};
+            } catch(e) {}
+            return {};
+        }
+
+        async function saveChunkAnswer(aulaId, index, answer) {
+            if (!currentUser) return;
+            if (!chunksAnswersCache[aulaId]) chunksAnswersCache[aulaId] = {};
+            chunksAnswersCache[aulaId][String(index)] = answer;
+            try {
+                await firebaseDb.collection('users').doc(currentUser.uid).collection('chunksAnswers').doc(String(aulaId)).set(chunksAnswersCache[aulaId]);
+            } catch(e) {}
+        }
+
+        async function renderChunksGrid(data) {
             const area = document.getElementById('study-content-area');
-            chunksCorrectCount = 0;
             chunksTotalCount = data.length;
+            const saved = await loadChunksAnswers(currentAulaId);
+            chunksAnswersCache[currentAulaId] = saved;
+            chunksCorrectCount = Object.keys(saved).length;
             renderStreakBar(chunksTotalCount, chunksCorrectCount);
             area.innerHTML = `<div class="chunks-grid shadow-lg">
                 <div class="chunks-header">Português</div>
                 <div class="chunks-header">English</div>
-                ${data.map((item, index) => `
+                ${data.map((item, index) => {
+                    const savedAnswer = saved[String(index)];
+                    const isDone = !!savedAnswer;
+                    return `
                 <div class="chunks-cell chunks-cell-pt">
                     <span>${item.pt}</span>
                 </div>
                 <div class="chunks-cell chunks-cell-en">
-                    <input type="text" id="chunk-input-${index}" class="chunk-input" placeholder="Type in English..." data-answer="${item.en.replace(/"/g, '&quot;')}" onkeypress="if(event.key==='Enter')checkChunk(${index})" data-testid="input-chunk-${index}">
-                    <button onclick="checkChunk(${index})" class="chunk-check-btn" data-testid="button-chunk-ok-${index}">OK</button>
-                    <button id="chunk-audio-${index}" onclick="speakText('${item.en.replace(/'/g, "\\'")}')" class="p-1 rounded-full hover:bg-primary/10 transition" style="display:none;" data-testid="button-chunk-audio-${index}">
+                    <input type="text" id="chunk-input-${index}" class="chunk-input ${isDone ? 'correct' : ''}" placeholder="Type in English..." value="${isDone ? savedAnswer.replace(/"/g, '&quot;') : ''}" ${isDone ? 'disabled' : ''} data-answer="${item.en.replace(/"/g, '&quot;')}" onkeypress="if(event.key==='Enter')checkChunk(${index})" data-testid="input-chunk-${index}">
+                    <button onclick="checkChunk(${index})" class="chunk-check-btn" ${isDone ? 'style="display:none"' : ''} data-testid="button-chunk-ok-${index}">OK</button>
+                    <button id="chunk-audio-${index}" onclick="speakText('${item.en.replace(/'/g, "\\'")}')" class="p-1 rounded-full hover:bg-primary/10 transition" style="display:${isDone ? 'inline-flex' : 'none'};" data-testid="button-chunk-audio-${index}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                     </button>
-                </div>`).join('')}</div>`;
+                </div>`;
+                }).join('')}</div>`;
+            if (chunksCorrectCount >= chunksTotalCount) {
+                markStreakDone(currentAulaId, 'chunks');
+            }
         }
 
         window.checkChunk = function(index) {
@@ -3082,7 +3165,10 @@
                 input.value = answer;
                 input.disabled = true;
                 playCorrectSound();
+                const okBtn = input.nextElementSibling;
+                if (okBtn && okBtn.classList.contains('chunk-check-btn')) okBtn.style.display = 'none';
                 document.getElementById('chunk-audio-' + index).style.display = 'inline-flex';
+                saveChunkAnswer(currentAulaId, index, answer);
                 chunksCorrectCount++;
                 renderStreakBar(chunksTotalCount, chunksCorrectCount);
                 if (chunksCorrectCount >= chunksTotalCount) {
