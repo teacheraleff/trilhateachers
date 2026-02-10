@@ -187,12 +187,18 @@
         .user-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: white; border: 1px solid #e2e8f0; padding: 0.35rem 0.75rem; border-radius: 2rem; font-size: 0.75rem; font-weight: 600; color: #44403c; }
         .logout-btn { background: none; border: none; color: #ef4444; font-weight: 700; font-size: 0.7rem; cursor: pointer; padding: 0.2rem 0.4rem; border-radius: 0.25rem; }
         .logout-btn:hover { background: #fef2f2; }
+        .teacher-tab { flex: 1; padding: 0.5rem; text-align: center; font-weight: 700; font-size: 0.75rem; cursor: pointer; border: 2px solid #e7e5e4; border-radius: 0.5rem; background: white; color: #78716c; font-family: 'DM Sans', sans-serif; transition: 0.2s; }
+        .teacher-tab.active { background: #8671d1; color: white; border-color: #8671d1; }
+        .student-card { display: flex; align-items: center; justify-content: space-between; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem; cursor: pointer; transition: 0.15s; border: 1px solid transparent; }
+        .student-card:hover { border-color: #8671d1; background: #faf5ff; }
+        .student-approved { color: #16a34a; }
+        .student-pending { color: #f59e0b; }
     </style>
 </head>
 <body>
 
     <!-- LOGIN SCREEN -->
-    <div id="login-screen">
+    <div id="login-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f5f0ff 0%, #fefce8 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; overflow-y: auto;">
         <div class="login-card">
             <div class="text-center mb-6">
                 <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-4">
@@ -238,7 +244,7 @@
     </div>
 
     <!-- PENDING APPROVAL SCREEN -->
-    <div id="pending-screen" class="hidden">
+    <div id="pending-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f5f0ff 0%, #fefce8 100%); align-items: center; justify-content: center; z-index: 10000;">
         <div class="login-card" style="text-align: center;">
             <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-4">
             <div style="width: 64px; height: 64px; background: #fef3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
@@ -253,13 +259,19 @@
     </div>
 
     <!-- JOURNEY MAP SCREEN -->
-    <div id="journey-map-screen" class="hidden">
-        <div style="min-height: 100vh; background: linear-gradient(135deg, #f4f7f9 0%, #ede9fe 50%, #fef9c3 100%); display: flex; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div id="journey-map-screen" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f4f7f9 0%, #ede9fe 50%, #fef9c3 100%); align-items: center; justify-content: center; z-index: 10000; overflow-y: auto;">
+        <div style="padding: 1.5rem; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 100%;">
             <div style="max-width: 480px; width: 100%;">
                 <div class="text-center mb-6">
                     <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-3">
                     <p class="text-stone-500 text-sm font-medium">Olá, <strong id="journey-user-name" class="text-stone-700"></strong></p>
-                    <h2 class="text-2xl font-black text-stone-800 mt-1" data-testid="text-journey-title">Sua Jornada</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.25rem;">
+                        <h2 class="text-2xl font-black text-stone-800" data-testid="text-journey-title">Sua Jornada</h2>
+                        <button onclick="openGradesModal()" data-testid="button-open-grades" style="background: #8671d1; color: white; border: none; border-radius: 0.5rem; padding: 0.3rem 0.75rem; font-size: 0.7rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 0.3rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                            Minhas Notas
+                        </button>
+                    </div>
                     <p class="text-stone-500 text-xs mt-1">Selecione seu nível para começar a estudar</p>
                 </div>
 
@@ -334,6 +346,141 @@
 
                 <button class="secondary-button w-full mt-4" style="font-size: 0.75rem;" onclick="handleLogout()" data-testid="button-journey-logout">SAIR DA CONTA</button>
             </div>
+        </div>
+    </div>
+
+    <!-- GRADES MODAL -->
+    <div id="grades-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 20000; align-items: center; justify-content: center; padding: 1rem;">
+        <div style="background: white; border-radius: 1rem; max-width: 420px; width: 100%; padding: 1.5rem; box-shadow: 0 8px 32px rgba(0,0,0,0.2); position: relative;" data-testid="modal-grades">
+            <button onclick="closeGradesModal()" data-testid="button-close-grades" style="position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none; cursor: pointer; color: #78716c; font-size: 1.25rem; line-height: 1;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <div style="width: 48px; height: 48px; background: #ede9fe; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8671d1" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                </div>
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: #1c1917; font-family: 'DM Sans', sans-serif;">Minhas Notas</h3>
+                <p style="font-size: 0.7rem; color: #78716c; margin-top: 0.25rem;" id="grades-level-label">Starter 1</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem;">
+                    <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Midterm Test</span>
+                    <span style="font-size: 0.75rem; color: #78716c; background: #f5f5f4; padding: 0.15rem 0.5rem; border-radius: 1rem; font-weight: 600;" data-testid="text-grade-midterm">-- / 20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem;">
+                    <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Listening Test</span>
+                    <span style="font-size: 0.75rem; color: #78716c; background: #f5f5f4; padding: 0.15rem 0.5rem; border-radius: 1rem; font-weight: 600;" data-testid="text-grade-listening">-- / 20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem;">
+                    <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Grammar Test</span>
+                    <span style="font-size: 0.75rem; color: #78716c; background: #f5f5f4; padding: 0.15rem 0.5rem; border-radius: 1rem; font-weight: 600;" data-testid="text-grade-grammar">-- / 20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem;">
+                    <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Oral Test</span>
+                    <span style="font-size: 0.75rem; color: #78716c; background: #f5f5f4; padding: 0.15rem 0.5rem; border-radius: 1rem; font-weight: 600;" data-testid="text-grade-oral">-- / 20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem;">
+                    <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Assiduidade</span>
+                    <span style="font-size: 0.75rem; color: #78716c; background: #f5f5f4; padding: 0.15rem 0.5rem; border-radius: 1rem; font-weight: 600;" data-testid="text-grade-attendance">-- / 10</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.6rem 0.75rem;">
+                    <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Participação</span>
+                    <span style="font-size: 0.75rem; color: #78716c; background: #f5f5f4; padding: 0.15rem 0.5rem; border-radius: 1rem; font-weight: 600;" data-testid="text-grade-participation">-- / 10</span>
+                </div>
+            </div>
+            <div style="margin-top: 0.75rem; padding: 0.6rem 0.75rem; background: #fef9c3; border-radius: 0.5rem; display: flex; align-items: flex-start; gap: 0.4rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a16207" stroke-width="2" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p style="font-size: 0.7rem; color: #854d0e; line-height: 1.4;" data-testid="text-grade-notice">Para ser aprovado para o próximo nível, é necessário somar no mínimo <strong>70 pontos</strong> de 100.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEACHER DASHBOARD -->
+    <div id="teacher-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #f4f7f9 0%, #ede9fe 50%, #fef9c3 100%); align-items: flex-start; justify-content: center; z-index: 10000; overflow-y: auto;">
+        <div style="padding: 1.5rem; width: 100%; max-width: 600px; margin: 0 auto;">
+            <div class="text-center mb-6">
+                <img src="https://res.cloudinary.com/dqfi22uz0/image/upload/v1759294967/SLAP_TIPO_PRETO_2_kismg9.png" alt="SLAP Logo" class="w-28 h-auto mx-auto mb-3">
+                <h2 class="text-2xl font-black text-stone-800" data-testid="text-teacher-title">Painel do Professor</h2>
+                <p class="text-stone-500 text-xs mt-1">Gerencie alunos, notas e progresso</p>
+            </div>
+
+            <div style="background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); margin-bottom: 1rem;">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <input type="text" id="teacher-search-input" placeholder="Buscar aluno por nome ou email..." style="flex: 1; padding: 0.6rem 0.75rem; border: 2px solid #e7e5e4; border-radius: 0.5rem; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; outline: none;" oninput="searchStudents()" data-testid="input-teacher-search">
+                    <button onclick="loadAllStudents()" style="background: #8671d1; color: white; border: none; border-radius: 0.5rem; padding: 0.6rem 0.75rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap;" data-testid="button-load-students">Carregar Todos</button>
+                </div>
+
+                <div id="teacher-students-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <p style="text-align: center; color: #a8a29e; font-size: 0.8rem; padding: 2rem 0;">Clique em "Carregar Todos" para ver os alunos cadastrados</p>
+                </div>
+            </div>
+
+            <div id="teacher-student-detail" style="display: none; background: white; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); margin-bottom: 1rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1rem; font-weight: 800; color: #1c1917; font-family: 'DM Sans', sans-serif;" id="detail-student-name" data-testid="text-detail-student-name"></h3>
+                        <p style="font-size: 0.7rem; color: #78716c;" id="detail-student-email" data-testid="text-detail-student-email"></p>
+                    </div>
+                    <button onclick="closeStudentDetail()" style="background: none; border: none; cursor: pointer; color: #78716c;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <button onclick="showDetailTab('grades')" id="tab-grades" class="teacher-tab active" data-testid="button-tab-grades">Notas</button>
+                    <button onclick="showDetailTab('streaks')" id="tab-streaks" class="teacher-tab" data-testid="button-tab-streaks">Streaks</button>
+                    <button onclick="showDetailTab('approval')" id="tab-approval" class="teacher-tab" data-testid="button-tab-approval">Status</button>
+                </div>
+
+                <div id="detail-tab-grades">
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;" id="teacher-grades-form">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+                            <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Midterm Test <span style="color: #a8a29e; font-size: 0.65rem;">(máx 20)</span></span>
+                            <input type="number" min="0" max="20" id="grade-midterm" style="width: 60px; text-align: center; padding: 0.3rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;" data-testid="input-grade-midterm">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+                            <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Listening Test <span style="color: #a8a29e; font-size: 0.65rem;">(máx 20)</span></span>
+                            <input type="number" min="0" max="20" id="grade-listening" style="width: 60px; text-align: center; padding: 0.3rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;" data-testid="input-grade-listening">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+                            <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Grammar Test <span style="color: #a8a29e; font-size: 0.65rem;">(máx 20)</span></span>
+                            <input type="number" min="0" max="20" id="grade-grammar" style="width: 60px; text-align: center; padding: 0.3rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;" data-testid="input-grade-grammar">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+                            <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Oral Test <span style="color: #a8a29e; font-size: 0.65rem;">(máx 20)</span></span>
+                            <input type="number" min="0" max="20" id="grade-oral" style="width: 60px; text-align: center; padding: 0.3rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;" data-testid="input-grade-oral">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+                            <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Assiduidade <span style="color: #a8a29e; font-size: 0.65rem;">(máx 10)</span></span>
+                            <input type="number" min="0" max="10" id="grade-attendance" style="width: 60px; text-align: center; padding: 0.3rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;" data-testid="input-grade-attendance">
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #fafaf9; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">
+                            <span style="font-size: 0.8rem; color: #44403c; font-weight: 500;">Participação <span style="color: #a8a29e; font-size: 0.65rem;">(máx 10)</span></span>
+                            <input type="number" min="0" max="10" id="grade-participation" style="width: 60px; text-align: center; padding: 0.3rem; border: 1px solid #d6d3d1; border-radius: 0.375rem; font-size: 0.8rem; font-family: 'DM Sans', sans-serif;" data-testid="input-grade-participation">
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: #44403c;" id="grade-total-display" data-testid="text-grade-total">Total: 0 / 100</span>
+                        <button onclick="saveStudentGrades()" style="background: #8671d1; color: white; border: none; border-radius: 0.5rem; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;" data-testid="button-save-grades">Salvar Notas</button>
+                    </div>
+                    <p id="grade-save-feedback" style="display: none; font-size: 0.7rem; margin-top: 0.5rem; text-align: center;"></p>
+                </div>
+
+                <div id="detail-tab-streaks" style="display: none;">
+                    <div id="student-streaks-list" style="display: flex; flex-direction: column; gap: 0.3rem;">
+                        <p style="text-align: center; color: #a8a29e; font-size: 0.8rem; padding: 1rem 0;">Carregando streaks...</p>
+                    </div>
+                </div>
+
+                <div id="detail-tab-approval" style="display: none;">
+                    <div style="text-align: center; padding: 1rem 0;">
+                        <p style="font-size: 0.8rem; color: #44403c; margin-bottom: 0.75rem;">Status atual: <strong id="detail-approval-status" data-testid="text-approval-status"></strong></p>
+                        <button id="btn-toggle-approval" onclick="toggleStudentApproval()" style="border: none; border-radius: 0.5rem; padding: 0.5rem 1.5rem; font-size: 0.8rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif;" data-testid="button-toggle-approval"></button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="secondary-button w-full" style="font-size: 0.75rem;" onclick="handleLogout()" data-testid="button-teacher-logout">SAIR DA CONTA</button>
         </div>
     </div>
 
@@ -723,15 +870,273 @@
             }
         }
 
+        async function openGradesModal() {
+            var modal = document.getElementById('grades-modal');
+            modal.style.display = 'flex';
+            if (firebaseDb && currentUser) {
+                try {
+                    var doc = await firebaseDb.collection('users').doc(currentUser.uid).collection('grades').doc('current').get();
+                    var g = doc.exists ? doc.data() : {};
+                    document.querySelector('[data-testid="text-grade-midterm"]').textContent = (g.midterm !== undefined ? g.midterm : '--') + ' / 20';
+                    document.querySelector('[data-testid="text-grade-listening"]').textContent = (g.listening !== undefined ? g.listening : '--') + ' / 20';
+                    document.querySelector('[data-testid="text-grade-grammar"]').textContent = (g.grammar !== undefined ? g.grammar : '--') + ' / 20';
+                    document.querySelector('[data-testid="text-grade-oral"]').textContent = (g.oral !== undefined ? g.oral : '--') + ' / 20';
+                    document.querySelector('[data-testid="text-grade-attendance"]').textContent = (g.attendance !== undefined ? g.attendance : '--') + ' / 10';
+                    document.querySelector('[data-testid="text-grade-participation"]').textContent = (g.participation !== undefined ? g.participation : '--') + ' / 10';
+                } catch(e) {
+                    console.warn('Erro ao carregar notas:', e);
+                }
+            }
+        }
+        function closeGradesModal() {
+            document.getElementById('grades-modal').style.display = 'none';
+        }
+
+        var allStudentsCache = [];
+        var selectedStudentUid = null;
+
+        function initTeacherDashboard() {
+            allStudentsCache = [];
+            selectedStudentUid = null;
+            document.getElementById('teacher-student-detail').style.display = 'none';
+        }
+
+        async function loadAllStudents() {
+            var listEl = document.getElementById('teacher-students-list');
+            listEl.innerHTML = '<p style="text-align: center; color: #a8a29e; font-size: 0.8rem; padding: 1rem 0;">Carregando...</p>';
+            try {
+                var snapshot = await firebaseDb.collection('users').get();
+                allStudentsCache = [];
+                snapshot.forEach(function(doc) {
+                    var data = doc.data();
+                    if (data.role !== 'teacher') {
+                        allStudentsCache.push({ uid: doc.id, ...data });
+                    }
+                });
+                renderStudentsList(allStudentsCache);
+            } catch(e) {
+                console.error('Erro ao carregar alunos:', e);
+                listEl.innerHTML = '<p style="text-align: center; color: #ef4444; font-size: 0.8rem; padding: 1rem 0;">Erro ao carregar alunos. Tente novamente.</p>';
+            }
+        }
+
+        function searchStudents() {
+            var query = document.getElementById('teacher-search-input').value.toLowerCase().trim();
+            if (!query) {
+                renderStudentsList(allStudentsCache);
+                return;
+            }
+            var filtered = allStudentsCache.filter(function(s) {
+                return (s.name || '').toLowerCase().includes(query) || (s.email || '').toLowerCase().includes(query);
+            });
+            renderStudentsList(filtered);
+        }
+
+        function renderStudentsList(students) {
+            var listEl = document.getElementById('teacher-students-list');
+            if (students.length === 0) {
+                listEl.innerHTML = '<p style="text-align: center; color: #a8a29e; font-size: 0.8rem; padding: 1rem 0;">Nenhum aluno encontrado</p>';
+                return;
+            }
+            listEl.innerHTML = students.map(function(s) {
+                var statusClass = s.approved ? 'student-approved' : 'student-pending';
+                var statusText = s.approved ? 'Aprovado' : 'Pendente';
+                var statusIcon = s.approved
+                    ? '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'
+                    : '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+                return '<div class="student-card" onclick="openStudentDetail(\'' + s.uid + '\')" data-testid="card-student-' + s.uid + '">' +
+                    '<div>' +
+                        '<span style="font-size: 0.85rem; font-weight: 600; color: #1c1917;">' + (s.name || 'Sem nome') + '</span>' +
+                        '<p style="font-size: 0.65rem; color: #78716c; margin-top: 0.1rem;">' + (s.email || '') + '</p>' +
+                    '</div>' +
+                    '<span class="' + statusClass + '" style="font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; gap: 0.2rem;">' + statusIcon + ' ' + statusText + '</span>' +
+                '</div>';
+            }).join('');
+        }
+
+        async function openStudentDetail(uid) {
+            selectedStudentUid = uid;
+            var student = allStudentsCache.find(function(s) { return s.uid === uid; });
+            if (!student) return;
+
+            document.getElementById('detail-student-name').textContent = student.name || 'Sem nome';
+            document.getElementById('detail-student-email').textContent = student.email || '';
+            document.getElementById('teacher-student-detail').style.display = 'block';
+
+            var statusEl = document.getElementById('detail-approval-status');
+            var btnEl = document.getElementById('btn-toggle-approval');
+            if (student.approved) {
+                statusEl.textContent = 'Aprovado';
+                statusEl.style.color = '#16a34a';
+                btnEl.textContent = 'Revogar Acesso';
+                btnEl.style.background = '#ef4444';
+                btnEl.style.color = 'white';
+            } else {
+                statusEl.textContent = 'Pendente';
+                statusEl.style.color = '#f59e0b';
+                btnEl.textContent = 'Aprovar Aluno';
+                btnEl.style.background = '#16a34a';
+                btnEl.style.color = 'white';
+            }
+
+            showDetailTab('grades');
+            await loadStudentGrades(uid);
+            await loadStudentStreaks(uid);
+        }
+
+        function closeStudentDetail() {
+            document.getElementById('teacher-student-detail').style.display = 'none';
+            selectedStudentUid = null;
+        }
+
+        function showDetailTab(tab) {
+            document.getElementById('detail-tab-grades').style.display = tab === 'grades' ? 'block' : 'none';
+            document.getElementById('detail-tab-streaks').style.display = tab === 'streaks' ? 'block' : 'none';
+            document.getElementById('detail-tab-approval').style.display = tab === 'approval' ? 'block' : 'none';
+            document.querySelectorAll('.teacher-tab').forEach(function(t) { t.classList.remove('active'); });
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        async function loadStudentGrades(uid) {
+            try {
+                var doc = await firebaseDb.collection('users').doc(uid).collection('grades').doc('current').get();
+                var grades = doc.exists ? doc.data() : {};
+                document.getElementById('grade-midterm').value = grades.midterm !== undefined ? grades.midterm : '';
+                document.getElementById('grade-listening').value = grades.listening !== undefined ? grades.listening : '';
+                document.getElementById('grade-grammar').value = grades.grammar !== undefined ? grades.grammar : '';
+                document.getElementById('grade-oral').value = grades.oral !== undefined ? grades.oral : '';
+                document.getElementById('grade-attendance').value = grades.attendance !== undefined ? grades.attendance : '';
+                document.getElementById('grade-participation').value = grades.participation !== undefined ? grades.participation : '';
+                updateGradeTotal();
+            } catch(e) {
+                console.warn('Erro ao carregar notas:', e);
+            }
+        }
+
+        function updateGradeTotal() {
+            var fields = ['grade-midterm', 'grade-listening', 'grade-grammar', 'grade-oral', 'grade-attendance', 'grade-participation'];
+            var total = 0;
+            fields.forEach(function(f) {
+                var val = parseFloat(document.getElementById(f).value);
+                if (!isNaN(val)) total += val;
+            });
+            document.getElementById('grade-total-display').textContent = 'Total: ' + total + ' / 100';
+            document.getElementById('grade-total-display').style.color = total >= 70 ? '#16a34a' : '#44403c';
+        }
+
+        document.addEventListener('input', function(e) {
+            if (['grade-midterm', 'grade-listening', 'grade-grammar', 'grade-oral', 'grade-attendance', 'grade-participation'].includes(e.target.id)) {
+                updateGradeTotal();
+            }
+        });
+
+        async function saveStudentGrades() {
+            if (!selectedStudentUid) return;
+            var fb = document.getElementById('grade-save-feedback');
+            fb.style.display = 'block';
+            fb.textContent = 'Salvando...';
+            fb.style.color = '#78716c';
+            try {
+                var grades = {
+                    midterm: parseFloat(document.getElementById('grade-midterm').value) || 0,
+                    listening: parseFloat(document.getElementById('grade-listening').value) || 0,
+                    grammar: parseFloat(document.getElementById('grade-grammar').value) || 0,
+                    oral: parseFloat(document.getElementById('grade-oral').value) || 0,
+                    attendance: parseFloat(document.getElementById('grade-attendance').value) || 0,
+                    participation: parseFloat(document.getElementById('grade-participation').value) || 0,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await firebaseDb.collection('users').doc(selectedStudentUid).collection('grades').doc('current').set(grades);
+                fb.textContent = 'Notas salvas com sucesso!';
+                fb.style.color = '#16a34a';
+                setTimeout(function() { fb.style.display = 'none'; }, 2000);
+            } catch(e) {
+                console.error('Erro ao salvar notas:', e);
+                fb.textContent = 'Erro ao salvar. Tente novamente.';
+                fb.style.color = '#ef4444';
+            }
+        }
+
+        async function loadStudentStreaks(uid) {
+            var container = document.getElementById('student-streaks-list');
+            try {
+                var doc = await firebaseDb.collection('users').doc(uid).collection('streaks').doc('completed').get();
+                var streaks = doc.exists ? doc.data() : {};
+                var keys = Object.keys(streaks);
+                if (keys.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #a8a29e; font-size: 0.8rem; padding: 1rem 0;">Nenhum streak completado ainda</p>';
+                    return;
+                }
+                var modeNames = { homework: 'Homework', flashcards: 'Flashcards', listening: 'Listening', chunks: 'Chunks', scramble: 'Scramble', mistake: 'Detetive', dictation: 'Ditado', hangman: 'Forca', wordsearch: 'Caça-Palavras' };
+                container.innerHTML = keys.map(function(key) {
+                    var parts = key.split('_');
+                    var aulaId = parts[0];
+                    var mode = parts.slice(1).join('_');
+                    var modeName = modeNames[mode] || mode;
+                    return '<div style="display: flex; align-items: center; gap: 0.4rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.5rem; padding: 0.5rem 0.75rem;">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' +
+                        '<span style="font-size: 0.8rem; font-weight: 600; color: #166534;">Aula ' + aulaId + ' - ' + modeName + '</span>' +
+                    '</div>';
+                }).join('');
+            } catch(e) {
+                console.warn('Erro ao carregar streaks:', e);
+                container.innerHTML = '<p style="text-align: center; color: #ef4444; font-size: 0.8rem; padding: 1rem 0;">Erro ao carregar streaks</p>';
+            }
+        }
+
+        async function toggleStudentApproval() {
+            if (!selectedStudentUid) return;
+            var student = allStudentsCache.find(function(s) { return s.uid === selectedStudentUid; });
+            if (!student) return;
+            var newStatus = !student.approved;
+            try {
+                await firebaseDb.collection('users').doc(selectedStudentUid).update({ approved: newStatus });
+                student.approved = newStatus;
+                var statusEl = document.getElementById('detail-approval-status');
+                var btnEl = document.getElementById('btn-toggle-approval');
+                if (newStatus) {
+                    statusEl.textContent = 'Aprovado';
+                    statusEl.style.color = '#16a34a';
+                    btnEl.textContent = 'Revogar Acesso';
+                    btnEl.style.background = '#ef4444';
+                } else {
+                    statusEl.textContent = 'Pendente';
+                    statusEl.style.color = '#f59e0b';
+                    btnEl.textContent = 'Aprovar Aluno';
+                    btnEl.style.background = '#16a34a';
+                }
+                renderStudentsList(allStudentsCache.filter(function(s) {
+                    var query = document.getElementById('teacher-search-input').value.toLowerCase().trim();
+                    if (!query) return true;
+                    return (s.name || '').toLowerCase().includes(query) || (s.email || '').toLowerCase().includes(query);
+                }));
+            } catch(e) {
+                console.error('Erro ao alterar aprovação:', e);
+            }
+        }
+
         function showScreen(screen) {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('pending-screen').classList.add('hidden');
-            document.getElementById('journey-map-screen').classList.add('hidden');
-            document.getElementById('main-wrapper').classList.add('hidden');
-            if (screen === 'login') document.getElementById('login-screen').classList.remove('hidden');
-            if (screen === 'pending') document.getElementById('pending-screen').classList.remove('hidden');
-            if (screen === 'journey') document.getElementById('journey-map-screen').classList.remove('hidden');
-            if (screen === 'app') document.getElementById('main-wrapper').classList.remove('hidden');
+            var screens = ['login-screen', 'pending-screen', 'journey-map-screen', 'main-wrapper', 'teacher-screen'];
+            screens.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+            if (screen === 'login') {
+                document.getElementById('login-screen').style.display = 'flex';
+            }
+            if (screen === 'pending') {
+                document.getElementById('pending-screen').style.display = 'flex';
+            }
+            if (screen === 'journey') {
+                document.getElementById('journey-map-screen').style.display = 'flex';
+            }
+            if (screen === 'app') {
+                document.getElementById('main-wrapper').style.display = '';
+                document.getElementById('main-wrapper').classList.remove('hidden');
+            }
+            if (screen === 'teacher') {
+                document.getElementById('teacher-screen').style.display = 'flex';
+            }
         }
 
         function enterLevel(level) {
@@ -751,22 +1156,28 @@
                         name: user.displayName || user.email.split('@')[0],
                         email: user.email,
                         approved: false,
+                        role: 'student',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    return false;
+                    return { approved: false, role: 'student' };
                 }
-                return doc.data().approved === true;
+                var data = doc.data();
+                return { approved: data.approved === true, role: data.role || 'student' };
             } catch (e) {
                 console.error('Erro ao verificar aprovação:', e);
-                return false;
+                return { approved: false, role: 'student' };
             }
         }
 
         async function onAuthStateChanged(user) {
             currentUser = user;
             if (user) {
-                const approved = await checkUserApproval(user);
-                if (approved) {
+                const result = await checkUserApproval(user);
+                if (result.role === 'teacher') {
+                    showScreen('teacher');
+                    initTeacherDashboard();
+                } else if (result.approved) {
+                    await loadUserStreaks();
                     const displayName = user.displayName || user.email.split('@')[0];
                     document.getElementById('journey-user-name').textContent = displayName;
                     showScreen('journey');
@@ -823,6 +1234,39 @@
         const WORDSEARCH_STREAK_GOAL = 2;
         let currentAulaId = 0;
         let currentStudyMode = '';
+
+        var userStreaksCache = {};
+
+        async function loadUserStreaks() {
+            if (!firebaseDb || !currentUser) return;
+            try {
+                var doc = await firebaseDb.collection('users').doc(currentUser.uid).collection('streaks').doc('completed').get();
+                if (doc.exists) {
+                    userStreaksCache = doc.data() || {};
+                } else {
+                    userStreaksCache = {};
+                }
+            } catch(e) {
+                console.warn('Erro ao carregar streaks:', e);
+                userStreaksCache = {};
+            }
+        }
+
+        async function markStreakDone(aulaId, mode) {
+            var key = aulaId + '_' + mode;
+            userStreaksCache[key] = true;
+            if (firebaseDb && currentUser) {
+                try {
+                    await firebaseDb.collection('users').doc(currentUser.uid).collection('streaks').doc('completed').set(userStreaksCache);
+                } catch(e) {
+                    console.warn('Erro ao salvar streak:', e);
+                }
+            }
+        }
+
+        function isStreakDone(aulaId, mode) {
+            return !!userStreaksCache[aulaId + '_' + mode];
+        }
 
         const helpTexts = {
             flashcards: { title: "Como estudar com os Flashcards", text: "Toque no cartão para virar e ver a tradução em inglês. Use as setas para navegar entre os cartões. Clique no ícone de som para ouvir a pronúncia." },
@@ -1257,6 +1701,7 @@
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('generator-view').classList.add('hidden');
             document.getElementById('study-view').classList.add('hidden');
+            renderDashboard();
         };
 
         window.scrollToModule = function(id) {
@@ -1294,6 +1739,19 @@
                 const hBtn = ([6, 23, 26].includes(aula.id)) ? `<button class="secondary-button-sm" onclick="openHangman(${aula.id})">FORCA</button>` : '';
                 const cBtn = ([12, 14].includes(aula.id)) ? `<button class="secondary-button-sm" onclick="openWordSearch(${aula.id})">CAÇA-PALAVRAS</button>` : '';
 
+                let streakBadges = [];
+                if (aula.hasHomework && aula.id <= 10 && isStreakDone(aula.id, 'homework')) streakBadges.push('Homework');
+                if (aula.specialMode === 'flashcards' && isStreakDone(aula.id, 'flashcards')) streakBadges.push('Flashcards');
+                if (aula.specialMode === 'listening' && isStreakDone(aula.id, 'listening')) streakBadges.push('Listening');
+                if (aula.specialMode === 'chunks' && isStreakDone(aula.id, 'chunks')) streakBadges.push('Chunks');
+                if (aula.specialMode === 'scramble' && isStreakDone(aula.id, 'scramble')) streakBadges.push('Scramble');
+                if (aula.specialMode === 'mistake' && isStreakDone(aula.id, 'mistake')) streakBadges.push('Detetive');
+                if (aula.thirdBtn === 'dictation' && isStreakDone(aula.id, 'dictation')) streakBadges.push('Ditado');
+                if ([6, 23, 26].includes(aula.id) && isStreakDone(aula.id, 'hangman')) streakBadges.push('Forca');
+                if ([12, 14].includes(aula.id) && isStreakDone(aula.id, 'wordsearch')) streakBadges.push('Caça-Palavras');
+                if (aula.id === 23 && isStreakDone(23, 'flashcards')) { if (!streakBadges.includes('Flashcards')) streakBadges.push('Flashcards'); }
+                const streakHtml = streakBadges.length > 0 ? `<div style="display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem;">${streakBadges.map(b => `<span style="font-size: 0.6rem; font-weight: 700; color: #16a34a; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.1rem 0.4rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 0.2rem;"><svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='#16a34a' stroke-width='3'><polyline points='20 6 9 17 4 12'/></svg> ${b}</span>`).join('')}</div>` : '';
+
                 return `
                 <div class="level-card relative ${!aula.hasHomework ? 'locked' : ''}" id="module-${aula.id}">
                     ${!aula.hasHomework ? `
@@ -1304,7 +1762,8 @@
                     <div>
                         <span class="module-tag">STARTER 1 - HW AULA ${String(aula.id).padStart(2, '0')}</span>
                         <h3 class="text-xl font-bold text-stone-800 mb-2 mt-2">${aula.name}</h3>
-                        <p class="text-stone-500 text-sm mb-6">${aula.desc}</p>
+                        <p class="text-stone-500 text-sm mb-3">${aula.desc}</p>
+                        ${streakHtml}
                     </div>
                     <div class="flex flex-wrap gap-1.5">
                         ${sBtn} ${tBtn} ${dBtn} ${hBtn} ${cBtn}
@@ -1326,6 +1785,7 @@
 
         window.loadNextQuestion = function() {
             if (quizStreak >= STREAK_GOAL) {
+                markStreakDone(currentAulaId, 'homework');
                 document.getElementById('main-question').innerHTML = `<div class="text-center py-4"><div class="text-6xl mb-4">📸</div><h2 class="text-2xl font-bold">Missão Cumprida!</h2><p class="text-stone-500">Tire um print para o seu Teacher!</p></div>`;
                 document.getElementById('options-container').innerHTML = `<button class="action-button" onclick="showDashboard()">Voltar</button>`;
                 document.getElementById('rationale-display').classList.add('hidden');
@@ -1545,6 +2005,7 @@
             renderStreakBar();
 
             if (currentStreak >= STREAK_GOAL) {
+                markStreakDone(currentAulaId, 'hangman');
                 area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
                         <div class="mb-4"><svg class="w-20 h-20 mx-auto text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14a2 2 0 0 1 2 2v2a5 5 0 0 1-4.4 4.96 5.5 5.5 0 0 1-5.1 3.04 5.5 5.5 0 0 1-5.1-3.04A5 5 0 0 1 3 7V5a2 2 0 0 1 2-2zm0 2v2a3 3 0 0 0 2.1 2.86 5.48 5.48 0 0 1-.1-1.14V7a1 1 0 1 1 2 0v1.72c0 1.28.56 2.43 1.47 3.22A3.5 3.5 0 0 0 12 9.72V7a1 1 0 1 1 2 0v2.72a3.5 3.5 0 0 0 1.53 2.22A3.48 3.48 0 0 0 17 8.72V7a1 1 0 1 1 2 0v1.72c0 .39-.03.77-.1 1.14A3 3 0 0 0 21 7V5H5zm2 14h10v2H7v-2zm1-3h8a1 1 0 0 1 1 1v1H7v-1a1 1 0 0 1 1-1z"/></svg></div>
@@ -1935,6 +2396,7 @@
                     
                     setTimeout(() => {
                         if (wordSearchStreak >= WORDSEARCH_STREAK_GOAL) {
+                            markStreakDone(currentAulaId, 'wordsearch');
                             document.getElementById('study-content-area').innerHTML = `
                                 <div class="flex flex-col items-center justify-center py-10">
                                     <div class="mb-4"><svg class="w-20 h-20 mx-auto text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14a2 2 0 0 1 2 2v2a5 5 0 0 1-4.4 4.96 5.5 5.5 0 0 1-5.1 3.04 5.5 5.5 0 0 1-5.1-3.04A5 5 0 0 1 3 7V5a2 2 0 0 1 2-2zm0 2v2a3 3 0 0 0 2.1 2.86 5.48 5.48 0 0 1-.1-1.14V7a1 1 0 1 1 2 0v1.72c0 1.28.56 2.43 1.47 3.22A3.5 3.5 0 0 0 12 9.72V7a1 1 0 1 1 2 0v2.72a3.5 3.5 0 0 0 1.53 2.22A3.48 3.48 0 0 0 17 8.72V7a1 1 0 1 1 2 0v1.72c0 .39-.03.77-.1 1.14A3 3 0 0 0 21 7V5H5zm2 14h10v2H7v-2zm1-3h8a1 1 0 0 1 1 1v1H7v-1a1 1 0 0 1 1-1z"/></svg></div>
@@ -2098,6 +2560,7 @@
             renderStreakBar();
 
             if (currentStreak >= STREAK_GOAL) {
+                markStreakDone(currentAulaId, 'mistake');
                  area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
                         <div class="text-6xl mb-4">📸</div>
@@ -2142,6 +2605,7 @@
             renderStreakBar();
 
             if (currentStreak >= STREAK_GOAL) {
+                markStreakDone(currentAulaId, 'scramble');
                 area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
                         <div class="mb-4"><svg class="w-20 h-20 mx-auto text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14a2 2 0 0 1 2 2v2a5 5 0 0 1-4.4 4.96 5.5 5.5 0 0 1-5.1 3.04 5.5 5.5 0 0 1-5.1-3.04A5 5 0 0 1 3 7V5a2 2 0 0 1 2-2zm0 2v2a3 3 0 0 0 2.1 2.86 5.48 5.48 0 0 1-.1-1.14V7a1 1 0 1 1 2 0v1.72c0 1.28.56 2.43 1.47 3.22A3.5 3.5 0 0 0 12 9.72V7a1 1 0 1 1 2 0v2.72a3.5 3.5 0 0 0 1.53 2.22A3.48 3.48 0 0 0 17 8.72V7a1 1 0 1 1 2 0v1.72c0 .39-.03.77-.1 1.14A3 3 0 0 0 21 7V5H5zm2 14h10v2H7v-2zm1-3h8a1 1 0 0 1 1 1v1H7v-1a1 1 0 0 1 1-1z"/></svg></div>
@@ -2225,6 +2689,7 @@
             renderStreakBar();
 
             if (currentStreak >= STREAK_GOAL) {
+                markStreakDone(currentAulaId, 'dictation');
                  area.innerHTML = `
                     <div class="flex flex-col items-center justify-center py-10">
                         <div class="mb-4"><svg class="w-20 h-20 mx-auto text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h14a2 2 0 0 1 2 2v2a5 5 0 0 1-4.4 4.96 5.5 5.5 0 0 1-5.1 3.04 5.5 5.5 0 0 1-5.1-3.04A5 5 0 0 1 3 7V5a2 2 0 0 1 2-2zm0 2v2a3 3 0 0 0 2.1 2.86 5.48 5.48 0 0 1-.1-1.14V7a1 1 0 1 1 2 0v1.72c0 1.28.56 2.43 1.47 3.22A3.5 3.5 0 0 0 12 9.72V7a1 1 0 1 1 2 0v2.72a3.5 3.5 0 0 0 1.53 2.22A3.48 3.48 0 0 0 17 8.72V7a1 1 0 1 1 2 0v1.72c0 .39-.03.77-.1 1.14A3 3 0 0 0 21 7V5H5zm2 14h10v2H7v-2zm1-3h8a1 1 0 0 1 1 1v1H7v-1a1 1 0 0 1 1-1z"/></svg></div>
