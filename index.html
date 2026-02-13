@@ -1731,6 +1731,7 @@
                     initTeacherDashboard();
                 } else if (result.approved) {
                     await loadUserStreaks();
+                    syncChunksStreaks();
                     const displayName = user.displayName || user.email.split('@')[0];
                     document.getElementById('journey-user-name').textContent = displayName;
                     showScreen('journey');
@@ -2286,12 +2287,26 @@
         let currentIdx = 0; 
         let scrambleResult = [];
 
-        // Web Speech API - funciona em qualquer navegador moderno, sem precisar de API key
+        // Web Speech API - sempre em inglês independente do idioma do dispositivo
+        let cachedEnglishVoice = null;
+        function loadEnglishVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                cachedEnglishVoice = voices.find(v => v.lang === 'en-US') 
+                    || voices.find(v => v.lang === 'en-GB')
+                    || voices.find(v => v.lang.startsWith('en-'))
+                    || voices.find(v => v.lang.startsWith('en'));
+            }
+        }
+        if ('speechSynthesis' in window) {
+            loadEnglishVoice();
+            window.speechSynthesis.onvoiceschanged = () => loadEnglishVoice();
+        }
+
         function speakText(text) {
             return new Promise((resolve) => {
                 if ('speechSynthesis' in window) {
                     window.speechSynthesis.cancel();
-                    // Evita que "I" seja lido como "capital I"
                     let processedText = text;
                     if (text === "I") {
                         processedText = "i";
@@ -2301,10 +2316,10 @@
                     utterance.rate = 0.9;
                     utterance.pitch = 1;
                     
-                    // Tenta encontrar uma voz em inglês
-                    const voices = window.speechSynthesis.getVoices();
-                    const englishVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
-                    if (englishVoice) utterance.voice = englishVoice;
+                    if (!cachedEnglishVoice) loadEnglishVoice();
+                    if (cachedEnglishVoice) {
+                        utterance.voice = cachedEnglishVoice;
+                    }
                     
                     utterance.onend = () => resolve();
                     utterance.onerror = () => resolve();
@@ -2313,11 +2328,6 @@
                     resolve();
                 }
             });
-        }
-        
-        // Carrega vozes quando disponíveis
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
         }
 
         async function fetchTTSAudio(text) {
@@ -2354,6 +2364,25 @@
                     card.style.display = 'none';
                 }
             });
+        }
+
+        async function syncChunksStreaks() {
+            if (!firebaseDb || !currentUser) return;
+            for (const aulaIdStr of Object.keys(chunksData)) {
+                const aulaId = parseInt(aulaIdStr);
+                if (isStreakDone(aulaId, 'chunks')) continue;
+                try {
+                    const doc = await firebaseDb.collection('users').doc(currentUser.uid).collection('chunksAnswers').doc(String(aulaId)).get();
+                    if (doc.exists) {
+                        const saved = doc.data() || {};
+                        const total = chunksData[aulaId].length;
+                        if (Object.keys(saved).length >= total) {
+                            await markStreakDone(aulaId, 'chunks');
+                            renderDashboard();
+                        }
+                    }
+                } catch(e) {}
+            }
         }
 
         function renderDashboard() {
@@ -2409,6 +2438,7 @@
         window.openPractice = function(id) {
             currentAulaId = id; 
             currentStudyMode = 'homework';
+            questionsPool = shuffle([...getQuizDataForModule(id)]);
             const aula = aulaNames.find(a => a.id === id);
             document.getElementById('main-header').classList.add('hidden');
             document.getElementById('dashboard-view').classList.add('hidden');
@@ -2617,6 +2647,7 @@
         const hangmanMaxWrong = 6;
 
         window.openHangman = function(moduleId) {
+            currentAulaId = moduleId;
             currentStudyMode = 'hangman';
             currentHangmanList = hangmanWordLists[moduleId] || hangmanWordLists[6];
             document.getElementById('main-header').classList.add('hidden');
@@ -3200,7 +3231,8 @@
                 btn.onclick = async () => {
                     if (btn.classList.contains('playing')) return;
                     btn.classList.add('playing');
-                    const audio = await fetchTTSAudio(item.n || item.w || item);
+                    const spokenWord = item.w || item.n || item;
+                    const audio = await fetchTTSAudio(spokenWord);
                     if (audio) { 
                         await audio.play(); 
                         btn.classList.remove('playing');
@@ -3437,9 +3469,11 @@
              const spokenText = text.includes(':') ? timeToWords(text) : text;
              
              if (isSpellingMode) {
+                 const letterPronunciation = {a:"ay",b:"bee",c:"cee",d:"dee",e:"ee",f:"ef",g:"gee",h:"aitch",i:"eye",j:"jay",k:"kay",l:"el",m:"em",n:"en",o:"oh",p:"pee",q:"cue",r:"ar",s:"ess",t:"tee",u:"you",v:"vee",w:"double you",x:"ex",y:"why",z:"zee"};
                  const letters = text.split('');
                  for (let i = 0; i < letters.length; i++) {
-                     await speakText(letters[i].toLowerCase());
+                     const spoken = letterPronunciation[letters[i].toLowerCase()] || letters[i];
+                     await speakText(spoken);
                      if (i < letters.length - 1) {
                          await new Promise(resolve => setTimeout(resolve, 400));
                      }
